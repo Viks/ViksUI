@@ -1,1 +1,0 @@
-local T, Viks, L, _ = unpack(select(2, ...))
