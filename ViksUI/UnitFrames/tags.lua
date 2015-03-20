@@ -974,6 +974,38 @@ oUF.Tags.Methods["Priest:PowerWordShield"] = function(unit)
 	end
 end
 
+local CLARITY_OF_WILL = GetSpellInfo(152118)
+oUF.Tags.Events["Priest:ClarityOfWill"] = 'UNIT_AURA'
+oUF.Tags.Methods["Priest:ClarityOfWill"] = function(unit)
+
+	local _, _, _, _, _, _, expirationTime = UnitAura(unit, CLARITY_OF_WILL)
+	if expirationTime then
+		return format("|cff33cc00%.0f|r ", expirationTime - GetTime())
+	end
+end
+
+local SPIRIT_SHELL = GetSpellInfo(114908)
+oUF.Tags.Events["Priest:SpiritShell"] = 'UNIT_AURA'
+oUF.Tags.Methods["Priest:SpiritShell"] = function(unit)
+
+	local _, _, _, _, _, _, expirationTime, _, _, _, spellId = UnitAura(unit, SPIRIT_SHELL)
+
+	if expirationTime then
+		-- check if it's the spell buff itself and not the absorb buff. if yes search through buffs by index
+		if spellId == 109964 then
+			for i = 1, 40 do
+				_, _, _, _, _, _, expirationTime, _, _, _, spellId = UnitAura(unit, i)
+				-- we found the correct buff?
+				if spellId == 114908 then break end
+			end
+		end
+
+		if spellId == 114908 then
+			return format("|cffd814ff%.0f|r ", expirationTime - GetTime())
+		end
+	end
+end
+
 local RENEW = GetSpellInfo(139)
 oUF.Tags.Events["Priest:Renew"] = 'UNIT_AURA'
 oUF.Tags.Methods["Priest:Renew"] = function(unit)
@@ -1022,6 +1054,15 @@ oUF.Tags.Methods["Druid:Rejuv"] = function(unit)
 	end
 end
 
+local GERMINATION = GetSpellInfo(155777)
+oUF.Tags.Events["Druid:Germination"] = 'UNIT_AURA'
+oUF.Tags.Methods["Druid:Germination"] = function(unit)
+    local _, _, _, _, _, _, expirationTime, source = UnitAura(unit, GERMINATION)
+    if source and source == "player" then
+        return format("|cffd814ff%.0f|r ", expirationTime - GetTime())
+    end
+end
+
 local REGROWTH = GetSpellInfo(8936)
 oUF.Tags.Events["Druid:Regrowth"] = 'UNIT_AURA'
 oUF.Tags.Methods["Druid:Regrowth"] = function(unit)
@@ -1029,6 +1070,14 @@ oUF.Tags.Methods["Druid:Regrowth"] = function(unit)
 	if source == "player" then
 		return format("|cff33cc00%.0f|r ", expirationTime - GetTime())
 	end
+end
+
+local WILD_GROWTH = GetSpellInfo(48438)
+oUF.Tags.Events["Druid:WildGrowth"] = 'UNIT_AURA'
+oUF.Tags.Methods["Druid:WildGrowth"] = function(unit)
+    if UnitBuff(unit, WILD_GROWTH) then
+        return "|cff33cc00M|r "
+    end
 end
 
 local BEACON = GetSpellInfo(53563)
