@@ -662,6 +662,8 @@ Filger_Spells = {
 			-- Buffs
 			-- Steady Focus
 			{spellID = 177668, unitID = "player", caster = "player", filter = "BUFF"},
+			-- Beast Cleave
+			{spellID = 115939, unitID = "pet", caster = "player", filter = "BUFF"},
 			-- Lock and Load
 			{spellID = 168980, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Thrill of the Hunt
