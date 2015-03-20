@@ -4,23 +4,24 @@ local cfg = ns.cfg
 local cast = CreateFrame("Frame")  
 
 local channelingTicks = {
-	-- warlock
-	--WoD[GetSpellInfo(1120)] = 5, -- drain soul
-	[GetSpellInfo(689)] = 5, -- drain life
-	[GetSpellInfo(5740)] = 4, -- rain of fire
-	-- druid
-	[GetSpellInfo(740)] = 4, -- Tranquility
-	[GetSpellInfo(16914)] = 10, -- Hurricane
-	-- priest
-	[GetSpellInfo(15407)] = 3, -- mind flay
-	[GetSpellInfo(48045)] = 5, -- mind sear
-	[GetSpellInfo(47540)] = 2, -- penance
-	-- mage
-	[GetSpellInfo(5143)] = 5, -- arcane missiles
-	[GetSpellInfo(10)] = 5, -- blizzard
-	--WoD[GetSpellInfo(12051)] = 4, -- evocation
-	-- shaman
-	[GetSpellInfo(61882)] = 8 -- earthquake
+	--Warlock
+	[GetSpellInfo(689)] = 6, -- "Drain Life"
+	[GetSpellInfo(108371)] = 6, -- "Harvest Life"
+	[GetSpellInfo(5740)] = 4, -- "Rain of Fire"
+	[GetSpellInfo(755)] = 6, -- Health Funnel
+	[GetSpellInfo(103103)] = 4, --Malefic Grasp
+	--Druid
+	[GetSpellInfo(16914)] = 10, -- "Hurricane"
+	--Priest
+	[GetSpellInfo(48045)] = 5, -- "Mind Sear"
+	[GetSpellInfo(179338)] = 5, -- "Searing insanity"
+	[GetSpellInfo(64843)] = 4, -- Divine Hymn
+	--Mage
+	[GetSpellInfo(5143)] = 5, -- "Arcane Missiles"
+	[GetSpellInfo(10)] = 8, -- "Blizzard"
+	[GetSpellInfo(12051)] = 3, -- "Evocation"
+	--Monk
+	[GetSpellInfo(115175)] = 9, -- "Smoothing Mist"
 }
 local ticks = {}
 cast.setBarTicks = function(castBar, ticknum)
