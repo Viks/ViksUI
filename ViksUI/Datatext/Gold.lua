@@ -161,43 +161,43 @@ Stat:SetScript("OnEnter", function(self)
 	if Viks.datatext.CurrProfessions then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("Profession Token")
-		Currency(61)
-		Currency(361)
-		Currency(698)
-		Currency(910)
-		Currency(1020)
-		Currency(1008)
-		Currency(1017)
-		Currency(999)
+		Currency(910) --Secret of Draenor Alchemy
+		Currency(1020) --Secret of Draenor Blacksmithing
+		Currency(1008) --Secret of Draenor Jewelcrafting
+		Currency(1017) --Secret of Draenor Leatherworking
+		Currency(999) --Secret of Draenor Tailoring
+
 	end
 
 	if Viks.datatext.CurrRaid then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("Raid")
-		Currency(776, false, true)
-		Currency(752, false, true)
-		Currency(697, false, true)
-		Currency(738)
-		Currency(615)
-		Currency(614)
-		Currency(823)
+		Currency(994, false, true) --Seal of Tempered Fate
+		--Currency(697, false, true) --Elder Charm of Good Fortune
+		--Currency(738) --Lesser Charm of Good Fortune
+		--Currency(615) --Essence of Corrupted Deathwing
+		--Currency(614) --Mote of Darkness
 	end
 
 	if Viks.datatext.CurrPvP then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(PVP_FLAG)
-		Currency(390, true)
-		Currency(392, false, true)
-		Currency(391)
+		Currency(390, true) --Conquest Points
+		Currency(392, false, true) --Honor Points
+		--Currency(391) --Tol Barad Commendation
 	end
 
 	if Viks.datatext.CurrMiscellaneous then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(MISCELLANEOUS)
-		Currency(241)
-		Currency(416)
-		Currency(515)
-		Currency(777)
+		--Currency(241) --Champion's Seal
+		--Currency(416) --Mark of the World Tree
+		Currency(515) --Darkmoon Prize Ticket
+		--Currency(777) --Timeless Coin
+		Currency(944, false, true) --Artifact Fragment
+		Currency(980, false, true) --Dingy Iron Coins (Rogue)
+		Currency(824, false, true) --Garrison Resources
+		Currency(823) --Apexis Crystal
 	end
 
 	GameTooltip:AddLine(" ")
