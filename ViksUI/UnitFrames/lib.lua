@@ -1608,7 +1608,7 @@ lib.genShards = function(self)
     }
     local totalShards = 4 
         for i= 1, totalShards do
-            local Shards = CreateFrame("StatusBar", nil, ShardsFrame)
+            local Shards = CreateFrame("StatusBar", self:GetName().."WarlockSpecBar"..i, ShardsFrame)
             Shards:SetSize((ShardsFrame:GetWidth())/totalShards, 7)
             Shards:SetStatusBarTexture(cfg.statusbar_texture)
             Shards:SetFrameLevel(4)
@@ -1640,7 +1640,7 @@ lib.genHolyPower = function(self)
 			self.HolyPower:SetSize(self:GetWidth()-2, 7)
 
 			for i = 1, 5 do
-				self.HolyPower[i] = CreateFrame("StatusBar", nil, self.HolyPower)
+				self.HolyPower[i] = CreateFrame("StatusBar", self:GetName().."HolyPowerBar"..i, self.HolyPower)
 				self.HolyPower[i]:SetSize((self:GetWidth()-6) / 5, 7)
 				if i == 1 then
 					self.HolyPower[i]:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
@@ -1669,7 +1669,7 @@ lib.genRunes = function(self)
 	runes:SetWidth(cfg.unit_size.Player.w - 2)
 	runes:SetHeight(6)
 	for i = 1, 6 do
-		runes[i] = CreateFrame("StatusBar", nil, runes)
+		runes[i] = CreateFrame("StatusBar", self:GetName().."Runes"..i, runes)
 		runes[i]:SetHeight(runes:GetHeight())
 		runes[i]:SetWidth((runes:GetWidth() - 5) / 6)
 		if (i == 1) then
@@ -1700,7 +1700,7 @@ lib.genCPoints = function(self)
 				self.CPoints:SetWidth(self:GetWidth()-3)
 
 				for i = 1, 5 do
-					self.CPoints[i] = CreateFrame("StatusBar", nil, self.CPoints)
+					self.CPoints[i] = CreateFrame("StatusBar", self:GetName().."ComboBar"..i, self.CPoints)
 					self.CPoints[i]:SetSize((self.CPoints:GetWidth()-4) / 5, 7)
 					if i == 1 then
 						self.CPoints[i]:SetPoint("LEFT", self.CPoints, 0.5, 0)
@@ -1727,7 +1727,7 @@ if playerClass ~= "MONK" then return end
 			self.HarmonyBar:SetSize((self:GetWidth()-2), 7)
 
 			for i = 1, 5 do
-				self.HarmonyBar[i] = CreateFrame("StatusBar", nil, self.HarmonyBar)
+				self.HarmonyBar[i] = CreateFrame("StatusBar", self:GetName().."HarmonyBar"..i, self.HarmonyBar)
 				self.HarmonyBar[i]:SetSize((self.HarmonyBar:GetWidth()-4) / 5, 7)
 				if i == 1 then
 					self.HarmonyBar[i]:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
@@ -1753,7 +1753,7 @@ lib.genShadowOrbsBar = function(self)
 			self.ShadowOrbsBar:SetWidth(self:GetWidth()-2)
 			
 			for i = 1, 5 do
-				self.ShadowOrbsBar[i] = CreateFrame("StatusBar", nil, self.ShadowOrbsBar)
+				self.ShadowOrbsBar[i] = CreateFrame("StatusBar", self:GetName().."ShadowOrbsBar"..i, self.ShadowOrbsBar)
 				self.ShadowOrbsBar[i]:SetSize((self.Health:GetWidth()-6) / 5, 7)
 				if i == 1 then
 					self.ShadowOrbsBar[i]:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
