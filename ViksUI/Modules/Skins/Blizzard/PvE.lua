@@ -20,7 +20,8 @@ local function LoadSkin()
 		"LFDQueueFrameCooldownFrame",
 		"RaidFinderQueueFrameCooldownFrame",
 		"RaidFinderQueueFramePartyBackfill",
-		"LFDQueueFramePartyBackfill"
+		"LFDQueueFramePartyBackfill",
+		"LFDQueueFrame"
 	}
 
 	for _, object in pairs(StripAllTextures) do
@@ -50,10 +51,10 @@ local function LoadSkin()
 		"ScenarioQueueFrameFindGroupButton",
 		"LFGDungeonReadyDialogLeaveQueueButton",
 		"LFGDungeonReadyDialogEnterDungeonButton",
-		"LFDQueueFramePartyBackfillBackfillButton",
-		"LFDQueueFramePartyBackfillNoBackfillButton",
 		"RaidFinderQueueFramePartyBackfillBackfillButton",
-		"RaidFinderQueueFramePartyBackfillNoBackfillButton"
+		"RaidFinderQueueFramePartyBackfillNoBackfillButton",
+		"LFDQueueFramePartyBackfillBackfillButton",
+		"LFDQueueFramePartyBackfillNoBackfillButton"
 	}
 
 	for i = 1, #buttons do

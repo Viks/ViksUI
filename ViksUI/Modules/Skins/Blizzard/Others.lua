@@ -1,5 +1,4 @@
 local T, Viks, L, _ = unpack(select(2, ...))
-
 ----------------------------------------------------------------------------------------
 --	Reskin Blizzard windows(by Tukz and Co)
 ----------------------------------------------------------------------------------------
@@ -7,9 +6,18 @@ local SkinBlizzUI = CreateFrame("Frame")
 SkinBlizzUI:RegisterEvent("ADDON_LOADED")
 SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") then return end
-
+	
 	-- Stuff not in Blizzard load-on-demand
 	if addon == "ViksUI" then
+			local checkButtons = {
+			"LFDRoleCheckPopupRoleButtonTank",
+			"LFDRoleCheckPopupRoleButtonDPS",
+			"LFDRoleCheckPopupRoleButtonHealer"
+			}
+
+		for _, object in pairs(checkButtons) do
+			T.SkinCheckBox(_G[object].checkButton)
+		end
 		-- Blizzard Frame reskin
 		local bgskins = {
 			"GameMenuFrame",
@@ -19,6 +27,7 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			"ReadyCheckFrame",
 			"ColorPickerFrame",
 			"LFDRoleCheckPopup",
+			"LFDReadyCheckPopup",
 			"ChannelPulloutBackground",
 			"ChannelPulloutTab",
 			"GuildInviteFrame",
@@ -173,6 +182,7 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			"RolePollPopupAcceptButton",
 			"LFDRoleCheckPopupDeclineButton",
 			"LFDRoleCheckPopupAcceptButton",
+			"LFDReadyCheckPopupAcceptButton",
 			"StackSplitOkayButton",
 			"StackSplitCancelButton",
 			"RaidUtilityConvertButton",
@@ -197,7 +207,8 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 				buttons:SkinButton()
 			end
 		end
-
+		LFDReadyCheckPopup.YesButton:SkinButton(true)
+		LFDReadyCheckPopup.NoButton:SkinButton(true)
 		-- Button position or text
 		_G["ColorPickerOkayButton"]:ClearAllPoints()
 		_G["ColorPickerOkayButton"]:SetPoint("BOTTOMLEFT", _G["ColorPickerFrame"], "BOTTOMLEFT", 6, 6)

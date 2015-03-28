@@ -15,6 +15,7 @@
 	<Script file="ChatConfig.lua"/>
 	<Script file="Collections.lua"/>
 	<Script file="Container.lua"/>
+	<Script file="deathRecap.lua"/>
 	<Script file="DebugTools.lua"/>
 	<Script file="DressUp.lua"/>
 	<Script file="EncounterJournal.lua"/>

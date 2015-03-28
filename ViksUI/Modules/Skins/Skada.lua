@@ -1,5 +1,6 @@
 ﻿local T, Viks, L, _ = unpack(select(2, ...))
 if Viks.skins.skada ~= true then return end
+if not IsAddOnLoaded("Skada") then return end
 local Skada = Skada
 
 local function CreateBackdrop(f, t, tex)
@@ -9,15 +10,6 @@ local function CreateBackdrop(f, t, tex)
 	b:SetPoint("TOPLEFT", -2, 2)
 	b:SetPoint("BOTTOMRIGHT", 2, -2)
 	b:CreateBackdrop("Transparent")
-	--frame1px(b)
-	--CreateShadow(b)
-
-
-	if f:GetFrameLevel() - 1 >= 0 then
-		b:SetFrameLevel(f:GetFrameLevel() - 1)
-	else
-		b:SetFrameLevel(0)
-	end
 	
 	f.backdrop = b
 end
@@ -58,9 +50,9 @@ barmod.ApplySettings = function(self, win)
 		skada.button:SetBackdropColor(.05,.05,.05, .9)
 	end
 
-	--skada:SetTexture("Interface\\Addons\\ViksUI\\media\\Other\\statusbar")
+	--skada:SetTexture("Interface\\Addons\\ViksUI\\media\\textures\\normTex")
 	skada:SetSpacing(barSpacing)
-	--skada:SetFont(Viks.media.font, 10)
+	--skada:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
 	skada:SetFrameLevel(5)
 	
 	skada:SetBackdrop(nil)
