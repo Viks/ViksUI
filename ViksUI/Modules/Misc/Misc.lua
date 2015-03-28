@@ -138,6 +138,18 @@ ViksUIAFKPanelTop.PlayerInfoText:SetPoint("LEFT", ViksUIAFKPanelTop, "LEFT", 25,
 ViksUIAFKPanelTop.PlayerInfoText:SetFont(Viks["media"].font, 15, "OUTLINE")
 ViksUIAFKPanelTop.PlayerInfoText:SetText(LEVEL .. " " .. PLevel .. " " .. PFaction .. " " .. PClass)
 
+--[[
+model = CreateFrame("PlayerModel", "AFKPlayerModel", nil)
+model:SetPoint("CENTER", UIParent, "CENTER")
+model:SetUnit("player")
+--model.isIdle = nil
+model:SetAnimation(67)
+--model.idleDuration = 40
+model:SetSize(GetScreenWidth() * 2, GetScreenHeight() * 2) --YES, double screen size. This prevents clipping of models. Position is controlled with the helper frame.
+model:SetCamDistanceScale(4.5) --Since the model frame is huge, we need to zoom out quite a bit.
+model:SetFacing(6)
+--]]
+	
 local interval = 0
 ViksUIAFKPanelTop:SetScript("OnUpdate", function(self, elapsed)
 	interval = interval - elapsed
@@ -178,6 +190,7 @@ ViksUIAFKPanel:RegisterEvent("PLAYER_LEAVING_WORLD")
 ViksUIAFKPanel:RegisterEvent("PLAYER_FLAGS_CHANGED")
 ViksUIAFKPanel:RegisterEvent("PLAYER_DEAD")
 ViksUIAFKPanel:SetScript("OnEvent", OnEvent)
+
 
 local texts = T.AFK_LIST
 local interval = #texts
