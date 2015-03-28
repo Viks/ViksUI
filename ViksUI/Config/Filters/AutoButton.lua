@@ -48,6 +48,7 @@ T.ABItems = {
 	47030,	-- Huge Seaforium Bombs
 	-- Other
 	45072,	-- Brightly Colored Egg (Noblegarden)
+	112683,	-- QR58 Flame Blaster
 }
 
 T.ABEquipedItems = {

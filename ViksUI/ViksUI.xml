@@ -3,7 +3,6 @@
 	<Script file="Core\Constants.lua"/>
 	<Script file="Locales\English.lua"/>
 
-	<Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
 	<Script file="Config\LibSharedMedia.lua"/>
 	<Script file="Config\variables.lua"/>
 	<Script file="Config\config.lua"/>
@@ -24,6 +23,7 @@
 	<Script file="Config\DataText.lua"/>
 	<Script file="Libs\LiteStats\LiteStats.lua"/>
 	<Script file="Libs\LibStub.lua"/>
+	<Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
 	<Script file="Libs\LibCooldown.lua"/>
 	<Script file="UnitFrames\Colors.lua"/>
 	

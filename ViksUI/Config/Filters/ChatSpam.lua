@@ -53,7 +53,8 @@ T.ChatSpamList = {
 	"project-razgrom.ru",
 	"[www.project-razgrom.ru]",
 	"dving.ru",
-	"boosting",
+	"farm4gold.com",
 	"No account",
+	"Hordebank.COM",
 	"RGB boost"
 }

@@ -1773,8 +1773,7 @@ lib.genShadowOrbsBar = function(self)
 
 			self.ShadowOrbsBar.Override = T.UpdateShadowOrb
 end
-	--f:SetBackdropColor(unpack(cfg.backdropcolor))
-	--f:SetBackdropBorderColor(unpack(cfg.bordercolor))
+
 lib.AltPowerBar = function(self)
 	local AltPowerBar = CreateFrame("StatusBar", nil, self.Health)
 	AltPowerBar:SetFrameLevel(self.Health:GetFrameLevel() + 1)
@@ -1820,7 +1819,7 @@ end
 lib.TotemBars = function(self)
 if cfg.TotemBars then
 	if playerClass ~= "SHAMAN" then return end
-	local totems = CreateFrame("Frame", nil, self)
+	local totems = CreateFrame("Frame", self:GetName().."_TotemBar", self)
 	totems:SetPoint("BOTTOMLEFT", self, "TOPLEFT",1,7)
 	totems:SetWidth(self.Health:GetWidth()-2)
 	totems:SetHeight(5)
@@ -1829,7 +1828,7 @@ if cfg.TotemBars then
 	totems.colors = {{233/255, 46/255, 16/255};{173/255, 217/255, 25/255};{35/255, 127/255, 255/255};{178/255, 53/255, 240/255};}
 			
 	for i = 1, 4 do
-		totems[i] = CreateFrame("StatusBar", nil, totems)
+		totems[i] = CreateFrame("StatusBar", self:GetName().."_TotemBar", totems)
 		totems[i]:SetHeight(totems:GetHeight())
 		totems[i]:SetWidth((self.Health:GetWidth() - 5) / 4)
 
@@ -1850,7 +1849,6 @@ if cfg.TotemBars then
 	totems.backdrop = CreateFrame("Frame", nil, totems)
 	
 	frame11px_1(totems.backdrop)
-	--CreateShadow(totems.backdrop)
 	totems.backdrop:SetBackdropBorderColor(unpack(cfg.bordercolor))
 	totems.backdrop:SetPoint("TOPLEFT", -2, 2)
 	totems.backdrop:SetPoint("BOTTOMRIGHT", 2, -2)
@@ -1872,7 +1870,7 @@ lib.Vengeance = function(self)
 		end
 		self.VengeanceBar:SetSize(self:GetWidth()-2, 7)
 
-		self.VengeanceBar.Bar = CreateFrame("StatusBar", nil, self.VengeanceBar)
+		self.VengeanceBar.Bar = CreateFrame("StatusBar", self:GetName().."_VengeanceBar", self.VengeanceBar)
 		self.VengeanceBar.Bar:SetPoint("LEFT", self.VengeanceBar, "LEFT", 0, 0)
 		self.VengeanceBar.Bar:SetSize(self.VengeanceBar:GetWidth()-2, 7)
 		self.VengeanceBar.Bar:SetStatusBarTexture(Viks.media.texture)
@@ -2030,7 +2028,7 @@ lib.createAuraWatch = function(self, unit)
 		-- Set any other AuraWatch settings
 		auras.icons = {}
 		for i, sid in pairs(spellIDs[playerClass]) do
-			local icon = CreateFrame("Frame", nil, self)
+			local icon = CreateFrame("Frame", self:GetName().."tagetaura", self)
 			icon.spellID = sid
 			-- set the dimensions and positions
 			icon:SetWidth(12)
@@ -2139,7 +2137,7 @@ end
   
   --gen current target indicator
   lib.gen_targeticon = function(f)
-    local h = CreateFrame("Frame", nil, f)
+    local h = CreateFrame("Frame", self:GetName().."targetaura", f)
     h:SetAllPoints(f.Health)
     h:SetFrameLevel(10)
     local ti = lib.gen_fontstring(h, cfg.pixelfont, 12, "THINOUTLINE")

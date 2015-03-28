@@ -1,0 +1,27 @@
+------------------------------------------------------------------------
+r92 | funkydude | 2015-02-27 12:07:00 +0000 (Fri, 27 Feb 2015) | 1 line
+Changed paths:
+   A /tags/6.1.0 - r92 (from /trunk:91)
+
+Tagging as 6.1.0 - r92
+------------------------------------------------------------------------
+r91 | funkydude | 2015-02-27 01:36:14 +0000 (Fri, 27 Feb 2015) | 1 line
+Changed paths:
+   M /trunk/LibSharedMedia-3.0/LibSharedMedia-3.0.lua
+
+Tweak sound path validation.
+------------------------------------------------------------------------
+r90 | funkydude | 2015-02-26 01:15:42 +0000 (Thu, 26 Feb 2015) | 2 lines
+Changed paths:
+   M /trunk/LibSharedMedia-3.0/LibSharedMedia-3.0.lua
+   M /trunk/LibSharedMedia-3.0.toc
+
+When registering sound files check for a valid file extension (OGG or MP3), and fail to register the sound if it's not found. Currently just returns false, but maybe it should error? Silently failing invalid sounds seems sucky. This prevents overwriting valid sounds with invalid ones like WAV.
+Bump toc.
+------------------------------------------------------------------------
+r89 | elkano | 2014-10-16 17:09:57 +0000 (Thu, 16 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/LibSharedMedia-3.0/LibSharedMedia-3.0.lua
+
+added 4 background tiles: Blizzard Collections Background, Blizzard Garrison Background/2/3
+------------------------------------------------------------------------
