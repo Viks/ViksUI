@@ -2,12 +2,12 @@
 ## Title: Viks Config UI
 ## Notes: In-game configuration for ViksUI
 ## Credits to: Tukz, Dawn, Shestak, Haste, Roth, P3lim, Monolit, AlleyKat.
-## Author: Viks
-## Version: 5.15
+## Author: Viks, Tryllemann
+## Version: 5.16
 ## RequiredDeps: ViksUI
 ## SavedVariables: ViksConfigAll, ViksConfigSettings
 ## SavedVariablesPerCharacter: ViksConfig
-## X-Curse-Packaged-Version: 5.15
+## X-Curse-Packaged-Version: 5.16
 ## X-Curse-Project-Name: ViksUI
 ## X-Curse-Project-ID: viksui
 
