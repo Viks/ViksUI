@@ -8,7 +8,7 @@ local function InstallUI()
 	-- Don't need to set CVar multiple time
 	SetCVar("alternateResourceText", 1)
 	SetCVar("statusTextDisplay", "BOTH")
-	SetCVar("screenshotQuality", 10)
+	SetCVar("screenshotQuality", 8)
 	SetCVar("cameraDistanceMax", 50)
 	SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("showTutorials", 0)
@@ -16,7 +16,7 @@ local function InstallUI()
 	SetCVar("UberTooltips", 1)
 	SetCVar("chatMouseScroll", 1)
 	SetCVar("removeChatDelay", 1)
-	SetCVar("chatStyle", "classic")
+	--SetCVar("chatStyle", "im")
 	SetCVar("WholeChatWindowClickable", 0)
 	SetCVar("ConversationMode", "inline")
 	SetCVar("WhisperMode", "inline")
@@ -89,13 +89,6 @@ local function InstallUI()
 		end
 	end
 	---Chat Channels Setup
-	--Chatwindow 1 is used for Party and Raid so lets remove spam channels
-	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
-	ChatFrame_RemoveChannel(ChatFrame1, "General")
-	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
-	ChatFrame_RemoveChannel(ChatFrame1, "GuildRecruitment")
-	ChatFrame_RemoveChannel(ChatFrame1, "LookingForGroup")
-	--Lets setup what to show, we start by killing all msg first.
 	ChatFrame_RemoveAllMessageGroups(ChatFrame1)
 	ChatFrame_AddMessageGroup(ChatFrame1, "SAY")
 	ChatFrame_AddMessageGroup(ChatFrame1, "EMOTE")

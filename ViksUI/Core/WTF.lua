@@ -1234,13 +1234,6 @@ local UploadChat = function()
 		end
 	end
 	---Chat Channels Setup
-	--Chatwindow 1 is used for Party and Raid so lets remove spam channels
-	ChatFrame_RemoveChannel(ChatFrame1, "Trade")
-	ChatFrame_RemoveChannel(ChatFrame1, "General")
-	ChatFrame_RemoveChannel(ChatFrame1, "LocalDefense")
-	ChatFrame_RemoveChannel(ChatFrame1, "GuildRecruitment")
-	ChatFrame_RemoveChannel(ChatFrame1, "LookingForGroup")
-	--Lets setup what to show, we start by killing all msg first.
 	ChatFrame_RemoveAllMessageGroups(ChatFrame1)
 	ChatFrame_AddMessageGroup(ChatFrame1, "SAY")
 	ChatFrame_AddMessageGroup(ChatFrame1, "EMOTE")
@@ -1422,6 +1415,7 @@ SlashCmdList.SETTINGS = function(msg)
 		end
 	elseif msg == "chat" then
 			UploadChat()
+			ReloadUI()
 	elseif msg == "cvar" then
 			UploadCvar()
 	elseif msg == "bartender" then

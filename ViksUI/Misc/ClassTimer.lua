@@ -1377,7 +1377,7 @@ elseif ( LAYOUT == 4 ) then
 
 	local playerFrame = CreateAuraBarFrame( playerDataSource,  oUF_Player );
 	playerFrame:SetHiddenHeight( -yOffset );
-	if ( playerClass == "DEATHKNIGHT" or playerClass == "SHAMAN" or playerClass == "WARLOCK"  or playerClass == "PALADIN" or myclass == "MONK") then
+	if ( playerClass == "DEATHKNIGHT" or playerClass == "SHAMAN" or playerClass == "WARLOCK"  or playerClass == "PALADIN" or myclass == "MONK" or playerClass == "ROGUE" or playerClass == "DRUID") then
 		playerFrame:SetPoint( "BOTTOMLEFT",  oUF_Player, "TOPLEFT", 1, 20 );
 		playerFrame:SetPoint( "BOTTOMRIGHT",  oUF_Player, "TOPRIGHT", -1, 20 );
 	else
@@ -1411,13 +1411,8 @@ elseif ( LAYOUT == 4 ) then
 	trinketFrame:Show();
 	
 	local targetFrame = CreateAuraBarFrame( targetDataSource,  oUF_ViksTarget );
-	if ( playerClass == "ROGUE" or playerClass == "DRUID") then
-		targetFrame:SetPoint( "BOTTOMLEFT",  oUF_ViksTarget, "TOPLEFT", 1, 20);
-		targetFrame:SetPoint( "BOTTOMRIGHT",  oUF_ViksTarget, "TOPRIGHT", -2, 20);
-	else
 		targetFrame:SetPoint( "BOTTOMLEFT",  oUF_ViksTarget, "TOPLEFT", 1, 8);
 		targetFrame:SetPoint( "BOTTOMRIGHT",  oUF_ViksTarget, "TOPRIGHT", -1, 8);
-	end
 	targetFrame:Show();
 else
 	error( "Undefined layout " .. tostring( LAYOUT ) );

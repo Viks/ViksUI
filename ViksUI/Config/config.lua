@@ -501,6 +501,7 @@ Viks["unitframes"] = {
 ----------------------------------------------------------------------------------------
 Viks["unitframe_class_bar"] = {
 	["combo"] = true,							-- Rogue/Druid Combo bar
+	["comboalways"] = false,					-- Always show Combo bar for Druid
 	["shadow"] = true,							-- Shadow Orbs bar
 	["chi"] = true,								-- Chi bar
 	["vengeance"] = true,						-- Vengeance bar

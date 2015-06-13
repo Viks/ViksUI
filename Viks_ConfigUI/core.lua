@@ -407,6 +407,7 @@ if o == "ViksConfigUIunitframesUFfont" then o = "Font on unitframes tags (Hp/pow
 -- Unit Frames Class bar options
 if o == "ViksConfigUIunitframe_class_bar" then o = L_GUI_UF_PLUGINS_CLASS_BAR end
 if o == "ViksConfigUIunitframe_class_barcombo" then o = L_GUI_UF_PLUGINS_COMBO_BAR end
+if o == "UIConfigunitframe_class_barcomboalways" then o = L_GUI_UF_PLUGINS_COMBO_BAR_ALWAYS end
 if o == "ViksConfigUIunitframe_class_barshadow" then o = L_GUI_UF_PLUGINS_SHADOW_BAR end
 if o == "ViksConfigUIunitframe_class_barchi" then o = L_GUI_UF_PLUGINS_CHI_BAR end
 if o == "ViksConfigUIunitframe_class_barvengeance" then o = L_GUI_UF_PLUGINS_VENGEANCE_BAR end

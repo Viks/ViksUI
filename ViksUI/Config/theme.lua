@@ -69,6 +69,12 @@ local thememenu = {
 		ThemeOverlayC(0, 0, 0, 0.5)
 		ReloadUI()
 	end},
+	{text = "TranspGray", notCheckable = 1, func = function()
+		ThemeBorderC(.64, .64, .64, 1)
+		ThemeBackdropC(.06,.06,.06, 1)
+		ThemeOverlayC(0, 0, 0, 0.5)
+		ReloadUI()
+	end},
 	{text = "Dark", notCheckable = 1, func = function()
 		ThemeBorderC(.31, .31, .31, 1)
 		ThemeBackdropC(.1, .1, .1, 1)

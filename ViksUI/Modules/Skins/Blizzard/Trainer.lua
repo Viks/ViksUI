@@ -85,6 +85,7 @@ local function LoadSkin()
 
 	ClassTrainerFrameInset:ClearAllPoints()
 	ClassTrainerFrameInset:SetPoint("TOPLEFT", ClassTrainerFrame.backdrop, "TOPLEFT", 4, -55)
+	
 end
 
 T.SkinFuncs["Blizzard_TrainerUI"] = LoadSkin

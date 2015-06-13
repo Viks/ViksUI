@@ -121,6 +121,7 @@ local UnitSpecific = {
 		self:RegisterEvent("UNIT_FACTION", MyPvPUpdate)
 		-- This makes oUF update the information on forced updates.
 		table.insert(self.__elements, MyPvPUpdate)
+	if cfg.CPoints then lib.genCPoints(self) end
 	if cfg.showHarmony then lib.genHarmony(self) end
 	if cfg.showShadowOrbsBar then lib.genShadowOrbsBar(self) end
 	if cfg.showPortrait or cfg.portraitHPbar then lib.gen_portrait(self) end
@@ -170,7 +171,6 @@ local UnitSpecific = {
 		lib.createBuffs(self)
 		lib.createDebuffs(self)
 		--lib.createAuras(self)
-		if cfg.CPoints then lib.genCPoints(self) end
 		if cfg.showPortrait or cfg.portraitHPbar then lib.gen_portrait(self) end
 
 	end,

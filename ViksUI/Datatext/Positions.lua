@@ -3,22 +3,22 @@ LeftDatatexts = {}
 function PP(p, obj)
 	if p == 1 then
 		obj:SetHeight(LBottom:GetHeight())
-		obj:SetPoint("LEFT", LBottom, "LEFT", 5, 2)
+		obj:SetPoint("LEFT", LBottom, "LEFT", 5, 0)
 	elseif p == 2 then
 		obj:SetHeight(LBottom:GetHeight())
-		obj:SetPoint("CENTER", LBottom, "CENTER", 0, 2)
+		obj:SetPoint("CENTER", LBottom, "CENTER", 0, 0)
 	elseif p == 3 then
 		obj:SetHeight(LBottom:GetHeight())
-		obj:SetPoint("RIGHT", LBottom, "RIGHT", -5, 2)
+		obj:SetPoint("RIGHT", LBottom, "RIGHT", -5, 0)
 	elseif p == 4 then
 		obj:SetHeight(RBottom:GetHeight())
-		obj:SetPoint("LEFT", RBottom,"LEFT", 5, 2)
+		obj:SetPoint("LEFT", RBottom,"LEFT", 5, 0)
 	elseif p == 5 then
 		obj:SetHeight(RBottom:GetHeight())
-		obj:SetPoint("CENTER", RBottom,"CENTER", 0, 2)
+		obj:SetPoint("CENTER", RBottom,"CENTER", 0, 0)
 	elseif p == 6 then
 		obj:SetHeight(RBottom:GetHeight())
-		obj:SetPoint("RIGHT", RBottom,"RIGHT", -5, 2)
+		obj:SetPoint("RIGHT", RBottom,"RIGHT", -5, 0)
 	elseif p == 7 then
 		obj:SetHeight(CPTopp:GetHeight())
 		obj:SetPoint("LEFT", CPTopp,"LEFT", 5, -2)

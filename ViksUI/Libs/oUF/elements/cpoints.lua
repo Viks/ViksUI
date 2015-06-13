@@ -82,7 +82,7 @@ local Enable = function(self)
 		cpoints.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_COMBO_POINTS', Path, true)
-		self:RegisterEvent('PLAYER_TARGET_CHANGED', Path, true)
+		self:UnregisterEvent('PLAYER_TARGET_CHANGED', Path)
 
 		for index = 1, MAX_COMBO_POINTS do
 			local cpoint = cpoints[index]

@@ -15,8 +15,8 @@
 	<Script file="ChatConfig.lua"/>
 	<Script file="Collections.lua"/>
 	<Script file="Container.lua"/>
-	<Script file="deathRecap.lua"/>
 	<Script file="DebugTools.lua"/>
+	<Script file="DeathRecap.lua"/>
 	<Script file="DressUp.lua"/>
 	<Script file="EncounterJournal.lua"/>
 	<Script file="FrameStack.lua"/>
@@ -38,7 +38,6 @@
 	<Script file="ItemSocketing.lua"/>
 	<Script file="ItemText.lua"/>
 	<Script file="ItemUpgrade.lua"/>
-	<Script file="LFR.lua"/>
 	<Script file="Loot.lua"/>
 	<Script file="LossOfControl.lua"/>
 	<Script file="MacClient.lua"/>
@@ -54,6 +53,7 @@
 	<Script file="PvE.lua"/>
 	<Script file="PvP.lua"/>
 	<Script file="Quest.lua"/>
+	<Script file="QuestChoice.lua"/>
 	<Script file="QuestLog.lua"/>
 	<Script file="Raid.lua"/>
 	<Script file="RaidInfo.lua"/>

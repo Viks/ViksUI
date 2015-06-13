@@ -95,6 +95,16 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		SplashFrame:CreateBackdrop("Transparent")
 		SplashFrame.BottomCloseButton:SkinButton()
 		T.SkinCloseButton(SplashFrame.TopCloseButton)
+		
+		--NavBar Buttons (Used in WorldMapFrame, EncounterJournal and HelpFrame)
+		local function SkinNavBarButtons(self)
+			local navButton = self.navList[#self.navList]
+			if navButton and not navButton.isSkinned then
+				navButton:SkinButton(true)
+				navButton.isSkinned = true
+			end
+		end
+		hooksecurefunc("NavBar_AddButton", SkinNavBarButtons)
 
 		-- Cinematic popup
 		_G["CinematicFrameCloseDialog"]:SetScale(Viks.general.UiScale)
@@ -279,4 +289,5 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		_G["GuildFrameTab1"]:ClearAllPoints()
 		_G["GuildFrameTab1"]:SetPoint("TOPLEFT", _G["GuildFrame"], "BOTTOMLEFT", -4, 2)
 	end
+	
 end)

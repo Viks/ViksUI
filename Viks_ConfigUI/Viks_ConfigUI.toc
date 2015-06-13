@@ -1,4 +1,4 @@
-## Interface: 60100
+## Interface: 60200
 ## Title: Viks Config UI
 ## Notes: In-game configuration for ViksUI
 ## Credits to: Tukz, Dawn, Shestak, Haste, Roth, P3lim, Monolit, AlleyKat.

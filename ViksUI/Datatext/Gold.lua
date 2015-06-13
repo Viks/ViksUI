@@ -172,6 +172,7 @@ Stat:SetScript("OnEnter", function(self)
 	if Viks.datatext.CurrRaid then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("Raid")
+		Currency(1129, false, true) --Seal of Inevitable Fate
 		Currency(994, false, true) --Seal of Tempered Fate
 		--Currency(697, false, true) --Elder Charm of Good Fortune
 		--Currency(738) --Lesser Charm of Good Fortune
@@ -198,6 +199,7 @@ Stat:SetScript("OnEnter", function(self)
 		Currency(980, false, true) --Dingy Iron Coins (Rogue)
 		Currency(824, false, true) --Garrison Resources
 		Currency(823) --Apexis Crystal
+		Currency(1101) --Oil
 	end
 
 	GameTooltip:AddLine(" ")

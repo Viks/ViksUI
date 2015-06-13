@@ -1,29 +1,14 @@
-if myclass ~= "SHAMAN" then return end
---[[
-	Documentation:
-	
-		Element handled:
-			.TotemBar (must be a table with statusbar inside)
-		
-		.TotemBar only:
-			.delay : The interval for updates (Default: 0.1)
-			.colors : The colors for the statusbar, depending on the totem
-			.Name : The totem name
-			.Destroy (boolean): Enables/Disable the totem destruction on right click
-			
-			NOT YET IMPLEMENTED
-			.Icon (boolean): If true an icon will be added to the left or right of the bar
-			.IconSize : If the Icon is enabled then changed the IconSize (default: 8)
-			.IconJustify : any anchor like "TOPLEFT", "BOTTOMRIGHT", "TOP", etc
-			
-		.TotemBar.bg only:
-			.multiplier : Sets the multiplier for the text or the background (can be two differents multipliers)
 
---]]
+
+local T, Viks, L = unpack(select(2, ...))
+if Viks.unitframes.enable ~= true or Viks.unitframe_class_bar.totem ~= true then return end
+
+----------------------------------------------------------------------------------------
+--	Based on oUF_TotemBar(by Soeters)
+----------------------------------------------------------------------------------------
 local _, ns = ...
 local oUF = ns.oUF or oUF
 
-if not oUF then return end
 
 local _, pClass = UnitClass("player")
 local total = 0
@@ -67,13 +52,12 @@ end
 	
 local function UpdateSlot(self, slot)
 	local totem = self.TotemBar
-
-
+	if not totem[slot] then return end
 	local haveTotem, name, startTime, duration, totemIcon = GetTotemInfo(slot)
 
 	totem[slot]:SetStatusBarColor(unpack(totem.colors[slot]))
 	totem[slot]:SetValue(0)
-	
+
 	-- Multipliers
 	if (totem[slot].bg.multiplier) then
 		local mu = totem[slot].bg.multiplier
@@ -81,15 +65,13 @@ local function UpdateSlot(self, slot)
 		r, g, b = r*mu, g*mu, b*mu
 		totem[slot].bg:SetVertexColor(r, g, b) 
 	end
-	
+
 	totem[slot].ID = slot
-	
 	-- If we have a totem then set his value 
 	if(haveTotem) then
-		
 		if totem[slot].Name then
 			totem[slot].Name:SetText(Abbrev(name))
-		end					
+		end	
 		if(duration > 0) then	
 			totem[slot]:SetValue(1 - ((GetTime() - startTime) / duration))	
 			-- Status bar update
@@ -110,19 +92,24 @@ local function UpdateSlot(self, slot)
 			totem[slot]:SetScript("OnUpdate",nil)
 			totem[slot]:SetValue(0)
 		end 
-	else
 		-- No totem = no time 
 		if totem[slot].Name then
 			totem[slot].Name:SetText(" ")
 		end
+		if myclass ~= "SHAMAN" then
+			totem:Show()
+		end
+	else
 		totem[slot]:SetValue(0)
+		if myclass ~= "SHAMAN" then
+			totem:Hide()
+		end
 	end
-
 end
 
 local function Update(self, unit)
 	-- Update every slot on login, still have issues with it
-	for i = 1, 4 do 
+	for i = 1, MAX_TOTEMS do
 		UpdateSlot(self, i)
 	end
 end
@@ -135,27 +122,44 @@ end
 
 local function Enable(self, unit)
 	local totem = self.TotemBar
-	
+
 	if(totem) then
 		self:RegisterEvent("PLAYER_TOTEM_UPDATE" , Event, true)
 		totem.colors = setmetatable(totem.colors or {}, {__index = colors})
 		delay = totem.delay or delay
 		if totem.Destroy then
-			InitDestroy(self)
-		end		
-		TotemFrame:UnregisterAllEvents()		
+			for i = 1, MAX_TOTEMS do
+				if totem[i] then
+					local t = _G["TotemFrameTotem"..i]
+					t:ClearAllPoints()
+					t:SetParent(totem[i])
+					t:SetAllPoints(totem[i])
+					t:SetFrameLevel(totem[i]:GetFrameLevel() + 1)
+					t:SetFrameStrata(totem[i]:GetFrameStrata())
+					t:SetAlpha(0)
+					_G["TotemFrameTotem"..i.."Icon"]:Hide()
+				end
+			end
+			hooksecurefunc("TotemFrame_Update", function()
+				for i = 1, MAX_TOTEMS do
+					local t = _G["TotemFrameTotem"..i]
+					local slot = t.slot
+					if slot and slot > 0 then
+						t:ClearAllPoints()
+						t:SetAllPoints(totem[slot])
+					end
+				end
+			end)
+		end
 		return true
-	end	
+	end
 end
 
 local function Disable(self,unit)
 	local totem = self.TotemBar
 	if(totem) then
 		self:UnregisterEvent("PLAYER_TOTEM_UPDATE", Event)
-		
 		TotemFrame:Show()
 	end
 end
-			
 oUF:AddElement("TotemBar",Update,Enable,Disable)
-

@@ -243,7 +243,7 @@ local menuList = {
         notCheckable = true,
     },
     {
-        text = ENCOUNTER_JOURNAL,
+        text = ADVENTURE_JOURNAL,
         icon = 'Interface\\MINIMAP\\TRACKING\\Profession',
         func = function() 
             securecall(ToggleEncounterJournal)
@@ -270,13 +270,15 @@ local menuList = {
 		text = LOOT_ROLLS, notCheckable = true, func = function()
 		ToggleFrame(LootHistoryFrame)
 	end},
-	{
-		text = BLIZZARD_STORE, notCheckable = true, func = function()
-		StoreMicroButton:Click()
-	end},
 }
 
+if not IsTrialAccount() and not C_StorePublic.IsDisabledByParentalControls() then
+	tinsert(menuList, {text = BLIZZARD_STORE, notCheckable = 1, func = function() StoreMicroButton:Click() end})
+end
 
+if T.level > 89 then
+	tinsert(menuList, {text = GARRISON_LANDING_PAGE_TITLE, notCheckable = 1, func = function() GarrisonLandingPage_Toggle() end})
+end
 
 local f = CreateFrame('Button', Minimap, PicoMenuBar)
 f:SetFrameStrata('MEDIUM')
@@ -354,24 +356,14 @@ end)
 Minimap:SetMaskTexture('Interface\\ChatFrame\\ChatFrameBackground');			--Make the Minimap a Square
 function GetMinimapShape() return "SQUARE" end
 
---[[ Clock ]]
-if not IsAddOnLoaded("Blizzard_TimeManager") then
-	LoadAddOn("Blizzard_TimeManager")
-end
-local function Kill(object)
-	if object.UnregisterAllEvents then
-		object:UnregisterAllEvents()
+-- Hide Game Time
+Minimap:RegisterEvent("PLAYER_LOGIN")
+Minimap:RegisterEvent("ADDON_LOADED")
+Minimap:SetScript("OnEvent", function(self, event, addon)
+	if addon == "Blizzard_TimeManager" then
+		TimeManagerClockButton:Kill()
 	end
-	object.Show = dummy
-	object:Hide()
-end
-local clockFrame, clockTime = TimeManagerClockButton:GetRegions()
-clockFrame:Hide()
-clockTime:SetFont("Fonts\\FRIZQT__.ttf", 10, "OUTLINE")
-clockTime:SetTextColor(1,1,1)
-TimeManagerClockButton:SetPoint("BOTTOM", Minimap, "BOTTOM", 0, -1)
-clockTime:Hide()
-TimeManagerClockButton:Hide()
+end)
 ----------------------------------------------------------------------------------------------------------------------------------------
 if Viks.minimapp.compass then
 function compass()

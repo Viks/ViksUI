@@ -1,4 +1,4 @@
-## Interface: 60100
+## Interface: 60200
 ## Title: ViksUI
 ## Notes: ViksUI
 ## Credits to: Tukz, Dawn, Shestak, Haste, Roth, P3lim, Monolit, AlleyKat, Viks.

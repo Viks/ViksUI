@@ -140,6 +140,7 @@ T.SkinFuncs = {}
 T.SkinFuncs["ViksUI"] = {}
 
 function T.SkinScrollBar(frame)
+
 	if _G[frame:GetName().."BG"] then
 		_G[frame:GetName().."BG"]:SetTexture(nil)
 	end
@@ -154,6 +155,43 @@ function T.SkinScrollBar(frame)
 	end
 	if _G[frame:GetName().."Middle"] then
 		_G[frame:GetName().."Middle"]:SetTexture(nil)
+	end
+	
+	if _G[frame:GetName().."ScrollUpButton"] and _G[frame:GetName().."ScrollDownButton"] then
+		_G[frame:GetName().."ScrollUpButton"]:StripTextures()
+		if not _G[frame:GetName().."ScrollUpButton"].icon then
+			T.SkinNextPrevButton(_G[frame:GetName().."ScrollUpButton"], true)
+			_G[frame:GetName().."ScrollUpButton"]:SetSize(_G[frame:GetName().."ScrollUpButton"]:GetWidth() + 7, _G[frame:GetName().."ScrollUpButton"]:GetHeight() + 7)
+			scrolldn = false
+		end
+
+		_G[frame:GetName().."ScrollDownButton"]:StripTextures()
+		if not _G[frame:GetName().."ScrollDownButton"].icon then
+			T.SkinNextPrevButton(_G[frame:GetName().."ScrollDownButton"], true)
+			_G[frame:GetName().."ScrollDownButton"]:SetSize(_G[frame:GetName().."ScrollDownButton"]:GetWidth() + 7, _G[frame:GetName().."ScrollDownButton"]:GetHeight() + 7)
+			scrolldn = true
+		end
+
+		if not frame.trackbg then
+			frame.trackbg = CreateFrame("Frame", nil, frame)
+			frame.trackbg:SetPoint("TOPLEFT", _G[frame:GetName().."ScrollUpButton"], "BOTTOMLEFT", 0, -1)
+			frame.trackbg:SetPoint("BOTTOMRIGHT", _G[frame:GetName().."ScrollDownButton"], "TOPRIGHT", 0, 1)
+			frame.trackbg:SetTemplate("Transparent")
+		end
+
+		if frame:GetThumbTexture() then
+			if not thumbTrim then thumbTrim = 3 end
+			frame:GetThumbTexture():SetTexture(nil)
+			if not frame.thumbbg then
+				frame.thumbbg = CreateFrame("Frame", nil, frame)
+				frame.thumbbg:SetPoint("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 2, -thumbTrim)
+				frame.thumbbg:SetPoint("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", -2, thumbTrim)
+				frame.thumbbg:SetTemplate("Default", true, true)
+				if frame.trackbg then
+					frame.thumbbg:SetFrameLevel(frame.trackbg:GetFrameLevel())
+				end
+			end
+		end
 	end
 end
 
@@ -240,9 +278,15 @@ function T.SkinNextPrevButton(btn, horizontal, left)
 
 	if normal and pushed and disabled then
 		if horizontal then
+			if scrolldn == true then
+			btn:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollUp-Up")
+			btn:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollUp-Down")
+			btn:SetDisabledTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollUp-Disabled")
+			else
 			btn:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
 			btn:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down")
 			btn:SetDisabledTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Disabled")
+			end
 			btn:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.72, 0.65, 0.29, 0.65, 0.72)
 			if btn:GetPushedTexture() then
 				btn:GetPushedTexture():SetTexCoord(0.3, 0.35, 0.3, 0.8, 0.65, 0.35, 0.65, 0.8)
@@ -332,7 +376,7 @@ function T.SkinDropDownBox(frame, width)
 	button:ClearAllPoints()
 	button:SetPoint("RIGHT", frame, "RIGHT", -10, 3)
 	button.SetPoint = T.dummy
-
+	scrolldn = false
 	T.SkinNextPrevButton(button, true)
 
 	frame:CreateBackdrop("Overlay")
@@ -407,6 +451,14 @@ function T.SkinCloseButton(f, point, text, pixel)
 
 	f:HookScript("OnEnter", T.SetModifiedBackdrop)
 	f:HookScript("OnLeave", T.SetOriginalBackdrop)
+end
+
+function T.HandleIcon(icon, parent)
+	parent = parent or icon:GetParent();
+
+	icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	parent:CreateBackdrop('Default')
+	icon:SetParent(parent.backdrop)
 end
 
 function T.SkinSlider(f)
@@ -1006,7 +1058,7 @@ T.UpdateEclipse = function(self, login)
 		eb:SetScript("OnUpdate", nil)
 	end
 
-	if eb:IsShown() then
+	if eb:IsShown() or (T.class == "DRUID" and Viks.unitframe_class_bar.combo == true) then
 		txt:Show()
 		if self.Debuffs then self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 19) end
 	else
@@ -1022,57 +1074,42 @@ T.UpdateReputationColor = function(self, event, unit, bar)
 end
 
 T.UpdateComboPoint = function(self, event, unit)
-	if unit == "pet" then return end
+    if unit == "pet" then return end
 
-	local cpoints = self.CPoints
-	local cp
-	if UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle") then
-		cp = GetComboPoints("vehicle", "target")
-	else
-		cp = GetComboPoints("player", "target")
-	end
+    local cpoints = self.CPoints
+    local cp = (UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle")) and UnitPower("vehicle", 4) or UnitPower("player", 4)
 
-	for i = 1, MAX_COMBO_POINTS do
-		if i <= cp then
-			cpoints[i]:SetAlpha(1)
-		else
-			cpoints[i]:SetAlpha(0.2)
-		end
-	end
+    for i = 1, MAX_COMBO_POINTS do
+        if i <= cp then
+            cpoints[i]:SetAlpha(1)
+        else
+            cpoints[i]:SetAlpha(0.2)
+        end
+    end
 
-	if cpoints[1]:GetAlpha() == 1 then
-		for i = 1, MAX_COMBO_POINTS do
-			cpoints:Show()
-			cpoints[i]:Show()
-		end
-	else
-		for i = 1, MAX_COMBO_POINTS do
-			cpoints:Hide()
-			cpoints[i]:Hide()
-		end
-	end
+    if (T.class == "DRUID" and Viks.unitframe_class_bar.comboalways ~= true) then
+        local CatForm = function(self, event, unit)
+            local unit = self.unit or "player"
+            local name = UnitBuff(unit, GetSpellInfo(768))
+            if name then
+                cpoints:Show()
+				if self.Debuffs then self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 19) end
+            else
+                cpoints:Hide()
+				if self.Debuffs then self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 5) end
+            end
+        end
 
-	if self.RangeBar then
-		if cpoints[1]:IsShown() and self.RangeBar:IsShown() then
-			cpoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 21)
-			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 33) end
-		elseif cpoints[1]:IsShown() or self.RangeBar:IsShown() then
-			cpoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
-			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 19) end
-		elseif self.Friendship and self.Friendship:IsShown() then
-			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 19) end
-		else
-			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 5) end
-		end
-	else
-		if cpoints[1]:IsShown() or (self.Friendship and self.Friendship:IsShown()) then
-			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 19) end
-		else
-			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 5) end
-		end
-	end
+        local CheckForm = CreateFrame("Frame", self:GetName().."_CheckForm", cpoints)
+        CheckForm:RegisterEvent("UNIT_AURA")
+        CheckForm:RegisterEvent("PLAYER_LOGIN")
+        CheckForm:RegisterEvent("PLAYER_ENTERING_WORLD")
+        CheckForm:SetScript("OnEvent", CatForm)
+        CheckForm:SetScript("OnUpdate", CatForm)
+        CheckForm:SetScript("OnShow", CatForm)
+        CheckForm:SetScript("OnHide", CatForm)
+    end
 end
-
 local ticks = {}
 local channelingTicks = T.CastBarTicks
 
