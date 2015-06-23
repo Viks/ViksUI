@@ -2736,7 +2736,7 @@ Filger_Spells = {
 			Interval = 3,
 			Alpha = 1,
 			IconSize = 37,
-			Position = {unpack(C["filger_position"].special_proc_icon)},
+			Position = {"RIGHT", AnchorT_SPECIAL_P_BUFF_ICON},
 
 			-- Ashran
 			-- Ancient Artifact
@@ -2935,7 +2935,7 @@ Filger_Spells = {
 			Interval = 3,
 			Alpha = 1,
 			IconSize = 60,
-			Position = {unpack(C["filger_position"].pve_debuff)},
+			Position = {"LEFT", Anchor_PVEDEBUFF},
 
 			-- Death Knight
 			-- Shroud of Purgatory
@@ -3218,7 +3218,7 @@ Filger_Spells = {
 			Interval = 3,
 			Alpha = 1,
 			IconSize = 60,
-			Position = {unpack(C["filger_position"].target_buff_icon)},
+			Position = {"LEFT", AnchorT_BUFF_ICON},
 
 			-- Death knight
 			-- Anti-Magic Shell
