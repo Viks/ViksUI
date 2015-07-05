@@ -476,7 +476,7 @@ local function LoadSkin()
 	hooksecurefunc("AlertFrame_SetLootUpgradeFrameAnchors", SkinLootUpgradePopUp)
 
 	local function SkinGarrisonBuildingPopUp()
-		local frame = _G["GarrisonBuildingAlertFrame"]
+		local frame = GarrisonBuildingAlertFrame
 
 		if frame then
 			frame:SetAlpha(1)
@@ -552,7 +552,7 @@ local function LoadSkin()
 	hooksecurefunc("AlertFrame_SetGarrisonMissionAlertFrameAnchors", SkinGarrisonMissionPopUp)
 	
 	local function SkinGarrisonFollowerPopUp()
-		local frame = _G["GarrisonFollowerAlertFrame"]
+		local frame = GarrisonFollowerAlertFrame
 
 		if frame then
 			frame:SetAlpha(1)

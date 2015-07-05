@@ -9,7 +9,6 @@
 	<Script file="Config\config.lua"/>
 	<Script file="Config\configui.lua"/>
 	<Script file="Config\Settings.lua"/>
-	<Script file="Config\Positions.lua"/>
 	<Script file="Config\Fonts.lua"/>
 	<Script file="Config\Profiles.lua"/>
 	<Script file="Modules\Automation\AutoInvite.lua"/>
@@ -58,6 +57,8 @@
 	<Script file="Core\Panels.lua"/>
 	<Script file="Core\Movers.lua"/>
 	<Script file="Config\theme.lua"/>
+	<Script file="Config\Positions.lua"/>
+	<Script file="Config\Spells.lua"/>
 	
 	<Include file="UnitFrames\uf.xml"/>
 	<Include file="UnitFrames\template.xml"/>

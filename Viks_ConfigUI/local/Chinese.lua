@@ -415,3 +415,10 @@ L_GUI_ERROR = "错误收集"
 L_GUI_ERROR_BLACK = "隐藏黑名单错误"
 L_GUI_ERROR_WHITE = "显示白名单错误"
 L_GUI_ERROR_HIDE_COMBAT = "战斗中隐藏所有错误提示"
+
+-- Filger
+L_GUI_Filger = "Filger"
+L_GUI_Filger_Filger = "Enable Filger icons"
+L_GUI_FilgerCD = "Show Cooldowns bar"
+L_GUI_FilgePVECC = "Show CC as Bar"
+L_GUI_FilgerTBAR = "Show Special Bar for Target"

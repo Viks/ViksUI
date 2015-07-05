@@ -415,3 +415,10 @@ L_GUI_ERROR = "Erreurs"
 L_GUI_ERROR_BLACK = "Cacher les erreurs de la liste noire"
 L_GUI_ERROR_WHITE = "Afficher les erreurs de la liste blanche"
 L_GUI_ERROR_HIDE_COMBAT = "Hide all errors in combat" -- Needs review
+
+-- Filger
+L_GUI_Filger = "Filger"
+L_GUI_Filger_Filger = "Enable Filger icons"
+L_GUI_FilgerCD = "Show Cooldowns bar"
+L_GUI_FilgePVECC = "Show CC as Bar"
+L_GUI_FilgerTBAR = "Show Special Bar for Target"

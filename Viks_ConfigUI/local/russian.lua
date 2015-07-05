@@ -415,3 +415,10 @@ L_GUI_ERROR = "Ошибки боя"
 L_GUI_ERROR_BLACK = "Спрятать ошибки из 'черного' списка"
 L_GUI_ERROR_WHITE = "Показывать ошибки из 'белого' списка"
 L_GUI_ERROR_HIDE_COMBAT = "Спрятать все ошибки во время боя"
+
+-- Filger
+L_GUI_Filger = "Filger"
+L_GUI_Filger_Filger = "Enable Filger icons"
+L_GUI_FilgerCD = "Show Cooldowns bar"
+L_GUI_FilgePVECC = "Show CC as Bar"
+L_GUI_FilgerTBAR = "Show Special Bar for Target"

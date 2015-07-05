@@ -30,6 +30,7 @@ local ALLOWED_GROUPS = {
 	["panels"] = 27,
 	["stats"] = 28,
 	["XPBar"] = 29,
+	["Filger"] = 30,
 }
 local function Local(o)
 	local T, Viks, L = unpack(ViksUI)
@@ -621,9 +622,13 @@ if o == "ViksConfigUIraidcooldownshow_icon" then o = L_GUI_COOLDOWN_RAID_ICONS e
 if o == "ViksConfigUIraidcooldownshow_inraid" then o = L_GUI_COOLDOWN_RAID_IN_RAID end
 if o == "ViksConfigUIraidcooldownshow_inparty" then o = L_GUI_COOLDOWN_RAID_IN_PARTY end
 if o == "ViksConfigUIraidcooldownshow_inarena" then o = L_GUI_COOLDOWN_RAID_IN_ARENA end
-	
 
-	
+-- Filger	
+if o == "ViksConfigUIFilger" then o = L_GUI_Filger end
+if o == "ViksConfigUIFilgerfilger" then o = L_GUI_Filger_Filger end
+if o == "ViksConfigUIFilgerfilgerCD" then o = L_GUI_FilgerCD end	
+if o == "ViksConfigUIFilgerfilgerpvecc" then o = L_GUI_FilgePVECC end
+if o == "ViksConfigUIFilgerfilgertbar" then o = L_GUI_FilgerTBAR end
 	
 	Viks.option = o
 end

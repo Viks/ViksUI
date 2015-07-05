@@ -68,8 +68,6 @@ Viks["misc"] = {
 	["archaeology"] = true,						-- Archaeology artifacts and cooldown
 	["chars_currency"] = true,					-- Tracks your currency tokens across multiple characters
 	["markbar"] = true,							-- Markbar for Raid Icons and flares
-	["filger"] = true,							-- Filger, shows buff/debuff/dots in combat.
-	["filgerCD"] = false,						-- Filger, shows Cooldowns on a bar list.
 	["classtimer"] = true,						-- Shows buff/debuffs/procs as bar on player/target frame
 	["CooldownFlash"] = false,					-- Flash icon on screen when spell are ready after cd
 	["raidcooldowns"] = true,					-- Shows and tracks cooldowns used from raid members
@@ -702,6 +700,16 @@ Viks["actionbar"] = {
 	["ownshdbar"] = false,                              -- use a complete new stance bar for shadow dance (rogue only)
 	["lowversion"] = false,
 	["sidebarWidth"] = 6,								-- amount of buttons per row on side bars (set between 1-6 only), option work if lowversion - false
+}
+
+----------------------------------------------------------------------------------------
+--	Miscellaneous options
+----------------------------------------------------------------------------------------
+Viks["Filger"] = {
+	["filger"] = true,							-- Filger, shows buff/debuff/dots in combat.
+	["filgerCD"] = false,						-- Filger, shows Cooldowns on a bar list.
+	["filgerpvecc"] = false,					-- Filger, shows CC on bar list.
+	["filgertbar"] = false,						-- Filger, shows special bars for target.
 }
 
 ----------------------------------------------------------------------------------------
