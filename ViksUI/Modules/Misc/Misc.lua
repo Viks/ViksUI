@@ -383,3 +383,11 @@ filter:SetScript("OnEvent", function(self, event, addon, ...)
 		end
 	end
 end)
+
+----------------------------------------------------------------------------------------
+--	Boss Banner Hider
+----------------------------------------------------------------------------------------
+if Viks.automation.bannerhide == true then
+BossBanner.PlayBanner = function()
+end
+end

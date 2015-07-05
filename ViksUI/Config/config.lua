@@ -123,6 +123,7 @@ Viks["automation"] = {
 	["AutoRepair"] = true,						-- automaticly repair?
 	["AutoRepairG"] = true,						-- automaticly repair and Use guild funds?
 	["open_items"] = false,						-- Auto opening of items in bag
+	["bannerhide"] = true,						-- Auto hiding Boss Banner Loot Frame
 }
 
 ----------------------------------------------------------------------------------------

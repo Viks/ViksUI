@@ -114,6 +114,7 @@ if o == "ViksConfigUIautomationvendor" then o = "Auto sell grey items" end
 if o == "ViksConfigUIautomationAutoRepair" then o = "Automaticly repair" end
 if o == "ViksConfigUIautomationAutoRepairG" then o = "Automaticly repair and Use guild funds" end
 if o == "ViksConfigUIautomationopen_items" then o = L_GUI_AUTOMATION_OPEN_ITEMS end
+if o == "ViksConfigUIautomationbannerhide" then o = L_GUI_AUTOMATION_BANNER_HIDE end
 
 -- Skins options
 if o == "ViksConfigUIskins" then o = L_GUI_SKINS end
