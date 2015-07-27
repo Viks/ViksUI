@@ -32,6 +32,9 @@ L_ANNOUNCE_FP_CAST = "%s is casting %s."
 L_ANNOUNCE_FP_CLICK = "%s is casting %s. Click!"
 L_ANNOUNCE_FP_USE = "%s used a %s."
 
+-- Announce your interrupts
+L_ANNOUNCE_INTERRUPTED = INTERRUPTED
+
 -- Tooltip
 L_TOOLTIP_NO_TALENT = "No Talents"
 L_TOOLTIP_LOADING = "Loading..."
@@ -186,6 +189,9 @@ L_PANELS_AFK_LCLICK = "Left-Click to go back."
 
 -- Cooldowns
 L_COOLDOWNS = "CD: "
+L_COOLDOWNS_COMBATRESS = "CombatRess"
+L_COOLDOWNS_COMBATRESS_REMAINDER = "Combat resurrect: "
+L_COOLDOWNS_NEXTTIME = "Next time: "
 
 -- Autoinvite
 L_INVITE_ENABLE = "Autoinvite ON: "
@@ -281,6 +287,8 @@ L_STATS_BANDWIDTH = "Bandwidth:"
 L_STATS_DOWNLOAD = "Download:"
 L_STATS_CLEARED_JUNK = "Cleared junk exceptions list."
 L_STATS_CLEAR_EXCEPTIONS = "Clear exceptions list."
+L_STATS_CURRENCY_PROFESSIONS_T = "Professions"
+L_STATS_CURRENCY_RAID_T = "Raid Seals"
 L_STATS_WORLD_MAP = "Clicking opens world map."
 L_STATS_CURRENT_XP = "Current/Max XP"
 L_STATS_MEMORY_USAGE = "Blizzard UI Memory Usage:"

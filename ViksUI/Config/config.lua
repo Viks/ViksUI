@@ -288,7 +288,8 @@ Viks["tooltip"] = {
 	["talents"] = true,						-- Show tooltip talents
 	["achievements"] = false,					-- Comparing achievements in tooltip
 	["target"] = true,							-- Target player in tooltip
-	["title"] = true,							-- Player title and realm name in tooltip
+	["title"] = false,							-- Player title in tooltip
+	["realm"] = true,							-- Player realm name in tooltip
 	["rank"] = true,							-- Player guild-rank in tooltip
 	["arena_experience"] = true,				-- Player PvP experience in arena
 	["spell_id"] = true,						-- Id number spells
@@ -607,6 +608,13 @@ Viks["stats"] = {
 	["experience"] = true,						-- Experience
 	["coords"] = false,							-- Coords
 	["location"] = false,						-- Location
+	["currency"] = true,						-- Currency
+	["CurrArchaeology"] = false,				-- Show Archaeology under currency tab
+	["CurrCooking"] = false,					-- Show Coocking under currency tab
+	["CurrProfessions"] = false,				-- Show Professions under currency tab
+	["CurrRaid"] = true,						-- Show Seals under currency tab
+	["CurrPvP"] = false,						-- Show PvP under currency tab
+	["CurrMiscellaneous"] = true,				-- Show Miscellaneous under currency tab
 }
 
 ----------------------------------------------------------------------------------------

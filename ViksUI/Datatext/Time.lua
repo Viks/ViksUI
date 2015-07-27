@@ -117,15 +117,15 @@ if Viks.datatext.Wowtime == true then
 		GameTooltip:AddLine(" ")
 		
 		if( UnitLevel( "player" ) >= 100 ) then
-		local Tarlna = IsQuestFlaggedCompleted( 37462 )
-		local Drov = IsQuestFlaggedCompleted( 37460 )
-		local Rukhmar = IsQuestFlaggedCompleted( 37464 )
+		--local Tarlna = IsQuestFlaggedCompleted( 37462 )
+		--local Drov = IsQuestFlaggedCompleted( 37460 )
+		--local Rukhmar = IsQuestFlaggedCompleted( 37464 )
 		local c = 0
 		for i,q in ipairs({36054,36055,36056,36057,36058,36060,37453,37452,37454,37455,37456,37457,37458,37459}) do if (IsQuestFlaggedCompleted(q)) then c=c+1 end end
 
-		GameTooltip:AddDoubleLine( "Tarlna" .. ": ", Tarlna and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
-		GameTooltip:AddDoubleLine( "Drov" .. ": ", Drov and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
-		GameTooltip:AddDoubleLine( "Rukhmar" .. ": ", Rukhmar and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
+		--GameTooltip:AddDoubleLine( "Tarlna" .. ": ", Tarlna and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
+		--GameTooltip:AddDoubleLine( "Drov" .. ": ", Drov and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
+		--GameTooltip:AddDoubleLine( "Rukhmar" .. ": ", Rukhmar and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
 		GameTooltip:AddDoubleLine( "Seals this week" .. ": ", c)
 	end
 	
@@ -162,11 +162,11 @@ if Viks.datatext.Wowtime == true then
 		local oneraid
 		for i = 1, GetNumSavedInstances() do
 			local name,_,reset,difficulty,locked,extended,_,isRaid,maxPlayers = GetSavedInstanceInfo(i)
-			if isRaid and (locked or extended) then
+			if isRaid and (locked or extended) or maxPlayers == 5 and difficulty == 23 and (locked or extended) then
 				local tr,tg,tb,diff
 				if not oneraid then
 					GameTooltip:AddLine(" ")
-					GameTooltip:AddLine("Saved Raid(s)")
+					GameTooltip:AddLine("Saved Mythic/Raid(s)")
 					oneraid = true
 				end
 
@@ -175,11 +175,38 @@ if Viks.datatext.Wowtime == true then
 				local d,h,m,s = ChatFrame_TimeBreakDown(floor(sec))
 				local string = gsub(gsub(format(" %dd %dh %dm "..((d==0 and h==0) and "%ds" or ""),d,h,m,s)," 0[dhms]"," "),"%s+"," ")
 				local string = strtrim(gsub(string, "([dhms])", {d=table.days or "d",h=table.hours or "h",m=table.minutes or "m",s=table.seconds or "s"})," ")
+				if maxPlayers == 5 and difficulty == 23 then
+				return strmatch(string,"^%s*$") or string
+				else
 				return strmatch(string,"^%s*$") and "0"..(table.seconds or L"s") or string
+				end
 			end
 			if extended then tr,tg,tb = 0.3,1,0.3 else tr,tg,tb = 1,1,1 end
 			if difficulty == 3 or difficulty == 4 then diff = "H" else diff = "N" end
+			if maxPlayers == 5 and difficulty == 23 then
+			GameTooltip:AddDoubleLine("M:"..name,fmttime(reset),1,1,1,tr,tg,tb)
+			else
 			GameTooltip:AddDoubleLine(name,fmttime(reset),1,1,1,tr,tg,tb)
+			end
+			end
+		end
+		local addedLine
+		for i = 1, GetNumSavedWorldBosses() do
+			local name, _, reset = GetSavedWorldBossInfo(i)
+			local function fmttime(sec,table)
+			local table = table or {}
+			local d,h,m,s = ChatFrame_TimeBreakDown(floor(sec))
+			local string = gsub(gsub(format(" %dd %dh %dm "..((d==0 and h==0) and "%ds" or ""),d,h,m,s)," 0[dhms]"," "),"%s+"," ")
+			local string = strtrim(gsub(string, "([dhms])", {d=table.days or "d",h=table.hours or "h",m=table.minutes or "m",s=table.seconds or "s"})," ")
+			return strmatch(string,"^%s*$") and "0"..(table.seconds or L"s") or string
+			end
+			if reset then
+				if not addedLine then
+					GameTooltip:AddLine(" ")
+					GameTooltip:AddLine(RAID_INFO_WORLD_BOSS, tr, tg, tb)
+					addedLine = true
+				end
+				GameTooltip:AddDoubleLine(name, fmttime(reset), 1, 1, 1, 1, 1, 1)
 			end
 		end
 		GameTooltip:Show()

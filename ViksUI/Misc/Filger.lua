@@ -52,7 +52,7 @@ function Filger:TooltipOnEnter()
 	if self.spellID > 20 then
 		local str = "spell:%s"
 		GameTooltip:ClearLines()
-		GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT", 0, 3)
+		--GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT", 0, 3)
 		GameTooltip:SetHyperlink(format(str, self.spellID))
 		GameTooltip:Show()
 	end

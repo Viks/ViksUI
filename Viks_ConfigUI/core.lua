@@ -239,6 +239,7 @@ if o == "ViksConfigUItooltiptalents" then o = L_GUI_TOOLTIP_TALENTS end
 if o == "ViksConfigUItooltipachievements" then o = L_GUI_TOOLTIP_ACHIEVEMENTS end
 if o == "ViksConfigUItooltiptarget" then o = L_GUI_TOOLTIP_TARGET end
 if o == "ViksConfigUItooltiptitle" then o = L_GUI_TOOLTIP_TITLE end
+if o == "ViksConfigUItooltiprealm" then o = L_GUI_TOOLTIP_REALM end
 if o == "ViksConfigUItooltiprank" then o = L_GUI_TOOLTIP_RANK end
 if o == "ViksConfigUItooltiparena_experience" then o = L_GUI_TOOLTIP_ARENA_EXPERIENCE end
 if o == "ViksConfigUItooltipspell_id" then o = L_GUI_TOOLTIP_SPELL_ID end
@@ -504,6 +505,14 @@ if o == "ViksConfigUIstatsdurability" then o = DURABILITY end
 if o == "ViksConfigUIstatsexperience" then o = L_GUI_STATS_EXPERIENCE end
 if o == "ViksConfigUIstatscoords" then o = L_GUI_STATS_COORDS end
 if o == "ViksConfigUIstatslocation" then o = L_GUI_STATS_LOCATION end
+if o == "ViksConfigUIstatscurrency" then o = L_GUI_STATS_CURRENCY end
+if o == "ViksConfigUIstatsCurrArchaeology" then o = L_GUI_STATS_CURRENCY_ARCHAEOLOGY end
+if o == "ViksConfigUIstatsCurrCooking" then o = L_GUI_STATS_CURRENCY_COOKING end
+if o == "ViksConfigUIstatsCurrProfessions" then o = L_GUI_STATS_CURRENCY_PROFESSIONS end
+if o == "ViksConfigUIstatsCurrRaid" then o = L_GUI_STATS_CURRENCY_RAID end
+if o == "ViksConfigUIstatsCurrPvP" then o = L_GUI_STATS_CURRENCY_PVP end
+if o == "ViksConfigUIstatsCurrMiscellaneous" then o = L_GUI_STATS_CURRENCY_MISCELLANEOUS end
+
 -- Error options
 if o == "ViksConfigUIerror" then o = L_GUI_ERROR end
 if o == "ViksConfigUIerrorblack" then o = L_GUI_ERROR_BLACK end

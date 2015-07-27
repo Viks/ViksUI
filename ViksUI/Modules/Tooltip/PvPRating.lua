@@ -1,4 +1,5 @@
 ﻿local T, Viks, L, _ = unpack(select(2, ...))
+--[[
 if Viks.tooltip.enable ~= true or Viks.tooltip.arena_experience ~= true then return end
 
 ----------------------------------------------------------------------------------------
@@ -79,3 +80,4 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		ClearAchievementComparisonUnit()
 	end
 end)
+--]]
