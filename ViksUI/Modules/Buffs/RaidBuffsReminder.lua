@@ -11,7 +11,7 @@ local guardianelixirbuffs = T.ReminderBuffs["GuardianElixir"]
 local foodbuffs = T.ReminderBuffs["Food"]
 local statbuffs = T.ReminderBuffs["Stat"]
 local staminabuffs = T.ReminderBuffs["Stamina"]
-local visible, flask, battleelixir, guardianelixir, food, stat, stamina, spell5, spell6, once
+local visible, flask, battleelixir, guardianelixir, food, stat, stamina, spell5, spell6
 
 -- We need to check if you have two different elixirs if your not flasked, before we say your not flasked
 local function CheckElixir(unit)
@@ -21,7 +21,6 @@ local function CheckElixir(unit)
 			if UnitAura("player", name) then
 				FlaskFrame.t:SetTexture(icon)
 				battleelixir = true
-				once = true
 				break
 			else
 				battleelixir = false
@@ -37,7 +36,6 @@ local function CheckElixir(unit)
 				if not battleelixir then
 					FlaskFrame.t:SetTexture(icon)
 				end
-				once = true
 				break
 			else
 				guardianelixir = false
@@ -70,9 +68,9 @@ local function OnAuraChange(self, event, arg1, unit)
 	if flaskbuffs and flaskbuffs[1] then
 		for i, flaskbuffs in pairs(flaskbuffs) do
 			local name, _, icon = GetSpellInfo(flaskbuffs)
-			if event == "PLAYER_ENTERING_WORLD" or once then
+			if i == 1 then
 				FlaskFrame.t:SetTexture(icon)
-				once = false
+
 			end
 			if UnitAura("player", name) then
 				FlaskFrame:SetAlpha(Viks.reminder.raid_buffs_alpha)
@@ -87,7 +85,7 @@ local function OnAuraChange(self, event, arg1, unit)
 	if foodbuffs and foodbuffs[1] then
 		for i, foodbuffs in pairs(foodbuffs) do
 			local name, _, icon = GetSpellInfo(foodbuffs)
-			if event == "PLAYER_ENTERING_WORLD" then
+			if i == 1 then
 				FoodFrame.t:SetTexture(icon)
 			end
 			if UnitAura("player", name) then
@@ -103,7 +101,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 	for i, statbuffs in pairs(statbuffs) do
 		local name, _, icon = GetSpellInfo(statbuffs)
-		if event == "PLAYER_ENTERING_WORLD" then
+		if i == 1 then
 			StatFrame.t:SetTexture(icon)
 		end
 		if UnitAura("player", name) then
@@ -118,7 +116,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 	for i, staminabuffs in pairs(staminabuffs) do
 		local name, _, icon = GetSpellInfo(staminabuffs)
-		if event == "PLAYER_ENTERING_WORLD" then
+		if i == 1 then
 			StaminaFrame.t:SetTexture(icon)
 		end
 		if UnitAura("player", name) then
@@ -133,7 +131,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 	for i, Spell5Buff in pairs(Spell5Buff) do
 		local name, _, icon = GetSpellInfo(Spell5Buff)
-		if event == "PLAYER_ENTERING_WORLD" then
+		if i == 1 then
 			Spell5Frame.t:SetTexture(icon)
 		end
 		if UnitAura("player", name) then
@@ -148,7 +146,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 	for i, Spell6Buff in pairs(Spell6Buff) do
 		local name, _, icon = GetSpellInfo(Spell6Buff)
-		if event == "PLAYER_ENTERING_WORLD" then
+		if i == 1 then
 			Spell6Frame.t:SetTexture(icon)
 		end
 		if UnitAura("player", name) then
@@ -242,6 +240,7 @@ local AllBuffs = {
 		160003,					-- Savage Vigor (Hunterpet)
 		135678,					-- Energizing Spores (Hunterpet)
 		160074,					-- Speed of the Swarm (Hunterpet)
+		160203,					-- Lone Wolf: Haste of the Hyena
 	},
 	["spellpower"] = {
 		1459,					-- Arcane Brilliance
@@ -250,6 +249,7 @@ local AllBuffs = {
 		128433,					-- Serpent's Cunning (Hunterpet)
 		90364,					-- Qiraji Fortitude (Hunterpet)
 		126309,					-- Still Water (Hunterpet)
+		160205,					-- Lone Wolf: Wisdom of the Serpent
 	},
 	["crit"] = {
 		17007,					-- Leader of the Pack
@@ -262,6 +262,7 @@ local AllBuffs = {
 		90363,					-- Embrace of the Shale Spider (Hunterpet)
 		126309,					-- Still Water (Hunterpet)
 		24604,					-- Furious Howl (Hunterpet)
+		160200,      			-- Lone Wolf: Ferocity of the Raptor
 	},
 	["mastery"] = {
 		155522,					-- Power of the Grave
@@ -272,6 +273,7 @@ local AllBuffs = {
 		160039,					-- Keen Senses (Hunterpet)
 		128997,					-- Spirit Beast Blessing (Hunterpet)
 		160073,					-- Plainswalking (Hunterpet)
+		160198,					-- Lone Wolf: Grace of the Cat
 	},
 	["stats"] = {
 		1126, 					-- Mark of the Wild
@@ -282,6 +284,7 @@ local AllBuffs = {
 		160017,					-- Blessing of Kongs (Hunterpet)
 		90363,					-- Embrace of the Shale Spider (Hunterpet)
 		160077,					-- Strength of the Earth (Hunterpet)
+		160206,					-- Lone Wolf: Power of the Primates
 	},
 	["stamina"] = {
 		21562,					-- Power Word: Fortitude
@@ -291,6 +294,7 @@ local AllBuffs = {
 		160014,					-- Sturdiness (Hunterpet)
 		160003,					-- Savage Vigor (Hunterpet)
 		90364,					-- Qiraji Fortitude (Hunterpet)
+		160199,					-- Lone Wolf: Fortitude of the Bear
 	},
 	["multistrike"] = {
 		166916,					-- Windflurry
@@ -302,6 +306,7 @@ local AllBuffs = {
 		58604,					-- Double Bite (Hunterpet)
 		34889,					-- Spry Attacks (Hunterpet)
 		24844,					-- Breath of Winds (Hunterpet)
+		172968,					-- Lone Wolf: Quickness of the Dragonhawk
 	},
 	["versatility"] = {
 		55610,					-- Unholy Aura
@@ -315,6 +320,7 @@ local AllBuffs = {
 		50518,					-- Chitinous Armor (Hunterpet)
 		173035,					-- Grace (Hunterpet)
 		160077,					-- Strength of the Earth (Hunterpet)
+		172967,					-- Lone Wolf: Versatility of the Ravager
 	},
 }
 

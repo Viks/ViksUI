@@ -494,6 +494,7 @@ Viks["unitframes"] = {
 	["showIndicators"] = true,															-- Show Indicators on frames
 	["debuffsOnlyShowPlayer"] = false,													-- only show your debuffs on target
 	["buffsOnlyShowPlayer"] = false,													-- only show your buffs
+	["uf_color"] = {0.4, 0.4, 0.4},				-- Color for UF if ["own_color"] = true
 	}
 
 ----------------------------------------------------------------------------------------
@@ -641,6 +642,7 @@ Viks["datatext"] = {
 	["Gold"] = 4,                			-- show your current gold on panels
 	["Guild"] = 11,                			-- show number on guildmate connected on panels
 	["Haste"] = 2,                          -- show your haste rating on panels.
+	["Multi"] = 0,                          -- show your Multistrike rating on panels.
 	["Versatility"] = 3,                    -- show versatility
 	["location"] = 10,                      -- show location
 	["Mastery"] = 0,                        -- show mastery rating

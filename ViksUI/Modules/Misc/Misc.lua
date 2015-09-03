@@ -391,3 +391,48 @@ if Viks.automation.bannerhide == true then
 BossBanner.PlayBanner = function()
 end
 end
+
+----------------------------------------------------------------------------------------
+-- confirm item destruction with delete key
+----------------------------------------------------------------------------------------
+
+local addText = "\n\n|cff808080Note:|r You may also press the |cffffd200Delete|r key as confirmation."
+local itemDialogs = {
+  "DELETE_ITEM",
+  "DELETE_GOOD_ITEM",
+  "DELETE_QUEST_ITEM",
+  "DELETE_GOOD_QUEST_ITEM",
+}
+ 
+for k, v in pairs(itemDialogs) do
+  StaticPopupDialogs[v].text = _G[v] .. addText
+end
+ 
+local f = CreateFrame("Frame", nil, UIParent)
+f:RegisterEvent("DELETE_ITEM_CONFIRM")
+f:SetScript("OnEvent", function(self, event)
+  for i = 1, STATICPOPUP_NUMDIALOGS do
+    local dialog = _G["StaticPopup" .. i]
+    local editBox = _G["StaticPopup" .. i .. "EditBox"]
+    local isItemDialog = false
+    for k, v in pairs(itemDialogs) do
+      if dialog.which == v then
+        isItemDialog = true
+      end
+    end
+    if isItemDialog then
+      if editBox then
+        editBox:ClearFocus()
+      end
+      dialog:SetScript("OnKeyDown", function(self, key)
+        if key == "DELETE" then
+          DeleteCursorItem()
+        end
+      end)
+      dialog:HookScript("OnHide", function(self)
+        self:SetScript("OnKeyDown", nil)
+      end)
+    end
+  end
+end)
+hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"],"OnShow",function(s) s.editBox:SetText(DELETE_ITEM_CONFIRM_STRING) end)

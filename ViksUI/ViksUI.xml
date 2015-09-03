@@ -155,6 +155,7 @@
 	<Script file="Datatext\Avoidance.lua"/>
 	<Script file="Datatext\Crit.lua"/>
 	<Script file="Datatext\Haste.lua"/>
+	<Script file="Datatext\Multistrike.lua"/>
 	<Script file="Datatext\versatility.lua"/>
 	<Script file="Datatext\Mastery.lua"/>
 	<Script file="Datatext\Power.lua"/>

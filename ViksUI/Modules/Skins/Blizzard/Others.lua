@@ -219,6 +219,20 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		end
 		LFDReadyCheckPopup.YesButton:SkinButton(true)
 		LFDReadyCheckPopup.NoButton:SkinButton(true)
+
+		-- Reskin scrollbars
+		local scrollbars = {
+			"BaudErrorFrameListScrollBoxScrollBarScrollBar",
+			"BaudErrorFrameDetailScrollFrameScrollBar"
+		}
+
+		for _, scrollbar in pairs(scrollbars) do
+			local bars = _G[_G[scrollbar]]
+			if bars then
+				T.SkinScrollBar(bars)
+			end
+		end
+
 		-- Button position or text
 		_G["ColorPickerOkayButton"]:ClearAllPoints()
 		_G["ColorPickerOkayButton"]:SetPoint("BOTTOMLEFT", _G["ColorPickerFrame"], "BOTTOMLEFT", 6, 6)
@@ -252,13 +266,14 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		_G["ChannelPulloutTabMiddle"]:SetTexture(nil)
 		_G["ChannelPulloutTabRight"]:SetTexture(nil)
 		_G["StaticPopup1CloseButton"]:HookScript("OnShow", function(self)
-				self:StripTextures(true)
-				T.SkinCloseButton(self, nil, "-")
-			end)
+			self:StripTextures(true)
+			T.SkinCloseButton(self, nil, "-")
+		end)
 		T.SkinCloseButton(_G["ChannelPulloutCloseButton"])
 		T.SkinCloseButton(_G["RolePollPopupCloseButton"])
 		T.SkinCloseButton(_G["ItemRefCloseButton"])
 		T.SkinCloseButton(_G["BNToastFrameCloseButton"])
+		T.SkinCloseButton(FloatingGarrisonFollowerTooltip.CloseButton)
 		if Viks.skins.blizzard_frames == true then
 			if T.client == "ruRU" then
 				_G["DeclensionFrame"]:SetTemplate("Transparent")

@@ -56,7 +56,7 @@ local function LoadSkin()
 	ClassTrainerFrame.backdrop:SetPoint("TOPLEFT", ClassTrainerFrame, "TOPLEFT")
 	ClassTrainerFrame.backdrop:SetPoint("BOTTOMRIGHT", ClassTrainerFrame, "BOTTOMRIGHT")
 
-	T.SkinDropDownBox(ClassTrainerFrameFilterDropDown, 155)
+	T.SkinDropDownBox(ClassTrainerFrameFilterDropDown)
 	ClassTrainerFrameFilterDropDown:ClearAllPoints()
 	ClassTrainerFrameFilterDropDown:SetPoint("TOPRIGHT", ClassTrainerFrame.backdrop, "TOPRIGHT", 4, -30)
 
@@ -72,6 +72,8 @@ local function LoadSkin()
 	ClassTrainerFrameSkillStepButtonHighlight:SetTexture(1, 1, 1, 0.3)
 	ClassTrainerFrameSkillStepButton.selectedTex:SetTexture(1, 1, 1, 0.3)
 
+	T.SkinScrollBar(ClassTrainerScrollFrameScrollBar)
+
 	ClassTrainerStatusBar:StripTextures()
 	ClassTrainerStatusBar:SetStatusBarTexture(Viks.media.texture)
 	ClassTrainerStatusBar:CreateBackdrop("Overlay")
@@ -85,7 +87,6 @@ local function LoadSkin()
 
 	ClassTrainerFrameInset:ClearAllPoints()
 	ClassTrainerFrameInset:SetPoint("TOPLEFT", ClassTrainerFrame.backdrop, "TOPLEFT", 4, -55)
-	
 end
 
 T.SkinFuncs["Blizzard_TrainerUI"] = LoadSkin

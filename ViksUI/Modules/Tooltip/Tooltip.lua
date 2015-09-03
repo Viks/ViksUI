@@ -141,7 +141,6 @@ function GameTooltip_UnitColor(unit)
 		end
 	end
 
-
 	return r, g, b
 end
 
@@ -273,13 +272,13 @@ local OnTooltipSetUnit = function(self)
 	elseif classification == "elite" then classification = "+"
 	else classification = "" end
 
-	if (UnitPVPName(unit)) and Viks.tooltip.title then
+	if UnitPVPName(unit) and Viks.tooltip.title then
 		name = UnitPVPName(unit)
 	end
 	
 	_G["GameTooltipTextLeft1"]:SetText(name)
 	if realm and realm ~= "" and Viks.tooltip.realm then
-		self:AddLine("Realm: "..realm, r, g, b)
+		self:AddLine(FRIENDS_LIST_REALM.."|cffffffff"..realm.."|r")
 	end
 
 	if UnitIsPlayer(unit) then
@@ -335,7 +334,6 @@ local OnTooltipSetUnit = function(self)
 		local r, g, b = GameTooltip_UnitColor(unit.."target")
 		local text = ""
 
-
 		if UnitIsEnemy("player", unit.."target") then
 			r, g, b = unpack(T.oUF_colors.reaction[1])
 		elseif not UnitIsFriend("player", unit.."target") then
@@ -364,7 +362,6 @@ local OnTooltipSetUnit = function(self)
 end
 
 GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
-
 
 ----------------------------------------------------------------------------------------
 --	Adds guild rank to tooltips(GuildRank by Meurtcriss)

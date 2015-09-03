@@ -12,7 +12,9 @@ local function LoadSkin()
 	QuestLogPopupDetailFrame.backdrop:SetPoint("BOTTOMRIGHT", 0, 0)
 
 	T.SkinCloseButton(QuestLogPopupDetailFrameCloseButton, QuestLogPopupDetailFrame.backdrop)
-	T.SkinScrollBar(QuestLogPopupDetailFrameScrollFrame)
+
+	QuestLogPopupDetailFrameScrollFrame:StripTextures()
+	T.SkinScrollBar(QuestLogPopupDetailFrameScrollFrameScrollBar)
 
 	QuestLogPopupDetailFrame.ShowMapButton:SkinButton(true)
 	QuestLogPopupDetailFrame.ShowMapButton.Text:ClearAllPoints()
@@ -25,7 +27,6 @@ local function LoadSkin()
 	QuestLogPopupDetailFrame.ShareButton:ClearAllPoints()
 	QuestLogPopupDetailFrame.ShareButton:SetPoint("LEFT", QuestLogPopupDetailFrame.AbandonButton, "RIGHT", 3, 0)
 	QuestLogPopupDetailFrame.ShareButton:SetPoint("RIGHT", QuestLogPopupDetailFrame.TrackButton, "LEFT", -3, 0)
-
 
 	local function QuestObjectiveText()
 		if not QuestInfoFrame.questLog then return end
@@ -55,7 +56,6 @@ local function LoadSkin()
 		QuestInfoObjectivesHeader:SetShadowColor(0, 0, 0)
 		QuestInfoRewardsFrame.Header:SetTextColor(1, 0.8, 0)
 		QuestInfoRewardsFrame.Header:SetShadowColor(0, 0, 0)
-
 
 		-- Other text
 		QuestInfoDescriptionText:SetTextColor(1, 1, 1)

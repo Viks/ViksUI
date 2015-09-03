@@ -386,9 +386,11 @@ cfg.showarena = false
 	[GetSpellInfo(182200)] = 4, -- Fel Chakram
 	[GetSpellInfo(182178)] = 4, -- Fel Chakram
 	[GetSpellInfo(182325)] = 2, -- Phantasmal Wounds
+	[GetSpellInfo(179202)] = 1, -- Eye Of Anzu (holding)
 	[GetSpellInfo(185239)] = 1, -- Radiance of Anzu
 	[GetSpellInfo(185510)] = 3, -- Dark Bindings
-	[GetSpellInfo(182600)] = 2, -- Fel Fire
+	[GetSpellInfo(182600)] = 2, -- Fel Fire (standing in puddle)
+	[GetSpellInfo(185747)] = 2, -- Fel Beam Fixate (fixate)
 	[GetSpellInfo(179219)] = 3, -- Fel Bomb
 	[GetSpellInfo(181753)] = 3, -- Fel Bomb
 	-- Mannoroth

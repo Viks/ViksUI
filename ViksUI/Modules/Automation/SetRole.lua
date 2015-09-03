@@ -1,4 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿--[[
+local T, Viks, L, _ = unpack(select(2, ...))
 if Viks.automation.auto_role ~= true then return end
 
 ----------------------------------------------------------------------------------------
@@ -26,3 +27,4 @@ frame:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND")
 frame:SetScript("OnEvent", SetRole)
 
 RolePollPopup:SetScript("OnShow", function() StaticPopupSpecial_Hide(RolePollPopup) end)
+--]]

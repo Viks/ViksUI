@@ -222,7 +222,7 @@ local menuList = {
         text = DUNGEONS_BUTTON,
         icon = 'Interface\\MINIMAP\\TRACKING\\None',
         func = function() 
-            securecall(PVEFrame_ToggleFrame())
+            securecall(PVEFrame_ToggleFrame("GroupFinderFrame", nil))
         end,
         notCheckable = true,
     },

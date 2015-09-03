@@ -836,7 +836,7 @@ if clock.enabled then
 					GameTooltip:AddDoubleLine(name, fmttime(reset), 1, 1, 1, 1, 1, 1)
 				end
 			end
-			if( UnitLevel( "player" ) >= 100 ) then
+			if T.level >= 100 then
 				local c = 0
 				for i,q in ipairs({36054,36055,36056,36057,36058,36060,37453,37452,37454,37455,37456,37457,37458,37459}) do if (IsQuestFlaggedCompleted(q)) then c=c+1 end end
 				GameTooltip:AddLine(" ")
@@ -1579,6 +1579,7 @@ if stats.enabled then
 		OnEvent = function(self) self.fired = true end,
 		OnUpdate = function(self, u)
 			self.elapsed = self.elapsed + u
+			if T.class == "DEATHKNIGHT" and T.level <= 56 then return end
 			if self.fired and self.elapsed > 2.5 then
 				if T.level >= SHOW_TALENT_LEVEL then
 				self.text:SetText(gsub(stats[format("spec%dfmt", GetSpecialization())], "%[(%w-)%]", tags))
