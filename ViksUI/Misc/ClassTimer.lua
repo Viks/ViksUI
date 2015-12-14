@@ -219,7 +219,7 @@ local CLASS_FILTERS = {
 				CreateSpellEntry( 51714 ), -- Razorice
 				CreateSpellEntry( 98957 ), -- Burning Blood Tank T12
 				CreateSpellEntry( 22744 ), -- Chains of Ice
-				CreateSpellEntry( 152281 ), -- Necrotic Plague
+				CreateSpellEntry( 155159 ), -- Necrotic Plague
 			},
 			player = {
 				CreateSpellEntry( 59052 ), -- Freezing Fog

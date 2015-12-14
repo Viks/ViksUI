@@ -138,6 +138,7 @@ L_GUI_COMBATTEXT_MERGE_MELEE = "Merges multiple auto attack damage spam" -- Need
 L_GUI_COMBATTEXT_DISPEL = "Informe vous êtes dispel" -- à vérifier en jeu (Puree's note)
 L_GUI_COMBATTEXT_INTERRUPT = "Informe si vous êtes interrompu" -- à vérifier en jeu (Puree's note)
 L_GUI_COMBATTEXT_DIRECTION = "Sens de défilement('haut'(vers le bas) ou 'bas'(vers le haut))"
+L_GUI_COMBATTEXT_SHORT_NUMBERS = "Use short numbers ('25.3k' instead of '25342')" -- Need review
 
 -- Buffs reminder options
 L_GUI_REMINDER = "Contrôle des buffs"

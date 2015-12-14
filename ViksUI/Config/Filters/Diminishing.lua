@@ -99,7 +99,7 @@ T.DiminishingSpells = {
 	[64695] = {"rndroot"},		-- Earthgrab
 
 	-- Random Disorients
-	[99] = {"rnddis"},			-- Disorienting Roar
+	[99] = {"rnddis"},			-- Incapacitating Roar
 	[31661] = {"rnddis"},		-- Dragon's Breath
 	[88625] = {"rnddis"},		-- Holy Word: Chastise
 
@@ -139,3 +139,10 @@ T.DiminishingIcons = {
 	["rnddis"] = GetIcon(31661),
 	["silence"] = GetIcon(15487),
 }
+
+for spell in pairs(T.DiminishingSpells) do
+	local name = GetSpellInfo(spell)
+	if not name then
+		print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to Viks.|r")
+	end
+end

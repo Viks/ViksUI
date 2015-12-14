@@ -29,6 +29,12 @@ AnchorT_SPECIAL_P_BUFF_ICON = CreateFrame("Frame","Move_SPECIAL_P_BUFF_ICON",UIP
 AnchorT_SPECIAL_P_BUFF_ICON:SetPoint("RIGHT", UIParent, "CENTER", -173, -25)
 CreateAnchor(AnchorT_SPECIAL_P_BUFF_ICON, "Move SPECIAL_P_BUFF_ICON", 24, 24)
 
+if Viks.Filger.filgertbar then
+AnchorT_BAR = CreateFrame("Frame","Move_T_BAR",UIParent)
+AnchorT_BAR:SetPoint("LEFT", UIParent, "CENTER", 450, -114)
+CreateAnchor(AnchorT_BAR, "Move T_BAR", 36, 36)
+end
+
 if Viks.misc.filgerCD then
 Anchor_CD = CreateFrame("Frame","Move_CD",UIParent)
 Anchor_CD:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 210)
@@ -42,6 +48,7 @@ CreateAnchor(Anchor_PVEPVPCD, "Move PVEPVPCD", 25, 25)
 Anchor_PVEDEBUFF = CreateFrame("Frame","Move_PVEDEBUFF",UIParent)
 Anchor_PVEDEBUFF:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 710)
 CreateAnchor(Anchor_PVEDEBUFF, "Move PVEDEBUFF", 60, 60)
+
 
 
 SpellActivationOverlayFrame:SetFrameStrata("BACKGROUND")

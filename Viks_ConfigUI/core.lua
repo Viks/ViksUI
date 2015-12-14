@@ -176,6 +176,7 @@ if o == "ViksConfigUIcombattextmerge_melee" then o = L_GUI_COMBATTEXT_MERGE_MELE
 if o == "ViksConfigUIcombattextdispel" then o = L_GUI_COMBATTEXT_DISPEL end
 if o == "ViksConfigUIcombattextinterrupt" then o = L_GUI_COMBATTEXT_INTERRUPT end
 if o == "ViksConfigUIcombattextdirection" then o = L_GUI_COMBATTEXT_DIRECTION end
+if o == "ViksConfigUIcombattextshort_numbers" then o = L_GUI_COMBATTEXT_SHORT_NUMBERS end
 
 -- Buffs reminder options
 if o == "ViksConfigUIreminder" then o = L_GUI_REMINDER end

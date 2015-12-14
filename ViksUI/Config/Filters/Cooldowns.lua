@@ -13,39 +13,43 @@ if Viks.raidcooldown.enable == true then
 		[126393] = 600,	-- Eternal Guardian (Quilen)
 		[159956] = 600,	-- Dust of Life (Moth)
 		[159931] = 600,	-- Gift of Chi-Ji (Crane)
-		
-		[740] = 180,  -- Tranquility
-		[115310] = 180,  -- Revival
-		[64843] = 180,  -- Divine Hymn
-		[108280] = 180,  -- Healing Tide Totem
-		[157535] = 90,  -- Breath of the Serpent
-		[15286] = 180,  -- Vampiric Embrace
-		[108281] = 120,  -- Ancestral Guidance
-		
-		[62618] = 180,  -- Power Word: Barrier
-		[98008] = 180,  -- Spirit Link Totem
-		[31821] = 180,   -- Devotion Aura
-		[51052] = 120,  -- Anti-Magic Zone
-		[97462] = 180,  -- Rallying Cry
-		[88611] = 180,  --Smoke Bomb
-		
-		[102342] = 60,  -- Ironbark
-		[116849] = 120,  -- Life Cocoon
-		[6940] = 120,  -- Hand of Sacrifice
-		[33206] = 180,  -- Pain Suppression
-		[47788] = 180,  --Guardian Spirit
-		[114030] = 120,  --Vigilance
-		[633] = 600,  -- Lay on Hands
-		[114039] = 600,  -- Hand of Purity
-		
-		[32182] = 300,  -- Heroism
-		[2825] = 300,   -- Bloodlust
-		[80353] = 300,  -- Time Warp
-		[90355] = 300,  -- Ancient Hysteria
-		[159916] = 120,  -- Amplify Magic
-		[106898] = 120,  -- Stampeding Roar
-		[172106] = 180,  -- Aspect of the Fox
+
+		[740] = 180,	-- Tranquility
+		[115310] = 180,	-- Revival
+		[64843] = 180,	-- Divine Hymn
+		[108280] = 180,	-- Healing Tide Totem
+		[157535] = 90,	-- Breath of the Serpent
+		[15286] = 180,	-- Vampiric Embrace
+		[108281] = 120,	-- Ancestral Guidance
+
+		[62618] = 180,	-- Power Word: Barrier
+		[98008] = 180,	-- Spirit Link Totem
+		[31821] = 180,	-- Devotion Aura
+		[51052] = 120,	-- Anti-Magic Zone
+		[97462] = 180,	-- Rallying Cry
+		[88611] = 180,	-- Smoke Bomb
+
+		[102342] = 60,	-- Ironbark
+		[116849] = 120,	-- Life Cocoon
+		[6940] = 120,	-- Hand of Sacrifice
+		[33206] = 180,	-- Pain Suppression
+		[47788] = 180,	-- Guardian Spirit
+		[114030] = 120,	-- Vigilance
+		[633] = 600,	-- Lay on Hands
+		[114039] = 600,	-- Hand of Purity
+
+		[32182] = 300,	-- Heroism
+		[2825] = 300,	-- Bloodlust
+		[80353] = 300,	-- Time Warp
+		[90355] = 300,	-- Ancient Hysteria
+		[106898] = 120,	-- Stampeding Roar
 	}
+	for spell in pairs(T.raid_spells) do
+		local name = GetSpellInfo(spell)
+		if not name then
+			print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to Viks.|r")
+		end
+	end
 end
 
 if Viks.enemycooldown.enable == true then
@@ -53,7 +57,7 @@ if Viks.enemycooldown.enable == true then
 		-- Interrupts and Silences
 		[57994] = 12,	-- Wind Shear
 		[47528] = 15,	-- Mind Freeze
-		[80965] = 15,	-- Skull Bash
+		[106839] = 15,	-- Skull Bash
 		[116705] = 15,	-- Spear Hand Strike
 		[96231] = 15,	-- Rebuke
 		[1766] = 15,	-- Kick
@@ -97,10 +101,16 @@ if Viks.enemycooldown.enable == true then
 		[137562] = 120,	-- Nimble Brew
 		[47585] = 120,	-- Dispersion
 		[1856] = 120,	-- Vanish
+		[7744] = 120,	-- Will of the Forsaken (Racial)
 		[19263] = 180,	-- Deterrence
 		[33206] = 180,	-- Pain Suppression
-		[7744] = 180,	-- Will of the Forsaken (Racial)
 	}
+	for spell in pairs(T.enemy_spells) do
+		local name = GetSpellInfo(spell)
+		if not name then
+			print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to Viks.|r")
+		end
+	end
 end
 
 if Viks.pulsecooldown.enable == true then

@@ -145,6 +145,27 @@ Viks["filger_spells"] = {
 			-- Mark of Warsong (Haste)
 			{spellID = 159675, unitID = "player", caster = "all", filter = "BUFF"},
 		},
+				{
+			Name = "T_DEBUFF_ICON",
+			Direction = "RIGHT",
+			Mode = "ICON",
+			Interval = 3,
+			Alpha = 1,
+			IconSize = 37,
+			Position = {unpack(Viks["filger_position"].target_debuff_icon)},
+			-- Blood Plague
+			{spellID = 55078, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Frost Fever
+			{spellID = 55095, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Necrotic Plague
+			{spellID = 155159, unitID = "target", caster = "player", filter = "DEBUFF"},
+			
+			-- Trinket Effects
+			-- Fel Burn (Empty Drinking Horn)
+			{spellID = 184256, unitID = "target", caster = "player", filter = "DEBUFF"},
+
+
+		},
 		{
 			Name = "T_DE/BUFF_BAR",
 			Direction = "UP",
@@ -155,15 +176,10 @@ Viks["filger_spells"] = {
 			IconSize = 25,
 			BarWidth = 186,
 			Position = {unpack(Viks["filger_position"].target_bar)},
-
-			-- Blood Plague
-			{spellID = 55078, unitID = "target", caster = "player", filter = "DEBUFF"},
-			-- Frost Fever
-			{spellID = 55095, unitID = "target", caster = "player", filter = "DEBUFF"},
-			
 			-- Trinket Effects
 			-- Fel Burn (Empty Drinking Horn)
 			{spellID = 184256, unitID = "target", caster = "player", filter = "DEBUFF"},
+
 		},
 		{
 			Name = "COOLDOWN",
@@ -421,6 +437,8 @@ Viks["filger_spells"] = {
 			{spellID = 165542, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Kihra's Adrenaline Injector (Mastery, Use)
 			{spellID = 165485, unitID = "player", caster = "player", filter = "BUFF"},
+			-- Malicious Censer
+			{spellID = 183926, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Mirror of the Blademaster (Images, Proc)
 			{spellID = 184270, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Soul Capacitator (Damage, Proc)
@@ -511,6 +529,18 @@ Viks["filger_spells"] = {
 			{spellID = 164815, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Thrash
 			{spellID = 77758, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Cenarion Ward
+			{spellID = 102351, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Lifebloom
+			{spellID = 33763, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Rejuvenation
+			{spellID = 774, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Regrowth
+			{spellID = 8936, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Wild Growth
+			{spellID = 48438, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Stellar Flare
+			{spellID = 152221, unitID = "target", caster = "player", filter = "BUFF"},
 			
 			-- Trinket Effects
 			-- Mark of Doom (Prophecy of Fear)
@@ -537,6 +567,8 @@ Viks["filger_spells"] = {
 			{spellID = 8936, unitID = "target", caster = "player", filter = "BUFF"},
 			-- Wild Growth
 			{spellID = 48438, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Stellar Flare
+			{spellID = 152221, unitID = "target", caster = "player", filter = "BUFF"},
 		},
 		{
 			Name = "PVE/PVP_CC",
@@ -660,6 +692,8 @@ Viks["filger_spells"] = {
 			{spellID = 118455, unitID = "pet", caster = "player", filter = "BUFF"},
 			-- Bestial Wrath
 			{spellID = 19574, unitID = "player", caster = "player", filter = "BUFF"},
+			-- Camouflage
+			{spellID = 51755, unitID = "player", caster = "player", filter = "BUFF", absID = true},
 			-- Deterrence
 			{spellID = 19263, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Focus Fire
@@ -728,6 +762,8 @@ Viks["filger_spells"] = {
 			{spellID = 165542, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Kihra's Adrenaline Injector (Mastery, Use)
 			{spellID = 165485, unitID = "player", caster = "player", filter = "BUFF"},
+			-- Malicious Censer
+			{spellID = 183926, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Mirror of the Blademaster (Images, Proc)
 			{spellID = 184270, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Soul Capacitator (Damage, Proc)
@@ -752,14 +788,36 @@ Viks["filger_spells"] = {
 			IconSize = 37,
 			Position = {unpack(Viks["filger_position"].target_debuff_icon)},
 
+			-- Ankle Crack (Crocolisk)
+			{spellID = 50433, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Black Arrow
 			{spellID = 3674, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Concussive Shot
+			{spellID = 5116, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Entrapment
+			{spellID = 135373, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Explosive Shot
 			{spellID = 53301, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Freezing Trap
+			{spellID = 3355, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Freezing Trap (Glyph)
+			{spellID = 61394, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Frost Breath (Chimaera)
+			{spellID = 54644, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Frozen Ammo
+			{spellID = 162546, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Ice Trap
+			{spellID = 135299, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Narrow Escape
 			{spellID = 136634, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Poisoned Ammo
+			{spellID = 162543, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Serpent Sting
 			{spellID = 87935, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Warp Time (Warp Stalker)
+			{spellID = 35346, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Wyvern Sting
+			{spellID = 19386, unitID = "target", caster = "player", filter = "DEBUFF"},
 		},
 		{
 			Name = "PVE/PVP_CC",
@@ -1027,7 +1085,8 @@ Viks["filger_spells"] = {
 			{spellID = 31589, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Water Jet (Pet)
 			{spellID = 135029, unitID = "target", caster = "player", filter = "DEBUFF"},
-			
+			-- Polymorph
+			{spellID = 118, unitID = "focus", caster = "all", filter = "DEBUFF"},
 			-- Trinket Effects
 			-- Mark of Doom (Prophecy of Fear)
 			{spellID = 184073, unitID = "target", caster = "player", filter = "DEBUFF"},
@@ -1310,6 +1369,8 @@ Viks["filger_spells"] = {
 			{spellID = 165542, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Kihra's Adrenaline Injector (Mastery, Use)
 			{spellID = 165485, unitID = "player", caster = "player", filter = "BUFF"},
+			-- Malicious Censer
+			{spellID = 183926, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Mirror of the Blademaster (Images, Proc)
 			{spellID = 184270, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Soul Capacitator (Damage, Proc)
@@ -1625,6 +1686,7 @@ Viks["filger_spells"] = {
 			IconSize = 37,
 			Position = {unpack(Viks["filger_position"].target_debuff_icon)},
 
+
 			-- Censure
 			{spellID = 31803, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Dazing Shield (Glyph)
@@ -1878,6 +1940,22 @@ Viks["filger_spells"] = {
 			{spellID = 87194, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Void Tendrils
 			{spellID = 114404, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Devouring Plague
+			{spellID = 2944, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Guardian Spirit
+			{spellID = 47788, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Pain Suppression
+			{spellID = 33206, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Prayer of Mending
+			{spellID = 41635, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Renew
+			{spellID = 139, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Shadow Word: Pain
+			{spellID = 589, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Vampiric Touch
+			{spellID = 34914, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Void Entropy
+			{spellID = 155361, unitID = "target", caster = "player", filter = "DEBUFF"},
 						
 			-- Trinket Effects
 			-- Mark of Doom (Prophecy of Fear)
@@ -1908,6 +1986,8 @@ Viks["filger_spells"] = {
 			{spellID = 589, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Vampiric Touch
 			{spellID = 34914, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Void Entropy
+			{spellID = 155361, unitID = "target", caster = "player", filter = "DEBUFF"},
 		},
 		{
 			Name = "PVE/PVP_CC",
@@ -2039,10 +2119,13 @@ Viks["filger_spells"] = {
 			IconSize = 37,
 			Position = {unpack(Viks["filger_position"].player_buff_icon)},
 
+
 			-- Adrenaline Rush
 			{spellID = 13750, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Blade Flurry
 			{spellID = 13877, unitID = "player", caster = "player", filter = "BUFF"},
+			-- Burst of Speed
+			{spellID = 108212, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Cheating Death
 			{spellID = 45182, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Cloak of Shadows
@@ -2094,6 +2177,10 @@ Viks["filger_spells"] = {
 			{spellID = 84746, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Shallow Insight
 			{spellID = 84745, unitID = "player", caster = "player", filter = "BUFF"},
+
+			-- Item Sets
+			-- Deathly Shadows (T18)
+			{spellID = 188700, unitID = "player", caster = "player", filter = "BUFF"},
 			
 			-- Trinkets
 			-- 1.0: Darkmoon Cards
@@ -2129,6 +2216,8 @@ Viks["filger_spells"] = {
 			{spellID = 165542, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Kihra's Adrenaline Injector (Mastery, Use)
 			{spellID = 165485, unitID = "player", caster = "player", filter = "BUFF"},
+			-- Malicious Censer
+			{spellID = 183926, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Mirror of the Blademaster (Images, Proc)
 			{spellID = 184270, unitID = "player", caster = "player", filter = "BUFF"},
 			-- Soul Capacitator (Damage, Proc)
@@ -2175,6 +2264,10 @@ Viks["filger_spells"] = {
 			{spellID = 79140, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Wound Poison
 			{spellID = 8680, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Blind
+			{spellID = 2094, unitID = "focus", caster = "player", filter = "DEBUFF"},
+			-- Sap
+			{spellID = 6770, unitID = "focus", caster = "player", filter = "DEBUFF"},
 		},
 		{
 			Name = "PVE/PVP_CC",
@@ -2200,6 +2293,7 @@ Viks["filger_spells"] = {
 			Alpha = 1,
 			IconSize = 30,
 			Position = {unpack(Viks["filger_position"].cooldown)},
+
 
 			-- Self
 			-- Adrenaline Rush
@@ -2450,7 +2544,10 @@ Viks["filger_spells"] = {
 			{spellID = 8056, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Stormstrike
 			{spellID = 17364, unitID = "target", caster = "player", filter = "DEBUFF"},
-						
+			-- Earth Shield
+			{spellID = 974, unitID = "target", caster = "player", filter = "BUFF"},
+			-- Riptide
+			{spellID = 61295, unitID = "target", caster = "player", filter = "BUFF"},			
 			-- Trinket Effects
 			-- Mark of Doom (Prophecy of Fear)
 			{spellID = 184073, unitID = "target", caster = "player", filter = "DEBUFF"},
@@ -2686,24 +2783,8 @@ Viks["filger_spells"] = {
 			Position = {unpack(Viks["filger_position"].target_debuff_icon)},
 
 			-- Self
-			-- Enslave Demon
-			{spellID = 1098, unitID = "target", caster = "player", filter = "DEBUFF"},
-			
-			-- Trinket Effects
-			-- Mark of Doom (Prophecy of Fear)
-			{spellID = 184073, unitID = "target", caster = "player", filter = "DEBUFF"},
-		},
-		{
-			Name = "T_DE/BUFF_BAR",
-			Direction = "UP",
-			IconSide = "LEFT",
-			Mode = "BAR",
-			Interval = 3,
-			Alpha = 1,
-			IconSize = 25,
-			BarWidth = 186,
-			Position = {unpack(Viks["filger_position"].target_bar)},
-
+			-- Agony
+			{spellID = 980, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Agony
 			{spellID = 980, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Corruption
@@ -2718,6 +2799,28 @@ Viks["filger_spells"] = {
 			{spellID = 27243, unitID = "target", caster = "player", filter = "DEBUFF"},
 			-- Unstable Affliction
 			{spellID = 30108, unitID = "target", caster = "player", filter = "DEBUFF", absID = true},
+			-- Enslave Demon
+			{spellID = 1098, unitID = "target", caster = "player", filter = "DEBUFF"},
+			-- Banish
+			{spellID = 710, unitID = "focus", caster = "player", filter = "DEBUFF"},
+			-- Fear
+			{spellID = 118699, unitID = "focus", caster = "player", filter = "DEBUFF"},
+			-- Trinket Effects
+			-- Mark of Doom (Prophecy of Fear)
+			{spellID = 184073, unitID = "target", caster = "player", filter = "DEBUFF"},
+		},
+		{
+			Name = "T_DE/BUFF_BAR",
+			Direction = "UP",
+			IconSide = "LEFT",
+			Mode = "BAR",
+			Interval = 3,
+			Alpha = 1,
+			IconSize = 25,
+			BarWidth = 186,
+			Position = {unpack(Viks["filger_position"].target_bar)},
+			-- Enslave Demon
+			{spellID = 1098, unitID = "target", caster = "player", filter = "DEBUFF"},
 		},
 		{
 			Name = "PVE/PVP_CC",
@@ -2965,6 +3068,7 @@ Viks["filger_spells"] = {
 			Alpha = 1,
 			IconSize = 37,
 			Position = {unpack(Viks["filger_position"].target_debuff_icon)},
+
 
 			-- Colossus Smash
 			{spellID = 86346, unitID = "target", caster = "player", filter = "DEBUFF"},

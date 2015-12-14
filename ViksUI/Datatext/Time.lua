@@ -117,15 +117,16 @@ if Viks.datatext.Wowtime == true then
 		GameTooltip:AddLine(" ")
 		
 		if( UnitLevel( "player" ) >= 100 ) then
-		--local Tarlna = IsQuestFlaggedCompleted( 37462 )
-		--local Drov = IsQuestFlaggedCompleted( 37460 )
-		--local Rukhmar = IsQuestFlaggedCompleted( 37464 )
+		local Terrorfist = IsQuestFlaggedCompleted(39288)
+		local Deathtalon = IsQuestFlaggedCompleted(39287)
+		local Doomroller = IsQuestFlaggedCompleted(39289)
+		local Vengeance = IsQuestFlaggedCompleted(39290)
 		local c = 0
 		for i,q in ipairs({36054,36055,36056,36057,36058,36060,37453,37452,37454,37455,37456,37457,37458,37459}) do if (IsQuestFlaggedCompleted(q)) then c=c+1 end end
-
-		--GameTooltip:AddDoubleLine( "Tarlna" .. ": ", Tarlna and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
-		--GameTooltip:AddDoubleLine( "Drov" .. ": ", Drov and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
-		--GameTooltip:AddDoubleLine( "Rukhmar" .. ": ", Rukhmar and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
+		GameTooltip:AddDoubleLine( "Terrorfist" .. ": ", Terrorfist and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
+		GameTooltip:AddDoubleLine( "Deathtalon" .. ": ", Deathtalon and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
+		GameTooltip:AddDoubleLine( "Doomroller" .. ": ", Doomroller and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
+		GameTooltip:AddDoubleLine( "Vengeance" .. ": ", Vengeance and "|cff00ff00" .. "Defeated" .. "|r" or "|cffff0000" .. "Undefeated" .. "|r" )
 		GameTooltip:AddDoubleLine( "Seals this week" .. ": ", c)
 	end
 	

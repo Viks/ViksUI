@@ -773,7 +773,61 @@ cfg.showarena = false
 -----------------------------------------------------------------
 -- PvP
 -----------------------------------------------------------------
-
+		-- Death Knight
+		[GetSpellInfo(115001)] = 3,	-- Remorseless Winter
+		[GetSpellInfo(108194)] = 3,	-- Asphyxiate
+		[GetSpellInfo(91797)] = 3,	-- Monstrous Blow (Mutated Ghoul)
+		[GetSpellInfo(91800)] = 3,	-- Gnaw (Ghoul)
+		[GetSpellInfo(47476)] = 3,	-- Strangulate
+		-- Druid
+		[GetSpellInfo(33786)] = 3,	-- Cyclone
+		[GetSpellInfo(339)] = 2,	-- Entangling Roots
+		[GetSpellInfo(78675)] = 3,	-- Solar Beam
+		-- Hunter
+		[GetSpellInfo(3355)] = 3,	-- Freezing Trap
+		[GetSpellInfo(19386)] = 3,	-- Wyvern Sting
+		[GetSpellInfo(117526)] = 3,	-- Binding Shot
+		[GetSpellInfo(24394)] = 3,	-- Intimidation
+		-- Mage
+		[GetSpellInfo(61305)] = 3,	-- Polymorph
+		[GetSpellInfo(82691)] = 3,	-- Ring of Frost
+		[GetSpellInfo(44572)] = 3,	-- Deep Freeze
+		[GetSpellInfo(31661)] = 3,	-- Dragon's Breath
+		[GetSpellInfo(102051)] = 3,	-- Frostjaw
+		[GetSpellInfo(122)] = 2,	-- Frost Nova
+		[GetSpellInfo(111340)] = 2,	-- Ice Ward
+		-- Monk
+		[GetSpellInfo(115078)] = 3,	-- Paralysis
+		[GetSpellInfo(119381)] = 3,	-- Leg Sweep
+		-- Paladin
+		[GetSpellInfo(20066)] = 3,	-- Repentance
+		[GetSpellInfo(853)] = 3,	-- Hammer of Justice
+		[GetSpellInfo(105593)] = 3,	-- Fist of Justice
+		[GetSpellInfo(105421)] = 3,	-- Blinding Light
+		-- Priest
+		[GetSpellInfo(605)] = 3,	-- Dominate Mind
+		[GetSpellInfo(8122)] = 3,	-- Psychic Scream
+		[GetSpellInfo(64044)] = 3,	-- Psychic Horror
+		[GetSpellInfo(15487)] = 3,	-- Silence
+		-- Rogue
+		[GetSpellInfo(6770)] = 3,	-- Sap
+		[GetSpellInfo(2094)] = 3,	-- Blind
+		[GetSpellInfo(1776)] = 3,	-- Gouge
+		-- Shaman
+		[GetSpellInfo(51514)] = 3,	-- Hex
+		[GetSpellInfo(118905)] = 3,	-- Static Charge
+		[GetSpellInfo(63685)] = 2,	-- Frozen Power
+		-- Warlock
+		[GetSpellInfo(118699)] = 3,	-- Fear
+		[GetSpellInfo(6789)] = 3,	-- Mortal Coil
+		[GetSpellInfo(5484)] = 3,	-- Howl of Terror
+		[GetSpellInfo(6358)] = 3,	-- Seduction (Succubus)
+		[GetSpellInfo(115268)] = 3,	-- Mesmerize (Shivarra)
+		[GetSpellInfo(30283)] = 3,	-- Shadowfury
+		-- Warrior
+		[GetSpellInfo(46968)] = 3,	-- Shockwave
+		[GetSpellInfo(132169)] = 3,	-- Storm Bolt
+		[GetSpellInfo(194958)] = 3,	-- Intimidating Shout
 		},
 	}
 

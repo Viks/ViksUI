@@ -18,7 +18,7 @@ local upgrades = {
 	["466"] = 4, ["467"] = 8, ["469"] = 4, ["470"] = 8, ["471"] = 12, ["472"] = 16,
 	["477"] = 4, ["478"] = 8, ["480"] = 8, ["492"] = 4, ["493"] = 8, ["495"] = 4,
 	["496"] = 8, ["497"] = 12, ["498"] = 16, ["504"] = 12, ["505"] = 16, ["506"] = 20,
-	["507"] = 24
+	["507"] = 24, ["529"] = 0, ["530"] = 5, ["531"] = 10
 }
 
 local function CreateButtonsText(frame)
@@ -49,7 +49,7 @@ local function UpdateButtonsText(frame)
 		elseif item then
 			local oldilevel = text:GetText()
 			local _, _, _, ilevel = GetItemInfo(item)
-			local upgrade = item:match("item:%d+:%d+:%d+:%d+:%d+:%d+:%-?%d+:%-?%d+:%d+:(%d+)")
+			local upgrade = item:match(":(%d+)\124h%[")
 
 			if ilevel then
 				if ilevel ~= oldilevel then
