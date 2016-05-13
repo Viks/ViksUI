@@ -1,4 +1,4 @@
-﻿local T, C, L, _ = unpack(select(2, ...))
+﻿local T, Viks, L, _ = unpack(select(2, ...))
 if T.client ~= "frFR" then return end
 
 ----------------------------------------------------------------------------------------
@@ -6,10 +6,10 @@ if T.client ~= "frFR" then return end
 --	Translation: Cranan, Puree
 ----------------------------------------------------------------------------------------
 -- Announce your Lightwell
-L_ANNOUNCE_LA_USE = " a utilisé mon Puits de lumière. "
+L_ANNOUNCE_LA_USE = " a utilisé mon Puits de lumière."
 L_ANNOUNCE_LA_CHARGE = " charge(s))"
-L_ANNOUNCE_LA_USELESS = " a utilisé mon Puits de lumière, pour rien. "
-L_ANNOUNCE_LA_PLACED = "Puits de lumière placé. "
+L_ANNOUNCE_LA_USELESS = " a utilisé mon Puits de lumière, pour rien."
+L_ANNOUNCE_LA_PLACED = "Puits de lumière placé."
 L_ANNOUNCE_LA_CHARGES = " charges."
 
 -- Announce flasks and food
@@ -33,7 +33,7 @@ L_ANNOUNCE_FP_PRE = "%s a préparé un %s."
 L_ANNOUNCE_FP_PUT = "%s a déposé au sol un %s."
 L_ANNOUNCE_FP_CAST = "%s lance le sort %s."
 L_ANNOUNCE_FP_CLICK = "%s invoque %s. Click!"
-L_ANNOUNCE_FP_USE = "%s used a %s." -- Needs review
+L_ANNOUNCE_FP_USE = "%s a utilisé : %s."
 
 -- Announce your interrupts
 L_ANNOUNCE_INTERRUPTED = INTERRUPTED
@@ -41,13 +41,13 @@ L_ANNOUNCE_INTERRUPTED = INTERRUPTED
 -- Tooltip
 L_TOOLTIP_NO_TALENT = "Aucun talent"
 L_TOOLTIP_LOADING = "Chargement..."
-L_TOOLTIP_ACH_STATUS = "Votre statut :"
+L_TOOLTIP_ACH_STATUS = "Votre statut : "
 L_TOOLTIP_ACH_COMPLETE = "Votre statut : Terminé"
 L_TOOLTIP_ACH_INCOMPLETE = "Votre statut : Non terminé"
 L_TOOLTIP_SPELL_ID = "ID du sort :"
 L_TOOLTIP_ITEM_ID = "ID de l'objet :"
-L_TOOLTIP_WHO_TARGET = "Qui on cible"
-L_TOOLTIP_ITEM_COUNT = "Objets possédés :"
+L_TOOLTIP_WHO_TARGET = "Est la cible de :"
+L_TOOLTIP_ITEM_COUNT = "Objet(s) possédé(s) :"
 L_TOOLTIP_INSPECT_OPEN = "La fenêtre d'inspection est ouverte"
 
 -- Misc
@@ -57,22 +57,22 @@ L_MISC_BUY_STACK = "Alt-Clic pour acheter une pile d'objet"
 L_MISC_ONECLICK_BUYOUT = "Maj-Clic-Droit pour acheter l'objet sélectionné sans confirmation"
 L_MISC_ONECLICK_BID = "Maj-Clic-Droit pour enchérir sur l'objet sélectionné sans confirmation"
 L_MISC_ONECLICK_CANCEL = "Maj-Clic-Droit pour annuler l'objet sélectionné sans confirmation"
-L_MISC_UI_OUTDATED = "Une version plus récente de ViksUI est disponible. Vous pouvez la télécharger www.shestak.org"
-L_MISC_HEADER_MARK = "Icône de raid au passage de la souris"
+L_MISC_UI_OUTDATED = "Une version plus récente de ShestakUI est disponible. Vous pouvez la télécharger sur www.shestak.org"
+L_MISC_HEADER_MARK = "Icône de raid au survol de la souris"
 L_MISC_BINDER_OPEN = "Assignations des boutons de la souris"
-L_MISC_GROCERY_BUY = "Buy" -- Needs review
-L_MISC_GROCERY_DESC = "Automatically buy grocery bags" -- Needs review
+L_MISC_GROCERY_BUY = "Achat"
+L_MISC_GROCERY_DESC = "Achat automatique de sacs d'épicerie"
 L_MISC_SCROLL = "Parchemin"
 
 -- Raid Utility
 L_RAID_UTIL_DISBAND = "Dissoudre le raid"
 
 -- Zone name
-L_ZONE_WINTERGRASP = "Joug-d'hiver"
 L_ZONE_TOLBARAD = "Tol Barad"
 L_ZONE_TOLBARADPEN = "Péninsule de Tol Barad"
 L_ZONE_ARATHIBASIN = "Bassin d'Arathi"
 L_ZONE_GILNEAS = "La bataille de Gilnéas"
+L_ZONE_ANCIENTDALARAN = "Cratère de Dalaran"
 
 -- WatchFrame Wowhead link
 L_WATCH_WOWHEAD_LINK = "Lien Wowhead"
@@ -91,18 +91,18 @@ L_TOGGLE_NOT_FOUND = " non trouvé."
 L_UF_GHOST = "Fantôme"
 L_UF_DEAD = "Mort"
 L_UF_OFFLINE = "Hors ligne"
-L_UF_MANA = "Peu de mana"
+L_UF_MANA = "Mana faible"
 
 -- Map
 L_MAP_CURSOR = "Curseur : "
-L_MAP_BOUNDS = "L'extérieur de la carte !"
-L_MAP_FOG = "Fog of War" -- Needs review
+L_MAP_BOUNDS = "En dehors de la carte !"
+L_MAP_FOG = "Zone non découverte"
 
 -- Minimap
 L_MINIMAP_CALENDAR = "Calendrier"
-L_MINIMAP_HEAL_LAYOUT = "Left-Click - Heal Layout" -- Needs review
-L_MINIMAP_DPS_LAYOUT = "Right-Click - DPS Layout" -- Needs review
-L_MINIMAP_BLIZZ_LAYOUT = "Middle-Click - Blizzard Layout" -- Needs review
+L_MINIMAP_HEAL_LAYOUT = "Clic-Gauche - Interface Heal"
+L_MINIMAP_DPS_LAYOUT = "Clic-Droit - Interface DPS"
+L_MINIMAP_BLIZZ_LAYOUT = "Clic-Centre - Interface Blizzard"
 
 -- Chat
 L_CHAT_WHISPER = "De"
@@ -116,8 +116,8 @@ L_CHAT_PARTY_LEADER = "PL"
 L_CHAT_RAID = "R"
 L_CHAT_RAID_LEADER = "RL"
 L_CHAT_RAID_WARNING = "AR"
-L_CHAT_INSTANCE_CHAT = "I" -- Needs review
-L_CHAT_INSTANCE_CHAT_LEADER = "IL" -- Needs review
+L_CHAT_INSTANCE_CHAT = "I"
+L_CHAT_INSTANCE_CHAT_LEADER = "IL"
 L_CHAT_OFFICER = "O"
 L_CHAT_PET_BATTLE = "BP"
 L_CHAT_COME_ONLINE = "vient de se |cff298F00connecter|r."
@@ -129,6 +129,7 @@ L_ERRORFRAME_L = "Clic gauche pour afficher les erreurs."
 -- Bags
 L_BAG_SHOW_BAGS = "Montrer les sacs"
 L_BAG_RIGHT_CLICK_SEARCH = "Clic droit pour rechercher"
+L_BAG_STACK_MENU = "Empiler"
 
 -- Grab mail
 L_MAIL_STOPPED = "Inventaire plein."
@@ -154,6 +155,9 @@ L_PANELS_AFK_LCLICK = "Clic gauche pour revenir."
 
 -- Cooldowns
 L_COOLDOWNS = "Temps de recharge : "
+L_COOLDOWNS_COMBATRESS = "Résurrection en combat"
+L_COOLDOWNS_COMBATRESS_REMAINDER = "Résurrection en combat: "
+L_COOLDOWNS_NEXTTIME = "Suivant: "
 
 -- Autoinvite
 L_INVITE_ENABLE = "Invitation automatique activée : "
@@ -161,7 +165,7 @@ L_INVITE_DISABLE = "Invitation automatique désactivée"
 
 -- Bind key
 L_BIND_SAVED = "Vos assignations de touches ont été sauvegardées."
-L_BIND_DISCARD = "Vos nouvelles assignations de touches n'ont été sauvegardées."
+L_BIND_DISCARD = "Vos nouvelles assignations de touches n'ont pas été sauvegardées."
 L_BIND_INSTRUCT = "Passez votre souris sur la barre d'action pour l'assigner. Appuyez sur la touche échappe ou faites un clic droit pour effacer le bouton d'action en cours."
 L_BIND_CLEARED = "Tous les raccourcis ont été réinitialisés pour"
 L_BIND_BINDING = "Raccourcis"
@@ -205,21 +209,21 @@ L_INFO_SKIN_DISABLED1 = "Personnalisation pour "
 L_INFO_SKIN_DISABLED2 = " est désactivé."
 
 -- Popups
-L_POPUP_INSTALLUI = "Première utilisation de ViksUI avec ce personnage. Vous devez recharger l'interface utilisateur pour le configurer."
-L_POPUP_RESETUI = "Etes-vous sûr de vouloir réinitialiser ViksUI ?"
+L_POPUP_INSTALLUI = "Première utilisation de ShestakUI avec ce personnage. Vous devez recharger l'interface utilisateur pour le configurer."
+L_POPUP_RESETUI = "Etes-vous sûr de vouloir réinitialiser ShestakUI ?"
 L_POPUP_RESETSTATS = "Réinitialiser les statistiques pour le temps passé dans le jeu ?"
-L_POPUP_SWITCH_RAID = "Select Raid layout." -- Needs review
+L_POPUP_SWITCH_RAID = "Sélectionner une interface raid."
 L_POPUP_DISBAND_RAID = "Etes-vous sûr de vouloir dissoudre le groupe ?"
-L_POPUP_DISABLEUI = "ViksUI ne fonctionne pas avec cette résolution, voulez-vous désactiver ViksUI ? (Annuler si vous souhaitez essayer une autre résolution)"
+L_POPUP_DISABLEUI = "ShestakUI ne fonctionne pas avec cette résolution, voulez-vous désactiver ShestakUI ? (Annuler si vous souhaitez essayer une autre résolution)"
 L_POPUP_SETTINGS_ALL = "Voulez-vous appliquer les modifications pour tout ? (DBM/DXE, Skada et MSBT)"
 L_POPUP_SETTINGS_DBM = "La position des éléments de DBM doit être changée."
 L_POPUP_SETTINGS_DXE = "La position des éléments de DXE doit être changée."
 L_POPUP_SETTINGS_BW = "La position des éléments de BigWigs doit être changée."
 L_POPUP_ARMORY = "Armurerie"
-L_POPUP_CURRENCY_CAP = "You get maximum value of" -- Needs review
+L_POPUP_CURRENCY_CAP = "Vous avez atteint un maximum de "
 
 -- Welcome message
-L_WELCOME_LINE_1 = "Bienvenue sur ViksUI "
+L_WELCOME_LINE_1 = "Bienvenue sur ShestakUI "
 L_WELCOME_LINE_2_1 = "Tapez /cfg pour configurer l'interface, ou visitez http://shestak.org"
 L_WELCOME_LINE_2_2 = "pour plus d'informations"
 
@@ -238,7 +242,7 @@ L_COMBATTEXT_UNLOCKED = "Fenêtre des textes de combat déverrouillée."
 
 -- LiteStats
 L_STATS_ACC_PLAYED = "Temps joué pour le compte"
-L_STATS_ADDED_JUNK = "Exception de l'objet ajouté"
+L_STATS_ADDED_JUNK = "Exception pour l'objet ajouté"
 L_STATS_REMOVE_EXCEPTION = "Ajouter / supprimer exception."
 L_STATS_AUTO_REPAIR = "Réparation automatique"
 L_STATS_GUILD_REPAIR = "Réparation automatique avec la banque de guilde"
@@ -247,9 +251,10 @@ L_STATS_BANDWIDTH = "Bande passante:"
 L_STATS_DOWNLOAD = "Téléchargement:"
 L_STATS_CLEARED_JUNK = "Liste d'exceptions d'objet effacée."
 L_STATS_CLEAR_EXCEPTIONS = "Effacer la liste d'exceptions."
+L_STATS_CURRENCY_RAID_T = "Sceaux de raid"
 L_STATS_WORLD_MAP = "Clic ouvre la carte du monde."
 L_STATS_CURRENT_XP = "XP courant/max"
-L_STATS_MEMORY_USAGE = "Blizzard UI Memory Usage:" -- Needs review
+L_STATS_MEMORY_USAGE = "Usage mémoire pour l'interface Blizzard:"
 L_STATS_GARBAGE_COLLECTED = "Déchets ramassés"
 L_STATS_CHANGE_SORTING = "[Guild] Clic-Droit pour inviter et chuchoter, Clic-Centre pour changer le type de tri, Maj-Clic-Centre pour inverser l'ordre."
 L_STATS_HIDDEN = "Caché"
@@ -257,17 +262,16 @@ L_STATS_VIEW_NOTES = "Maintenez enfoncé la touche Alt pour voir les grades, not
 L_STATS_HR = "Par heure"
 L_STATS_INF = "infini"
 L_STATS_ALREADY_EXCEPTIONS = "est déjà dans la liste d'exceptions."
-L_STATS_NOT_JUNK = "n'est pas un déchets"
 L_STATS_ITEMLINK = "élément Lien"
 L_STATS_JUNK_EXCEPTIONS = "Exceptions de camelote"
 L_STATS_JUNK_LIST = "Liste de camelote"
 L_STATS_JUNK_PROFIT = "Camelote profit"
 L_STATS_KILLS = "Tuer"
-L_STATS_OPEN_CALENDAR = "Clic-gauche ouvre le calendrier (/cal)."
-L_STATS_OPEN_CHARACTER = "Clic-gauche ouvre l'onglet caractère."
-L_STATS_OPEN_CURRENCY = "Clic-gauche ouvre l'onglet monnaie."
-L_STATS_OPEN_TALENT = "Clic-gauche ouvre le cadre de talent."
-L_STATS_XP_RATE = "Niveau taux de votre XP"
+L_STATS_OPEN_CALENDAR = "Clic-Gauche ouvre le calendrier (/cal)."
+L_STATS_OPEN_CHARACTER = "Clic-Gauche ouvre l'onglet caractère."
+L_STATS_OPEN_CURRENCY = "Clic-Gauche ouvre l'onglet monnaie."
+L_STATS_OPEN_TALENT = "Clic-Gauche ouvre le cadre de talent."
+L_STATS_XP_RATE = "Niveau/taux de votre XP"
 L_STATS_IGNORED_ITEMS = "Liste des articles pour l'instant ignoré."
 L_STATS_TOGGLE_TIME = "Local/Royaume & mode 24 heures le temps peut être changé, dans la gestion des fenêtres de temps."
 L_STATS_LOCATION = "Position/Coords"
@@ -283,13 +287,13 @@ L_STATS_REMAINING_XP = "XP restant"
 L_STATS_REMOVED_JUNK = "Exception de camelote enlevée"
 L_STATS_RESTED_XP = "XP reposé"
 L_STATS_RC_COLLECTS_GARBAGE = "Cliquez-droit sur Lua recueille les déchets."
-L_STATS_RC_TIME_MANAGER = "Clic droit pour ouvrir la fenêtre de gestion du temps."
-L_STATS_RC_EXPERIENCE = "Clic droit pour faire défiler l'expérience, le temps a joué, et la faction à observer."
-L_STATS_RC_AUTO_REPAIRING = "Clic droit permet de basculer en réparation auto."
-L_STATS_RC_AUTO_SELLING = "clic droit permet de basculer en Autovente"
-L_STATS_RC_TALENT = "Clic droit permet de basculer votre spécialisation."
+L_STATS_RC_TIME_MANAGER = "Clic-Droit pour ouvrir la fenêtre de gestion du temps."
+L_STATS_RC_EXPERIENCE = "Clic-Droit pour faire défiler l'expérience, le temps joué, et la faction à suivre."
+L_STATS_RC_AUTO_REPAIRING = "Clic-Droit permet de basculer en mode réparation auto."
+L_STATS_RC_AUTO_SELLING = "Clic-Droit permet de basculer en mode vente automatique."
+L_STATS_RC_TALENT = "Clic-Droit permet de modifier votre spécialisation."
 L_STATS_SERVER_GOLD = "Or possédé sur le serveur"
-L_STATS_SESSION_GAIN = "Session Gain / perte"
+L_STATS_SESSION_GAIN = "Session Gain/Perte"
 L_STATS_SESSION_XP = "XP session taux"
 L_STATS_INSERTS_COORDS = "Maj-clic sur l'emplacement ou coords insère le module de vos coords au chat"
 L_STATS_EQUIPMENT_CHANGER = "Maj-clic ou clic-milieu sur le gestionnaire équipement."
@@ -301,6 +305,7 @@ L_STATS_WATCH_CURRENCY = "Consulté onglet monnaie articles se reflétera dans l
 L_STATS_WATCH_FACTIONS = "Superviser les factions de l'onglet de Réputation."
 L_STATS_TOOLTIP_TIME_PLAYED = "Quand vous êtes au niveau maximum, la bulle d'aide affichera les détails du temps de jeu pour ce compte."
 L_STATS_TOOLTIP_EXPERIENCE = "Quand vous êtes en dessous du niveau maximum, une bulle d'aide affichera les détails concernant votre expérience."
+L_STATS_SEALS = "Seals this week" -- Needs review
 
 -- Slash commands
 L_SLASHCMD_HELP = {
@@ -321,7 +326,7 @@ L_SLASHCMD_HELP = {
 	"/moveui - Permet de déplacer des éléments de l'interface.",
 	"/resetui - Remet les paramètres généraux à leurs valeurs par défaut.",
 	"/resetuf - Remet les cadres d'unité à leur position par défaut.",
-	"/resetconfig - Remet les paramètres ViksUI_Config à leurs valeurs par défaut.",
+	"/resetconfig - Remet les paramètres ShestakUI_Config à leurs valeurs par défaut.",
 	"/resetstats - Remet à zéro les statitisques or et temps passé en jeu.",
 	"/settings ADDON_NAME - Applique les paramètres pour msbt, dbm, skada, ou à tous les addons.",
 	"/ls, /litestats - Menu d'aide pour LiteStats.",

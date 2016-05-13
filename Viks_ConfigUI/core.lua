@@ -68,7 +68,7 @@ if o == "ViksConfigUImediaproc_sound" then o = "Sound for procs" end
 if o == "ViksConfigUIgeneral" then o = "GENERAL" end
 if o == "ViksConfigUIgeneralAutoScale" then o = "Auto UI Scale" end
 if o == "ViksConfigUIgeneralUiScale" then o = "UI Scale (if auto-scale is disabled)" end
-if o == "ViksConfigUIgeneralAutoRepair" then o = "Auto Repair items" end
+if o == "ViksConfigUIgeneralwelcome_message" then o = L_GUI_GENERAL_WELCOME_MESSAGE end
 if o == "ViksConfigUIgeneralAutoRepairG" then o = "Auto Repair items uses Guild Repair" end
 if o == "ViksConfigUIgeneralAutoGreed" then o = "Auto Greed" end													
 if o == "ViksConfigUIgeneralAutoDisenchant" then o = "Auto Disenchant" end									  		  
@@ -91,6 +91,7 @@ if o == "ViksConfigUIannouncementsflask_food_raid" then o = L_GUI_ANNOUNCEMENTS_
 if o == "ViksConfigUIannouncementsfeasts" then o = L_GUI_ANNOUNCEMENTS_FEASTS end
 if o == "ViksConfigUIannouncementsportals" then o = L_GUI_ANNOUNCEMENTS_PORTALS end
 if o == "ViksConfigUIannouncementsbad_gear" then o = L_GUI_ANNOUNCEMENTS_BAD_GEAR end
+if o == "ViksConfigUIannouncementssafari_hat" then o = L_GUI_ANNOUNCEMENTS_SAFARI_HAT end
 
 --	Automation options
 if o == "ViksConfigUIautomation" then o = L_GUI_AUTOMATION end
@@ -98,7 +99,6 @@ if o == "ViksConfigUIautomationresurrection" then o = L_GUI_AUTOMATION_RESURRECT
 if o == "ViksConfigUIautomationscreenshot" then o = L_GUI_AUTOMATION_SCREENSHOT end
 if o == "ViksConfigUIautomationsolve_artifact" then o = L_GUI_AUTOMATION_SOLVE_ARTIFACT end
 if o == "ViksConfigUIautomationchefs_hat" then o = L_GUI_AUTOMATION_CHEFS_HAT end
-if o == "ViksConfigUIautomationsafari_hat" then o = L_GUI_AUTOMATION_SAFARI_HAT end
 if o == "ViksConfigUIautomationaccept_invite" then o = L_GUI_AUTOMATION_ACCEPT_INVITE end
 if o == "ViksConfigUIautomationdecline_duel" then o = L_GUI_AUTOMATION_DECLINE_DUEL end
 if o == "ViksConfigUIautomationaccept_quest" then o = L_GUI_AUTOMATION_ACCEPT_QUEST end
@@ -112,7 +112,7 @@ if o == "ViksConfigUIautomationcurrency_cap" then o = L_GUI_AUTOMATION_CURRENCY_
 if o == "ViksConfigUIautomationbuff_on_scroll" then o = L_GUI_AUTOMATION_BUFF_ON_SCROLL end
 if o == "ViksConfigUIautomationvendor" then o = "Auto sell grey items" end
 if o == "ViksConfigUIautomationAutoRepair" then o = "Automaticly repair" end
-if o == "ViksConfigUIautomationAutoRepairG" then o = "Automaticly repair and Use guild funds" end
+if o == "ViksConfigUIautomationAutoRepairG" then o = "Repair with guild funds" end
 if o == "ViksConfigUIautomationopen_items" then o = L_GUI_AUTOMATION_OPEN_ITEMS end
 if o == "ViksConfigUIautomationbannerhide" then o = L_GUI_AUTOMATION_BANNER_HIDE end
 
@@ -286,7 +286,8 @@ if o == "ViksConfigUIbagSortTop" then o = "Sort from top down" end
 if o == "ViksConfigUIbagbutton_size" then o = L_GUI_BAGS_BUTTON_SIZE end
 if o == "ViksConfigUIbagbutton_space" then o = L_GUI_BAGS_BUTTON_SPACE end
 if o == "ViksConfigUIbagbank_columns" then o = L_GUI_BAGS_BANK end
-if o == "ViksConfigUIbagbag_columns" then o = L_GUI_BAGS_BAG end	
+if o == "ViksConfigUIbagbag_columns" then o = L_GUI_BAGS_BAG end
+if o == "ViksConfigUIbagilvl" then o = L_GUI_BAGS_ILVL end
 -- Minimap
 if o == "ViksConfigUIminimapp" then o = "MINIMAP" end
 if o == "ViksConfigUIminimappenable" then o = "Enable Minimap" end
@@ -295,6 +296,8 @@ if o == "ViksConfigUIminimappminimb2" then o = "Enable Buttonframe 2" end
 if o == "ViksConfigUIminimappPicomenu" then o = "Enable Picomenu" end
 if o == "ViksConfigUIminimappcompass" then o = "Enable Compass" end
 if o == "ViksConfigUIminimappsize" then o = "Size on Minimap" end
+if o == "ViksConfigUIminimapptoggle_menu" then o = L_GUI_MINIMAP_TOGGLE_MENU end
+
 if o == "ViksConfigUImap" then o = ViksL.option_Map end
 if o == "ViksConfigUImapenable" then o = ViksL.option_mapenable end	
 -- Map options
@@ -606,6 +609,7 @@ if o == "ViksConfigUImiscBT4Bars" then o = "Sidebar & Small bars for Bartender 4
 if o == "ViksConfigUImiscPscale" then o = "Scale ViksUI Panels" end
 if o == "ViksConfigUImiscpanelsh" then o = "Set Panels to hidden" end
 if o == "ViksConfigUImiscThreatbar" then o = "Shows threathbar over XP bar location" end
+if o == "ViksConfigUImiscmerchant_itemlevel" then o = L_GUI_MISC_MERCHANT_ITEMLEVEL end
 
 --Panels
 if o == "ViksConfigUIpanels" then o = "UI Panels" end
@@ -635,11 +639,14 @@ if o == "ViksConfigUIraidcooldownshow_inparty" then o = L_GUI_COOLDOWN_RAID_IN_P
 if o == "ViksConfigUIraidcooldownshow_inarena" then o = L_GUI_COOLDOWN_RAID_IN_ARENA end
 
 -- Filger	
-if o == "ViksConfigUIFilger" then o = L_GUI_Filger end
-if o == "ViksConfigUIFilgerfilger" then o = L_GUI_Filger_Filger end
-if o == "ViksConfigUIFilgerfilgerCD" then o = L_GUI_FilgerCD end	
-if o == "ViksConfigUIFilgerfilgerpvecc" then o = L_GUI_FilgePVECC end
-if o == "ViksConfigUIFilgerfilgertbar" then o = L_GUI_FilgerTBAR end
+if o == "ViksConfigUIFilger" then o = L_GUI_FILGER end
+if o == "ViksConfigUIFilgerenable" then o = L_GUI_FILGER_ENABLE end
+if o == "ViksConfigUIFilgerfilgerCD" then o = L_GUI_FILGERCD end	
+if o == "ViksConfigUIFilgertest_mode" then o = L_GUI_FILGER_TEST_MODE end
+if o == "ViksConfigUIFilgermax_test_icon" then o = L_GUI_FILGER_MAX_TEST_ICON end
+if o == "ViksConfigUIFilgershow_tooltip" then o = L_GUI_FILGER_SHOW_TOOLTIP end
+if o == "ViksConfigUIFilgerdisable_cd" then o = L_GUI_FILGER_DISABLE_CD end
+if o == "ViksConfigUIFilgerfilgertbar" then o = L_GUI_FILGERTBAR end
 	
 	Viks.option = o
 end
@@ -846,7 +853,7 @@ function CreateUIConfig()
 	-- Version Title
 	local TitleBoxVer = CreateFrame("Frame", "TitleBoxVer", UIConfigMain)
 	TitleBoxVer:SetWidth(180)
-	TitleBoxVer:SetHeight(24)
+	TitleBoxVer:SetHeight(26)
 	TitleBoxVer:SetPoint("TOPLEFT", UIConfigMain, "TOPLEFT", 23, -15)
 
 	local TitleBoxVerText = TitleBoxVer:CreateFontString("UIConfigTitleVer", "OVERLAY", "GameFontNormal")
@@ -856,7 +863,7 @@ function CreateUIConfig()
 	-- Main Frame Title
 	local TitleBox = CreateFrame("Frame", "TitleBox", UIConfigMain)
 	TitleBox:SetWidth(540)
-	TitleBox:SetHeight(24)
+	TitleBox:SetHeight(26)
 	TitleBox:SetPoint("TOPLEFT", TitleBoxVer, "TOPRIGHT", 15, 0)
 
 	local TitleBoxText = TitleBox:CreateFontString("UIConfigTitle", "OVERLAY", "GameFontNormal")
@@ -902,9 +909,10 @@ function CreateUIConfig()
 
 	if not slider.bg then
 		slider.bg = CreateFrame("Frame", nil, slider)
-		slider.bg:SetPoint("TOPLEFT", slider:GetThumbTexture(), "TOPLEFT", 7, -7)
+		slider.bg:SetPoint("TOPLEFT", slider:GetThumbTexture(), "TOPLEFT", 10, -7)
 		slider.bg:SetPoint("BOTTOMRIGHT", slider:GetThumbTexture(), "BOTTOMRIGHT", -7, 7)
 		slider.bg:SetTemplate("Overlay")
+		slider:GetThumbTexture():SetAlpha(0)
 	end
 
 	local function sortMyTable(a, b)
@@ -923,6 +931,35 @@ function CreateUIConfig()
  		end
  		return iter
  	end	
+	
+	local GetOrderedIndex = function(t)
+		local OrderedIndex = {}
+
+		for key in pairs(t) do table.insert(OrderedIndex, key) end
+		table.sort(OrderedIndex)
+		return OrderedIndex
+	end
+
+	local OrderedNext = function(t, state)
+		local Key
+
+		if (state == nil) then
+			t.OrderedIndex = GetOrderedIndex(t)
+			Key = t.OrderedIndex[1]
+			return Key, t[Key]
+		end
+
+		Key = nil
+		for i = 1, #t.OrderedIndex do
+			if (t.OrderedIndex[i] == state) then Key = t.OrderedIndex[i + 1] end
+		end
+
+		if Key then return Key, t[Key] end
+		t.OrderedIndex = nil
+		return
+	end
+
+	local PairsByKeys = function(t) return OrderedNext, t, nil end
 	
 	local child = CreateFrame("Frame", nil, groups)
 	child:SetPoint("TOPLEFT")
@@ -971,6 +1008,14 @@ function CreateUIConfig()
 	slider:SetOrientation("VERTICAL")
 	slider:SetValueStep(20)
 	slider:SetScript("OnValueChanged", function(self, value) group:SetVerticalScroll(value) end)
+	
+	if not slider.bg then
+		slider.bg = CreateFrame("Frame", nil, slider)
+		slider.bg:SetPoint("TOPLEFT", slider:GetThumbTexture(), "TOPLEFT", 10, -7)
+		slider.bg:SetPoint("BOTTOMRIGHT", slider:GetThumbTexture(), "BOTTOMRIGHT", -7, 7)
+		slider.bg:SetTemplate("Overlay")
+		slider:GetThumbTexture():SetAlpha(0)
+	end
 
 	for i in pairs(ALLOWED_GROUPS) do
 		local frame = CreateFrame("Frame", "UIConfig"..i, UIConfigGroup)
@@ -980,7 +1025,7 @@ function CreateUIConfig()
 		local offset = 5
 
 		if type(Viks[i]) ~= "table" then error(i.." GroupName not found in config table.") return end
-		for j, value in pairs(Viks[i]) do
+		for j, value in PairsByKeys(Viks[i]) do
 			if type(value) == "boolean" then
 				local button = CreateFrame("CheckButton", "UIConfig"..i..j, frame, "InterfaceOptionsCheckButtonTemplate")
 				if IsAddOnLoaded("Aurora") then

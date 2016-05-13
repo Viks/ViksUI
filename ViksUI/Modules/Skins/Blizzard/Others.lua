@@ -1,4 +1,5 @@
 local T, Viks, L, _ = unpack(select(2, ...))
+
 ----------------------------------------------------------------------------------------
 --	Reskin Blizzard windows(by Tukz and Co)
 ----------------------------------------------------------------------------------------
@@ -6,18 +7,20 @@ local SkinBlizzUI = CreateFrame("Frame")
 SkinBlizzUI:RegisterEvent("ADDON_LOADED")
 SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") then return end
-	
+
 	-- Stuff not in Blizzard load-on-demand
 	if addon == "ViksUI" then
-			local checkButtons = {
+		-- Skin checkButtons
+		local checkButtons = {
 			"LFDRoleCheckPopupRoleButtonTank",
 			"LFDRoleCheckPopupRoleButtonDPS",
 			"LFDRoleCheckPopupRoleButtonHealer"
-			}
+		}
 
 		for _, object in pairs(checkButtons) do
 			T.SkinCheckBox(_G[object].checkButton)
 		end
+
 		-- Blizzard Frame reskin
 		local bgskins = {
 			"GameMenuFrame",
@@ -66,7 +69,10 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			for j = 1, 3 do
 				_G["StaticPopup"..i.."Button"..j]:SkinButton()
 			end
-			_G["StaticPopup"..i]:SetTemplate("Transparent")
+			_G["StaticPopup"..i]:StripTextures()
+			_G["StaticPopup"..i]:CreateBackdrop("Transparent")
+			_G["StaticPopup"..i].backdrop:SetPoint("TOPLEFT", 2, -2)
+			_G["StaticPopup"..i].backdrop:SetPoint("BOTTOMRIGHT", -2, 2)
 			T.SkinEditBox(_G["StaticPopup"..i.."EditBox"])
 			T.SkinEditBox(_G["StaticPopup"..i.."MoneyInputFrameGold"])
 			T.SkinEditBox(_G["StaticPopup"..i.."MoneyInputFrameSilver"])
@@ -95,23 +101,50 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		SplashFrame:CreateBackdrop("Transparent")
 		SplashFrame.BottomCloseButton:SkinButton()
 		T.SkinCloseButton(SplashFrame.TopCloseButton)
-		
-		--NavBar Buttons (Used in WorldMapFrame, EncounterJournal and HelpFrame)
+
+		-- Social Browser frame
+		SocialBrowserFrame:StripTextures()
+		SocialBrowserFrame:SetTemplate("Transparent")
+		T.SkinCloseButton(SocialBrowserFrame.CloseButton)
+		SocialBrowserFrame.CloseButton:SetSize(16, 16)
+
+		-- NavBar Buttons (Used in WorldMapFrame, EncounterJournal and HelpFrame)
 		local function SkinNavBarButtons(self)
 			local navButton = self.navList[#self.navList]
 			if navButton and not navButton.isSkinned then
 				navButton:SkinButton(true)
+				if navButton.MenuArrowButton then
+					navButton.MenuArrowButton:SetNormalTexture(nil)
+					navButton.MenuArrowButton:SetPushedTexture(nil)
+					navButton.MenuArrowButton:SetHighlightTexture(nil)
+				end
 				navButton.isSkinned = true
+				navButton.xoffset = 1
 			end
 		end
 		hooksecurefunc("NavBar_AddButton", SkinNavBarButtons)
 
+		local function SetHomeButtonOffsetX(self)
+			if self.homeButton then
+				self.homeButton.xoffset = 1
+			end
+		end
+		
+ 		hooksecurefunc("NavBar_Initialize", SetHomeButtonOffsetX)
+ 
 		-- Cinematic popup
 		_G["CinematicFrameCloseDialog"]:SetScale(Viks.general.UiScale)
 		_G["CinematicFrameCloseDialog"]:SetTemplate("Transparent")
 		_G["CinematicFrameCloseDialogConfirmButton"]:SkinButton()
 		_G["CinematicFrameCloseDialogResumeButton"]:SkinButton()
 		_G["CinematicFrameCloseDialogResumeButton"]:SetPoint("LEFT", _G["CinematicFrameCloseDialogConfirmButton"], "RIGHT", 15, 0)
+
+		-- Movie popup
+		MovieFrame.CloseDialog:SetScale(Viks.general.UiScale)
+		MovieFrame.CloseDialog:SetTemplate("Transparent")
+		MovieFrame.CloseDialog.ConfirmButton:SkinButton()
+		MovieFrame.CloseDialog.ResumeButton:SkinButton()
+		MovieFrame.CloseDialog.ResumeButton:SetPoint("LEFT", MovieFrame.CloseDialog.ConfirmButton, "RIGHT", 15, 0)
 
 		-- PetBattle popup
 		_G["PetBattleQueueReadyFrame"]:SetTemplate("Transparent")
@@ -273,7 +306,6 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		T.SkinCloseButton(_G["RolePollPopupCloseButton"])
 		T.SkinCloseButton(_G["ItemRefCloseButton"])
 		T.SkinCloseButton(_G["BNToastFrameCloseButton"])
-		T.SkinCloseButton(FloatingGarrisonFollowerTooltip.CloseButton)
 		if Viks.skins.blizzard_frames == true then
 			if T.client == "ruRU" then
 				_G["DeclensionFrame"]:SetTemplate("Transparent")
@@ -304,5 +336,4 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		_G["GuildFrameTab1"]:ClearAllPoints()
 		_G["GuildFrameTab1"]:SetPoint("TOPLEFT", _G["GuildFrame"], "BOTTOMLEFT", -4, 2)
 	end
-	
 end)

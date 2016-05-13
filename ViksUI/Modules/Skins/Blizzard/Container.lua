@@ -187,7 +187,7 @@ local function LoadSkin()
 			if _G[name.."Item"..i.."IconQuestTexture"]:IsShown() then
 				item:SetBackdropBorderColor(1, 1, 0)
 			else
-				item:SetBackdropBorderColor(unpack(C.media.border_color))
+				item:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
 			end
 		end
 	end)
@@ -196,7 +196,7 @@ local function LoadSkin()
 		if not frame.isBag and frame.IconQuestTexture:IsShown() then
 			frame:SetBackdropBorderColor(1, 1, 0)
 		else
-			frame:SetBackdropBorderColor(unpack(C.media.border_color))
+			frame:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
 		end
 	end)
 

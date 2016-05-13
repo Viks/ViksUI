@@ -77,6 +77,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 	if Viks.nameplate.enable then
 		InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates:Kill()
 		InterfaceOptionsNamesPanelUnitNameplatesNameplateClassColors:Kill()
+		SetCVar("ShowClassColorInNameplate", 1)
 	end
 
 	if Viks.minimapp.enable then

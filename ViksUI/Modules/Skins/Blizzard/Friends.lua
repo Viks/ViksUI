@@ -24,10 +24,7 @@ local function LoadSkin()
 		"AddFriendFrame",
 		"AddFriendNoteFrame",
 		"FriendsFriendsFrame",
-		"FriendsFriendsNoteFrame",
 		"FriendsFriendsList",
-		"BNConversationInviteDialog",
-		"BNConversationInviteDialogList",
 		"IgnoreListFrame",
 		"PendingListFrame",
 		"FriendsFrameInset",
@@ -89,8 +86,6 @@ local function LoadSkin()
 		"AddFriendInfoFrameContinueButton",
 		"FriendsFriendsCloseButton",
 		"FriendsFriendsSendRequestButton",
-		"BNConversationInviteDialogCancelButton",
-		"BNConversationInviteDialogInviteButton",
 		"ScrollOfResurrectionSelectionFrameAcceptButton",
 		"ScrollOfResurrectionSelectionFrameCancelButton",
 		"ScrollOfResurrectionFrameAcceptButton",
@@ -107,6 +102,8 @@ local function LoadSkin()
 
 	local scrollbars = {
 		"FriendsFrameFriendsScrollFrameScrollBar",
+		"FriendsFrameIgnoreScrollFrameScrollBar",
+		"FriendsFriendsScrollFrameScrollBar",
 		"WhoListScrollFrameScrollBar",
 		"ChannelRosterScrollFrameScrollBar"
 	}
@@ -138,7 +135,6 @@ local function LoadSkin()
 	AddFriendNameEditBox:SetHeight(AddFriendNameEditBox:GetHeight() - 5)
 	AddFriendFrame:SetTemplate("Transparent")
 	FriendsFriendsFrame:SetTemplate("Transparent")
-	FriendsFriendsNoteFrame:SetTemplate("Overlay")
 	FriendsFriendsList:SetTemplate("Overlay")
 	PendingListInfoFrame:SetTemplate("Overlay")
 
@@ -170,9 +166,6 @@ local function LoadSkin()
 	T.SkinEditBox(ChannelFrameDaughterFrameChannelName)
 	T.SkinEditBox(ChannelFrameDaughterFrameChannelPassword)
 
-	BNConversationInviteDialog:SetTemplate("Transparent")
-	BNConversationInviteDialogList:SetTemplate("Overlay")
-
 	BNetReportFrame:SetTemplate("Transparent")
 	BNetReportFrameComment:SetTemplate("Overlay")
 
@@ -189,7 +182,12 @@ local function LoadSkin()
 	FriendsFrameBattlenetFrame.BroadcastFrame.ScrollFrame:SetTemplate("Overlay")
 	FriendsFrameBattlenetFrame.BroadcastFrame.ScrollFrame.CancelButton:SkinButton()
 	FriendsFrameBattlenetFrame.BroadcastFrame.ScrollFrame.UpdateButton:SkinButton()
-
+	
+	FriendsFrameBattlenetFrame.UnavailableInfoFrame:StripTextures()
+	FriendsFrameBattlenetFrame.UnavailableInfoFrame:CreateBackdrop("Transparent")
+	FriendsFrameBattlenetFrame.UnavailableInfoFrame.backdrop:SetPoint("TOPLEFT", 4, -4)
+	FriendsFrameBattlenetFrame.UnavailableInfoFrame.backdrop:SetPoint("BOTTOMRIGHT", -4, 4)
+	
 	BattleTagInviteFrame:SetTemplate("Transparent")
 	for i = 1, BattleTagInviteFrame:GetNumChildren() do
 		local child = select(i, BattleTagInviteFrame:GetChildren())
@@ -233,9 +231,6 @@ local function LoadSkin()
 	FriendsTabHeaderRecruitAFriendButtonIcon:SetPoint("TOPLEFT", 2, -2)
 	FriendsTabHeaderRecruitAFriendButtonIcon:SetPoint("BOTTOMRIGHT", -2, 2)
 
-	FriendsFrameIgnoreScrollFrame:SetHeight(294)
-	FriendsFrameIgnoreScrollFrameScrollBar:SetPoint("TOPLEFT", FriendsFrameIgnoreScrollFrame, "TOPRIGHT", 39, -3)
-
 	T.SkinCloseButton(ChannelFrameDaughterFrameDetailCloseButton, ChannelFrameDaughterFrame)
 	T.SkinCloseButton(FriendsFrameCloseButton)
 	T.SkinDropDownBox(WhoFrameDropDown, 150)
@@ -244,17 +239,6 @@ local function LoadSkin()
 
 	T.SkinCheckBox(ChannelFrameAutoJoinBattleground)
 	T.SkinCheckBox(ChannelFrameAutoJoinParty)
-
-	hooksecurefunc("BNConversationInvite_Update", function()
-		for i = 1, BN_CONVERSATION_INVITE_NUM_DISPLAYED do
-			local button = _G["BNConversationInviteDialogListFriend"..i]
-			local check = button.checkButton
-			if check and not check.isSkinned then
-				T.SkinCheckBox(check)
-				check.isSkinned = true
-			end
-		end
-	end)
 
 	-- Bottom Tabs
 	for i = 1, 5 do

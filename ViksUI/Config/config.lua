@@ -56,7 +56,6 @@ Viks["misc"] = {
 	["profession_tabs"] = true,					-- Professions tabs on TradeSkill frames
 	["hide_bg_spam"] = true,					-- Remove Boss Emote spam during BG("Arathi Basin" and "The Battle for Gilneas")
 	["item_level"] = true,						-- Item level on character slot buttons
-	["gem_counter"] = true,						-- Displays how many red/blue/yellow gems you have
 	["already_known"] = true,					-- Colorizes recipes/mounts/pets that is already known
 	["disenchanting"] = true,					-- One-click Milling, Prospecting and Disenchanting
 	["sum_buyouts"] = true,						-- Sum up all current auctions
@@ -77,6 +76,7 @@ Viks["misc"] = {
 	["Pscale"] = 1,
 	["panelsh"] = true,
 	["Threatbar"] = false,						-- Custom Threath Bar, that show on bar under main actionbars.
+	["merchant_itemlevel"] = false,				-- Show item level for weapons and armor in merchant
 }
 
 ----------------------------------------------------------------------------------------
@@ -97,6 +97,7 @@ Viks["announcements"] = {
 	["feasts"] = true,							-- Announce Feasts/Souls/Repair Bots cast
 	["portals"] = true,							-- Announce Portals/Ritual of Summoning cast
 	["bad_gear"] = true,						-- Check bad gear in instance
+	["safari_hat"] = true,						-- Check Safari Hat
 }
 
 ----------------------------------------------------------------------------------------
@@ -107,8 +108,7 @@ Viks["automation"] = {
 	["screenshot"] = true,						-- Take screenshot when player get achievement
 	["solve_artifact"] = true,					-- Auto popup for solve artifact
 	["chefs_hat"] = true,						-- Auto equip Chef's Hat
-	["safari_hat"] = true,						-- Auto equip Safari Hat
-	["accept_invite"] = true,					-- Auto accept invite
+	["accept_invite"] = false,					-- Auto accept invite
 	["decline_duel"] = true,					-- Auto decline duel
 	["accept_quest"] = true,					-- Auto accept quests(if hold shift or alt, auto accept is disable)
 	["auto_collapse"] = true,					-- Auto collapse WatchFrame in instance
@@ -232,7 +232,7 @@ Viks["raidcooldown"] = {
 	["enable"] = true,							-- Enable raid cooldowns
 	["height"] = 15,							-- Bars height
 	["width"] = 186,							-- Bars width(if show_icon = false, bar width+28)
-	["upwards"] = false,						-- Sort upwards bars
+	["upwards"] = true,							-- Sort upwards bars
 	["show_icon"] = true,						-- Show icons
 	["show_inraid"] = true,						-- Show in raid zone
 	["show_inparty"] = true,					-- Show in party zone
@@ -370,6 +370,7 @@ Viks["chat"] = {
 ----------------------------------------------------------------------------------------
 Viks["bag"] = {
 	["enable"] = true,							-- Enable bags
+	["ilvl"] = true,							-- Show item level
 	["BagBars"] = false,
 	["SortTop"] = true,							-- Sort from top down
 	["button_size"] = 27,						-- Buttons size
@@ -504,6 +505,7 @@ Viks["unitframes"] = {
 Viks["unitframe_class_bar"] = {
 	["combo"] = true,							-- Rogue/Druid Combo bar
 	["comboalways"] = false,					-- Always show Combo bar for Druid
+	["combo_old"] = false,						-- Show combo point on the target 
 	["shadow"] = true,							-- Shadow Orbs bar
 	["chi"] = true,								-- Chi bar
 	["vengeance"] = true,						-- Vengeance bar
@@ -718,10 +720,19 @@ Viks["actionbar"] = {
 --	Miscellaneous options
 ----------------------------------------------------------------------------------------
 Viks["Filger"] = {
-	["filger"] = true,							-- Filger, shows buff/debuff/dots in combat.
+	["enable"] = true,							-- Enable Filger
+	["test_mode"] = false,						-- Test icon mode
+	["max_test_icon"] = 5,						-- The number of icons to the test
+	["show_tooltip"] = false,					-- Show tooltip
+	["disable_cd"] = false,						-- Disable cooldowns
 	["filgerCD"] = false,						-- Filger, shows Cooldowns on a bar list.
-	["filgerpvecc"] = false,					-- Filger, shows CC on bar list.
 	["filgertbar"] = false,						-- Filger, shows special bars for target.
+	["proc_size"] = 37,							-- Icon size for procs
+	["buffs_size"] = 37,							-- Icon size for buffs
+	["debuff_size"] = 37,						-- Icon size for debuffs
+	["bar_iconsize"] = 25,						-- Icon size for bars
+	["bar_width"] = 186,							-- Width for bars
+	["cooldown_size"] = 30,						-- Icon size for cooldowns
 }
 
 ----------------------------------------------------------------------------------------

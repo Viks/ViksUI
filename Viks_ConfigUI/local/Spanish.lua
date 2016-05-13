@@ -1,4 +1,4 @@
-﻿if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
+if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 
 ----------------------------------------------------------------------------------------
 --	Localization for esES and esMX client
@@ -6,8 +6,8 @@
 ----------------------------------------------------------------------------------------
 L_GUI_BUTTON_RESET = "Reinicio total de la UI"
 L_GUI_SET_SAVED_SETTTINGS = "Cambios aplicables sólo a este PJ"
-L_GUI_RESET_CHAR = "¿Estás seguro de que quieres reiniciar tus preferencias de ViksUI para este PJ?"
-L_GUI_RESET_ALL = "¿Estás seguro de que quieres reiniciar tus preferencias de ViksUI para todos los PJs?"
+L_GUI_RESET_CHAR = "¿Estás seguro de que quieres reiniciar tus preferencias de ShestakUI para este PJ?"
+L_GUI_RESET_ALL = "¿Estás seguro de que quieres reiniciar tus preferencias de ShestakUI para todos los PJs?"
 L_GUI_PER_CHAR = "¿Estás segudo de que quieres cambiar a o desde 'Cambios sólo a este PJ'?"
 L_GUI_MAKE_SELECTION = "Debes hacer una selección antes de continuar la configuración."
 
@@ -27,8 +27,7 @@ L_GUI_MISC_RAID_TOOLS = "Herramientas de Raid"
 L_GUI_MISC_PROFESSION_TABS = "Pestanas de profesiones de artesania y marcos de comercio"
 L_GUI_MISC_HIDE_BG_SPAM = "Remove Boss Emote spam during BG" -- Needs review
 L_GUI_MISC_ITEM_LEVEL = "Item level on character slot buttons" -- Needs review
-L_GUI_MISC_GEM_COUNTER = "Displays how many red/blue/yellow gems you have" -- Needs review
-L_GUI_MISC_ALREADY_KNOWN = "Colorizes recipes/mounts/pets that is already known" -- Needs review
+L_GUI_MISC_ALREADY_KNOWN = "Colorizes recipes/mounts/pets/toys that is already known" -- Needs review
 L_GUI_MISC_DISENCHANTING = "Milling, Prospecting and Disenchanting by Alt + click" -- Needs review
 L_GUI_MISC_SUM_BUYOUTS = "Sum up all current auctions" -- Needs review
 L_GUI_MISC_CLICK_CAST = "Simple click2cast spell binder" -- Needs review
@@ -39,6 +38,7 @@ L_GUI_MISC_ENCHANTMENT_SCROLL = "Enchantment scroll on TradeSkill frame" -- Need
 L_GUI_MISC_ARCHAEOLOGY = "Archaeology artifacts and cooldown" -- Needs review
 L_GUI_MISC_CHARS_CURRENCY = "Tracks your currency tokens across multiple characters" -- Needs review
 L_GUI_MISC_ARMORY_LINK = "Add Armory link in UnitPopupMenus (It breaks UnitPopupMenus)" -- Needs review
+L_GUI_MISC_MERCHANT_ITEMLEVEL = "Show item level for weapons and armor in merchant" -- Need review
 
 -- Announcements options
 L_GUI_ANNOUNCEMENTS = "Anuncios"
@@ -60,7 +60,7 @@ L_GUI_ANNOUNCEMENTS_SAFARI_HAT = "Check Safari Hat" -- Needs review
 
 -- Automation options
 L_GUI_AUTOMATION = "Automation" -- Needs review
-L_GUI_AUTOMATION_RESURRECTION = "Auto resurrección en los Campos de Batalla"
+L_GUI_AUTOMATION_RELEASE = "Auto resurrección en los Campos de Batalla" -- Need review
 L_GUI_AUTOMATION_SCREENSHOT = "Tomar una captura de pantalla cuando consigas un logro"
 L_GUI_AUTOMATION_SOLVE_ARTIFACT = "Auto popup for solve artifact" -- Needs review
 L_GUI_AUTOMATION_CHEFS_HAT = "Auto equip Chef's Hat" -- Needs review
@@ -76,7 +76,7 @@ L_GUI_AUTOMATION_LOGGING_COMBAT = "Auto enables combat log text file in raid ins
 L_GUI_AUTOMATION_CURRENCY_CAP = "Auto popup for currency cap" -- Needs review
 L_GUI_AUTOMATION_BUFF_ON_SCROLL = "Cast buff on mouse scroll" -- Needs review
 L_GUI_AUTOMATION_OPEN_ITEMS = "Auto opening of items in bag" -- Needs review
-L_GUI_AUTOMATION_BANNER_HIDE = "Auto hiding Boss Banner Loot Frame"
+L_GUI_AUTOMATION_BANNER_HIDE = "Auto hiding Boss Banner Loot Frame" -- Need review
 
 -- Skins options
 L_GUI_SKINS = "Estilización"
@@ -201,7 +201,8 @@ L_GUI_TOOLTIP_HIDE_COMBAT = "Ocultar descripción en combate"
 L_GUI_TOOLTIP_TALENTS = "Mostrar descripción de los talentos"
 L_GUI_TOOLTIP_ACHIEVEMENTS = "Comparar logros en la descripción"
 L_GUI_TOOLTIP_TARGET = "Jugador objetivo en la descripción"
-L_GUI_TOOLTIP_TITLE = "Título del jugador en la descripción"
+L_GUI_TOOLTIP_TITLE = "Player title in tooltip" -- Need review
+L_GUI_TOOLTIP_REALM = "Player realm name in tooltip" -- Need review
 L_GUI_TOOLTIP_RANK = "Rango del jugador en la hermandad en la descripción"
 L_GUI_TOOLTIP_ARENA_EXPERIENCE = "Experiencia JcJ del jugador en Arenas en la descripción"
 L_GUI_TOOLTIP_SPELL_ID = "ID del hechizo"
@@ -233,6 +234,7 @@ L_GUI_CHAT_DAMAGE_METER_SPAM = "Merge damage meter spam in one line-link" -- Nee
 -- Bag options
 L_GUI_BAGS = "Bolsas"
 L_GUI_BAGS_ENABLE = "Activar bolsas"
+L_GUI_BAGS_ILVL = "Show item level for weapons and armor" -- Need review
 L_GUI_BAGS_BUTTON_SIZE = "Tamaño de los huecos"
 L_GUI_BAGS_BUTTON_SPACE = "Espacio entre huecos"
 L_GUI_BAGS_BANK = "Número de columnas en el banco"
@@ -241,6 +243,7 @@ L_GUI_BAGS_BAG = "Número de columnas en la bolsa principal"
 -- Minimap options
 L_GUI_MINIMAP_ENABLE = "Activar minimapa"
 L_GUI_MINIMAP_ICON = "Icono de seguimiento"
+L_GUI_GARRISON_ICON = "Garrison icon" -- Need review
 L_GUI_MINIMAP_SIZE = "Tamaño del minimapa"
 L_GUI_MINIMAP_HIDE_COMBAT = "Ocultar minimapa en combate"
 L_GUI_MINIMAP_TOGGLE_MENU = "Show toggle menu" -- Needs review
@@ -318,6 +321,14 @@ L_GUI_AURA_DEBUFF_COLOR_TYPE = "Color de los perjuicios por tipo"
 L_GUI_AURA_CAST_BY = "Mostrar quién lanza un beneficio/perjuicio en su descripción"
 L_GUI_AURA_CLASSCOLOR_BORDER = "Activar borde por color de clase para los beneficios del jugador"
 
+-- Filger
+L_GUI_FILGER = "Filger"
+L_GUI_FILGER_ENABLE = "Enable Filger" -- Need review
+L_GUI_FILGER_TEST_MODE = "Test icon mode" -- Need review
+L_GUI_FILGER_MAX_TEST_ICON = "The number of icons to the test" -- Need review
+L_GUI_FILGER_SHOW_TOOLTIP = "Show tooltip" -- Need review
+L_GUI_FILGER_DISABLE_CD = "Disable cooldowns" -- Need review
+
 -- Unit Frames options
 L_GUI_UF_ENABLE = "Activar marcos de unidades"
 L_GUI_UF_OWN_COLOR = "Color para las barras de vida"
@@ -326,6 +337,7 @@ L_GUI_UF_ENEMY_HEALTH_COLOR = "Barra de vida del enemigo objetivo en rojo"
 L_GUI_UF_TOTAL_VALUE = "Mostrar vida restante en jugador y objetivo con XXXX/Total"
 L_GUI_UF_COLOR_VALUE = "Colorear valor de Vida/Maná"
 L_GUI_UF_BAR_COLOR_VALUE = "Color de la barra de vida dependiendo de la vida restante"
+L_GUI_UF_LINES = "Show Player and Target lines" -- Need review
 L_GUI_UF_UNIT_CASTBAR = "Mostrar barras de lanzamiento"
 L_GUI_UF_CASTBAR_ICON = "Mostrar iconos en las barras de lanzamiento"
 L_GUI_UF_CASTBAR_LATENCY = "Latencia en la barra de lanzamiento"
@@ -337,6 +349,8 @@ L_GUI_UF_SHOW_BOSS = "Mostrar marco del jefe"
 L_GUI_UF_BOSS_RIGHT = "Marco/Marcos del/de los jefe/jefes en la derecha"
 L_GUI_UF_SHOW_ARENA = "Mostrar marcos de arena"
 L_GUI_UF_ARENA_RIGHT = "Marcos de arena en la derecha"
+L_GUI_UF_BOSS_DEBUFFS = "Number of debuffs on the boss frames" -- Need review
+L_GUI_UF_BOSS_BUFFS = "Number of buffs on the boss frames" -- Need review
 L_GUI_UF_ICONS_PVP = "Texto JcJ (iconos no) al pasar el ratón sobre los marcos del jugador y objetivo"
 L_GUI_UF_ICONS_COMBAT = "Icono de combate"
 L_GUI_UF_ICONS_RESTING = "Icono de descansado para pjs con nivel bajo"
@@ -350,7 +364,7 @@ L_GUI_UF_PLUGINS_REPUTATION_BAR = "Activar barra de reputación"
 L_GUI_UF_PLUGINS_EXPERIENCE_BAR = "Activar barra de experiencia"
 L_GUI_UF_PLUGINS_FRIENDSHIP_BAR = "Friendship bar" -- Needs review
 L_GUI_UF_PLUGINS_SMOOTH_BAR = "Activar barra de suavizado"
-L_GUI_UF_PLUGINS_TALENTS = "Mostrar configuración de los talentos del enemigo"
+L_GUI_UF_PLUGINS_ENEMY_SPEC = "Mostrar configuración de los talentos del enemigo"
 L_GUI_UF_PLUGINS_COMBAT_FEEDBACK = "Texto de combate en el marco del jugador/objetivo"
 L_GUI_UF_PLUGINS_FADER = "Desvanecer marcos de unidades"
 L_GUI_UF_PLUGINS_DIMINISHING = "Diminishing Returns icons on arena frames" -- Needs review
@@ -358,9 +372,11 @@ L_GUI_UF_PLUGINS_DIMINISHING = "Diminishing Returns icons on arena frames" -- Ne
 -- Unit Frames Class bar options
 L_GUI_UF_PLUGINS_CLASS_BAR = "Unit Frames Class bars" -- Needs review
 L_GUI_UF_PLUGINS_COMBO_BAR = "Iconos de puntos de combo de Pícaros/Druidas"
+L_GUI_UF_PLUGINS_COMBO_BAR_ALWAYS = "Always show Combo bar for Druid" -- Need review
+L_GUI_UF_PLUGINS_COMBO_BAR_OLD = "Show combo point on the target" -- Need review
 L_GUI_UF_PLUGINS_SHADOW_BAR = "Enable Shadow Orbs bar" -- Needs review
 L_GUI_UF_PLUGINS_CHI_BAR = "Enable Chi bar" -- Needs review
-L_GUI_UF_PLUGINS_VENGEANCE_BAR = "Activar barra de venganza"
+L_GUI_UF_PLUGINS_RESOLVE_BAR = "Activar barra de venganza"
 L_GUI_UF_PLUGINS_ECLIPSE_BAR = "Activar barra de eclipse"
 L_GUI_UF_PLUGINS_HOLY_BAR = "Activar barra de poder sagrado"
 L_GUI_UF_PLUGINS_SHARD_BAR = "Activar barra de fragmentos"
@@ -391,6 +407,7 @@ L_GUI_UF_ICONS_READY_CHECK = "Iconos de comprobación"
 L_GUI_UF_PLUGINS_DEBUFFHIGHLIGHT_ICON = "Remarcar textura de desventajas + icono"
 L_GUI_UF_PLUGINS_AURA_WATCH = "'BANDA' Ver las auras"
 L_GUI_UF_PLUGINS_AURA_WATCH_TIMER = "Temporizador en los iconos de perjuicios de la banda"
+L_GUI_UF_PLUGINS_PVP_DEBUFFS = "Show also PvP debuff icons (from the list)" -- Need review
 L_GUI_UF_PLUGINS_HEALCOMM = "Barra de sanación entrante"
 L_GUI_UF_PLUGINS_AUTO_RESURRECTION = "Auto lanzar resurreción con click central cuando la unidad este muerta (no funciona cuando Clique está activado)"
 
@@ -411,16 +428,15 @@ L_GUI_STATS_FPS = "FPS (Marcos por segundo)"
 L_GUI_STATS_EXPERIENCE = "Experiencia"
 L_GUI_STATS_COORDS = "Coordenadas"
 L_GUI_STATS_LOCATION = "Localización"
+L_GUI_STATS_CURRENCY_ARCHAEOLOGY = "Show Archaeology under currency tab" -- Needs review
+L_GUI_STATS_CURRENCY_COOKING = "Show Coocking under currency tab" -- Needs review
+L_GUI_STATS_CURRENCY_PROFESSIONS = "Show Professions under currency tab" -- Needs review
+L_GUI_STATS_CURRENCY_RAID = "Show Raid Seals under currency tab" -- Needs review
+L_GUI_STATS_CURRENCY_PVP = "Show PvP under currency tab" -- Needs review
+L_GUI_STATS_CURRENCY_MISCELLANEOUS = "Show Miscellaneous under currency tab" -- Needs review
 
 -- Error options
 L_GUI_ERROR = "Errores"
 L_GUI_ERROR_BLACK = "Ocultar errores de la lista negra"
 L_GUI_ERROR_WHITE = "Mostrar errores de la lista blanca"
 L_GUI_ERROR_HIDE_COMBAT = "Hide all errors in combat" -- Needs review
-
--- Filger
-L_GUI_Filger = "Filger"
-L_GUI_Filger_Filger = "Enable Filger icons"
-L_GUI_FilgerCD = "Show Cooldowns bar"
-L_GUI_FilgePVECC = "Show CC as Bar"
-L_GUI_FilgerTBAR = "Show Special Bar for Target"

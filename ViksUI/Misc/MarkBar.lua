@@ -14,6 +14,7 @@ CreateAnchor(AnchorMarkBar, "Move Mark Bar", buttonwidth * 4 + 15, 28)
 local anchor = {}
 anchor = {"BOTTOMRIGHT", AnchorMarkBar}
 
+
 -- Create main frame
 local MarkBarBG = CreateFrame("Frame", "MarkBarBackground", oUF_PetBattleFrameHider)
 MarkBarBG:CreatePanel("Transparent", buttonwidth * 4 + 15, 80, "BOTTOM", AnchorMarkBar,0,22)
@@ -91,8 +92,9 @@ local function CreateMarkerButton(name, point, relativeto, point2, x, y)
     f:SetPoint(point, relativeto, point2, x, y)
     f:SetWidth(10)
     f:SetHeight(10)
-	frame1px(f)
-	CreateShadow(f)
+	f:SetTemplate("Default")
+	--frame1px(f)
+	--CreateShadow(f)
     f:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
     f:SetAttribute("type", "macro")
 end

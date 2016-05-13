@@ -10,7 +10,6 @@ local function InstallUI()
 	SetCVar("statusTextDisplay", "BOTH")
 	SetCVar("screenshotQuality", 8)
 	SetCVar("cameraDistanceMax", 50)
-	SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("showTutorials", 0)
 	SetCVar("gameTip", "0")
 	SetCVar("UberTooltips", 1)
@@ -18,7 +17,6 @@ local function InstallUI()
 	SetCVar("removeChatDelay", 1)
 	--SetCVar("chatStyle", "im")
 	SetCVar("WholeChatWindowClickable", 0)
-	SetCVar("ConversationMode", "inline")
 	SetCVar("WhisperMode", "inline")
 	SetCVar("BnWhisperMode", "inline")
 	SetCVar("colorblindMode", 0)
@@ -600,6 +598,13 @@ OnLogon:SetScript("OnEvent", function(self, event)
 		-- Set our UiScale
 		SetCVar("UiScale", Viks.general.UiScale)
 
+		-- Hack for 4K and WQHD Resolution
+		local customScale = min(2, max(0.32, 768 / string.match(GetCVar("gxResolution"), "%d+x(%d+)")))
+		if Viks.general.AutoScale == true and customScale < 0.64 then
+			UIParent:SetScale(customScale)
+		elseif customScale < 0.64 then
+			UIParent:SetScale(Viks.general.UiScale)
+		end
 		-- Install default if we never ran ViksUI on this character
 		if not SavedOptionsPerChar.Install then
 			StaticPopup_Show("INSTALL_UI")
@@ -612,9 +617,7 @@ OnLogon:SetScript("OnEvent", function(self, event)
 
 	-- Welcome message
 	if Viks.general.welcome_message == true then
-		print("|cffffff00".."Welcome to ViksUI "..T.version.." "..T.client..", "..T.name..".|r")
+		print("|cffffff00".."Welcome to ViksUI "..T.version.." "..T.client..", "..T.name)
 		print("|cffffff00".."Type /config to config interface".." |cffffff00".."for more informations.")
 	end
 end)
-
-

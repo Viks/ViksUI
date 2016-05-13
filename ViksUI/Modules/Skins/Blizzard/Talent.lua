@@ -7,19 +7,19 @@ if Viks.skins.blizzard_frames ~= true then return end
 local function LoadSkin()
 	local buttons = {
 		"PlayerTalentFrameTalentsLearnButton",
-		"PlayerTalentFrameActivateButton",
 		"PlayerTalentFramePetSpecializationLearnButton",
 		"PlayerTalentFrameSpecializationLearnButton"
 	}
 
-	for i = 1, #buttons do
-		_G[buttons[i]]:SkinButton()
-		_G[buttons[i]].overlay:SetVertexColor(0.3, 0.3, 0.3, 0.3)
-		_G[buttons[i]]:SetScript("OnLeave", function(self)
-			_G[buttons[i]]:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
-			_G[buttons[i]].overlay:SetVertexColor(0.3, 0.3, 0.3, 0.3)
+	for _, button in pairs(buttons) do
+		_G[button]:SkinButton()
+		_G[button].overlay:SetVertexColor(0.3, 0.3, 0.3, 0.3)
+		_G[button]:SetScript("OnLeave", function(self)
+			_G[button]:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+			_G[button].overlay:SetVertexColor(0.3, 0.3, 0.3, 0.3)
 		end)
 	end
+	PlayerTalentFrameActivateButton:SkinButton()
 
 	PlayerTalentFrameTalentsTutorialButton.Ring:Hide()
 	PlayerTalentFrameTalentsTutorialButton:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPLEFT", -12, 12)
@@ -126,7 +126,6 @@ local function LoadSkin()
 		for i = 1, #bonuses, 2 do
 			local frame = scrollChild["abilityButton"..index]
 			local _, icon = GetSpellTexture(bonuses[i])
-			if frame then
 			frame.icon:SetTexture(icon)
 			if not frame.reskinned then
 				frame.reskinned = true
@@ -139,7 +138,6 @@ local function LoadSkin()
 				frame.icon:SetPoint("TOPLEFT", 2, -2)
 				frame.icon:SetPoint("BOTTOMRIGHT", -2, 2)
 			end
-		end
 			index = index + 1
 		end
 

@@ -50,6 +50,33 @@ Viks["togglemainmenu"] = {
 			SlashCmdList.MOVING()
 		end
 	},
+	{
+		["text"] = "Test UI",
+		["function"] = function()
+			if Viks.raidcooldown.enable == true then
+				SlashCmdList.RaidCD()
+			end
+			if Viks.enemycooldown.enable == true then
+				SlashCmdList.EnemyCD()
+			end
+			if Viks.pulsecooldown.enable == true then
+				SlashCmdList.PulseCD()
+			end
+			if Viks.unitframes.enable == true then
+				SlashCmdList.TEST_UF()
+			end
+			if Viks.announcements.pull_countdown == true then
+				SlashCmdList.PULLCOUNTDOWN()
+			end
+			if Viks.loot.rolllootframe == true then
+				SlashCmdList.TESTROLL()
+			end
+			SlashCmdList.DBMTEST()
+			SlashCmdList.TEST_EXTRABUTTON()
+			SlashCmdList.TEST_ACHIEVEMENT()
+			--SlashCmdList.GRIDONSCREEN()
+		end
+	},
 }
 
 -- Definde toggle functions

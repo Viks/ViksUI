@@ -173,6 +173,9 @@ local function LoadSkin()
 		button:GetCheckedTexture():SetPoint("TOPLEFT", button, 4, -4)
 		button:GetCheckedTexture():SetPoint("BOTTOMRIGHT", button, -4, 4)
 
+		button.cooldown:SetPoint("TOPLEFT", button, 4, -4)
+		button.cooldown:SetPoint("BOTTOMRIGHT", button, -4, 4)
+		
 		if icon then
 			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 			icon:ClearAllPoints()
@@ -187,6 +190,15 @@ local function LoadSkin()
 			end
 		end
 	end
+
+	hooksecurefunc("UpdateProfessionButton", function(self)
+		for _, button in pairs(professionbuttons) do
+			local button = _G[button]
+			button:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+			button:GetHighlightTexture():SetPoint("TOPLEFT", button, 4, -4)
+			button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", button, -4, 4)
+		end
+	end)
 
 	local professionstatusbars = {
 		"PrimaryProfession1StatusBar",

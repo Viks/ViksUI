@@ -2,8 +2,6 @@
 	<Script file="Core\Init.lua"/>
 	<Script file="Core\Constants.lua"/>
 	<Script file="Locales\English.lua"/>
-	<Script file="Libs\LibStub.lua"/>
-	<Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
 	<Script file="Config\LibSharedMedia.lua"/>
 	<Script file="Config\variables.lua"/>
 	<Script file="Config\config.lua"/>
@@ -23,6 +21,7 @@
 	<Script file="Config\DataText.lua"/>
 	<Script file="Libs\LiteStats\LiteStats.lua"/>
 	<Script file="Libs\LibCooldown.lua"/>
+	<Include file="Libs\LibBodyguard-1.0\load.xml"/>
 	<Script file="UnitFrames\Colors.lua"/>
 	
 	
@@ -69,12 +68,12 @@
 	<Script file="Modules\Misc\Author.lua"/>
 	<Script file="Modules\Misc\CharsCurrency.lua"/>
 	<Script file="Modules\Misc\ClickCast.lua"/>
-	<Script file="Modules\Misc\GemCounter.lua"/>
 	<Script file="Modules\Misc\GuildFinderSort.lua"/>
 	<Script file="Modules\Misc\HealerIconNameplate.lua"/>
 	<Script file="Modules\Misc\LFGQueueTimer.lua"/>
 	<Script file="Modules\Misc\MagePortals.lua"/>
 	<Script file="Modules\Misc\Merchant.lua"/>
+	<Script file="Modules\Misc\MerchantItemlevel.lua"/>
 	<Script file="Modules\Misc\Misc.lua"/>
 	<Script file="Modules\Misc\Mounts.lua"/>
 	<Script file="Modules\Misc\MouseoverMarking.lua"/>
@@ -95,12 +94,12 @@
 	<Script file="Modules\Announcements\Interrupts.lua"/>
 	<Script file="Modules\Announcements\Lightwell.lua"/>
 	<Script file="Modules\Announcements\PullCountdown.lua"/>
+	<Script file="Modules\Announcements\SafariHat.lua"/>
 	<Script file="Modules\Announcements\SayThanks.lua"/>
 	<Script file="Modules\Announcements\Spells.lua"/>
 	
 	<Script file="Modules\Automation\AchScreens.lua"/>
 	<Script file="Modules\Automation\AutoChefsHat.lua"/>
-	<Script file="Modules\Automation\AutoSafariHat.lua"/>
 	<Script file="Modules\Automation\AutoOpens.lua"/>
 	<Script file="Modules\Automation\AutoRelease.lua"/>
 	<Script file="Modules\Automation\AutoRepair.lua"/>
@@ -140,7 +139,6 @@
 	<Script file="Misc\Filger.lua"/>
 	<Script file="Misc\MarkBar.lua"/>
 	<Script file="Misc\MBFToggle.lua"/>
-	<Script file="Misc\RaidCooldowns.lua"/>
 	<Script file="Misc\XPBar.lua"/>
 	<Script file="Misc\CooldownFlash.lua"/>
 	<Script file="Datatext\Positions.lua"/>
@@ -214,6 +212,11 @@
 	<Script file="Modules\Buffs\ConsolidatedBuffs.lua"/>
 	<Script file="Modules\Buffs\SelfBuffsReminder.lua"/>
 	<Script file="Modules\Buffs\RaidBuffsReminder.lua"/>
+	
+	<Script file="Modules\Cooldowns\DiminishingCD.lua"/>
+	<Script file="Modules\Cooldowns\EnemyCD.lua"/>
+	<Script file="Modules\Cooldowns\PulseCD.lua"/>
+	<Script file="Modules\Cooldowns\RaidCD.lua"/>
 	
 	<Script file="Modules\Chat\ChatFrames.lua"/>
 	<Script file="Modules\Chat\ChatTabs.lua"/>

@@ -210,7 +210,7 @@ end
 -----------------------------
 --Size for Frames; (f, "player/target", "Everything Else", "Raid/Party")
  local retVal = function(f, val1, val2, val3, val4)
-	if f.mystyle == "player" or f.mystyle == "target" or f.mystyle == "arena" then
+	if f.mystyle == "player" or f.mystyle == "target" or f.mystyle == "oUF_Arena" then
 		return val1
 	elseif f.mystyle == "raid" or f.mystyle == "raid25" or f.mystyle == "party" then
 		return val3
@@ -451,7 +451,7 @@ lib.gen_hpbar = function(f)
     local h = CreateFrame("Frame", nil, s)
     h:SetPoint("TOPLEFT",-5,5)
 
-	if f.mystyle == "target" or f.mystyle == "player" or f.mystyle == "focus" or f.mystyle == "arena" then
+	if f.mystyle == "target" or f.mystyle == "player" or f.mystyle == "focus" or f.mystyle == "oUF_Arena" then
 		h:SetFrameLevel(1)
 		s:SetPoint("TOP",0,2)
 		h:SetPoint("BOTTOMRIGHT",5,-5)
@@ -487,14 +487,14 @@ lib.gen_hpstrings = function(f)
     h:SetFrameLevel(15)
     local fontsize1
 		if f.mystyle == "player" then fontsize1 = 26
-		elseif f.mystyle == "target" or f.mystyle == "arena" then fontsize1 =18 
+		elseif f.mystyle == "target" or f.mystyle == "oUF_Arena" then fontsize1 =18 
 		elseif f.mystyle == "raid" or f.mystyle == "party" then fontsize1 = 15 
 		elseif f.mystyle == "raid25" then fontsize1 = 15 
 		else fontsize1 = 16 
 	end 
 	local fontsize2
 		if f.mystyle == "player" then fontsize2 = 16
-		elseif f.mystyle == "target" or f.mystyle == "arena" then fontsize2 =14
+		elseif f.mystyle == "target" or f.mystyle == "oUF_Arena" then fontsize2 =14
 		elseif f.mystyle == "raid" or f.mystyle == "party" then fontsize2 = 12
 		elseif f.mystyle == "raid25" then fontsize2 = 10
 		else fontsize2 = 10 
@@ -537,7 +537,7 @@ lib.gen_hpstrings = function(f)
 		if f.mystyle == "player" then
 			f:Tag(name, "[drk:color2][name][drk:afkdnd]")
 			f:Tag(hpval, retVal(f,"[drk:color2][drk:Shp]"))
-		elseif f.mystyle == "target" or f.mystyle == "arena" then 
+		elseif f.mystyle == "target" or f.mystyle == "oUF_Arena" then 
 			f:Tag(name, "[drk:level] [drk:color2][name][drk:afkdnd]")
 			f:Tag(hpval, retVal(f,"[drk:color2][drk:Shp]"))
 		elseif f.mystyle == "raid" or f.mystyle == "raid25" or f.mystyle == "party" then
@@ -553,7 +553,7 @@ lib.gen_hpstrings = function(f)
 		if f.mystyle == "player" then
 			f:Tag(name, "[drk:color][name][drk:afkdnd]")
 			f:Tag(hpval, retVal(f,"[drk:color][drk:Shp]"))
-		elseif f.mystyle == "target" or f.mystyle == "arena" then 
+		elseif f.mystyle == "target" or f.mystyle == "oUF_Arena" then 
 			f:Tag(name, "[drk:level] [drk:color][name][drk:afkdnd]")
 			f:Tag(hpval, retVal(f,"[drk:color][drk:Shp]"))
 		elseif f.mystyle == "raid" or f.mystyle == "raid25" or f.mystyle == "party" then
@@ -599,7 +599,7 @@ lib.gen_ppbar = function(f)
 		frame1px2_2(h)
 
 	end
-	if f.mystyle == "arena" then
+	if f.mystyle == "oUF_Arena" then
 		local h = CreateFrame("Frame", nil, s)
 		s:SetPoint("BOTTOM",f,"BOTTOM",7,22)
 		h:SetFrameLevel(0)
@@ -707,7 +707,7 @@ lib.gen_textbar = function(f)
 		h:SetFrameStrata("background")
 		frame1px2_2(h)
 	end
-	if f.mystyle == "arena" then
+	if f.mystyle == "oUF_Arena" then
 		local h = CreateFrame("Frame", nil, s)
 		s:SetPoint("BOTTOM",f,"BOTTOM",-6,6)
 		h:SetFrameLevel(0)
@@ -753,7 +753,7 @@ lib.gen_textstrings = function(f)
 	name.frequentUpdates = 0.1
 	if f.mystyle == "focus" then
 		name:SetPoint("LEFT", f.Health, "BOTTOMLEFT", retVal(f,6,3,3,3), retVal(f,-49,-11,-11,-11))
-	elseif f.mystyle == "target" or f.mystyle == "arena" then
+	elseif f.mystyle == "target" or f.mystyle == "oUF_Arena" then
 		name:SetPoint("LEFT", f.Health, "TOPLEFT", retVal(f,-3,3,3,3), retVal(f,-49,-10,-10,-10))
 	end
 	--//Right Tag positioning bottombar	
@@ -762,7 +762,7 @@ lib.gen_textstrings = function(f)
     hpval.frequentUpdates = 0.1
 	if f.mystyle == "focus" then
 		hpval:SetPoint("RIGHT", f.Health, "TOPRIGHT", retVal(f,-6,-3,-1,-1), retVal(f,-49,-11,-11,-11))
-	elseif f.mystyle == "target" or f.mystyle == "arena" then
+	elseif f.mystyle == "target" or f.mystyle == "oUF_Arena" then
 		hpval:SetPoint("RIGHT", f.Health, "TOPRIGHT", retVal(f,-3,-3,-1,-1), retVal(f,-49,-10,-20,-20))
 	elseif f.mystyle == "raid" or f.mystyle == "raid25" then
 		hpval:SetPoint("RIGHT", f.Health, "TOPRIGHT", retVal(f,-3,-3,-1,-1), retVal(f,-49,-10,-20,-20))
@@ -770,7 +770,7 @@ lib.gen_textstrings = function(f)
 	--Right Tag
 	if f.mystyle == "player" then
 	f:Tag(hpval, "[drk:color][cur|max]")
-	elseif f.mystyle == "target" or f.mystyle == "arena" then
+	elseif f.mystyle == "target" or f.mystyle == "oUF_Arena" then
 	f:Tag(hpval, "[drk:color][cur|max]")
 	elseif f.mystyle == "focus" then
 	f:Tag(hpval, "[drk:color][cur|max] | [perhp]%")
@@ -787,7 +787,7 @@ lib.gen_textstrings = function(f)
 	--Left Tag
 	if f.mystyle == "player" then
 		f:Tag(name, "[drk:color][drk:power2]")
-	elseif f.mystyle == "target" or f.mystyle == "arena" then
+	elseif f.mystyle == "target" or f.mystyle == "oUF_Arena" then
 		f:Tag(name, "[drk:color][drk:power2]")
 	end
 	--f:Tag(hpval, retVal(f,"[drk:color][drk:Shp]"))
@@ -1029,7 +1029,7 @@ lib.gen_castbar = function(f)
 			else
 				s:SetPoint("BOTTOM", AnchorvikstargetcastbarDps)
 			end
-	elseif f.mystyle == "arena" then
+	elseif f.mystyle == "oUF_Arena" then
 		s:SetHeight(cfg.unit_size.CastbarArena.h)
 		s:SetWidth(cfg.unit_size.Arena.w+33)
 		if cfg.HealFrames then
@@ -1082,7 +1082,7 @@ lib.gen_castbar = function(f)
 	--Icon
 	local i = s:CreateTexture(nil, "ARTWORK")
 	i:SetSize(s:GetHeight()+2,s:GetHeight()+2)
-	if f.mystyle == "target" or f.mystyle == "arena" then
+	if f.mystyle == "target" or f.mystyle == "oUF_Arena" then
 		i:SetSize(s:GetHeight()+2,s:GetHeight()+2)
 	end
 	i:SetPoint("RIGHT", s, "LEFT", -8, 0)
@@ -1245,7 +1245,7 @@ local postCreateIcon = function(element, button)
 	local diffPos = 0
 	local self = element:GetParent()
 	if self.mystyle == "target" then diffPos = 1 end
-	--if self.mystyle == "arena" then diffPos = 1 end
+	--if self.mystyle == "oUF_Arena" then diffPos = 1 end
 	
 	element.disableCooldown = true
 	button.cd.noOCC = true
@@ -1339,7 +1339,7 @@ end
 			--Auras.onlyShowPlayer = true
 			Auras.spacing = 5.9
 		end
-		if f.mystyle == "arena" then
+		if f.mystyle == "oUF_Arena" then
 			Auras:SetPoint("LEFT", f, "LEFT", 0, -9)
 			Auras.numBuffs = 0
 			Auras.numDebuffs = 5
@@ -1393,7 +1393,7 @@ lib.createBuffs = function(f)
 		b["growth-x"] = "RIGHT"
 		b["growth-y"] = "UP"
 		b.spacing = 6
-	elseif f.mystyle == "arena" then
+	elseif f.mystyle == "oUF_Arena" then
 		b.showBuffType = true
 		b.size = 21
 		b:SetPoint("CENTER", UIParent, "CENTER", -8, 0)
@@ -1433,7 +1433,7 @@ lib.createDebuffs = function(f)
 	b.spacing = 5
 	b:SetHeight((b.size+b.spacing)*4)
 	b:SetWidth(f:GetWidth())
-	if f.mystyle == "target" or f.mystyle == "arena" then
+	if f.mystyle == "target" or f.mystyle == "oUF_Arena" then
 		b.num = 8
 		b:SetPoint("BOTTOMLEFT", f, "BOTTOMRIGHT", 20, 6)
 		b.initialAnchor = "BOTTOMLEFT"
@@ -1705,7 +1705,7 @@ end
 
 -- Combo Points
 lib.genCPoints = function(self)
-if Viks.unitframe_class_bar.combo == true and T.class == "ROGUE" or T.class == "DRUID" then
+if Viks.unitframe_class_bar.combo == true and Viks.unitframe_class_bar.combo_old ~= true and T.class == "ROGUE" or T.class == "DRUID" then
 	self.CPoints = CreateFrame("Frame", self:GetName().."_ComboBar", self)
 	self.CPoints:CreateBackdrop("Default")
 	self.CPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
@@ -1750,6 +1750,7 @@ if Viks.unitframe_class_bar.combo == true and T.class == "ROGUE" or T.class == "
 		end
 	end
 end
+
 end
 
 lib.genHarmony = function(self)

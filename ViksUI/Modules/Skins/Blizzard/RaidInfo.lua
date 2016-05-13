@@ -22,7 +22,6 @@ local function LoadSkin()
 	local buttons = {
 		"RaidFrameConvertToRaidButton",
 		"RaidFrameRaidInfoButton",
-		-- wod "RaidFrameRaidBrowserButton",
 		"RaidInfoExtendButton",
 		"RaidInfoCancelButton"
 	}
@@ -45,6 +44,7 @@ local function LoadSkin()
 	RaidInfoFrame:SetPoint("TOPLEFT", FriendsFrame, "TOPRIGHT", 3, 0)
 	T.SkinCloseButton(RaidInfoCloseButton, RaidInfoFrame)
 	T.SkinCheckBox(RaidFrameAllAssistCheckButton)
+	T.SkinScrollBar(RaidInfoScrollFrameScrollBar)
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

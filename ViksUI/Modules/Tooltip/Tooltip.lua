@@ -5,6 +5,8 @@ if Viks.tooltip.enable ~= true then return end
 --	Based on aTooltip(by ALZA)
 ----------------------------------------------------------------------------------------
 local StoryTooltip = QuestScrollFrame.StoryTooltip
+StoryTooltip:SetFrameLevel(4)
+
 local tooltips = {
 	GameTooltip,
 	ItemRefTooltip,
@@ -34,7 +36,7 @@ for _, tt in pairs(tooltips) do
 		local bg = CreateFrame("Frame", nil, tt)
 		bg:SetPoint("TOPLEFT")
 		bg:SetPoint("BOTTOMRIGHT")
-		bg:SetFrameLevel(tt:GetFrameLevel() -1)
+		bg:SetFrameLevel(tt:GetFrameLevel() - 1)
 		bg:SetTemplate("Transparent")
 
 		tt.GetBackdrop = function() return backdrop end
@@ -58,8 +60,9 @@ if Viks.tooltip.topright then anchor:SetPoint("TOPRIGHT", AnchorTooltips) end
 if Viks.tooltip.bottomleft then anchor:SetPoint("BOTTOMLEFT", AnchorTooltips) end
 if Viks.tooltip.bottomright then anchor:SetPoint("BOTTOMRIGHT", AnchorTooltips) end
 
-frame1px(anchor)
-CreateShadow(anchor)
+anchor:SetTemplate("Default")
+--frame1px(anchor)
+--CreateShadow(anchor)
 anchor:SetBackdropBorderColor(1, 0, 0, 1)
 anchor:SetMovable(true)
 anchor.text = SetFontString(anchor, Viks.media.font, 10)

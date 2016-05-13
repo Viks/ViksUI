@@ -1,4 +1,4 @@
-﻿local T, C, L, _ = unpack(select(2, ...))
+﻿local T, Viks, L, _ = unpack(select(2, ...))
 if T.client ~= "deDE" then return end
 
 ----------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ L_MISC_BUY_STACK = "Alt-Klick um einen Stapel zu kaufen"
 L_MISC_ONECLICK_BUYOUT = "Shift-Right-Click um den ausgewählten Gegenstand ohne Bestätigung zu kaufen"
 L_MISC_ONECLICK_BID = "Shift-Right-Click um auf den ausgewählten Gegenstand ohne Bestätigung zu bieten"
 L_MISC_ONECLICK_CANCEL = "Shift-Right-Click um den ausgewählten Gegenstand ohne Bestätigung abzubrechen"
-L_MISC_UI_OUTDATED = "Deine Version von ViksUI ist veraltet. Du kannst die aktuelle Version von www.shestak.org laden"
+L_MISC_UI_OUTDATED = "Deine Version von ShestakUI ist veraltet. Du kannst die aktuelle Version von www.shestak.org laden"
 L_MISC_HEADER_MARK = "Mausdrüber Raid Icon"
 L_MISC_BINDER_OPEN = "Maus gebunden"
 L_MISC_GROCERY_BUY = "Kaufen"
@@ -68,11 +68,11 @@ L_MISC_SCROLL = "Rolle"
 L_RAID_UTIL_DISBAND = "Gruppe auflösen"
 
 -- Zone name
-L_ZONE_WINTERGRASP = "Tausendwintersee"
 L_ZONE_TOLBARAD = "Tol Barad"
 L_ZONE_TOLBARADPEN = "Halbinsel von Tol Barad"
 L_ZONE_ARATHIBASIN = "Arathibecken"
 L_ZONE_GILNEAS = "Die Schlacht um Gilneas"
+L_ZONE_ANCIENTDALARAN = "Dalarankrater"
 
 -- WatchFrame Wowhead link
 L_WATCH_WOWHEAD_LINK = "Wowhead Link"
@@ -129,6 +129,7 @@ L_ERRORFRAME_L = "Klick um Fehler anzuzeigen."
 -- Bags
 L_BAG_SHOW_BAGS = "Zeige Taschen"
 L_BAG_RIGHT_CLICK_SEARCH = "Rechtsklick um zu suchen"
+L_BAG_STACK_MENU = "Stapeln"
 
 -- Grab mail
 L_MAIL_STOPPED = "Angehalten, Inventar ist voll."
@@ -154,6 +155,9 @@ L_PANELS_AFK_LCLICK = "Links-Klick um zurück zu gehen."
 
 -- Cooldowns
 L_COOLDOWNS = "Abklingzeit: "
+L_COOLDOWNS_COMBATRESS = "CombatRess" -- Needs review
+L_COOLDOWNS_COMBATRESS_REMAINDER = "Combat resurrect: " -- Needs review
+L_COOLDOWNS_NEXTTIME = "Next time: " -- Needs review
 
 -- Autoinvite
 L_INVITE_ENABLE = "Autoinvite AN: "
@@ -205,12 +209,12 @@ L_INFO_SKIN_DISABLED1 = "Stilisierung für "
 L_INFO_SKIN_DISABLED2 = " ist ausgeschaltet."
 
 -- Popups
-L_POPUP_INSTALLUI = "Dies ist Ihre erste Benutzung von ViksUI mit diesem Charakter. Um das Interface zu konfigurieren, wird das UI nun neugeladen."
-L_POPUP_RESETUI = "Sind Sie sich sicher, dass Sie die Einstellungen von ViksUI zurückgesetzen wollen?"
+L_POPUP_INSTALLUI = "Dies ist Ihre erste Benutzung von ShestakUI mit diesem Charakter. Um das Interface zu konfigurieren, wird das UI nun neugeladen."
+L_POPUP_RESETUI = "Sind Sie sich sicher, dass Sie die Einstellungen von ShestakUI zurückgesetzen wollen?"
 L_POPUP_RESETSTATS = "Bist du sicher das du die Gold und verbrachte Zeit Statistik zurücksetzen möchtest?"
 L_POPUP_SWITCH_RAID = "Wähle Raid Layout."
 L_POPUP_DISBAND_RAID = "Bist du dir sicher, dass du die Gruppe auflösen möchtest?"
-L_POPUP_DISABLEUI = "ViksUI funktioniert nicht mit deiner Auflösung, möchtest du ViksUI ausschalten? (Drücke Abbrechen, falls du eine andere Auflösung testen willst)"
+L_POPUP_DISABLEUI = "ShestakUI funktioniert nicht mit deiner Auflösung, möchtest du ShestakUI ausschalten? (Drücke Abbrechen, falls du eine andere Auflösung testen willst)"
 L_POPUP_SETTINGS_ALL = "Einstellungen für alle AddOns übernehmen? (DBM/DXE, Skada und MSBT)"
 L_POPUP_SETTINGS_DBM = "Die Position der DBM Elemente muss verändert werden."
 L_POPUP_SETTINGS_DXE = "Die Position der DXE Elemente muss verändert werden."
@@ -219,7 +223,7 @@ L_POPUP_ARMORY = "Waffenkammer"
 L_POPUP_CURRENCY_CAP = "Maximalwert erreicht"
 
 -- Welcome message
-L_WELCOME_LINE_1 = "Willkommen bei ViksUI "
+L_WELCOME_LINE_1 = "Willkommen bei ShestakUI "
 L_WELCOME_LINE_2_1 = "Gebe /cfg ein um das Interface zu konfigurieren, oder besuche http://shestak.org"
 L_WELCOME_LINE_2_2 = "für weitere Informationen."
 
@@ -247,6 +251,7 @@ L_STATS_BANDWIDTH = "Bandbreite:"
 L_STATS_DOWNLOAD = "Download:"
 L_STATS_CLEARED_JUNK = "Junk-Ausnahmeliste gelöscht."
 L_STATS_CLEAR_EXCEPTIONS = "Ausnahmenliste löschen."
+L_STATS_CURRENCY_RAID_T = "Raid Seals" -- Needs review
 L_STATS_WORLD_MAP = "Klicken, zum Öffnen der World-Map."
 L_STATS_CURRENT_XP = "Aktuell/Max XP"
 L_STATS_MEMORY_USAGE = "Blizzard UI Speicher Auslastung:"
@@ -257,7 +262,6 @@ L_STATS_VIEW_NOTES = "Halte die Alt-Taste gedrückt, zum Anzeigen der Ränge, No
 L_STATS_HR = "std"
 L_STATS_INF = "unend"
 L_STATS_ALREADY_EXCEPTIONS = "ist bereits in der Ausnahmeliste."
-L_STATS_NOT_JUNK = "ist kein Junk."
 L_STATS_ITEMLINK = "itemlink"
 L_STATS_JUNK_EXCEPTIONS = "Junk-Ausnahmen"
 L_STATS_JUNK_LIST = "Junk-Liste"
@@ -301,6 +305,7 @@ L_STATS_WATCH_CURRENCY = "Bereits gesehene Gegenstände aus dem Abzeichen-Fenste
 L_STATS_WATCH_FACTIONS = "Überwache Fraktionen aus dem Ruffenster."
 L_STATS_TOOLTIP_TIME_PLAYED = "Wenn das max. Level erreicht ist, wird das Tooltip die gespielte Zeit für den Account anzeigen."
 L_STATS_TOOLTIP_EXPERIENCE = "Wenn unter dem max. Level, wird ein Tooltip mit weiteren Details angezeigt."
+L_STATS_SEALS = "Seals this week" -- Needs review
 
 -- Slash commands
 L_SLASHCMD_HELP = {
@@ -321,7 +326,7 @@ L_SLASHCMD_HELP = {
 	"/moveui - Ermöglicht das Bewegen der Interface Elemente.",
 	"/resetui - Zurücksetzen der allgemeinen Einstellungen auf die Standardwerte.",
 	"/resetuf - Zurücksetzen der Einheitenfenster auf die Standardposition.",
-	"/resetconfig - Zurücksetzen der ViksUI_Config Einstellungen.",
+	"/resetconfig - Zurücksetzen der ShestakUI_Config Einstellungen.",
 	"/resetstats - Gold Statistik und gespielte Zeit zurücksetzen.",
 	"/settings ADDON_NAME - Einstellungen für msbt, dbm, skada, oder alle Addons anwenden.",
 	"/ls, /litestats - Hilfe für LiteStats.",
@@ -429,6 +434,6 @@ L_EXTRA_ZONEACHID = {
 	["Tal der Ewigen Blüten"]			= {X = 6979, A =    0, H =    0},
 	-- Boolean Explores
 	["Insel von Quel'Danas"]			= {X =  868, A =    0, H =    0},
-	["Ahn'Qiraj: Das Gefallene Königreich"] = {X =    0, A =    0, H =    0},
+	["Ahn'Qiraj: Das Gefallene Königreich"] = {X = 0, A =    0, H =    0},
 	["Tausendwintersee"]				= {X =    0, A =    0, H =    0},
 }

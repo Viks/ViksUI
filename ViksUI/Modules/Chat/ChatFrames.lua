@@ -206,6 +206,8 @@ local function SetChatStyle(frame)
 	local id = frame:GetID()
 	local chat = frame:GetName()
 
+	_G[chat]:SetFrameLevel(5)
+	
 	-- Removes crap from the bottom of the chatbox so it can go to the bottom of the screen
 	_G[chat]:SetClampedToScreen(false)
 
@@ -397,7 +399,7 @@ local function SetupChatPosAndFont(self)
 				FCF_DockFrame(chat)
 				ChatFrame2Tab:EnableMouse(false)
 				ChatFrame2Tab:SetText("LOG")
-				ChatFrame2Tab:SetScale(0.001)
+				ChatFrame2Tab:SetWidth(0.001)
 			end
 		end
 	end

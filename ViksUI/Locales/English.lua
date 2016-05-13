@@ -75,6 +75,7 @@ L_ZONE_TOLBARAD = "Tol Barad"
 L_ZONE_TOLBARADPEN = "Tol Barad Peninsula"
 L_ZONE_ARATHIBASIN = "Arathi Basin"
 L_ZONE_GILNEAS = "The Battle for Gilneas"
+L_ZONE_ANCIENTDALARAN = "Dalaran Crater"
 
 -- WatchFrame Wowhead link
 L_WATCH_WOWHEAD_LINK = "Wowhead link"
@@ -189,8 +190,8 @@ L_PANELS_AFK_LCLICK = "Left-Click to go back."
 
 -- Cooldowns
 L_COOLDOWNS = "CD: "
-L_COOLDOWNS_COMBATRESS = "CombatRess"
-L_COOLDOWNS_COMBATRESS_REMAINDER = "Combat resurrect: "
+L_COOLDOWNS_COMBATRESS = "BattleRes"
+L_COOLDOWNS_COMBATRESS_REMAINDER = "Battle Resurrection: "
 L_COOLDOWNS_NEXTTIME = "Next time: "
 
 -- Autoinvite

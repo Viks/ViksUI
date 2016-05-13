@@ -120,7 +120,7 @@ local function StyleDeBuffs(buttonName, index)
 	local duration = _G[buttonName..index.."Duration"]
 	local count = _G[buttonName..index.."Count"]
 	local dtype = select(5, UnitDebuff("player",i))  
-	local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
+	local color = DebuffTypeColor[dtype or "none"]
 	
 	if border then border:Hide() end
 

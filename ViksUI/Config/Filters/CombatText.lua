@@ -9,6 +9,7 @@ if Viks.combattext.enable ~= true then return end
 -- General filter outgoing healing
 if Viks.combattext.healing then
 	T.healfilter = {}
+	T.healfilter[143924] = true		-- Leech
 end
 
 -- General merge outgoing damage
@@ -16,32 +17,46 @@ if Viks.combattext.merge_aoe_spam then
 	T.merge = {}
 	T.aoespam = {}
 	T.aoespam[6603] = 3				-- Auto Attack
-	T.aoespam[148008] = 3			-- Essence of Yu'lon
-	T.aoespam[148009] = 3			-- Spirit of Chi-Ji
-	T.aoespam[149276] = 3			-- Flurry of Xuen
-	T.aoespam[147891] = 3			-- Flurry of Xuen
+	T.aoespam[148008] = 3			-- Essence of Yu'lon (Legedary Cloak)
+	T.aoespam[148009] = 3			-- Spirit of Chi-Ji (Legedary Cloak)
+	T.aoespam[149276] = 3			-- Flurry of Xuen (Legedary Cloak)
+	T.aoespam[147891] = 3			-- Flurry of Xuen (Legedary Cloak)
+	T.aoespam[187626] = 1			-- Maalus (Legedary Ring)
+	T.aoespam[187625] = 1			-- Nithramus (Legedary Ring)
+	T.aoespam[187624] = 1			-- Thorasus (Legedary Ring)
+	T.aoespam[184075] = 3			-- Doom Nova (Prophecy of Fear)
+	T.aoespam[183950] = 3			-- Darklight Ray (Unblinking Gaze of Sethe)
+	T.aoespam[184256] = 3			-- Fel Burn (Empty Drinking Horn)
+	T.aoespam[184248] = 3			-- Fel Cleave (Discordant Chorus)
 end
 
 -- Class config
 if T.class == "DEATHKNIGHT" then
 	if Viks.combattext.merge_aoe_spam then
+		T.aoespam[168828] = 3		-- Necrosis
+		T.aoespam[155159] = 3		-- Necrotic Plague
 		T.aoespam[55095] = 3		-- Frost Fever
 		T.aoespam[55078] = 3		-- Blood Plague
 		T.aoespam[50842] = 0		-- Blood Boil
 		T.aoespam[49184] = 0		-- Howling Blast
 		T.aoespam[52212] = 3		-- Death and Decay
-		T.aoespam[50401] = 3		-- Razor Frost
+		T.aoespam[50401] = 3		-- Razorice
 		T.aoespam[91776] = 3		-- Claw (Ghoul)
 		T.aoespam[49020] = 0		-- Obliterate
 		T.aoespam[49143] = 0		-- Frost Strike
 		T.aoespam[45462] = 0		-- Plague Strike
 		T.aoespam[49998] = 0		-- Death Strike
+		T.aoespam[156000] = 3		-- Defile
+		T.aoespam[155166] = 3		-- Mark of Sindragosa
+		T.aoespam[55090] = 0		-- Scourge Strike
 		T.merge[66198] = 49020		-- Obliterate Off-Hand
 		T.merge[66196] = 49143		-- Frost Strike Off-Hand
 		T.merge[66216] = 45462		-- Plague Strike Off-Hand
 		T.merge[66188] = 49998		-- Death Strike Off-Hand
+		T.merge[70890] = 55090		-- Scourge Strike (Shadow damage)
 	end
 	if Viks.combattext.healing then
+		T.healfilter[53365] = true	-- Unholy Strength
 		T.healfilter[119980] = true	-- Conversion
 	end
 elseif T.class == "DRUID" then
@@ -56,6 +71,7 @@ elseif T.class == "DRUID" then
 		T.aoespam[124988] = 3		-- Nature's Vigil
 		T.aoespam[162359] = 3		-- Genesis
 		T.aoespam[144876] = 3		-- Spark of Life (T16)
+		T.aoespam[155777] = 3		-- Rejuvenation (Germination)
 		-- Damaging spells
 		T.aoespam[164812] = 3		-- Moonfire
 		T.aoespam[164815] = 3		-- Sunfire
@@ -71,6 +87,8 @@ elseif T.class == "DRUID" then
 		T.aoespam[106830] = 3		-- Thrash (Cat Form)
 		T.aoespam[1079] = 3			-- Rip
 		T.aoespam[124991] = 3		-- Nature's Vigil
+		T.aoespam[152221] = 3		-- Stellar Flare
+		T.aoespam[155625] = 3		-- Moonfire (Cat Form)
 	end
 	if Viks.combattext.healing then
 		T.healfilter[145109] = true	-- Ysera's Gift (Self)
@@ -114,7 +132,7 @@ elseif T.class == "MAGE" then
 		T.aoespam[120] = 0			-- Cone of Cold
 		T.aoespam[114923] = 3		-- Nether Tempest
 		T.aoespam[114954] = 3		-- Nether Tempest (AoE)
-		T.aoespam[7268] = 3			-- Arcane Missiles
+		T.aoespam[7268] = 1.6		-- Arcane Missiles
 		T.aoespam[113092] = 0		-- Frost Bomb
 		T.aoespam[44425] = 0		-- Arcane Barrage
 		T.aoespam[84721] = 3		-- Frozen Orb
@@ -126,6 +144,16 @@ elseif T.class == "MAGE" then
 		T.aoespam[157997] = 1		-- Ice Nova
 		T.aoespam[157980] = 1		-- Supernova
 		T.aoespam[135029] = 3		-- Water Jet (Pet)
+		T.aoespam[155152] = 3		-- Prismatic Crystal
+		T.aoespam[153596] = 3		-- Comet Storm
+		T.aoespam[153640] = 3		-- Arcane Orb
+		T.aoespam[157977] = 0		-- Unstable Magic (Fire)
+		T.aoespam[157978] = 0		-- Unstable Magic (Frost)
+		T.aoespam[157979] = 0		-- Unstable Magic (Arcane)
+		T.aoespam[153564] = 3		-- Meteor
+		T.aoespam[155158] = 3		-- Meteor Burn
+		T.aoespam[88084] = 3		-- Arcane Blast (Mirror Image)
+		T.aoespam[59638] = 3		-- Frostbolt (Mirror Image)
 	end
 elseif T.class == "MONK" then
 	if Viks.combattext.merge_aoe_spam then
@@ -135,13 +163,21 @@ elseif T.class == "MONK" then
 		T.aoespam[115175] = 3		-- Soothing Mist
 		T.aoespam[125953] = 3		-- Soothing Mist (Statue)
 		T.aoespam[126890] = 3		-- Eminence
+		T.merge[159621] = 126890	-- Eminence
+		T.merge[117895] = 126890	-- Eminence (Statue)
 		T.aoespam[117640] = 3		-- Spinning Crane Kick
 		T.aoespam[132463] = 3		-- Chi Wave
 		T.aoespam[130654] = 3		-- Chi Burst
 		T.aoespam[124081] = 3		-- Zen Sphere
 		T.aoespam[124101] = 3		-- Zen Sphere: Detonate
 		T.aoespam[116670] = 0		-- Uplift
-		T.merge[159621] = 126890	-- Eminence
+		T.aoespam[157590] = 3		-- Breath of the Serpent
+		T.aoespam[159620] = 3		-- Chi Explosion
+		T.merge[157681] = 159620	-- Chi Explosion
+		T.merge[173438] = 159620	-- Chi Explosion
+		T.merge[182078] = 159620	-- Chi Explosion
+		T.merge[173439] = 159620	-- Chi Explosion
+		T.aoespam[178173] = 3		-- Gift of the Ox
 		-- Damaging spells
 		T.aoespam[117952] = 3		-- Crackling Jade Lightning
 		T.aoespam[117418] = 3		-- Fists of Fury
@@ -155,6 +191,10 @@ elseif T.class == "MONK" then
 		T.aoespam[148135] = 3		-- Chi Burst
 		T.aoespam[124098] = 3		-- Zen Sphere
 		T.aoespam[125033] = 3		-- Zen Sphere: Detonate
+		T.aoespam[158221] = 3		-- Hurricane Strike
+		T.aoespam[152174] = 3		-- Chi Explosion
+		T.merge[157680] = 152174	-- Chi Explosion
+		T.aoespam[157676] = 1		-- Chi Explosion
 	end
 elseif T.class == "PALADIN" then
 	if Viks.combattext.merge_aoe_spam then
@@ -170,6 +210,7 @@ elseif T.class == "PALADIN" then
 		T.aoespam[119952] = 3		-- Arcing Light
 		T.aoespam[114917] = 3		-- Stay of Execution
 		T.aoespam[144581] = 3		-- Blessing of the Guardians (T16)
+		T.aoespam[159375] = 3		-- Shining Protector
 		-- Damaging spells
 		T.aoespam[81297] = 3		-- Consecration
 		T.aoespam[119072] = .5		-- Holy Wrath
@@ -238,13 +279,19 @@ elseif T.class == "ROGUE" then
 		T.aoespam[22482] = 3		-- Blade Flurry
 		T.aoespam[16511] = 3		-- Hemorrhage
 		T.aoespam[5374] = 0			-- Mutilate
+		T.aoespam[86392] = 3		-- Main Gauche
+		T.aoespam[157607] = 3		-- Instant Poison
+		T.aoespam[57841] = 3		-- Killing Spree
+		T.aoespam[1943] = 3			-- Rupture
+		T.aoespam[152150] = 3		-- Death from Above
+		T.aoespam[114014] = 3		-- Shuriken Toss
+		T.aoespam[137584] = 3		-- Shuriken Toss
 		T.merge[27576] = 5374		-- Mutilate Off-Hand
 		T.merge[113780] = 2818		-- Deadly Poison
 		T.merge[168908] = 16511		-- Hemorrhage
 		T.merge[121411] = 122233	-- Crimson Tempest
-	end
-	if Viks.combattext.healing then
-		T.healfilter[112974] = true	-- Leeching Poison
+		T.merge[57842] = 57841		-- Killing Spree Off-Hand
+		T.merge[137585] = 137584	-- Shuriken Toss Off-hand
 	end
 elseif T.class == "SHAMAN" then
 	if Viks.combattext.merge_aoe_spam then
@@ -257,8 +304,11 @@ elseif T.class == "SHAMAN" then
 		T.aoespam[114911] = 3		-- Ancestral Guidance
 		T.aoespam[114942] = 3		-- Healing Tide
 		T.aoespam[114083] = 3		-- Restorative Mists
+		T.aoespam[157333] = 3		-- Soothing Winds
+		T.aoespam[157503] = 1		-- Cloudburst
 		-- Damaging spells
 		T.aoespam[421] = 1			-- Chain Lightning
+		T.merge[168477] = 421		-- Chain Lightning (Multi)
 		T.aoespam[8349] = 0			-- Fire Nova
 		T.aoespam[77478] = 3		-- Earhquake
 		T.aoespam[51490] = 0		-- Thunderstorm
@@ -269,14 +319,15 @@ elseif T.class == "SHAMAN" then
 		T.aoespam[3606] = 3			-- Searing Bolt
 		T.aoespam[170379] = 3		-- Molten Earth
 		T.aoespam[114074] = 1		-- Lava Beam
-		T.aoespam[32175] = 0		-- Stormstrike
-		T.aoespam[114089] = 3		-- Windlash
-		T.aoespam[115357] = 0		-- Windstrike
-		T.merge[168477] = 421		-- Chain Lightning (Multi)
 		T.merge[168489] = 114074	-- Lava Beam (Multi)
+		T.aoespam[32175] = 0		-- Stormstrike
 		T.merge[32176] = 32175		-- Stormstrike Off-Hand
+		T.aoespam[114089] = 3		-- Windlash
 		T.merge[114093] = 114089	-- Windlash Off-Hand
+		T.aoespam[115357] = 0		-- Windstrike
 		T.merge[115360] = 115357	-- Windstrike Off-Hand
+		T.aoespam[177601] = 3		-- Liquid Magma
+		T.aoespam[157331] = 3		-- Wind Gust
 	end
 elseif T.class == "WARLOCK" then
 	if Viks.combattext.merge_aoe_spam then
@@ -305,6 +356,12 @@ elseif T.class == "WARLOCK" then
 		T.aoespam[171017] = 0		-- Meteor Strike (Infrenal)
 		T.aoespam[104318] = 3		-- Fel Firebolt
 		T.aoespam[3110] = 3			-- Firebolt (Imp)
+		T.aoespam[152108] = 1		-- Cataclysm
+		T.aoespam[171018] = 1		-- Meteor Strike
+		T.aoespam[85692] = 3		-- Doom Bolt (Doomguard)
+		T.aoespam[54049] = 3		-- Shadow Bite (Felhunter)
+		T.aoespam[6262] = 3			-- Healthstone
+		T.aoespam[3716] = 3			-- Torment (Voidwalker)
 		T.merge[157736] = 348		-- Immolate
 		T.merge[108686] = 348		-- Immolate
 		T.merge[131737] = 980		-- Agony (Drain Soul)
@@ -331,6 +388,7 @@ elseif T.class == "WARRIOR" then
 		T.aoespam[6572] = 0			-- Revenge
 		T.aoespam[5308] = 0			-- Execute
 		T.aoespam[772] = 3			-- Rend
+		T.aoespam[156287] = 3		-- Ravager
 		T.merge[44949] = 1680		-- Whirlwind Off-Hand
 		T.merge[85384] = 96103		-- Raging Blow Off-Hand
 		T.merge[95738] = 50622		-- Bladestorm Off-Hand

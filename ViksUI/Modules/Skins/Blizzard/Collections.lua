@@ -10,18 +10,19 @@ LoadTootlipSkin:SetScript("OnEvent", function(self, event, addon)
 		return
 	end
 	if addon == "Blizzard_Collections" then
-		PetJournalPrimaryAbilityTooltip.Background:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.Delimiter1:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.Delimiter2:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.BorderTop:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.BorderTopLeft:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.BorderTopRight:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.BorderLeft:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.BorderRight:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.BorderBottom:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.BorderBottomRight:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip.BorderBottomLeft:SetTexture(nil)
-		PetJournalPrimaryAbilityTooltip:SetTemplate("Transparent")
+		local tt = PetJournalPrimaryAbilityTooltip
+		tt.Background:SetTexture(nil)
+		tt.Delimiter1:SetTexture(nil)
+		tt.Delimiter2:SetTexture(nil)
+		tt.BorderTop:SetTexture(nil)
+		tt.BorderTopLeft:SetTexture(nil)
+		tt.BorderTopRight:SetTexture(nil)
+		tt.BorderLeft:SetTexture(nil)
+		tt.BorderRight:SetTexture(nil)
+		tt.BorderBottom:SetTexture(nil)
+		tt.BorderBottomRight:SetTexture(nil)
+		tt.BorderBottomLeft:SetTexture(nil)
+		tt:SetTemplate("Transparent")
 	end
 end)
 
@@ -146,6 +147,12 @@ local function LoadSkin()
 	end
 
 	-- PetJournal
+	PetJournal.LeftInset:StripTextures()
+	PetJournal.RightInset:StripTextures()
+	PetJournal.PetCardInset:StripTextures()
+	PetJournal.loadoutBorder:StripTextures()
+	PetJournalPetCardBG:Hide()
+
 	PetJournalTutorialButton.Ring:Hide()
 	PetJournalTutorialButton:SetPoint("TOPLEFT", PetJournal, "TOPLEFT", -5, 10)
 
@@ -279,6 +286,8 @@ local function LoadSkin()
 			button:StyleButton()
 			button:SetTemplate("Default")
 
+			button.BlackCover:SetPoint("TOPLEFT", 2, -2)
+			button.BlackCover:SetPoint("BOTTOMRIGHT", -2, 2)
 			button.FlyoutArrow:SetTexture("Interface\\Buttons\\ActionBarFlyoutButton")
 
 			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -310,6 +319,9 @@ local function LoadSkin()
 		_G["PetJournalLoadoutPet"..i.."XPBar"]:SetFrameLevel(_G["PetJournalLoadoutPet"..i.."XPBar"]:GetFrameLevel() + 2)
 	end
 
+	PetJournal.SpellSelect.BgEnd:Hide()
+	PetJournal.SpellSelect.BgTiled:Hide()
+
 	for i = 1, 2 do
 		local button = _G["PetJournalSpellSelectSpell"..i]
 		local icon = _G["PetJournalSpellSelectSpell"..i.."Icon"]
@@ -337,6 +349,10 @@ local function LoadSkin()
 		button.icon:SetPoint("TOPLEFT", 2, -2)
 		button.icon:SetPoint("BOTTOMRIGHT", -2, 2)
 	end
+
+	PetJournalPetCard.AbilitiesBG1:SetAlpha(0)
+	PetJournalPetCard.AbilitiesBG2:SetAlpha(0)
+	PetJournalPetCard.AbilitiesBG3:SetAlpha(0)
 
 	PetJournalPetCard:CreateBackdrop("Overlay")
 	PetJournalPetCard.backdrop:SetPoint("TOPLEFT", 0, -2)
@@ -367,8 +383,8 @@ local function LoadSkin()
 	-- ToyBox
 	ToyBox.iconsFrame:StripTextures()
 	T.SkinEditBox(ToyBox.searchBox, nil, 18)
+	T.SkinNextPrevButton(ToyBox.navigationFrame.prevPageButton, true)
 	T.SkinNextPrevButton(ToyBox.navigationFrame.nextPageButton)
-	T.SkinNextPrevButton(ToyBox.navigationFrame.prevPageButton)
 	ToyBoxFilterButton:SetPoint("TOPLEFT", ToyBox.searchBox, "TOPRIGHT", 5, 2)
 	ToyBox.progressBar:StripTextures()
 	ToyBox.progressBar:CreateBackdrop("Overlay")
@@ -385,6 +401,7 @@ local function LoadSkin()
 
 		button:StyleButton(nil, 0)
 		button:CreateBackdrop("Default")
+		button.cooldown:SetAllPoints(icon)
 
 		icon:SetPoint("TOPLEFT")
 		icon:SetPoint("BOTTOMRIGHT")
@@ -410,8 +427,8 @@ local function LoadSkin()
 	-- Heirlooms
 	HeirloomsJournal.iconsFrame:StripTextures()
 	T.SkinEditBox(HeirloomsJournal.SearchBox, nil, 18)
+	T.SkinNextPrevButton(HeirloomsJournal.navigationFrame.prevPageButton, true)
 	T.SkinNextPrevButton(HeirloomsJournal.navigationFrame.nextPageButton)
-	T.SkinNextPrevButton(HeirloomsJournal.navigationFrame.prevPageButton)
 	HeirloomsJournalFilterButton:SetPoint("TOPLEFT", HeirloomsJournal.SearchBox, "TOPRIGHT", 5, 2)
 	HeirloomsJournal.progressBar:StripTextures()
 	HeirloomsJournal.progressBar:CreateBackdrop("Overlay")
@@ -428,12 +445,16 @@ local function LoadSkin()
 		for i = 1, #HeirloomsJournal.heirloomEntryFrames do
 			local button = HeirloomsJournal.heirloomEntryFrames[i]
 			if not button.skinned then
-				button.skinned = true
 				button:StyleButton(nil, 0)
 				button:CreateBackdrop("Default")
+				button.levelBackground:SetAlpha(0)
+				button.level:SetFontObject("SystemFont_Outline_Small")
+				button.level.SetFontObject = T.dummy
+				button.level:SetTextColor(1, 1, 1)
 				button.iconTextureUncollected:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 				button.iconTextureUncollected:SetTexture(button.iconTexture:GetTexture())
 				HeirloomsJournal:UpdateButton(button)
+				button.skinned = true
 			end
 
 			if C_Heirloom.PlayerHasHeirloom(button.itemID) then

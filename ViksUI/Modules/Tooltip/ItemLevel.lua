@@ -63,24 +63,38 @@ local function IsPVPItem(link)
 	return false
 end
 
--- iLevel retrieval
-local S_ITEM_LEVEL = "^"..gsub(ITEM_LEVEL, "%%d", "(%%d+)")
-local scantip = CreateFrame("GameTooltip", "ItemLevelScanTooltip", nil, "GameTooltipTemplate")
-scantip:SetOwner(UIParent, "ANCHOR_NONE")
+local upgrades = {
+	["1"] = 8, ["373"] = 4, ["374"] = 8, ["375"] = 4, ["376"] = 4, ["377"] = 4,
+	["379"] = 4, ["380"] = 4, ["446"] = 4, ["447"] = 8, ["452"] = 8, ["454"] = 4,
+	["455"] = 8, ["457"] = 8, ["459"] = 4, ["460"] = 8, ["461"] = 12, ["462"] = 16,
+	["466"] = 4, ["467"] = 8, ["469"] = 4, ["470"] = 8, ["471"] = 12, ["472"] = 16,
+	["477"] = 4, ["478"] = 8, ["480"] = 8, ["492"] = 4, ["493"] = 8, ["495"] = 4,
+	["496"] = 8, ["497"] = 12, ["498"] = 16, ["504"] = 12, ["505"] = 16, ["506"] = 20,
+	["507"] = 24, ["530"] = 5, ["531"] = 10
+}
 
-local function GetItemLevel(itemLink)
-	scantip:SetOwner(UIParent, "ANCHOR_NONE")
-	scantip:SetHyperlink(itemLink)
-	for i = 2, scantip:NumLines() do -- Line 1 = name so skip
-		local text = _G["ItemLevelScanTooltipTextLeft"..i]:GetText()
-		if text and text ~= "" then
-			local currentLevel = strmatch(text, S_ITEM_LEVEL)
-			if currentLevel then
-				return currentLevel
-			end
+local function BOALevel(level, id)
+	if level > 97 then
+		if id == 133585 or id == 133595 or id == 133596 or id == 133597 or id == 133598 then
+			level = 715
+		else
+			level = 605 - (100 - level) * 5
 		end
+	elseif level > 90 then
+		level = 590 - (97 - level) * 10
+	elseif level > 85 then
+		level = 463 - (90 - level) * 19.75
+	elseif level > 80 then
+		level = 333 - (85 - level) * 13.5
+	elseif level > 67 then
+		level = 187 - (80 - level) * 4
+	elseif level > 57 then
+		level = 105 - (67 - level) * 2.9
+	else
+		level = level + 5
 	end
-	scantip:Hide()
+
+	return level
 end
 
 --- Unit Gear Info
@@ -109,19 +123,19 @@ local function UnitGear(unit)
 					if (not quality) or (not level) then
 						delay = true
 					else
-						local currentLevel = GetItemLevel(itemLink)
-						if currentLevel then
-							total = total + currentLevel
-						else
-							total = total + level
-						end
-
 						if quality == 7 then
 							boa = boa + 1
+							local id = tonumber(strmatch(itemLink, "item:(%d+)"))
+							total = total + BOALevel(ulvl, id)
 						else
 							if IsPVPItem(itemLink) then
 								pvp = pvp + 1
 							end
+
+							local upgrade = itemLink:match(":(%d+)\124h%[")
+							if upgrades[upgrade] == nil then upgrades[upgrade] = 0 end
+
+							total = total + (level + upgrades[upgrade])
 						end
 
 						if i >= 16 then

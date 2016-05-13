@@ -45,12 +45,9 @@ local function LoadSkin()
 		"CombatConfigColorsColorizeEntireLine"
 	}
 
-
-
 	for i = 1, getn(colorize) do
 		local frame = _G[colorize[i]]
 		if frame then
-
 			local bg = CreateFrame("Frame", nil, frame)
 			bg:SetPoint("TOPLEFT", 0, 0)
 			bg:SetPoint("BOTTOMRIGHT", 0, 2)
@@ -104,43 +101,56 @@ local function LoadSkin()
 	}
 
 	for i = 1, getn(checkboxes) do
-
 		T.SkinCheckBox(_G[checkboxes[i]])
 	end
+
 	local ReskinColourSwatch = function(f)
 		f:StripTextures()
 		f:CreateBackdrop("Overlay")
 		f:SetFrameLevel(f:GetFrameLevel() + 2)
 		f.backdrop:SetPoint("TOPLEFT", 1, 0)
 		f.backdrop:SetPoint("BOTTOMRIGHT", 1, 1)
+
 		f:SetNormalTexture(Viks.media.texture)
 		local nt = f:GetNormalTexture()
+
+		
 		nt:SetPoint("TOPLEFT", 3, -2)
 		nt:SetPoint("BOTTOMRIGHT", -1, 3)
 	end
+
+	
 	hooksecurefunc("ChatConfig_CreateCheckboxes", function(frame, checkBoxTable, checkBoxTemplate)
 			if frame.styled then return end
+
 			local checkBoxNameString = frame:GetName().."CheckBox"
+
 			if checkBoxTemplate == "ChatConfigCheckBoxTemplate" then
 				for index, value in ipairs(checkBoxTable) do
 					local checkBoxName = checkBoxNameString..index
 					local checkbox = _G[checkBoxName]
+
 					local bg = CreateFrame("Frame", nil, checkbox)
 					bg:SetPoint("TOPLEFT", 2, -1)
 					bg:SetPoint("BOTTOMRIGHT", -2, 1)
 					bg:SetTemplate("Overlay")
+
 					T.SkinCheckBox(_G[checkBoxName.."Check"])
 				end
 			elseif checkBoxTemplate == "ChatConfigCheckBoxWithSwatchTemplate" or checkBoxTemplate == "ChatConfigCheckBoxWithSwatchAndClassColorTemplate" then
 				for index, value in ipairs(checkBoxTable) do
 					local checkBoxName = checkBoxNameString..index
 					local checkbox = _G[checkBoxName]
+
 					local bg = CreateFrame("Frame", nil, checkbox)
 					bg:SetPoint("TOPLEFT", 2, -1)
 					bg:SetPoint("BOTTOMRIGHT", -2, 1)
 					bg:SetTemplate("Overlay")
+
 					ReskinColourSwatch(_G[checkBoxName.."ColorSwatch"])
+
 					T.SkinCheckBox(_G[checkBoxName.."Check"])
+
 					if checkBoxTemplate == "ChatConfigCheckBoxWithSwatchAndClassColorTemplate" then
 						T.SkinCheckBox(_G[checkBoxName.."ColorClasses"])
 					end
@@ -203,8 +213,8 @@ local function LoadSkin()
 	for i = 1, #COMBAT_CONFIG_TABS do
 		local tab = _G["CombatConfigTab"..i]
 		if tab then
-			tab:SkinButton(true)
-			tab:SetHeight(tab:GetHeight() - 9)
+			T.SkinTab(tab, true)
+			tab:SetHeight(tab:GetHeight() - 2)
 			tab:ClearAllPoints()
 			if i == 1 then
 				tab:SetPoint("BOTTOMLEFT", _G["ChatConfigBackgroundFrame"], "TOPLEFT", 0, 1)

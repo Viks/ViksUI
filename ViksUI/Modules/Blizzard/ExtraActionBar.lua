@@ -7,24 +7,21 @@ if Viks.actionbar.enable ~= true then return end
 local anchor = CreateFrame("Frame", nil, UIParent)
 anchor:SetPoint(unpack(Viks.position.extra_button))
 anchor:SetSize(ExtraActionBarFrame:GetSize())
-ExtraActionBarFrame:SetParent(anchor)
+
+ExtraActionBarFrame:SetParent(UIParent)
 ExtraActionBarFrame:ClearAllPoints()
 ExtraActionBarFrame:SetPoint("CENTER", anchor, "CENTER")
-ExtraActionBarFrame:SetMovable(true)
-ExtraActionBarFrame:SetUserPlaced(true)
-ExtraActionBarFrame:SetFrameStrata("MEDIUM")
-ExtraActionBarFrame:SetScript("OnMouseDown", function()
-	if IsAltKeyDown() or IsShiftKeyDown() then
-		if not InCombatLockdown() then
-			ExtraActionBarFrame:ClearAllPoints()
-		end
-		ExtraActionBarFrame:StartMoving()
-	end
-end)
-ExtraActionBarFrame:SetScript("OnMouseUp", function()
-	ExtraActionBarFrame:StopMovingOrSizing()
-end)
+ExtraActionBarFrame:SetSize(53, 53)
+ExtraActionBarFrame.ignoreFramePositionManager = true
+
 RegisterStateDriver(anchor, "visibility", "[petbattle] hide; show")
+
+DraenorZoneAbilityFrame:SetParent(UIParent)
+DraenorZoneAbilityFrame:ClearAllPoints()
+DraenorZoneAbilityFrame:SetPoint("CENTER", anchor, "CENTER")
+DraenorZoneAbilityFrame:SetSize(53, 53)
+DraenorZoneAbilityFrame.ignoreFramePositionManager = true
+
 ------------------------------------------------------------------------------------------
 --	Skin ExtraActionBarFrame(by Zork)
 ------------------------------------------------------------------------------------------
@@ -39,3 +36,24 @@ button.style:SetTexture(nil)
 hooksecurefunc(texture, "SetTexture", disableTexture)
 
 button:StyleButton()
+button:SetSize(53, 53)
+
+------------------------------------------------------------------------------------------
+--	Skin DraenorZoneAbilityFrame
+------------------------------------------------------------------------------------------
+local button = DraenorZoneAbilityFrame.SpellButton
+local texture = button.Style
+local disableTexture = function(style, texture)
+	if texture then
+		style:SetTexture(nil)
+	end
+end
+button.Style:SetTexture(nil)
+hooksecurefunc(texture, "SetTexture", disableTexture)
+
+button:StripTextures()
+button:CreateBackdrop("Default")
+button:StyleButton(nil, 0)
+button:SetSize(49, 49)
+
+button.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)

@@ -85,16 +85,58 @@ local function LoadSkin()
 		QuestObjectiveText()
 	end)
 
-	hooksecurefunc("QuestInfo_ShowRequiredMoney", function()
-		local requiredMoney = GetQuestLogRequiredMoney()
-		if requiredMoney > 0 then
-			if requiredMoney > GetMoney() then
-				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+	hooksecurefunc(QuestInfoRequiredMoneyText, "SetTextColor", function(self, r, g, b)
+		if r == 0 then
+			self:SetTextColor(1, 0.8, 0)
+		elseif r == 0.2 then
+			self:SetTextColor(0.6, 0.6, 0.6)
+		end
+	end)
+
+	QuestInfoItemHighlight:StripTextures()
+	QuestInfoItemHighlight:SetTemplate("Default")
+	QuestInfoItemHighlight:SetBackdropBorderColor(1, 1, 0)
+	QuestInfoItemHighlight:SetBackdropColor(0, 0, 0, 0)
+
+	hooksecurefunc("QuestInfoItem_OnClick", function(self)
+		QuestInfoItemHighlight:ClearAllPoints()
+		QuestInfoItemHighlight:SetPoint("TOPLEFT", self.Icon, "TOPLEFT", -2, 2)
+		QuestInfoItemHighlight:SetPoint("BOTTOMRIGHT", self.Icon, "BOTTOMRIGHT", 2, -2)
+
+		local parent = self:GetParent()
+		for i = 1, #parent.RewardButtons do
+			local questItem = QuestInfoRewardsFrame.RewardButtons[i]
+			if questItem ~= self then
+				questItem.Name:SetTextColor(1, 1, 1)
 			else
-				QuestInfoRequiredMoneyText:SetTextColor(1, 0.8, 0)
+				self.Name:SetTextColor(1, 1, 0)
 			end
 		end
 	end)
+
+	hooksecurefunc("QuestInfo_Display", function(template, parentFrame)
+		for i = 1, #QuestInfoRewardsFrame.RewardButtons do
+			local questItem = QuestInfoRewardsFrame.RewardButtons[i]
+			if not questItem:IsShown() then break end
+
+			local point, relativeTo, relativePoint, x, y = questItem:GetPoint()
+			if point and relativeTo and relativePoint then
+				if i == 1 then
+					questItem:SetPoint(point, relativeTo, relativePoint, 0, y)
+				elseif relativePoint == "BOTTOMLEFT" then
+					questItem:SetPoint(point, relativeTo, relativePoint, 0, -5)
+				else
+					questItem:SetPoint(point, relativeTo, relativePoint, 5, 0)
+				end
+			end
+
+			questItem.Name:SetTextColor(1, 1, 1)
+		end
+    end)
+
+	QuestInfoRewardsFrame.FollowerFrame:CreateBackdrop("Transparent")
+	QuestInfoRewardsFrame.FollowerFrame.backdrop:SetAllPoints(QuestInfoRewardsFrame.FollowerFrame.BG)
+	QuestInfoRewardsFrame.FollowerFrame.BG:Hide()
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

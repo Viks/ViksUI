@@ -44,10 +44,7 @@ for i, unit in pairs(units) do
 	unit.Name:ClearAllPoints()
 
 	unit.PetTypeFrame = CreateFrame("Frame", nil, unit)
-	unit.PetTypeFrame:SetSize(100, 23)
-	unit.PetTypeFrame:FontString("text", Viks.media.font, 12)
-	unit.PetTypeFrame.text:SetShadowOffset(1, -1)
-	unit.PetTypeFrame.text:SetText("")
+	unit.PetTypeFrame:SetSize(23, 23)
 
 	unit.SpeedIcon:SetAlpha(0)
 	unit.SpeedUnderlay:SetAlpha(0)
@@ -67,11 +64,10 @@ for i, unit in pairs(units) do
 		unit.Name:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, "TOPLEFT", 0, 10)
 
 		unit.PetTypeFrame:SetPoint("BOTTOMRIGHT", unit.HealthBarBackdrop, "TOPRIGHT", 4, 4)
-		unit.PetTypeFrame.text:SetPoint("RIGHT", -3, 0)
-
 		unit.FirstAttack:SetPoint("LEFT", unit.HealthBarBackdrop, "RIGHT", 5, 0)
 		unit.FirstAttack:SetTexCoord(unit.SpeedIcon:GetTexCoord())
 		unit.FirstAttack:SetVertexColor(0.1, 0.1, 0.1, 1)
+		unit.Level:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMLEFT", 2, 2)
 	else
 		unit.HealthBarBackdrop:SetPoint("TOPRIGHT", unit.ActualHealthBar, "TOPRIGHT", 2, 2)
 		unit.HealthBarBackdrop:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, "BOTTOMRIGHT", 2, -2)
@@ -82,25 +78,24 @@ for i, unit in pairs(units) do
 		unit.Name:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, "TOPRIGHT", 0, 10)
 
 		unit.PetTypeFrame:SetPoint("BOTTOMLEFT", unit.HealthBarBackdrop, "TOPLEFT", -2, 4)
-		unit.PetTypeFrame.text:SetPoint("LEFT", 3, 0)
 
 		unit.FirstAttack:SetPoint("RIGHT", unit.HealthBarBackdrop, "LEFT", -5, 0)
 		unit.FirstAttack:SetTexCoord(0.5, 0, 0.5, 1)
 		unit.FirstAttack:SetVertexColor(0.1, 0.1, 0.1, 1)
+		unit.Level:SetPoint("BOTTOMRIGHT", unit.Icon, "BOTTOMRIGHT", -2, 2)
 	end
 
 	unit.PetType:ClearAllPoints()
 	unit.PetType:SetAllPoints(unit.PetTypeFrame)
-	unit.PetType:SetFrameLevel(unit.PetTypeFrame:GetFrameLevel() + 2)
-	unit.PetType:SetAlpha(0)
+	unit.PetType:SetAlpha(1)
+	unit.PetType.ActiveStatus:Kill()
 
 	unit.HealthText:ClearAllPoints()
 	unit.HealthText:SetPoint("CENTER", unit.HealthBarBackdrop, "CENTER")
 
 	unit.LevelUnderlay:SetAlpha(0)
-	unit.Level:SetFontObject(SystemFont_Large)
-	unit.Level:ClearAllPoints()
-	unit.Level:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMLEFT", 2, 2)
+	unit.Level:SetFontObject(NumberFont_Outline_Large)
+	unit.Level:SetTextColor(1, 1, 1)
 
 	unit.BorderFlash:Kill()
 end
@@ -119,30 +114,6 @@ hooksecurefunc("PetBattleFrame_UpdateSpeedIndicators", function(self)
 			unit.FirstAttack:SetVertexColor(0, 1, 0, 1)
 		else
 			unit.FirstAttack:SetVertexColor(0.8, 0, 0.3, 1)
-		end
-	end
-end)
-
--- Localized pets type
-local pet_type = {
-	[1] = BATTLE_PET_DAMAGE_NAME_1,
-	[2] = BATTLE_PET_DAMAGE_NAME_2,
-	[3] = BATTLE_PET_DAMAGE_NAME_3,
-	[4] = BATTLE_PET_DAMAGE_NAME_4,
-	[5] = BATTLE_PET_DAMAGE_NAME_5,
-	[6] = BATTLE_PET_DAMAGE_NAME_6,
-	[7] = BATTLE_PET_DAMAGE_NAME_7,
-	[8] = BATTLE_PET_DAMAGE_NAME_8,
-	[9] = BATTLE_PET_DAMAGE_NAME_9,
-	[10] = BATTLE_PET_DAMAGE_NAME_10,
-}
-
--- Pets unitframes pet type update
-hooksecurefunc("PetBattleUnitFrame_UpdatePetType", function(self)
-	if self.PetType then
-		local petType = C_PetBattles.GetPetType(self.petOwner, self.petIndex)
-		if self.PetTypeFrame then
-			self.PetTypeFrame.text:SetText(pet_type[petType])
 		end
 	end
 end)
@@ -182,10 +153,9 @@ hooksecurefunc("PetBattleAuraHolder_Update", function(self)
 				frame.Duration:SetText(turnsRemaining)
 			end
 
-			frame.Duration:SetFont(Viks.media.font, 12)
-			frame.Duration:SetShadowOffset(1, -1)
+			frame.Duration:SetFontObject(NumberFont_Outline_Med)
 			frame.Duration:ClearAllPoints()
-			frame.Duration:SetPoint("CENTER", frame.Icon, "CENTER", 1, 0)
+			frame.Duration:SetPoint("CENTER", frame.Icon, "CENTER", 1, -2)
 
 			nextFrame = nextFrame + 1
 		end
@@ -399,9 +369,9 @@ end
 table.insert(UISpecialFrames, "FloatingBattlePetTooltip")
 
 -- Tooltip position
-hooksecurefunc("PetBattleAbilityTooltip_Show", function()
-	PetBattlePrimaryAbilityTooltip:ClearAllPoints()
-	PetBattlePrimaryAbilityTooltip:SetPoint(unpack(Viks.position.tooltip))
+hooksecurefunc("PetBattleAbilityButton_OnEnter", function()
+	PetBattleAbilityTooltip_Show(unpack(Viks.position.tooltip))
+	PetBattlePrimaryAbilityTooltip:SetFrameLevel(5)
 end)
 
 ----------------------------------------------------------------------------------------
@@ -409,7 +379,6 @@ end)
 ----------------------------------------------------------------------------------------
 hooksecurefunc("PetBattleUnitFrame_UpdateDisplay", function(self)
 	self.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	self.Icon:SetPoint("TOP", f, "TOP", 0, -36)
 
 	-- There must be a petOwner and a petIndex
 	if not self.petOwner or not self.petIndex then return end

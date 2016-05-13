@@ -38,8 +38,8 @@ local function freestyle(bar)
 	bar.candyBarIconFrame.SetWidth = bar.candyBarIconFrame.OldSetWidth
 	bar.SetScale = bar.OldSetScale
 
-	--Reset Positions
-	--Icon
+	-- Reset Positions
+	-- Icon
 	bar.candyBarIconFrame:ClearAllPoints()
 	bar.candyBarIconFrame:SetPoint("TOPLEFT")
 	bar.candyBarIconFrame:SetPoint("BOTTOMLEFT")
@@ -121,7 +121,9 @@ local applystyle = function(bar)
 	bar.candyBarBar.OldSetPoint = bar.candyBarBar.SetPoint
 	bar.candyBarBar.SetPoint = T.dummy
 	bar.candyBarBar:SetStatusBarTexture(Viks.media.texture)
-	if not bar.data["bigwigs:emphasized"] == true then bar.candyBarBar:SetStatusBarColor(T.color.r, T.color.g, T.color.b, 1) end
+	if not bar.data["bigwigs:emphasized"] == true then
+		bar.candyBarBar:SetStatusBarColor(T.color.r, T.color.g, T.color.b, 1)
+	end
 	bar.candyBarBackground:SetTexture(Viks.media.texture)
 
 	-- Setup icon positions and other things
@@ -147,9 +149,9 @@ local function registerStyle()
 			GetStyleName = function() return "ViksUI" end,
 		})
 	end
-	bars.db.profile.barStyle = "ViksUI"
-	if prox and bars.db.profile.barStyle == "ViksUI" then
-		hooksecurefunc(prox, "RestyleWindow", function()
+	bars.defaultDB.barStyle = "ViksUI"
+	if BigWigsLoader and bars.defaultDB.barStyle == "ViksUI" then
+		BigWigsLoader.RegisterMessage("BigWigs_Plugins", "BigWigs_FrameCreated", function()
 			BigWigsProximityAnchor:SetTemplate("Transparent")
 		end)
 	end
@@ -160,10 +162,9 @@ f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function(self, event, addon)
 	if event == "ADDON_LOADED" then
 		if addon == "BigWigs_Plugins" then
-			if BigWigs3DB.namespaces.BigWigs_Plugins_Bars.profiles.Default.InstalledBars ~= Viks.actionbar.bottombars then
+			if not BigWigs3DB.namespaces.BigWigs_Plugins_Bars or BigWigs3DB.namespaces.BigWigs_Plugins_Bars.profiles.Default.InstalledBars ~= Viks.actionbar.bottombars then
 				StaticPopup_Show("BW_TEST")
 			end
-
 			registerStyle()
 			f:UnregisterEvent("ADDON_LOADED")
 		end
@@ -216,8 +217,8 @@ StaticPopupDialogs.BW_TEST = {
 		BigWigs:GetPlugin("Super Emphasize").db.profile.font = "Calibri"
 		BigWigs:GetPlugin("Alt Power").db.profile.font = "Calibri"
 		if InCombatLockdown() then
-			pr("|cffffff00"..ERR_NOT_IN_COMBAT.."|r")
-			pr("|cffffff00Reload your UI to apply skin.|r")
+			print("|cffffff00"..ERR_NOT_IN_COMBAT.."|r")
+			print("|cffffff00Reload your UI to apply skin.|r")
 		else
 			ReloadUI()
 		end
@@ -243,8 +244,8 @@ SlashCmdList.BWTEST = function(msg)
 		BigWigs:Test()
 		BigWigs:Test()
 	else
-		pr("|cffffff00Type /bwtest apply to apply BigWigs settings.|r")
-		pr("|cffffff00Type /bwtest test to launch BigWigs testmode.|r")
+		print("|cffffff00Type /bwtest apply to apply BigWigs settings.|r")
+		print("|cffffff00Type /bwtest test to launch BigWigs testmode.|r")
 	end
 end
 SLASH_BWTEST1 = "/bwtest"

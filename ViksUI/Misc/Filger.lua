@@ -1,5 +1,5 @@
 local T, Viks, L, _ = unpack(ViksUI)
-if Viks.misc.filger and Viks.unitframes.enable ~= true then return end
+if Viks.Filger.enable and Viks.unitframes.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Filger(by Nils Ruesch, editors Affli/SinaC/Ildyria)
@@ -35,7 +35,7 @@ AnchorT_BAR:SetPoint("LEFT", UIParent, "CENTER", 450, -114)
 CreateAnchor(AnchorT_BAR, "Move T_BAR", 36, 36)
 end
 
-if Viks.misc.filgerCD then
+if Viks.Filger.filgerCD then
 Anchor_CD = CreateFrame("Frame","Move_CD",UIParent)
 Anchor_CD:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, 210)
 CreateAnchor(Anchor_CD, "Move CD", 30, 30)
@@ -59,7 +59,7 @@ function Filger:TooltipOnEnter()
 	if self.spellID > 20 then
 		local str = "spell:%s"
 		GameTooltip:ClearLines()
-		--GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT", 0, 3)
+		GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT", 0, 3)
 		GameTooltip:SetHyperlink(format(str, self.spellID))
 		GameTooltip:Show()
 	end
@@ -132,8 +132,7 @@ function Filger:DisplayActives()
 		if not bar then
 			bar = CreateFrame("Frame", "FilgerAnchor"..id.."Frame"..index, self)
 			bar:SetScale(1)
-			frame1px(bar)
-			CreateShadow(bar)
+			bar:SetTemplate("Default")
 
 			if index == 1 then
 				bar:SetPoint(unpack(self.Position))
@@ -202,10 +201,9 @@ function Filger:DisplayActives()
 					bar.bg:SetPoint("TOPLEFT", -2, 2)
 					bar.bg:SetPoint("BOTTOMRIGHT", 2, -2)
 					bar.bg:SetFrameStrata("BACKGROUND")
-					frame1px(bar.bg)
-					CreateShadow(bar.bg)
+					bar.bg:SetTemplate("Default")
 				end
-
+				
 				if bar.background then
 					bar.background = _G[bar.background:GetName()]
 				else
@@ -314,7 +312,7 @@ function Filger:DisplayActives()
 			bar:SetScript("OnUpdate", nil)
 		end
 		bar.spellID = value.spid
-		if Viks["filger_settings"].show_tooltip then
+		if Viks.Filger.show_tooltip then
 			bar:EnableMouse(true)
 			bar:SetScript("OnEnter", Filger.TooltipOnEnter)
 			bar:SetScript("OnLeave", Filger.TooltipOnLeave)
@@ -332,19 +330,20 @@ function Filger:DisplayActives()
 	end
 end
 
-function Filger:OnEvent(event, unit)
-	if event == "SPELL_UPDATE_COOLDOWN" or event == "PLAYER_TARGET_CHANGED" or event == "PLAYER_FOCUS_CHANGED" or event == "PLAYER_ENTERING_WORLD" or event == "UNIT_AURA" and (unit == "target" or unit == "player" or unit == "pet" or unit == "focus") then
+function Filger:OnEvent(event, unit, _, _, _, spellID)
+	if event == "SPELL_UPDATE_COOLDOWN" or event == "PLAYER_TARGET_CHANGED" or event == "PLAYER_FOCUS_CHANGED" or event == "PLAYER_ENTERING_WORLD" or event == "UNIT_AURA" and (unit == "target" or unit == "player" or unit == "pet" or unit == "focus") or (event == "UNIT_SPELLCAST_SUCCEEDED" and unit == "player") then
 		local ptt = GetSpecialization()
 		local needUpdate = false
 		local id = self.Id
 
 		for i = 1, #Viks["filger_spells"][T.class][id], 1 do
 			local data = Viks["filger_spells"][T.class][id][i]
+			if Viks.Filger.disable_cd == true and (data.filter == "CD" or data.filter == "ICD") then return end
 			local found = false
 			local name, icon, count, duration, start, spid
 			spid = 0
 
-			if data.filter == "BUFF" and (not data.spec or data.spec == ptt) then
+			if data.filter == "BUFF" and (not data.spec or data.spec == ptt) and event ~= "UNIT_SPELLCAST_SUCCEEDED" then
 				local caster, spn, expirationTime
 				spn, _, _ = GetSpellInfo(data.spellID)
 				name, _, icon, count, _, duration, expirationTime, caster, _, _, spid = Filger:UnitBuff(data.unitID, data.spellID, spn, data.absID)
@@ -391,6 +390,11 @@ function Filger:OnEvent(event, unit)
 					local spn
 					spn, _, icon = GetSpellInfo(data.spellID)
 					name, _, _, _, _, _, _, _, _, _, spid = Filger:UnitDebuff("player", data.spellID, spn, data.absID)
+				elseif data.trigger == "NONE" and event == "UNIT_SPELLCAST_SUCCEEDED" then
+					if spellID == data.spellID then
+						name, _, icon = GetSpellInfo(data.spellID)
+						spid = data.spellID
+					end
 				end
 				if name then
 					if data.slotID then
@@ -408,7 +412,7 @@ function Filger:OnEvent(event, unit)
 				if not self.actives[i] then
 					self.actives[i] = {data = data, name = name, icon = icon, count = count, start = start, duration = duration, spid = spid}
 					needUpdate = true
-					if T.class == "DEATHKNIGHT" and self.actives[i].duration == 10 then
+					if T.class == "DEATHKNIGHT" and self.actives[i].duration == 10 and data.filter == "CD" then
 						self.actives[i] = nil
 					end
 				else
@@ -421,6 +425,7 @@ function Filger:OnEvent(event, unit)
 				end
 			else
 				if data.filter ~= "ICD" and self.actives and self.actives[i] then
+					if event == "UNIT_SPELLCAST_SUCCEEDED" then return end
 					self.actives[i] = nil
 					needUpdate = true
 				end
@@ -518,9 +523,9 @@ if Viks["filger_spells"] and Viks["filger_spells"][T.class] then
 		frame.Position = data.Position or "CENTER"
 		frame:SetPoint(unpack(data.Position))
 
-		if Viks["filger_settings"].config_mode then
+		if Viks.Filger.test_mode then
 			frame.actives = {}
-			for j = 1, math.min(Viks["filger_settings"].max_test_icon, #Viks["filger_spells"][T.class][i]), 1 do
+			for j = 1, math.min(Viks.Filger.max_test_icon, #Viks["filger_spells"][T.class][i]), 1 do
 				local data = Viks["filger_spells"][T.class][i][j]
 				local name, icon
 				if data.spellID then
@@ -539,6 +544,9 @@ if Viks["filger_spells"] and Viks["filger_spells"][T.class] then
 				local data = Viks["filger_spells"][T.class][i][j]
 				if data.filter == "CD" then
 					frame:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+					break
+				elseif data.trigger == "NONE" then
+					frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 					break
 				end
 			end

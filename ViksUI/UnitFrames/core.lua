@@ -109,7 +109,7 @@ local UnitSpecific = {
 	lib.TotemBars(self)
 	lib.Experience(self)
 	lib.Reputation(self)
-	lib.AltPowerBar(self)
+	--lib.AltPowerBar(self)
 			-- PvP Icon Credit to oUF Drk
 		local pvp = self.Health:CreateTexture(nil, "OVERLAY")
 		pvp:SetHeight(32)
@@ -121,7 +121,7 @@ local UnitSpecific = {
 		self:RegisterEvent("UNIT_FACTION", MyPvPUpdate)
 		-- This makes oUF update the information on forced updates.
 		table.insert(self.__elements, MyPvPUpdate)
-	if cfg.CPoints then lib.genCPoints(self) end
+	if cfg.CPoints and Viks.unitframe_class_bar.combo_old ~= true then lib.genCPoints(self) end
 	if cfg.showHarmony then lib.genHarmony(self) end
 	if cfg.showShadowOrbsBar then lib.genShadowOrbsBar(self) end
 	if cfg.showPortrait or cfg.portraitHPbar then lib.gen_portrait(self) end
@@ -170,6 +170,7 @@ local UnitSpecific = {
 		lib.addQuestIcon(self)
 		lib.createBuffs(self)
 		lib.createDebuffs(self)
+		if cfg.CPoints and Viks.unitframe_class_bar.combo_old == true then lib.genCPoints(self) end
 		--lib.createAuras(self)
 		if cfg.showPortrait or cfg.portraitHPbar then lib.gen_portrait(self) end
 
@@ -430,7 +431,7 @@ local UnitSpecific = {
 	ArenaStyle = function(self, ...)
 
 		-- unit specifics
-		self.mystyle = "arena"
+		self.mystyle = "oUF_Arena"
 		--self:SetParent(PetBattleHider)
 		--lib.init(self)	
 		self:SetSize(cfg.unit_size.Arena.w,cfg.unit_size.Arena.h)
@@ -506,7 +507,7 @@ local function CreateBossStyle(self)
 end
 local function CreateArenaStyle(self)
 		-- unit specifics
-		self.mystyle = "arena"
+		self.mystyle = "oUF_Arena"
 		
 		-- Size and Scale
 		self:SetSize(cfg.unit_size.Arena.w, cfg.unit_size.Arena.h)
@@ -641,7 +642,7 @@ oUF:RegisterStyle('ViksGroup', GroupGlobalStyle)
 oUF:RegisterStyle('Boss', CreateBossStyle)
 oUF:RegisterStyle('ViksTank', tankStyle)
 oUF:RegisterStyle("oUF_MT", CreateMTStyle)
-oUF:RegisterStyle("Arena", CreateArenaStyle)
+oUF:RegisterStyle("oUF_Arena", CreateArenaStyle)
 oUF:RegisterStyle("raid25", CreateRaid25Style)
 
 oUF:Factory(function(self)
@@ -730,10 +731,10 @@ oUF:Factory(function(self)
 		else
 		tank:SetPoint("TOP", AnchorvikstankDps)
 		end	
-		--[[
+
 		-- Arena Frames
-	if cfg.showarena and not IsAddOnLoaded('Gladius') then
-	oUF:SetActiveStyle("Arena")
+	--if cfg.showarena and not IsAddOnLoaded('Gladius') then
+	oUF:SetActiveStyle("oUF_Arena")
 	SetCVar("showArenaEnemyFrames", false)
 	local gap = cfg.ABspacing
 	local arena = {}
@@ -745,10 +746,10 @@ oUF:Factory(function(self)
 			else
 				arena[i]:SetPoint("BOTTOM", arena[i-1], "TOP", 0, gap)
 			end
-		--arena[i]:SetSize(150, 28)
+		arena[i]:SetSize(150, 28)
 		end	
-	end
-	--]]
+	--end
+
 	
 		local maxGroups = 5
 		if cfg.RaidShowAllGroups then maxGroups = 8 end

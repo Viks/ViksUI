@@ -25,7 +25,8 @@ Minimap:SetWidth(Viks.minimapp.size -4)
 --Creating the Borders
 	BorderFrame = CreateFrame("Frame", nil, Minimap) --Helpframe
 	BorderFrame:SetFrameLevel(2)
-	frame1px1_1(BorderFrame) --Style funktion from core.lua
+	BorderFrame:SetTemplate("Default")
+	--frame1px1_1(BorderFrame) --Style funktion from core.lua
 	--CreateShadow(BorderFrame) --Style funktion from core.lua
 	
 local dummy = function() end

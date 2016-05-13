@@ -65,6 +65,7 @@ local TRINKET_FILTER = {
 	CreateSpellEntry( 20572 ), -- Blood Fury for Attack Power (Orc)
 	CreateSpellEntry( 33702 ), -- Blood Fury for Spell Power (Orc)
 	CreateSpellEntry( 33697 ), -- Blood Fury for Both (Orc)
+	CreateSpellEntry( 69041 ), -- Rocket Barrage
 		
 	--Darkmoon Cards
 	CreateSpellEntry( 89181 ), -- Earthquake
@@ -1241,7 +1242,6 @@ do
 		border:SetPoint( "BOTTOMRIGHT", result, "BOTTOMRIGHT", 5, -5 );
 		result.border = border;		
 		frame1px1(border)
-		--CreateShadow(border)
 		result:RegisterEvent( "PLAYER_ENTERING_WORLD" );
 		result:RegisterEvent( "UNIT_AURA" );
 		if ( unit == "target" ) then

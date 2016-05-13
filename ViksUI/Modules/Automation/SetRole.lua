@@ -1,5 +1,4 @@
-﻿--[[
-local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, Viks, L, _ = unpack(select(2, ...))
 if Viks.automation.auto_role ~= true then return end
 
 ----------------------------------------------------------------------------------------
@@ -13,7 +12,9 @@ local function SetRole()
 		elseif spec ~= nil then
 			if GetNumGroupMembers() > 0 then
 				local role = GetSpecializationRole(spec)
-				UnitSetRole("player", role)
+				if UnitGroupRolesAssigned("player") ~= role then
+					UnitSetRole("player", role)
+				end
 			end
 		end
 	end
@@ -22,9 +23,9 @@ end
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_TALENT_UPDATE")
 frame:RegisterEvent("GROUP_ROSTER_UPDATE")
-frame:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND")
+
 
 frame:SetScript("OnEvent", SetRole)
 
-RolePollPopup:SetScript("OnShow", function() StaticPopupSpecial_Hide(RolePollPopup) end)
---]]
+
+RolePollPopup:UnregisterEvent("ROLE_POLL_BEGIN")

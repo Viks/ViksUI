@@ -1,6 +1,5 @@
 local T, Viks, L, _ = unpack(select(2, ...))
 if Viks.misc.WatchFrame then
-
 ----------------------------------------------------------------------------------------
 --	Move ObjectiveTrackerFrame
 ----------------------------------------------------------------------------------------
@@ -8,8 +7,6 @@ local frame = CreateFrame("Frame", "WatchFrameAnchor", UIParent)
 frame:SetPoint("TOPRIGHT", CPMinimb1, "BOTTOMLEFT", 0, 10)
 frame:SetHeight(150)
 frame:SetWidth(224)
---frame:SetClampedToScreen(true)
---frame:SetMovable(true)
 
 ObjectiveTrackerFrame:ClearAllPoints()
 ObjectiveTrackerFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
@@ -24,8 +21,17 @@ hooksecurefunc(ObjectiveTrackerFrame, "SetPoint", function(_, _, parent)
 end)
 
 ObjectiveTrackerBlocksFrame.QuestHeader:SetAlpha(0)
-ObjectiveTrackerFrame.HeaderMenu.Title:SetAlpha(0)
 
+for _, headerName in pairs({"QuestHeader", "AchievementHeader", "ScenarioHeader"}) do
+	ObjectiveTrackerFrame.BlocksFrame[headerName].Background:Hide()
+end
+
+ObjectiveTrackerFrame.HeaderMenu.Title:SetAlpha(0)
+BONUS_OBJECTIVE_TRACKER_MODULE.Header.Background:Hide()
+OBJECTIVE_TRACKER_DOUBLE_LINE_HEIGHT = 30
+
+--ScenarioObjectiveTracker_AnimateReward = T.dummy
+--BonusObjectiveTracker_AnimateReward = T.dummy
 
 function watchFButton()
 	for i = 1, NUM_CHAT_WINDOWS do
@@ -85,6 +91,8 @@ hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", function(_, block)
 		item.icon:SetPoint("TOPLEFT", item, 2, -2)
 		item.icon:SetPoint("BOTTOMRIGHT", item, -2, 2)
 
+		item.Cooldown:SetAllPoints(item.icon)
+		
 		item.HotKey:ClearAllPoints()
 		item.HotKey:SetPoint("BOTTOMRIGHT", 0, 2)
 		item.HotKey:SetFont(Viks.font.action_bars_font, Viks.font.action_bars_font_size, Viks.font.action_bars_font_style)
@@ -99,47 +107,10 @@ hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", function(_, block)
 	end
 end)
 
-----------------------------------------------------------------------------------------
---	Difficulty color for ObjectiveTrackerFrame lines
-----------------------------------------------------------------------------------------
---WoD hooksecurefunc("ObjectiveTracker_Update", function()
-	-- local numQuestWatches = GetNumQuestWatches()
-
-	-- for i = 1, numQuestWatches do
-		-- local questIndex = GetQuestIndexForWatch(i)
-		-- if questIndex then
-			-- local title, level = GetQuestLogTitle(questIndex)
-			-- local col = GetQuestDifficultyColor(level)
-
-			-- for j = 1, #WATCHFRAME_QUESTLINES do
-				-- if WATCHFRAME_QUESTLINES[j].text:GetText() == title then
-					-- WATCHFRAME_QUESTLINES[j].text:SetTextColor(col.r, col.g, col.b)
-					-- WATCHFRAME_QUESTLINES[j].col = col
-				-- end
-			-- end
-			-- for k = 1, #WATCHFRAME_ACHIEVEMENTLINES do
-				-- WATCHFRAME_ACHIEVEMENTLINES[k].col = nil
-			-- end
-		-- end
-	-- end
--- end)
-
---WoD hooksecurefunc("WatchFrameLinkButtonTemplate_Highlight", function(self, onEnter)
-	-- i = self.startLine
-	-- if not (self.lines[i] and self.lines[i].col) then return end
-	-- if onEnter then
-		-- self.lines[i].text:SetTextColor(1, 0.8, 0)
-	-- else
-		-- self.lines[i].text:SetTextColor(self.lines[i].col.r, self.lines[i].col.g, self.lines[i].col.b)
-	-- end
--- end)
-
-for _, headerName in pairs({"QuestHeader", "AchievementHeader", "ScenarioHeader"}) do
-	ObjectiveTrackerFrame.BlocksFrame[headerName].Background:Hide()
-end
 
 ----------------------------------------------------------------------------------------
 --	Hide ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
+----------------------------------------------------------------------------------------
 if Viks.skins.blizzard_frames == true then
 	local button = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
 	button:SetSize(17, 17)
@@ -170,7 +141,41 @@ if Viks.skins.blizzard_frames == true then
 	ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:Hide()
 end
 end
+----------------------------------------------------------------------------------------
+--	Skin bonus objective progress bar
+----------------------------------------------------------------------------------------
+hooksecurefunc(BONUS_OBJECTIVE_TRACKER_MODULE, "AddProgressBar", function(self, block, line)
+	local progressBar = line.ProgressBar
+	local bar = progressBar.Bar
+	local icon = bar.Icon
 
+	if not progressBar.styled then
+		local label = bar.Label
+		bar.BarFrame:Hide()
+		bar.BarGlow:Kill()
+		bar.IconBG:Kill()
+		bar:SetSize(200, 20)
+		bar:SetStatusBarTexture(Viks.media.texture)
+		bar:SetTemplate("Transparent")
+		bar:SetBackdropColor(0, 0, 0, 0)
+
+		label:ClearAllPoints()
+		label:SetPoint("CENTER", 0, -1)
+		label:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+
+		icon:SetPoint("RIGHT", 24, 0)
+		icon:SetSize(20, 20)
+
+		local border = CreateFrame("Frame", "$parentBorder", bar)
+		border:SetAllPoints(icon)
+		border:SetTemplate("Transparent")
+		border:SetBackdropColor(0, 0, 0, 0)
+		bar.newIconBg = border
+
+		BonusObjectiveTrackerProgressBar_PlayFlareAnim = T.dummy
+		progressBar.styled = true
+	end
+end)
 local frame1 = CreateFrame("Frame")
 frame1:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame1:SetScript("OnEvent", function(self, event)

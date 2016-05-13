@@ -140,7 +140,6 @@ T.SkinFuncs = {}
 T.SkinFuncs["ViksUI"] = {}
 
 function T.SkinScrollBar(frame)
-
 	if _G[frame:GetName().."BG"] then
 		_G[frame:GetName().."BG"]:SetTexture(nil)
 	end
@@ -160,29 +159,55 @@ function T.SkinScrollBar(frame)
 	if _G[frame:GetName().."ScrollUpButton"] and _G[frame:GetName().."ScrollDownButton"] then
 		_G[frame:GetName().."ScrollUpButton"]:StripTextures()
 		if not _G[frame:GetName().."ScrollUpButton"].icon then
-			T.SkinNextPrevButton(_G[frame:GetName().."ScrollUpButton"], true)
+			T.SkinNextPrevButton(_G[frame:GetName().."ScrollUpButton"])
 			_G[frame:GetName().."ScrollUpButton"]:SetSize(_G[frame:GetName().."ScrollUpButton"]:GetWidth() + 7, _G[frame:GetName().."ScrollUpButton"]:GetHeight() + 7)
 			scrolldn = false
 		end
 
 		_G[frame:GetName().."ScrollDownButton"]:StripTextures()
 		if not _G[frame:GetName().."ScrollDownButton"].icon then
-			T.SkinNextPrevButton(_G[frame:GetName().."ScrollDownButton"], true)
+			T.SkinNextPrevButton(_G[frame:GetName().."ScrollDownButton"])
 			_G[frame:GetName().."ScrollDownButton"]:SetSize(_G[frame:GetName().."ScrollDownButton"]:GetWidth() + 7, _G[frame:GetName().."ScrollDownButton"]:GetHeight() + 7)
 			scrolldn = true
 		end
 
 		if frame:GetThumbTexture() then
-			if not thumbTrim then thumbTrim = 3 end
+
 			frame:GetThumbTexture():SetTexture(nil)
 			if not frame.thumbbg then
 				frame.thumbbg = CreateFrame("Frame", nil, frame)
-				frame.thumbbg:SetPoint("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 0, -thumbTrim)
-				frame.thumbbg:SetPoint("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", 0, thumbTrim)
+				frame.thumbbg:SetPoint("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 0, -3)
+				frame.thumbbg:SetPoint("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", 0, 3)
 				frame.thumbbg:SetTemplate("Overlay")
 				if frame.trackbg then
 					frame.thumbbg:SetFrameLevel(frame.trackbg:GetFrameLevel())
 				end
+
+				frame:HookScript("OnShow", function()
+					local _, maxValue = frame:GetMinMaxValues()
+					if maxValue == 0 then
+						frame:SetAlpha(0)
+					else
+						frame:SetAlpha(1)
+					end
+				end)
+
+				frame:HookScript("OnMinMaxChanged", function()
+					local _, maxValue = frame:GetMinMaxValues()
+					if maxValue == 0 then
+						frame:SetAlpha(0)
+					else
+						frame:SetAlpha(1)
+					end
+				end)
+
+				frame:HookScript("OnDisable", function()
+					frame:SetAlpha(0)
+				end)
+
+				frame:HookScript("OnEnable", function()
+					frame:SetAlpha(1)
+				end)
 			end
 		end
 	end
@@ -226,9 +251,9 @@ function T.SkinTab(tab, bg)
 	end
 end
 
-function T.SkinNextPrevButton(btn)
+function T.SkinNextPrevButton(btn, left)
 	local normal, pushed, disabled
-	local isPrevButton = btn:GetName() and (string.find(btn:GetName(), "Left") or string.find(btn:GetName(), "Prev") or string.find(btn:GetName(), "Decrement") or string.find(btn:GetName(), "Back"))
+	local isPrevButton = btn:GetName() and (string.find(btn:GetName(), "Left") or string.find(btn:GetName(), "Prev") or string.find(btn:GetName(), "Decrement") or string.find(btn:GetName(), "Back")) or left
 	local isScrollUpButton = btn:GetName() and string.find(btn:GetName(), "ScrollUp")
 	local isScrollDownButton = btn:GetName() and string.find(btn:GetName(), "ScrollDown")
 
@@ -371,7 +396,7 @@ function T.SkinDropDownBox(frame, width)
 	button:SetPoint("RIGHT", frame, "RIGHT", -10, 3)
 	button.SetPoint = T.dummy
 	scrolldn = false
-	T.SkinNextPrevButton(button, true)
+	T.SkinNextPrevButton(button)
 
 	frame:CreateBackdrop("Overlay")
 	frame:SetFrameLevel(frame:GetFrameLevel() + 2)
@@ -380,7 +405,8 @@ function T.SkinDropDownBox(frame, width)
 end
 
 function T.SkinCheckBox(frame, default)
-	frame:StripTextures()
+	frame:SetNormalTexture("")
+	frame:SetPushedTexture("")
 	frame:CreateBackdrop("Overlay")
 	frame:SetFrameLevel(frame:GetFrameLevel() + 2)
 	frame.backdrop:SetPoint("TOPLEFT", 4, -4)
@@ -464,8 +490,13 @@ function T.SkinSlider(f)
 
 	local bd = CreateFrame("Frame", nil, f)
 	bd:SetTemplate("Overlay")
-	bd:SetPoint("TOPLEFT", 14, -2)
-	bd:SetPoint("BOTTOMRIGHT", -15, 3)
+	if f:GetOrientation() == "VERTICAL" then
+		bd:SetPoint("TOPLEFT", -2, -6)
+		bd:SetPoint("BOTTOMRIGHT", 2, 6)
+	else
+		bd:SetPoint("TOPLEFT", 14, -2)
+		bd:SetPoint("BOTTOMRIGHT", -15, 3)
+	end
 	bd:SetFrameLevel(f:GetFrameLevel() - 1)
 
 	local slider = select(4, f:GetRegions())
@@ -541,23 +572,6 @@ local StopFlash = function(self)
 		self.anim:Finish()
 	end
 end
---[[
-T.SpawnMenu = function(self)
-	local unit = self.unit:gsub("(.)", string.upper, 1)
-	if unit == "Targettarget" or unit == "focustarget" or unit == "pettarget" then return end
-
-	if _G[unit.."FrameDropDown"] then
-		ToggleDropDownMenu(nil, nil, _G[unit.."FrameDropDown"], "cursor")
-	elseif self.unit:match("party") then
-		ToggleDropDownMenu(nil, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor")
-	else
-		FriendsDropDown.unit = self.unit
-		FriendsDropDown.id = self.id
-		FriendsDropDown.initialize = RaidFrameDropDown_Initialize
-		ToggleDropDownMenu(nil, nil, FriendsDropDown, "cursor")
-	end
-end
---]]
 
 T.SetFontString = function(parent, fontName, fontHeight, fontStyle)
 	local fs = parent:CreateFontString(nil, "ARTWORK")
@@ -758,11 +772,6 @@ T.PostUpdateRaidHealth = function(health, unit, min, max)
 				power:SetAlpha(1)
 				border:SetAlpha(1)
 			end
-		end
-		if min == 0 and self:GetParent().ResurrectIcon then
-			self:GetParent().ResurrectIcon:SetAlpha(1)
-		elseif self:GetParent().ResurrectIcon or (self:GetParent().ResurrectIcon and min == max) then
-			self:GetParent().ResurrectIcon:SetAlpha(0)
 		end
 	end
 end
@@ -1109,6 +1118,59 @@ T.UpdateComboPoint = function(self, event, unit)
         CheckForm:SetScript("OnHide", CatForm)
     end
 end
+
+T.UpdateComboPointOld = function(self, event, unit)
+	if unit == "pet" then return end
+
+	local cpoints = self.CPoints
+	local cp
+	if UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle") then
+		cp = GetComboPoints("vehicle", "target")
+	else
+		cp = GetComboPoints("player", "target")
+	end
+
+	for i = 1, MAX_COMBO_POINTS do
+		if i <= cp then
+			cpoints[i]:SetAlpha(1)
+		else
+			cpoints[i]:SetAlpha(0.2)
+		end
+	end
+
+	if cpoints[1]:GetAlpha() == 1 then
+		for i = 1, MAX_COMBO_POINTS do
+			cpoints:Show()
+			cpoints[i]:Show()
+		end
+	else
+		for i = 1, MAX_COMBO_POINTS do
+			cpoints:Hide()
+			cpoints[i]:Hide()
+		end
+	end
+
+	if self.RangeBar then
+		if cpoints[1]:IsShown() and self.RangeBar:IsShown() then
+			cpoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 21)
+			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 33) end
+		elseif cpoints[1]:IsShown() or self.RangeBar:IsShown() then
+			cpoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
+			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 19) end
+		elseif self.Friendship and self.Friendship:IsShown() then
+			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 19) end
+		else
+			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 5) end
+		end
+	else
+		if cpoints[1]:IsShown() or (self.Friendship and self.Friendship:IsShown()) then
+			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 19) end
+		else
+			if self.Auras then self.Auras:SetPoint("BOTTOMLEFT", self, "TOPLEFT", -2, 5) end
+		end
+	end
+end
+
 local ticks = {}
 local channelingTicks = T.CastBarTicks
 

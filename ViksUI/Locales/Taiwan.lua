@@ -1,4 +1,4 @@
-﻿local T, C, L, _ = unpack(select(2, ...))
+﻿local T, Viks, L, _ = unpack(select(2, ...))
 if T.client ~= "zhTW" then return end
 
 ----------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ L_MISC_BUY_STACK = "Alt+右鍵點擊購買一疊"
 L_MISC_ONECLICK_BUYOUT = "Shift+右鍵,不彈出確認窗口直接購買"
 L_MISC_ONECLICK_BID = "Shift+右鍵,不彈出確認窗口直接競標"
 L_MISC_ONECLICK_CANCEL = "Shift+右鍵,不彈出確認窗口直接取消選擇的物品"
-L_MISC_UI_OUTDATED = "ViksUI 版本已過期，請至 www.shestak.org 下載最新版"
+L_MISC_UI_OUTDATED = "ShestakUI 版本已過期，請至 www.shestak.org 下載最新版"
 L_MISC_HEADER_MARK = "鼠標懸停顯示團隊圖標"
 L_MISC_BINDER_OPEN = "鼠標綁定"
 L_MISC_GROCERY_BUY = "購買"
@@ -68,11 +68,11 @@ L_MISC_SCROLL = "附魔卷軸"
 L_RAID_UTIL_DISBAND = "解散團隊"
 
 -- Zone name
-L_ZONE_WINTERGRASP = "冬握湖"
 L_ZONE_TOLBARAD = "托巴拉德"
 L_ZONE_TOLBARADPEN = "托巴拉德半島"
 L_ZONE_ARATHIBASIN = "阿拉希盆地"
 L_ZONE_GILNEAS = "吉爾尼斯之戰"
+L_ZONE_ANCIENTDALARAN = "達拉然陷坑"
 
 -- WatchFrame Wowhead link
 L_WATCH_WOWHEAD_LINK = "Wowhead鏈接"
@@ -129,6 +129,7 @@ L_ERRORFRAME_L = "點擊查看錯誤"
 -- Bags
 L_BAG_SHOW_BAGS = "顯示背包"
 L_BAG_RIGHT_CLICK_SEARCH = "點擊右鍵以搜尋物品"
+L_BAG_STACK_MENU = "堆疊"
 
 -- Grab mail
 L_MAIL_STOPPED = "無法拾取, 背囊已滿."
@@ -154,6 +155,9 @@ L_PANELS_AFK_LCLICK = "左鍵點擊脫離暫離狀態"
 
 -- Cooldowns
 L_COOLDOWNS = "CD: "
+L_COOLDOWNS_COMBATRESS = "戰復"
+L_COOLDOWNS_COMBATRESS_REMAINDER = "戰復剩餘: "
+L_COOLDOWNS_NEXTTIME = "下次: "
 
 -- Autoinvite
 L_INVITE_ENABLE = "自動邀請功能已啟用: "
@@ -205,12 +209,12 @@ L_INFO_SKIN_DISABLED1 = "介面樣式啟用"
 L_INFO_SKIN_DISABLED2 = " 已禁用"
 
 -- Popups
-L_POPUP_INSTALLUI = "該角色首次使用ViksUI.你必須重新加載UI來配置."
-L_POPUP_RESETUI = "你確定要重新加載ViksUI?"
+L_POPUP_INSTALLUI = "該角色首次使用ShestakUI.你必須重新加載UI來配置."
+L_POPUP_RESETUI = "你確定要重新加載ShestakUI?"
 L_POPUP_RESETSTATS = "你確定要重置本次遊戲時間和金幣收益統計數據嗎?"
 L_POPUP_SWITCH_RAID = "選擇團隊佈局."
 L_POPUP_DISBAND_RAID = "你確定要解散團隊?"
-L_POPUP_DISABLEUI = "ViksUI並不支援此解析度, 你想要停用ViksUI嗎? (若果您想要嘗試其他解析度, 請按取消)"
+L_POPUP_DISABLEUI = "ShestakUI並不支援此解析度, 你想要停用ShestakUI嗎? (若果您想要嘗試其他解析度, 請按取消)"
 L_POPUP_SETTINGS_ALL = "應用所有的UI設置(DBM/DXE, Skada and MSBT)?"
 L_POPUP_SETTINGS_DBM = "需要改變DBM描點及風格化元素."
 L_POPUP_SETTINGS_DXE = "需要改變DXE描點及風格化元素."
@@ -219,7 +223,7 @@ L_POPUP_ARMORY = "查看英雄榜"
 L_POPUP_CURRENCY_CAP = "您擁有的最高級貨幣為"
 
 -- Welcome message
-L_WELCOME_LINE_1 = "歡迎使用ViksUI "
+L_WELCOME_LINE_1 = "歡迎使用ShestakUI "
 L_WELCOME_LINE_2_1 = "輸入/cfg進行UI設置,或者訪問http://shestak.org"
 L_WELCOME_LINE_2_2 = "獲取更多信息"
 
@@ -247,6 +251,7 @@ L_STATS_BANDWIDTH = "寬頻:"
 L_STATS_DOWNLOAD = "下載:"
 L_STATS_CLEARED_JUNK = "清除自動販售例外名單列表"
 L_STATS_CLEAR_EXCEPTIONS = "清除例外名單列表"
+L_STATS_CURRENCY_RAID_T = "Raid Seals" -- Needs review
 L_STATS_WORLD_MAP = "點擊開啟世界地圖"
 L_STATS_CURRENT_XP = "目前/升級所需 經驗值"
 L_STATS_MEMORY_USAGE = "插件資源佔用:"
@@ -257,7 +262,6 @@ L_STATS_VIEW_NOTES = "按住Alt鍵檢視公會成員階級/註記/幹部註記"
 L_STATS_HR = "小時"
 L_STATS_INF = "無限"
 L_STATS_ALREADY_EXCEPTIONS = "物品已在例外名單列表"
-L_STATS_NOT_JUNK = "非自動販售物品"
 L_STATS_ITEMLINK = "物品鏈結"
 L_STATS_JUNK_EXCEPTIONS = "自動販售例外名單"
 L_STATS_JUNK_LIST = "自動販售列表"
@@ -301,6 +305,7 @@ L_STATS_WATCH_CURRENCY = "從tooltip中顯示貨幣"
 L_STATS_WATCH_FACTIONS = "從角色人物介面觀看資訊"
 L_STATS_TOOLTIP_TIME_PLAYED = "達到最高等級後,提示將顯示角色上線時間紀錄"
 L_STATS_TOOLTIP_EXPERIENCE = "未達最高等級時,提示將顯示經驗值訊息"
+L_STATS_SEALS = "Seals this week" -- Needs review
 
 -- Slash commands
 L_SLASHCMD_HELP = {
