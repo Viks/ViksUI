@@ -224,6 +224,7 @@ cfg.showarena = false
 				20925, -- Sacred Shield
 				114163, -- Eternal Flame
 				157007, -- Beacon of Insight
+				156910, -- Beacon of Faith
 				1022, -- Hand of Protection
 				1044, -- Hand of Freedom
 				1038, -- Hand of Salvation
