@@ -14,14 +14,12 @@ CreateAnchor(AnchorMarkBar, "Move Mark Bar", buttonwidth * 4 + 15, 28)
 local anchor = {}
 anchor = {"BOTTOMRIGHT", AnchorMarkBar}
 
-
 -- Create main frame
 local MarkBarBG = CreateFrame("Frame", "MarkBarBackground", oUF_PetBattleFrameHider)
-MarkBarBG:CreatePanel("Transparent", buttonwidth * 4 + 15, 80, "BOTTOM", AnchorMarkBar,0,22)
+MarkBarBG:CreatePanel("Transparent", buttonwidth * 4 + 15, 90, "BOTTOM", AnchorMarkBar,0,22)
 MarkBarBG:SetFrameLevel(0)
 MarkBarBG:SetFrameStrata("HIGH")
 MarkBarBG:Hide()
-
 
 --Change border when mouse is inside the button
 local function ButtonEnter(self)
@@ -90,51 +88,71 @@ end
 local function CreateMarkerButton(name, point, relativeto, point2, x, y)
     local f = CreateFrame("Button", name, MarkBarBG, "SecureActionButtonTemplate")
     f:SetPoint(point, relativeto, point2, x, y)
-    f:SetWidth(10)
-    f:SetHeight(10)
-	f:SetTemplate("Default")
-	--frame1px(f)
-	--CreateShadow(f)
+	f:SetSize(13, 13)
+	f:SetTemplate("Transparent")
     f:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
     f:SetAttribute("type", "macro")
 end
 
 --Setup Secure Buttons
-CreateMarkerButton("BlueFlare", "BOTTOMLEFT", MarkBarBG, "BOTTOMLEFT", 2, 2)
+CreateMarkerButton("BlueFlare", "BOTTOMLEFT", MarkBarBG, "BOTTOMLEFT", 3, 19)
 BlueFlare:SetAttribute("macrotext", [[
-/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
-/click DropDownList1Button1
-]])
-BlueFlare:SetBackdropColor(0, 0, 1)
-CreateMarkerButton("GreenFlare", "BOTTOMLEFT", BlueFlare, "BOTTOMRIGHT", 2, 0)
-GreenFlare:SetAttribute("macrotext", [[
-/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
-/click DropDownList1Button2
-]])
-GreenFlare:SetBackdropColor(0, 1, 0)
-CreateMarkerButton("PurpleFlare", "BOTTOMLEFT", GreenFlare, "BOTTOMRIGHT", 2, 0)
-PurpleFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button3
 ]])
-PurpleFlare:SetBackdropColor(1, 0, 1)
-CreateMarkerButton("RedFlare", "BOTTOMLEFT", PurpleFlare, "BOTTOMRIGHT", 2, 0)
-RedFlare:SetAttribute("macrotext", [[
-/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
-/click DropDownList1Button4
-]])
-RedFlare:SetBackdropColor(1, 0, 0)
-CreateMarkerButton("YellowFlare", "BOTTOMLEFT", RedFlare, "BOTTOMRIGHT", 2, 0)
-YellowFlare:SetAttribute("macrotext", [[
+BlueFlare:SetBackdropColor(0, 0, 1)
+CreateMarkerButton("GreenFlare", "BOTTOMLEFT", BlueFlare, "BOTTOMRIGHT", 3, 0)
+GreenFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button5
 ]])
-YellowFlare:SetBackdropColor(1, 1, 0)
-CreateMarkerButton("ClearFlare", "BOTTOMLEFT", YellowFlare, "BOTTOMRIGHT", 2, 0)
-ClearFlare:SetAttribute("macrotext", [[
+GreenFlare:SetBackdropColor(0, 1, 0)
+CreateMarkerButton("PurpleFlare", "BOTTOMLEFT", GreenFlare, "BOTTOMRIGHT", 3, 0)
+PurpleFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button6
 ]])
+PurpleFlare:SetBackdropColor(1, 0, 1)
+CreateMarkerButton("RedFlare", "BOTTOMLEFT", PurpleFlare, "BOTTOMRIGHT", 3, 0)
+RedFlare:SetAttribute("macrotext", [[
+/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
+/click DropDownList1Button2
+]])
+RedFlare:SetBackdropColor(1, 0, 0)
+CreateMarkerButton("YellowFlare", "BOTTOMLEFT", MarkBarBG, "BOTTOMLEFT", 3, 3)
+YellowFlare:SetAttribute("macrotext", [[
+/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
+/click DropDownList1Button8
+]])
+YellowFlare:SetBackdropColor(1, 1, 0)
+
+CreateMarkerButton("OrangeFlare", "BOTTOMLEFT", YellowFlare, "BOTTOMRIGHT", 3, 0)
+OrangeFlare:SetAttribute("macrotext", [[
+/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
+/click DropDownList1Button7
+]])
+OrangeFlare:SetBackdropColor(1, .6, 0)
+
+CreateMarkerButton("WhiteFlare", "BOTTOMLEFT", OrangeFlare, "BOTTOMRIGHT", 3, 0)
+WhiteFlare:SetAttribute("macrotext", [[
+/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
+/click DropDownList1Button1
+]])
+WhiteFlare:SetBackdropColor(1, 1, 1)
+
+CreateMarkerButton("GreyFlare", "BOTTOMLEFT", WhiteFlare, "BOTTOMRIGHT", 3, 0)
+GreyFlare:SetAttribute("macrotext", [[
+/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
+/click DropDownList1Button4
+]])
+GreyFlare:SetBackdropColor(.8, .8, .8)
+
+CreateMarkerButton("ClearFlare", "BOTTOMLEFT", GreyFlare, "BOTTOMRIGHT", 2, 0)
+ClearFlare:SetAttribute("macrotext", [[
+/click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
+/click DropDownList1Button9
+]])
+ClearFlare:SetSize(6, 30)
 ClearFlare:SetBackdropColor(.075, .075, .075)
  
 -- Create Button for clear target
@@ -191,7 +209,29 @@ CloseButton:SetScript("OnMouseDown", function()
 		MarkBarBackground:Hide()
 	else
 		ToggleButton:Show()
-
 	end
 end)
-RegisterStateDriver(ToggleButton, "visibility", "[petbattle] hide; show")
+
+--Check if we are Raid Leader or Raid Officer
+local function CheckRaidStatus()
+	local _, instanceType = IsInInstance()
+	if ((GetNumGroupMembers() > 0 and UnitIsGroupLeader("player") and not UnitInRaid("player")) or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) and (instanceType ~= "pvp" or instanceType ~= "arena") then
+		return true
+	else
+		return false
+	end
+end
+
+--Automatically show/hide the frame if we have RaidLeader or RaidOfficer
+local LeadershipCheck = CreateFrame("Frame")
+LeadershipCheck:RegisterEvent("PLAYER_ENTERING_WORLD")
+LeadershipCheck:RegisterEvent("GROUP_ROSTER_UPDATE")
+LeadershipCheck:SetScript("OnEvent", function(self, event)
+	if CheckRaidStatus() then
+		ToggleButton:Show()
+		MarkBarBackground:Hide()
+	else
+		ToggleButton:Hide()
+		MarkBarBackground:Hide()
+	end
+end)
