@@ -20,11 +20,52 @@ local upgrades = {
 	["507"] = 24, ["530"] = 5, ["531"] = 10
 }
 
+local function BOALevel(level, id)
+	if level > 97 then
+		if id == 133585 or id == 133595 or id == 133596 or id == 133597 or id == 133598 then
+			level = 715
+		else
+			level = 605 - (100 - level) * 5
+		end
+	elseif level > 90 then
+		level = 590 - (97 - level) * 10
+	elseif level > 85 then
+		level = 463 - (90 - level) * 19.75
+	elseif level > 80 then
+		level = 333 - (85 - level) * 13.5
+	elseif level > 67 then
+		level = 187 - (80 - level) * 4
+	elseif level > 57 then
+		level = 105 - (67 - level) * 2.9
+	elseif level > 5 then
+		level = level + 5
+	else
+		level = 10
+	end
+
+	return floor(level + 0.5)
+end
+
+local timewarped = {
+	[615] = 660, -- Dungeon drops
+	[692] = 675, -- Timewarped badge vendors
+}
+
+local timewarped_warforged = {
+	[656] = 675, -- Dungeon drops
+}
+
 local function CreateButtonsText(frame)
 	for _, slot in pairs(slots) do
 		local button = _G[frame..slot]
 		button.t = button:CreateFontString(nil, "OVERLAY", "SystemFont_Outline_Small")
-		button.t:SetPoint("TOP", button, "TOP", 0, -2)
+		if slot == "HeadSlot" or slot == "NeckSlot" or slot == "ShoulderSlot" or slot == "BackSlot" or slot == "ChestSlot" or slot == "WristSlot" or slot == "ShirtSlot" or slot == "TabardSlot" then
+			button.t:SetPoint("CENTER", button, "CENTER", 42, 0)
+		elseif slot == "HandsSlot" or slot == "WaistSlot" or slot == "LegsSlot" or slot == "FeetSlot" or slot == "Finger0Slot" or slot == "Finger1Slot" or slot == "Trinket0Slot" or slot == "Trinket1Slot" then
+			button.t:SetPoint("CENTER", button, "CENTER", -42, 0)
+		elseif slot == "MainHandSlot" or slot == "SecondaryHandSlot" or slot == "RangedSlot" then
+			button.t:SetPoint("CENTER", button, "CENTER", 0, 42)
+		end
 		button.t:SetText("")
 	end
 end
@@ -36,27 +77,64 @@ local function UpdateButtonsText(frame)
 		local id = GetInventorySlotInfo(slot)
 		local text = _G[frame..slot].t
 		local item
+		local ulvl
 
 		if frame == "Inspect" then
 			item = GetInventoryItemLink("target", id)
+			ulvl = UnitLevel("target")
 		else
 			item = GetInventoryItemLink("player", id)
+			ulvl = UnitLevel("player")
 		end
 
 		if slot == "ShirtSlot" or slot == "TabardSlot" then
 			text:SetText("")
 		elseif item then
+			local itemDurability, itemMaxDurability = GetInventoryItemDurability(id)
 			local oldilevel = text:GetText()
-			local _, _, _, ilevel = GetItemInfo(item)
+			local _, _, quality, ilevel = GetItemInfo(item)
+			local warped = select(15, strsplit(":", item))
+			local warforged = select(16, strsplit(":", item))
+			ilevel = timewarped[tonumber(warped)] or ilevel
+			ilevel = timewarped_warforged[tonumber(warforged)] or ilevel
 			local upgrade = item:match(":(%d+)\124h%[")
-
+			if upgrades[upgrade] == nil then upgrades[upgrade] = 0 end
+			
 			if ilevel then
 				if ilevel ~= oldilevel then
-					if ilevel == 1 then
+					if quality == 7 and ilevel == 1 then
+						local id = tonumber(strmatch(item, "item:(%d+)"))
+						text:SetText("|cFFFFFF00"..BOALevel(ulvl, id))
+					elseif ilevel == 1 then
 						text:SetText("")
 					else
-						if upgrades[upgrade] == nil then upgrades[upgrade] = 0 end
-						text:SetText("|cFFFFFF00"..ilevel + upgrades[upgrade])
+						if frame ~= "Inspect" then
+							local itemDurability, itemMaxDurability = GetInventoryItemDurability(id)
+							local ilevelcolor, duracolor
+							iEqAvg, iAvg = GetAverageItemLevel()
+							if ilevel + upgrades[upgrade] <= (floor(iEqAvg) - 10) then 
+								ilevelcolor = "|cFFFFFF00"
+							elseif ilevel + upgrades[upgrade] >= (floor(iEqAvg) + 10) then
+								ilevelcolor = "|cFFFF8000"
+							else
+								ilevelcolor = "|cFF0070DD"
+							end
+							if itemDurability then
+								local itemDurabilityPercentage = (itemDurability / itemMaxDurability) * 100
+								if itemDurabilityPercentage > 25 then
+									duracolor = "|cFF00FF00"
+								elseif itemDurabilityPercentage > 0 and itemDurabilityPercentage <= 25 then
+									duracolor = "|cFFFFFF00"
+								elseif itemDurabilityPercentage == 0 then
+									duracolor = "|cFFFF0000"
+								end
+								text:SetText(ilevelcolor..ilevel + upgrades[upgrade].."\n"..duracolor..T.Round(itemDurabilityPercentage).."%|r")
+							else					
+								text:SetText(ilevelcolor..ilevel + upgrades[upgrade])
+							end
+						else
+							text:SetText(ilevel + upgrades[upgrade])
+						end
 					end
 				end
 			else
