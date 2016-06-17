@@ -38,610 +38,578 @@ local TRINKET_BAR_COLOR = CreateColor( 150, 150, 70, 1 );
 local SORT_DIRECTION = true;
 local TENTHS_TRESHOLD = 1
 
+
 local TRINKET_FILTER = {
-		
-	CreateSpellEntry( 2825, true ), CreateSpellEntry( 32182, true ), CreateSpellEntry( 80353, true), -- Bloodlust/Heroism/Timewarp
-	CreateSpellEntry( 90355, true ), -- Ancient Hysteria, bloodlust from hunters pet
-	CreateSpellEntry( 26297 ), -- Berserking (troll racial)
-	CreateSpellEntry( 33702 ), CreateSpellEntry( 33697 ), CreateSpellEntry( 20572 ), -- Blood Fury (orc racial)
-	CreateSpellEntry( 57933 ), -- Tricks of Trade (15% dmg buff)
-		
-	-- Professions
-    CreateSpellEntry( 74497 ), -- Lifeblood Rank 8 (Herbalism)
-    CreateSpellEntry( 74245 ), -- Landslide (Enchanting)
-    CreateSpellEntry( 74221 ), -- Hurricane (Enchanting)
+	--[[Proccs & Racials]]--
+	CreateSpellEntry(2825, true), CreateSpellEntry(32182, true), CreateSpellEntry(80353, true), -- Bloodlust/Heroism/Timewarp
+	CreateSpellEntry(90355, true), -- Ancient Hysteria, bloodlust from hunters pet
+	CreateSpellEntry(26297), -- Berserking (troll racial)
+	CreateSpellEntry(33702), CreateSpellEntry(33697), CreateSpellEntry(20572), -- Blood Fury (orc racial)
+	CreateSpellEntry(57933), -- Tricks of Trade (15% dmg buff)
+	CreateSpellEntry(121279), -- Lifeblood
+	CreateSpellEntry(96230), -- Synapse Springs
+	CreateSpellEntry(45861), -- Nitro Boost (Engeneering)
+	CreateSpellEntry(68992), -- Darkflight (Worgen Sprint Racial)
 
-	--Raid buff
-	CreateSpellEntry( 80627 ), -- Stolen Power
-		
-	-- Racials
-	CreateSpellEntry( 20954 ), -- Stoneform (Dwarf)
-	CreateSpellEntry( 59752 ), -- Every Man for Himself (Human)
-	CreateSpellEntry( 57901 ), -- Gift of the Naaru (Draenei)
-	CreateSpellEntry( 68992 ), -- Darkflight (Worgen)
-	CreateSpellEntry( 7744 ), -- Will of the Forsaken (Undead)
-	CreateSpellEntry( 20577 ), -- Cannibalize (Undead)
-	CreateSpellEntry( 26297 ), -- Berserking (Troll)
-	CreateSpellEntry( 20572 ), -- Blood Fury for Attack Power (Orc)
-	CreateSpellEntry( 33702 ), -- Blood Fury for Spell Power (Orc)
-	CreateSpellEntry( 33697 ), -- Blood Fury for Both (Orc)
-	CreateSpellEntry( 69041 ), -- Rocket Barrage
-		
-	--Darkmoon Cards
-	CreateSpellEntry( 89181 ), -- Earthquake
-	CreateSpellEntry( 89182 ), -- Tsunami
-	CreateSpellEntry( 89091 ), -- Volcano
-	
-	-- Blackwing Descent
-	CreateSpellEntry( 91322 ), -- Jar of Ancient Remedies Normal
-	CreateSpellEntry( 92331 ), -- Jar of Ancient Remedies Heroic
-	CreateSpellEntry( 91007 ), -- Bell of Enraging Reasonance
-	CreateSpellEntry( 91816 ), -- Heart of Rage
-	CreateSpellEntry( 92235 ), -- Symbiotic Worm
-	CreateSpellEntry( 91832 ), -- Fury of Angerforge Stacks
-    CreateSpellEntry( 91836 ), -- Fury of Angerforge on use
-		
-	--The Bastion of Twilight
-	CreateSpellEntry( 92126 ), -- Essence of the Cyclone Normal
-	CreateSpellEntry( 92351 ), -- Essence of the Cyclone Heroic
-	CreateSpellEntry( 91184 ), -- Fall of mortality
-	CreateSpellEntry( 92213 ), -- Vial of Stolen Memories
-	CreateSpellEntry( 91024 ), -- Theralion's Mirror
-	CreateSpellEntry( 91821 ), -- Crushing Weight
-	CreateSpellEntry( 91027 ), -- Heart of Ignacious Stacks
-	CreateSpellEntry( 91041 ), -- Heart of Ignacious on use
-		
-	CreateSpellEntry( 96980 ), -- Accelerated (Vessel of Acceleration)
-	CreateSpellEntry( 97142 ), -- Accelerated (Vessel of Acceleration) H
-	CreateSpellEntry( 96911 ), -- Devour (The Hungerer)
-	CreateSpellEntry( 97125 ), -- Devour (The Hungerer) H
-	CreateSpellEntry( 96988 ), -- Stay of Execution
-	CreateSpellEntry( 97145 ), -- Stay of Execution H
-	CreateSpellEntry( 96945 ), -- Loom of Fate (Spidersilk Spindle)
-	CreateSpellEntry( 97129 ), -- Loom of Fate (Spidersilk Spindle) H
-	CreateSpellEntry( 97007 ), -- Mark of the Firelord (Rune of Zeth)
-	CreateSpellEntry( 97146 ), -- Mark of the Firelord (Rune of Zeth) H
-	CreateSpellEntry( 96907 ), -- Victorious Jaws of Defeat
-	CreateSpellEntry( 97120 ), -- Victorious Jaws of Defeat H
-	CreateSpellEntry( 97008 ), -- Fiery Quintessence
-	CreateSpellEntry( 97176 ), -- Fiery Quintessence H
-	CreateSpellEntry( 97010 ), -- Essence of the Eternal Flame
-	CreateSpellEntry( 97179 ), -- Essence of the Eternal Flame
-	CreateSpellEntry( 97009 ), -- Ancient Petrified Seed
-	CreateSpellEntry( 97177 ), -- Ancient Petrified Seed H
+	--[[Weaponenchants & Stuff]]--
+	CreateSpellEntry(104510, true), -- Windsong
+	CreateSpellEntry(125487, true), -- Lightweave
+	CreateSpellEntry(120032, true), -- Dancing Steel
+	CreateSpellEntry(104993, true), -- Jade Spirit
+	CreateSpellEntry(116660, true), -- River's Song
+	CreateSpellEntry(159676, true), -- Mark of the Frostwolf
+	CreateSpellEntry(159675, true), -- Mark of Warsong
+	CreateSpellEntry(159234, true), -- Mark of the Thunderlord
+	CreateSpellEntry(159678, true), -- Mark of Shadowmoon
+	CreateSpellEntry(159679, true), -- Mark of Blackrock
+	CreateSpellEntry(173322, true), -- Mark of Bleeding Hollow
+	CreateSpellEntry(159238, true), -- Shattered Bleed
+	CreateSpellEntry(156060, true), -- Megawatt Filament
+	CreateSpellEntry(156055, true), -- Oglethorpe's Missile Splitter
+	CreateSpellEntry(173288, true), -- Hemet's Heartseeker
 
-	CreateSpellEntry( 90459 ), -- DPS set
-		
-	--Druid
-	CreateSpellEntry( 90159 ), -- Resto
-	CreateSpellEntry( 90164 ), -- Moonkin
-	CreateSpellEntry( 90166 ), -- Feral
-		
-	--Paladin
-	CreateSpellEntry( 90311 ), -- Holy
-		
-	--Priest
-	CreateSpellEntry( 89911 ), -- Holy/Disc
-		
-	--Rogue
-	CreateSpellEntry( 90472 ),
-		
-	--Shaman
-	CreateSpellEntry( 90498 ), -- Resto
-		
-	--Warlock
-	CreateSpellEntry( 89937 ),
-	CreateSpellEntry( 126659 ),
-	CreateSpellEntry( 128985 ),	
-	CreateSpellEntry( 125487 ),	
-	CreateSpellEntry( 104510 ),
-	CreateSpellEntry( 104423 ),
-	--Warrior
-	CreateSpellEntry( 90294 ), --DPS
-};
-	
---[[ Class specific filters
+	--[[Darkmoon-Trinkets]]--
+	CreateSpellEntry(162915), -- Spirit of the Warlords (Skull of War)
+	CreateSpellEntry(162913), -- Visions of the Future (Winged Hourglass)
+	CreateSpellEntry(162919), -- Nightmare Fire (Sandman's Pouch)
+	CreateSpellEntry(162917), -- Strength of Steel (Knight's Badge)
 
-Examples:
+	--[[T16]]--
+	CreateSpellEntry(145164), -- Warlock T16 4pieces
+	CreateSpellEntry(144901), -- Deathknight T16 2pieces
+	CreateSpellEntry(145336), -- Priest T16 4pieces
 
-	Track "Frost Fever" and "Blood Plague" on target and "Bone Shield" on player:
-	
-		DEATHKNIGHT = { 
-			target = { 
-				CreateSpellEntry( "Frost Fever" ),
-				CreateSpellEntry( "Blood Plague" ),
-			},
-			player = { 
-				CreateSpellEntry( "Bone Shield" ),
-			}
-		},
+	--[[T17]]--
+	CreateSpellEntry(165475), -- Mage Arcane 2pieces
+	CreateSpellEntry(166868), -- Mage Fire 4pieces
+	CreateSpellEntry(170408), -- Mage Frost 4pieces
+	CreateSpellEntry(165447), -- Paladin Protection 2pieces
+	CreateSpellEntry(167742), -- Paladin Protection 4pieces
+	CreateSpellEntry(165404), -- Monk Mistweaver 2pieces
+	CreateSpellEntry(167717), -- Monk Mistweaver 4pieces
+	CreateSpellEntry(166587), -- Warrior Arms 4pieces
+	CreateSpellEntry(165350), -- Warrior Fury 4pieces
+	CreateSpellEntry(166639), -- Druid Feral 4pieces
+	CreateSpellEntry(165423), -- Druid Guardian 4pieces
+	CreateSpellEntry(167655), -- Deathknight Frost 4pieces
+	CreateSpellEntry(165509), -- Rogue Subtlety 2pieces
+	CreateSpellEntry(170186), -- Hunter Markmanship 4pieces
 
-	Track "Frost Fever" and "Blood Plague" on target and nothing on player:
-	
-		DEATHKNIGHT = { 
-			target = { 
-				CreateSpellEntry( "Frost Fever" ),
-				CreateSpellEntry( "Blood Plague" ),
-			},
-		},
+	--[[Legendary Rings]]--
+	CreateSpellEntry(177159), -- Archmage's Incandescence (Intellect)
+	CreateSpellEntry(177160), -- Archmage's Incandescence (Strength)
+	CreateSpellEntry(177161), -- Archmage's Incandescence (Agility)
+	CreateSpellEntry(177172), -- Archmage's Incandescence (Agility)
+	CreateSpellEntry(177175), -- Archmage's Incandescence (Strength)
+	CreateSpellEntry(177176), -- Archmage's Incandescence (Agility)
+	CreateSpellEntry(187619), -- Thorasus, the Stone Heart of Draenor (Strength-DD)
+	CreateSpellEntry(187617), -- Sanctus, Sigil of the Unbroken (Tank)
+	CreateSpellEntry(187620), -- Maalus, the Blood Drinker (Agility-DD)
+	CreateSpellEntry(187616), -- Nithramus, the All-Seer (Intellect-DD)
+	CreateSpellEntry(187618), -- Etheralus, the Eternal Reward (Healer)
 
-	Track nothing on target and nothing on player:
-	
-		DEATHKNIGHT = { 
+	--[[Hellfire Citadel]]--
+	CreateSpellEntry(183941), -- Hungering Blows
+	CreateSpellEntry(183926), -- Countenance of Tyranny
+	CreateSpellEntry(184073), -- Mark of Doom
+	CreateSpellEntry(184770), -- Tyrant's Immortality
+	CreateSpellEntry(184293), -- Spirit Shift
+	CreateSpellEntry(183929), -- Sudden Intuition
+	CreateSpellEntry(183931), -- Anzus Flight
+	CreateSpellEntry(183924), -- Sign of the Dark Star
 
-		},
-		
-	or
-	
-				
-		
-		( ^^^ yes nothing ^^^ )
-]]--
+	--[[Blackrock Foundry]]--
+	CreateSpellEntry(177063), -- Elementalist's Shielding Talisman (Elemental Shield)
+	CreateSpellEntry(177056), -- Blast Furnace Door (Blast Furnace)
+	CreateSpellEntry(176873), -- Tablet of Turnbuckle Teamwork (Turnbuckle Terror)
+	CreateSpellEntry(176878), -- Beating Heart of the Mountain (Lub-Dub)
+	CreateSpellEntry(177051), -- Darmac's Unstable Talisman (Instability)
+	CreateSpellEntry(176874), -- Vial of Convulsive Shadows (Convulsive Shadows)
+	CreateSpellEntry(177096), -- Forgemaster's Insignia (Forgemaster's Vigor)
+	CreateSpellEntry(177081), -- Blackiron Micro Crucible (Molten Metal)
+	CreateSpellEntry(177067), -- Humming Blackiron Trigger (Detonation)
+	CreateSpellEntry(177086), -- Auto-Repairing Autoclave (Sanitizing)
+	CreateSpellEntry(177102), -- Battering Talisman (Battering)
+	CreateSpellEntry(177042), -- Horn of Screaming Spirits (Screaming Spirits)
+	CreateSpellEntry(177060), -- Ironspike Chew Toy (Squeak Squeak)
+	CreateSpellEntry(177035), -- Meaty Dragonspine Trophy (Meaty Dragonspine Trophy)
+
+	--[[Highmaul]]--
+	CreateSpellEntry(177038), -- Scales of Doom (Balanced Fate)
+	CreateSpellEntry(176876), -- Pol's Blinded Eye (Vision of the Cyclops)
+	CreateSpellEntry(176875), -- Shards of Nothing (Void Shards)
+	CreateSpellEntry(176879), -- Emblem of Caustic Healing (Caustic Healing)
+	CreateSpellEntry(177053), -- Evergaze Arcane Eidolon (Gazing Eye)
+	CreateSpellEntry(177040), -- Tectus' Beating Heart (Tectus' Heartbeat)
+}
 
 local CLASS_FILTERS = {
-		MONK = { 
-			target = {
-				CreateSpellEntry( 107428 ), -- Risin Sun Kick
-				CreateSpellEntry( 124273 ), -- Heavy Stagger
-				CreateSpellEntry( 116330 ), -- Dizzying Haze
-				CreateSpellEntry( 123725 ), -- Breath of Fire
-				CreateSpellEntry( 115804 ), -- Mortal Wounds
-			},
-			player = {
-				CreateSpellEntry( 124081 ), -- Zensphere
-				CreateSpellEntry( 125195 ), -- Tigereye Brew
-				CreateSpellEntry( 120954 ), -- Fortifying Brew
-				CreateSpellEntry( 125359 ), -- Tiger Power
-				CreateSpellEntry( 115307 ), -- Shuffle
-				CreateSpellEntry( 125174 ), -- Touch of Karma
-				CreateSpellEntry( 115295 ), -- Guard 
-				CreateSpellEntry( 115308 ), -- Elusive Brew
-				CreateSpellEntry( 122783 ), -- Diffuse Magic
-				CreateSpellEntry( 115288 ), -- Energizing Brew
-				CreateSpellEntry( 119085 ), -- Momentum
-				CreateSpellEntry( 118674 ), -- Vital Mists
-				CreateSpellEntry( 127722 ), -- Serpent's Zeal
-			},
-			procs = {
-				CreateSpellEntry( 116768 ), -- Combobreaker: Blackout-Kick
-				CreateSpellEntry( 120273 ), -- Tiger Strikes
-				CreateSpellEntry( 118864 ), -- Combobreaker: Tigerpalm
-				CreateSpellEntry( 104993 ), -- Jade Spirit
-				CreateSpellEntry( 128985 ), -- Relic of Yu'lon
-			}
+	DEATHKNIGHT = {
+		target = {
+			CreateSpellEntry(55095), -- Frost Fever
+			CreateSpellEntry(55078), -- Blood Plague
+			CreateSpellEntry(81130), -- Scarlet Fever
+			CreateSpellEntry(108194), -- Asphyxiate
+			CreateSpellEntry(114866), -- Soul Reaper (Blood)
+			CreateSpellEntry(130735), -- Soul Reaper (Frost)
+			CreateSpellEntry(130736), -- Soul Reaper (Unholy)
+			CreateSpellEntry(155159), -- Necrotic Plague
 		},
-		DEATHKNIGHT = { 
-			target = {
-				CreateSpellEntry( 55095 ), -- Frost Fever
-				CreateSpellEntry( 55078 ), -- Blood Plague
-				CreateSpellEntry( 81130 ), -- Scarlet Fever
-				CreateSpellEntry( 50536 ), -- Unholy Blight
-				CreateSpellEntry( 65142 ), -- Ebon Plague
-				CreateSpellEntry( 51714 ), -- Razorice
-				CreateSpellEntry( 98957 ), -- Burning Blood Tank T12
-				CreateSpellEntry( 22744 ), -- Chains of Ice
-				CreateSpellEntry( 155159 ), -- Necrotic Plague
-			},
-			player = {
-				CreateSpellEntry( 59052 ), -- Freezing Fog
-				CreateSpellEntry( 51124 ), -- Killing Machine
-				CreateSpellEntry( 57330 ), -- Horn of Winter
-				CreateSpellEntry( 77535 ), -- Blood Shield
-				CreateSpellEntry( 55233 ), -- Vampiric Blood
-				CreateSpellEntry( 81141 ), -- Crimson Scourge
-				CreateSpellEntry( 45529 ), -- Blood Tap
-				CreateSpellEntry( 49222 ), -- Bone sheild
-				CreateSpellEntry( 48792 ), -- Ice Bound Fortitude
-				CreateSpellEntry( 81256 ), -- Dancing Rune Weapon
-				CreateSpellEntry( 51271 ), -- Pillar of Frost
-				CreateSpellEntry( 48707 ), -- Anti-Magic Shell
-				CreateSpellEntry( 49039 ), -- Lichborne
-				CreateSpellEntry( 96268 ), -- Death's Advance
-				CreateSpellEntry( 115989 ), -- Unholy Blight
-			},
-			procs = {
-				CreateSpellEntry( 53365 ), -- Unholy Strength
-				CreateSpellEntry( 50421 ), -- Scent of Blood
-				CreateSpellEntry( 70657 ), -- Advantage
-				CreateSpellEntry( 81340 ), -- Sudden Doom
-				CreateSpellEntry( 51128 ), -- Killing Machine
-				CreateSpellEntry( 114851 ), -- Blood Charge
-				CreateSpellEntry( 63560 ), -- Dark Transformation
-				CreateSpellEntry( 91342 ), -- Shadow Infusion
-			}		
+		player = {
+			CreateSpellEntry(48707), -- Anti-Magic Shell
+			CreateSpellEntry(48792), -- Ice Bound Fortitude
+			CreateSpellEntry(49016), -- Unholy Frenzy
+			CreateSpellEntry(49028), -- Dancing Rune Weapon
+			CreateSpellEntry(49039), -- Lichborne
+			CreateSpellEntry(49222), -- Bone Shield
+			CreateSpellEntry(51124), -- Killing Machine
+			CreateSpellEntry(51271), -- Pillar of Frost
+			CreateSpellEntry(51460), -- Runic Corruption
+			CreateSpellEntry(55233), -- Vampiric Blood
+			CreateSpellEntry(57330), -- Horn of Winter
+			CreateSpellEntry(59052), -- Freezing Fog
+			CreateSpellEntry(91342), -- Shadow Infusion
+			CreateSpellEntry(108200), -- Remorseless Winter
+			CreateSpellEntry(114851), -- Blood Charge
+			CreateSpellEntry(115989), -- Unholy Blight
+			CreateSpellEntry(171049), -- Rune Tap
+			CreateSpellEntry(63560), -- Dark Transformation
 		},
-		DRUID = { 
-			target = { 
-				CreateSpellEntry( 48438 ), -- Wild Growth
-				CreateSpellEntry( 774 ), -- Rejuvenation
-				CreateSpellEntry( 8936, false, nil, nil, 8936 ), -- Regrowth
-				CreateSpellEntry( 33763 ), -- Lifebloom
-				CreateSpellEntry( 164812 ), -- Moonfire
-				CreateSpellEntry( 339 ), -- Entangling Roots
-				CreateSpellEntry( 33786 ), -- Cyclone
-				CreateSpellEntry( 2908 ), -- Soothe
-				CreateSpellEntry( 50259 ), -- Feral Charge (Cat) - daze
-				CreateSpellEntry( 45334 ), -- Feral Charge (Bear) - immobilize
-				CreateSpellEntry( 58180 ), -- Infected Wounds
-				CreateSpellEntry( 6795 ), -- Growl
-				CreateSpellEntry( 99 ), -- Demoralizing Roar
-				CreateSpellEntry( 33745 ), -- Lacerate
-				CreateSpellEntry( 5211 ), -- Bash
-				CreateSpellEntry( 22570 ), -- Maim
-				CreateSpellEntry( 155722 ), -- Rake
-				CreateSpellEntry( 1079 ), -- Rip
-				CreateSpellEntry( 770, true ), -- Farie Fire
-				CreateSpellEntry( 78675 ), -- Solar Beam
-				CreateSpellEntry( 164815 ), -- Sunfire
-				CreateSpellEntry( 77758 ), -- Thrash
-			},
-			player = {
-				CreateSpellEntry( 48505 ), -- Starfall
-				CreateSpellEntry( 22812 ), -- Barkskin
-				CreateSpellEntry( 5215 ), -- Prowl
-				CreateSpellEntry( 170856 ), -- Nature's Grasp
-				CreateSpellEntry( 52610 ), -- Savage Roar
-				CreateSpellEntry( 5217 ), -- Tiger's Fury
-				CreateSpellEntry( 1850 ), -- Dash
-				CreateSpellEntry( 22842 ), -- Frenzied Regeneration
-				CreateSpellEntry( 50334 ), -- Berserk
-				CreateSpellEntry( 61336 ), -- Survival Instincts
-				CreateSpellEntry( 48438 ), -- Wild Growth
-				CreateSpellEntry( 774 ), -- Rejuvenation
-				CreateSpellEntry( 8936, false, nil, nil, 8936 ), -- Regrowth
-				CreateSpellEntry( 33763 ), -- Lifebloom
-				CreateSpellEntry( 16870 ), -- Clearcasting				
-				CreateSpellEntry( 117679 ), -- Incarnation: Tree of Life
-				CreateSpellEntry( 102560 ), -- Incarnation: Chosen of Elunee
-				CreateSpellEntry( 102543 ), -- Incarnation: King of the Jungle
-				CreateSpellEntry( 102558 ), -- Incarnation: Son of Ursoc
-				CreateSpellEntry( 124974 ), -- Nature's Vigil
-				CreateSpellEntry( 132402 ), -- Savage Defense
-				CreateSpellEntry( 112071 ), -- Celestial Alignment
-				CreateSpellEntry( 108294 ), -- Heart of the Wild
-				CreateSpellEntry( 102351 ), -- Cenarion Ward		
-			},
-			procs = {
-				CreateSpellEntry( 69369 ), -- Predator's Swiftness
-				CreateSpellEntry( 93400 ), -- Shooting Stars
-				CreateSpellEntry( 104993 ), -- Jade Spirit
-				CreateSpellEntry( 128985 ), -- Relic of Yu'lon
-				CreateSpellEntry( 171743 ), -- Lunar Peak
-				CreateSpellEntry( 171744 ), -- Solar Peak
-				CreateSpellEntry( 96206 ), -- Glyph of Rejuvenation
-				CreateSpellEntry( 114108 ), -- Soul of the Forest
-				CreateSpellEntry( 135286 ), -- Tooth and Claw
-				
-			},
+		procs = {
+			CreateSpellEntry(50421), -- Scent of Blood
+			CreateSpellEntry(53365), -- Unholy Strength
+			CreateSpellEntry(77535), -- Blood Shield
+			CreateSpellEntry(81340), -- Sudden Doom
+			CreateSpellEntry(164047), -- Shadow of Death
+		}
+	},
+	DRUID = {
+		target = {
+			CreateSpellEntry(339), -- Entangling Roots
+			CreateSpellEntry(770, true), -- Farie Fire
+			CreateSpellEntry(774), -- Rejuvenation
+			CreateSpellEntry(1079), -- Rip
+			CreateSpellEntry(1822), CreateSpellEntry(155722), -- Rake
+			CreateSpellEntry(2637), -- Hibernate
+			CreateSpellEntry(6795), -- Growl
+			CreateSpellEntry(8936, false, nil, nil, 8936), -- Regrowth
+			CreateSpellEntry(9005), -- Pounce stun
+			CreateSpellEntry(9007), -- Pounce bleed
+			CreateSpellEntry(22570), -- Maim
+			CreateSpellEntry(33745), -- Lacerate
+			CreateSpellEntry(33763), -- Lifebloom
+			CreateSpellEntry(33786), -- Cyclone
+			CreateSpellEntry(33878, true), -- Mangle (Bear)
+			CreateSpellEntry(48438), -- Wild Growth
+			CreateSpellEntry(58180), -- Infected Wounds
+			CreateSpellEntry(78675), -- Solar Beam
+			CreateSpellEntry(82365), -- Skull Bash (Bear)
+			CreateSpellEntry(93402), -- Sunfire
+			CreateSpellEntry(102355), -- Faerie Swarm
+			CreateSpellEntry(106830), -- Thrash
+			CreateSpellEntry(113746), -- Weakened Armor
+			CreateSpellEntry(115798), -- Weakened Blows
+			CreateSpellEntry(155777), -- Germination
+			CreateSpellEntry(162359), -- Genesis
+			CreateSpellEntry(164812), -- Moonfire
+			CreateSpellEntry(164815), -- Sunfire
 		},
-		HUNTER = { 
-			target = {
-				CreateSpellEntry( 87935 ), -- Serpent Sting
-				CreateSpellEntry( 3674 ), -- Black Arrow
-				CreateSpellEntry( 53301 ), -- Explosive Shot
-				CreateSpellEntry( 136634 ), -- Narrow Escape
-				CreateSpellEntry( 19386 ), -- Wyvern Sting
-				CreateSpellEntry( 131894 ), -- A Murder of Crows
-				CreateSpellEntry( 1130, true ), -- Hunters mark
-			},
-			player = {
-				CreateSpellEntry( 3045 ), -- Rapid Fire
-				CreateSpellEntry( 19574 ), --Bestial Wrath
-				CreateSpellEntry( 19263 ), --Deterrence
-				CreateSpellEntry( 82692 ), --Focus Fire
-				CreateSpellEntry( 90361 ), --Spirit Mend
-				CreateSpellEntry( 118922 ), --Posthaste
-				CreateSpellEntry( 19615 ), -- Frenzy
-				CreateSpellEntry( 34720 ), --Thrill of the Hunt
-				CreateSpellEntry( 64418 ), CreateSpellEntry( 64419 ), CreateSpellEntry( 64420 ), -- Sniper Training Rank 1/2/3
-			},
-			procs = {
-				CreateSpellEntry( 53257 ), -- cobra strikes 
-				CreateSpellEntry( 6150 ), -- Quick Shots
-				CreateSpellEntry( 168980 ), -- Lock and Load
-				CreateSpellEntry( 136 ), -- Mend Pet
-				CreateSpellEntry( 109092 ), -- Mirror Scope (Crit)
-				CreateSpellEntry( 109085 ), -- Lord Blastington's Scope of Doom (Agility)
-			},
+		player = {
+			CreateSpellEntry(774), -- Rejuvenation
+			CreateSpellEntry(1850), -- Dash
+			CreateSpellEntry(5215), -- Prowl
+			CreateSpellEntry(5217), -- Tiger's Fury
+			CreateSpellEntry(5229), -- Enrage
+			CreateSpellEntry(8936, false, nil, nil, 8936), -- Regrowth
+			CreateSpellEntry(16689), -- Nature's Grasp
+			CreateSpellEntry(16870), -- Clearcasting
+			CreateSpellEntry(22812), -- Barkskin
+			CreateSpellEntry(29166), -- Innervate
+			CreateSpellEntry(33763), -- Lifebloom
+			CreateSpellEntry(48438), -- Wild Growth
+			CreateSpellEntry(48505), -- Starfall
+			CreateSpellEntry(52610), -- Savage Roar
+			CreateSpellEntry(61336), -- Survival Instincts
+			CreateSpellEntry(77761), -- Stampeding Roar Bear
+			CreateSpellEntry(77764), -- Stampeding Roar Cat
+			CreateSpellEntry(100977), -- Harmony
+			CreateSpellEntry(106922), -- Might of Ursoc
+			CreateSpellEntry(106951), -- Berserk (Cat)
+			CreateSpellEntry(106952), -- Berserk (Bear)
+			CreateSpellEntry(112071), -- Celestial Alignment
+			CreateSpellEntry(124769), -- Frenzied Regeneration
+			CreateSpellEntry(124974), -- Nature's Vigil
+			CreateSpellEntry(127538), -- Savage Roar
+			CreateSpellEntry(132402, true), -- Savage Defense
+			CreateSpellEntry(108373), -- Dream of Cenarius (Balance)
+			CreateSpellEntry(158504), -- Dream of Cenarius (Restoration)
+			CreateSpellEntry(158501), -- Dream of Cenarius (Guardian)
+			CreateSpellEntry(158497), -- Dream of Cenarius (Feral)
+			CreateSpellEntry(145162), -- Bloodtalons
+			CreateSpellEntry(155777), -- Germination
+			CreateSpellEntry(158792), -- Pulverize
+			CreateSpellEntry(162359), -- Genesis
 		},
-		MAGE = {
-			target = { 
-				CreateSpellEntry( 44457 ), -- Living Bomb
-				CreateSpellEntry( 118 ), -- Polymorph
-				CreateSpellEntry( 28271 ), -- Polymorph Turtle
-				CreateSpellEntry( 31589 ), -- Slow
-				CreateSpellEntry( 116 ), -- Frostbolt
-				CreateSpellEntry( 120 ), -- Cone of Cold
-				CreateSpellEntry( 122 ), -- Frost Nova
-				CreateSpellEntry( 44614 ), -- Frostfire Bolt
-				CreateSpellEntry( 11366 ), -- Pyroblast!
-				CreateSpellEntry( 12654 ), -- Ignite
-				CreateSpellEntry( 83853 ), -- Combustion
-				CreateSpellEntry( 31661 ), -- Dragon's Breath
-				CreateSpellEntry( 44572 ), -- Deep Freeze
-				CreateSpellEntry( 82691 ), -- Ring of Frost
-				CreateSpellEntry( 114923 ), -- Nether Tempest
-				CreateSpellEntry( 112948 ), -- Frost Bomb
-				CreateSpellEntry( 33395 ), -- Freeze (Pet)
-				CreateSpellEntry( 111340 ), -- Ice Ward
-			},
-			player = {
-				CreateSpellEntry( 36032 ), -- Arcane Blast
-				CreateSpellEntry( 12042 ), -- Arcane Power
-				CreateSpellEntry( 32612 ), -- Invisibility
-				CreateSpellEntry( 1463 ), -- Incanter's Flow
-				CreateSpellEntry( 11426 ), -- Ice Barrier
-				CreateSpellEntry( 45438 ), -- Ice Block
-				CreateSpellEntry( 12472 ), -- Icy Veins
-				CreateSpellEntry( 130 ), -- Slow Fall
-				CreateSpellEntry( 57761 ), -- Brain Freeze	
-				CreateSpellEntry( 110960 ), -- Greater Invisibility
-				CreateSpellEntry( 111264 ), -- Ice Ward
-				CreateSpellEntry( 48107 ), -- Heating Up
-				CreateSpellEntry( 108839 ), -- Ice Floes
-				CreateSpellEntry( 110909 ), -- Alter Time
-				CreateSpellEntry( 115610 ), -- Temporal Shield
-				CreateSpellEntry( 116014 ), -- Rune of Power		
-			},
-			procs = {
-				CreateSpellEntry( 44544 ), -- Fingers of Frost
-				CreateSpellEntry( 79683 ), -- Arcane Missiles!
-				CreateSpellEntry( 48108 ), -- Hot Streak
-			},
+		procs = {
+			CreateSpellEntry(16886), -- Nature's Grace
+			CreateSpellEntry(48517), -- Eclipse Solar
+			CreateSpellEntry(48518), -- Eclipse Lunar
+			CreateSpellEntry(69369), -- Predator's Swiftness
+			CreateSpellEntry(81006), CreateSpellEntry(81191), CreateSpellEntry(81192), -- Lunar Shower Rank 1/2/3
+			CreateSpellEntry(93400), -- Shooting Stars
+			CreateSpellEntry(104993), -- Jade Spirit
+			CreateSpellEntry(144865), -- Feral Fury (New)
+			CreateSpellEntry(146874), -- Feral Rage (New)
 		},
-		PALADIN = { 
-			target = {
-				CreateSpellEntry( 31803 ), -- Censure --
-				CreateSpellEntry( 20066 ), -- Repentance --
-				CreateSpellEntry( 853 ), -- Hammer of Justice --
-				CreateSpellEntry( 31935 ), -- Avenger's Shield --
-				CreateSpellEntry( 20170 ), -- Seal of Justice --
-				CreateSpellEntry( 26017 ), -- Vindication --
-				CreateSpellEntry( 86273 ), -- Illuminated Healing				
-				CreateSpellEntry( 25771 ), -- Forbearance
-				CreateSpellEntry( 63529 ), -- Glyph of Dazing Shield
-				CreateSpellEntry( 2812 ), -- Denounce		
-			},
-			player = {
-				CreateSpellEntry( 642 ), -- Divine Shield
-				CreateSpellEntry( 31850 ), -- Ardent Defender
-				CreateSpellEntry( 498 ), -- Divine Protection
-				CreateSpellEntry( 31884 ), -- Avenging Wrath
-				CreateSpellEntry( 25771 ), -- Debuff: Forbearance
-				CreateSpellEntry( 1044 ), -- Hand of Freedom
-				CreateSpellEntry( 1022 ), -- Hand of Protection
-				CreateSpellEntry( 1038 ), -- Hand of Salvation
-				CreateSpellEntry( 53563 ), -- Beacon of Light
-				CreateSpellEntry( 31821 ), -- Aura Mastery
-				CreateSpellEntry( 31482 ), -- Divine Favor
-				CreateSpellEntry( 6940 ), -- Hand of Sacrifice
-				CreateSpellEntry( 86659 ), -- Guardian of Ancient Kings
-				CreateSpellEntry( 105809 ), -- Holy Avenger
-				CreateSpellEntry( 114163 ), -- Eternal Flame
-				CreateSpellEntry( 20925 ), -- Sacred Shield				
-			},
-			procs = {
-				CreateSpellEntry( 59578 ), -- The Art of War
-				CreateSpellEntry( 90174 ), -- Hand of Light
-				CreateSpellEntry( 71396 ), -- Rage of the Fallen		
-				CreateSpellEntry( 54149 ), -- Infusion of Light (Rank1/Rank2)
-				CreateSpellEntry( 85499 ), -- Speed of Light
-				CreateSpellEntry( 88819 ), -- Daybreak
-				CreateSpellEntry( 114637 ), -- Bastion of Glory
-				CreateSpellEntry( 114250 ), -- Selfless Healer
-				CreateSpellEntry( 85416 ), -- Grand Crusader
-				CreateSpellEntry( 87173 ), -- Long Arm of the Law				
-			},
+	},
+	HUNTER = {
+		target = {
+			CreateSpellEntry(1130, true), -- Hunters mark
+			CreateSpellEntry(3674), -- Black Arrow
+			CreateSpellEntry(5116), -- Concussive Shot
+			CreateSpellEntry(19503), -- Scatter Shot
+			CreateSpellEntry(34490), -- Silencing Shot
+			CreateSpellEntry(53301), -- Explosive Shot
+			CreateSpellEntry(63468), -- Piercing Shots
+			CreateSpellEntry(82654), -- Widow Venom
+			CreateSpellEntry(118253), -- Serpent Sting
+			CreateSpellEntry(131894), -- A Murder of Crows
 		},
-		PRIEST = { 
-			target = { 
-				CreateSpellEntry( 17 ), -- Power Word: Shield
-				CreateSpellEntry( 6788, true, nil, 1 ), -- Weakened Soul
-				CreateSpellEntry( 139 ), -- Renew
-				CreateSpellEntry( 33076 ), -- Prayer of Mending
-				CreateSpellEntry( 63877 ), -- Pain Suppression
-				CreateSpellEntry( 34914, false, nil, nil, 34914 ), -- Vampiric Touch
-				CreateSpellEntry( 589 ), -- Shadow Word: Pain
-				CreateSpellEntry( 2944 ), -- Devouring Plague
-				CreateSpellEntry( 48153 ), -- Guardian Spirit
-				CreateSpellEntry( 77489 ), -- Echo of Light			
-				CreateSpellEntry( 114404 ), -- Void Tendril's Grasp
-				CreateSpellEntry( 87194 ), -- Glyph of Mind Blast
-				CreateSpellEntry( 9484 ), -- Shackle Undead
-				CreateSpellEntry( 8122 ), -- Psychic Scream				
-			},
-			player = {
-				CreateSpellEntry( 96219 ), -- Strength of Soul (silence immun)
-				CreateSpellEntry( 89489 ), -- priest slow immun
-				CreateSpellEntry( 139 ), -- Renew
-				CreateSpellEntry( 17 ), -- Power Word: Shield
-				CreateSpellEntry( 10060 ), -- Power Infusion
-				CreateSpellEntry( 47585 ), -- Dispersion
-				CreateSpellEntry( 81700 ), -- Archangel
-				CreateSpellEntry( 81208 ), -- Chakra Heal
-				CreateSpellEntry( 81209 ), -- Chakra Smite
-				CreateSpellEntry( 81206 ), -- Prayer of Healing
-				CreateSpellEntry( 109964 ), -- Spirit Shell
-				CreateSpellEntry( 15286 ), -- Vampiric Embrace
-				CreateSpellEntry( 586 ), -- Fade
-				CreateSpellEntry( 45242 ), -- Focused Will
-			},
-			procs = {
-				CreateSpellEntry( 63735 ), -- Serendipity
-				CreateSpellEntry( 114255 ), -- Surge of Light
-				CreateSpellEntry( 77487 ), -- Shadow Orb
-				CreateSpellEntry( 71572 ), -- Cultivated Power
-				CreateSpellEntry( 81661 ), -- Evangelism
-				CreateSpellEntry( 72418 ), -- Kuhlendes Wissen
-				CreateSpellEntry( 71584 ), -- Revitalize
-				CreateSpellEntry( 59889 ), -- Borrowed Time
-				CreateSpellEntry( 104993 ), -- Jade Spirit
-				CreateSpellEntry( 128985 ), -- Relic of Yu'lon
-				CreateSpellEntry( 124430 ), -- Divine Insight
-				CreateSpellEntry( 87160 ), -- Surge of Darkness
-				CreateSpellEntry( 81292 ), -- Glyph of Mind Spike
-				CreateSpellEntry( 123254 ), -- Twist of Fate
-			},
+		player = {
+			CreateSpellEntry(3045), -- Rapid Fire
+			CreateSpellEntry(34471), -- The beast within
+			CreateSpellEntry(34720), -- Thrill of the Hunt
+			CreateSpellEntry(51753), -- Camouflage
+			CreateSpellEntry(53434), -- Call of the wild
+			CreateSpellEntry(148469), -- Deterrence
+			CreateSpellEntry(155228), -- Lone Wolf
+			CreateSpellEntry(168811), -- Sniper Training
+			CreateSpellEntry(172106), -- Aspect of the Fox
+			CreateSpellEntry(168980), -- Lock and Load
 		},
-		ROGUE = { 
-			target = { 
-				CreateSpellEntry( 1833 ), -- Cheap Shot
-				CreateSpellEntry( 408 ), -- Kidney Shot
-				CreateSpellEntry( 1776 ), -- Gouge
-				CreateSpellEntry( 2094 ), -- Blind
-				CreateSpellEntry( 2818 ), -- Deadly Poison
-				CreateSpellEntry( 8680 ), -- Wound Posion
-				CreateSpellEntry( 3409 ),  -- Crippling Poison 
-				CreateSpellEntry( 6770 ), -- Sap
-				CreateSpellEntry( 1943 ), -- Rupture
-				CreateSpellEntry( 703 ), -- Garrote
-				CreateSpellEntry( 79140 ), -- vendetta
-				CreateSpellEntry( 16511 ), -- Hemorrhage
-				CreateSpellEntry( 84745 ), -- Shallow Insight
-				CreateSpellEntry( 84746 ), -- Moderate Insight
-				CreateSpellEntry( 84747 ), -- Deep Insight
-				CreateSpellEntry( 84747 ), -- Revealing Strike
-				CreateSpellEntry( 84747 ), -- Find Weakness	
-			},
-			player = {
-				CreateSpellEntry( 13750 ), -- adrenalin stuff
-				CreateSpellEntry( 32645 ), -- Envenom
-				CreateSpellEntry( 2983 ), -- Sprint
-				CreateSpellEntry( 5277 ), -- Evasion
-				CreateSpellEntry( 1776 ), -- Gouge
-				CreateSpellEntry( 51713 ), -- Shadow Dance
-				CreateSpellEntry( 1966 ), -- Feint
-				CreateSpellEntry( 73651 ), -- Recuperate
-				CreateSpellEntry( 5171 ), -- Slice and Dice
-				CreateSpellEntry( 13877 ), -- Blade Flurry
-				CreateSpellEntry( 74001 ), -- Combat Readiness		
-				CreateSpellEntry( 84747 ), -- Master of Subtlety
-				CreateSpellEntry( 84747 ), -- Cloak of Shadows
-				CreateSpellEntry( 84747 ), -- Vanish
-				CreateSpellEntry( 84747 ), -- Combat Insight
-				CreateSpellEntry( 84747 ), -- Cheating Death
-				CreateSpellEntry( 84747 ), -- Subterfuge		
-			},
-			procs = {
-				CreateSpellEntry( 71396 ), -- Rage of the Fallen				
-				CreateSpellEntry( 115189 ), -- Anticipation
-				CreateSpellEntry( 84745 ), -- Shallow Insight
-				CreateSpellEntry( 84746 ), -- Moderate Insight
-				CreateSpellEntry( 84747 ), -- Deep Insight
-				CreateSpellEntry( 121153 ), -- Blindside			
-			},
+		procs = {
+			CreateSpellEntry(56453), -- Lock and Load
+			CreateSpellEntry(82692), --Focus Fire
+			CreateSpellEntry(53220), -- Improved Steadyshot
+			CreateSpellEntry(82925), --Ready, Set, Aim
+			CreateSpellEntry(82926), --Fire
 		},
-		SHAMAN = {
-			target = {
-				CreateSpellEntry( 974 ), -- Earth Shield
-				CreateSpellEntry( 8050), -- Flame Shock
-				CreateSpellEntry( 8056 ), -- Frost Shock
-				CreateSpellEntry( 17364 ), -- Storm Strike
-				CreateSpellEntry( 61295 ), -- Riptide
-				CreateSpellEntry( 64695 ), -- Earthgrab
-				CreateSpellEntry( 51514 ), -- Hex			
-			},
-				player = {
-				CreateSpellEntry( 324 ), -- Lightning Shield
-				CreateSpellEntry( 52127 ), -- Water Shield
-				CreateSpellEntry( 974 ), -- Earth Shield
-				CreateSpellEntry( 30823 ), -- Shamanistic Rage
-				CreateSpellEntry( 61295 ), -- Riptide				
-				CreateSpellEntry( 53817 ), -- Maelstorm Weapon
-				CreateSpellEntry( 16166 ), -- Elemental Mastery
-				CreateSpellEntry( 114049 ), -- Ascendance
-				CreateSpellEntry( 79206 ), -- Spiritwalker's Grace
-				CreateSpellEntry( 73683 ), -- Unleash Flame
-				CreateSpellEntry( 73685 ), -- Unleash Life
-				CreateSpellEntry( 31616 ), -- Nature Guardian
-				CreateSpellEntry( 114893 ), -- Stone Bulwark
-				CreateSpellEntry( 108281 ), -- Ancestral Guidance
-				CreateSpellEntry( 108271 ), -- Astral Shift
-			},
-			procs = {
-				CreateSpellEntry( 53817 ), -- Maelstrom Weapon
-				CreateSpellEntry( 104993 ), -- Jade Spirit
-				CreateSpellEntry( 128985 ), -- Relic of Yu'lon
-				CreateSpellEntry( 77762 ), -- Lava Surge
-				CreateSpellEntry( 118522 ), -- Elemental Blast
-				CreateSpellEntry( 53390 ), -- Tidal Waves
-			},
+	},
+	MAGE = {
+		target = {
+			CreateSpellEntry(44457), -- Living Bomb
+			CreateSpellEntry(118), -- Polymorph
+			CreateSpellEntry(28271), -- Polymorph Turtle
+			CreateSpellEntry(31589), -- Slow
+			CreateSpellEntry(116), -- Frostbolt
+			CreateSpellEntry(120), -- Cone of Cold
+			CreateSpellEntry(122), -- Frost Nova
+			CreateSpellEntry(44614), -- Frostfire Bolt
+			CreateSpellEntry(11366), -- Pyroblastdebuff
+			CreateSpellEntry(12654), -- Ignite
+			CreateSpellEntry(83853), -- Combustion
+			CreateSpellEntry(31661), -- Dragon's Breath
+			CreateSpellEntry(44572), -- Deep Freeze
+			CreateSpellEntry(82691), -- Ring of Frost
+			CreateSpellEntry(118271), -- Impact
+			CreateSpellEntry(114923), -- Nether Tempest
 		},
-		WARLOCK = {
-			target = {
-				CreateSpellEntry( 980 ), -- Bane of Agony
-				CreateSpellEntry( 603 ), -- Bane of Doom
-				CreateSpellEntry( 80240 ), -- Bane of Havoc
-				CreateSpellEntry( 146739 ), -- Corruption
-				CreateSpellEntry( 27243, false, nil, nil, 27243 ), -- Seed of Corruption
-				CreateSpellEntry( 48181, false, nil, nil, 48181 ), -- Haunt
-				CreateSpellEntry( 30108, false, nil, nil, 30108 ), -- Unstable Affliction
-				CreateSpellEntry( 157736, false, nil, nil, 157736 ), -- Immolate
-				CreateSpellEntry( 5782 ), -- Fear
-				CreateSpellEntry( 710 ), -- Banish
-				CreateSpellEntry( 5484 ), -- Howl of Terror
-				CreateSpellEntry( 6789 ), -- Deathcoil
-				CreateSpellEntry( 114790 ), -- Seed of Corruption
-
-			},
-				player = {
-				CreateSpellEntry( 17941 ), -- Shadow Trance
-				CreateSpellEntry( 110913 ), -- Dark Bargain
-				CreateSpellEntry( 104773 ), -- Unending Resolve
-				CreateSpellEntry( 113861 ), -- Dark Soul: Knowledge
-				CreateSpellEntry( 113860 ), -- Dark Soul: Misery
-				CreateSpellEntry( 113858 ), -- Dark Soul: Instability
-				CreateSpellEntry( 74434 ), -- Soulburn
-				CreateSpellEntry( 86211 ), -- Soul Swap
-				CreateSpellEntry( 111400 ), -- Burning Rush
-				CreateSpellEntry( 108683 ), -- Fire and Brimstone
-			},
-			procs = {
-				CreateSpellEntry( 86121 ), -- Soul Swap
-				CreateSpellEntry( 117828 ), -- Backdraft
-				CreateSpellEntry( 122355 ), -- Molten Core
-			},
+		player = {
+			CreateSpellEntry(36032), -- Arcane Blast
+			CreateSpellEntry(12042), -- Arcane Power
+			CreateSpellEntry(32612), -- Invisibility
+			CreateSpellEntry(1463), -- Mana Shield
+			CreateSpellEntry(11426), -- Ice Barrier
+			CreateSpellEntry(45438), -- Ice Block
+			CreateSpellEntry(12472), -- Icy Veins
+			CreateSpellEntry(130), -- Slow Fall
+			CreateSpellEntry(57761), -- Brain Freeze
+			CreateSpellEntry(12536), -- Clearcasting
+			CreateSpellEntry(48108), -- Pyroblast!
+			CreateSpellEntry(115610), -- Temporal Shield
+			CreateSpellEntry(116257), -- Invocation
+			CreateSpellEntry(116267), -- Incanter's Flow
 		},
-		WARRIOR = { 
-			target = {
-				CreateSpellEntry( 94009 ), -- Rend
-				CreateSpellEntry( 12294 ), -- Mortal Strike
-				CreateSpellEntry( 1160 ), -- Demoralizing Shout
-				CreateSpellEntry( 64382 ), -- Shattering Throw
-				CreateSpellEntry( 86346 ), -- Colossus Smash
-				CreateSpellEntry( 7922 ), -- Charge (stun)
-				CreateSpellEntry( 1715 ), -- Hamstring
-				CreateSpellEntry( 18498 ), -- Gag Order
-				CreateSpellEntry( 6343 ), -- Thunderclap
-				CreateSpellEntry( 108126 ), -- DPS Colossus Smash T13
-			},
-			player = {
-				CreateSpellEntry( 469 ), -- Commanding Shout
-				CreateSpellEntry( 6673 ), -- Battle Shout
-				CreateSpellEntry( 55694 ), -- Enraged Regeneration
-				CreateSpellEntry( 23920 ), -- Spell Reflection
-				CreateSpellEntry( 871 ), -- Shield Wall
-				CreateSpellEntry( 1719 ), -- Recklessness
-				CreateSpellEntry( 2565 ), -- Shield Block
-				CreateSpellEntry( 32216 ), -- Victorious (Victory Rush enabled)
-				CreateSpellEntry( 12292 ), -- Bloodbath
-				CreateSpellEntry( 12975 ), -- Last Stand
-				CreateSpellEntry( 112048 ), -- Shield Barrier
-				CreateSpellEntry( 118038 ), -- Die by the Sword
-				CreateSpellEntry( 18499 ), -- Berserker Rage
-				CreateSpellEntry( 107574 ), -- Avatar
-				CreateSpellEntry( 12328 ), -- Sweeping Strikes
-			},
-			procs = {
-				CreateSpellEntry( 46916 ), -- Bloodsurge Slam (Free & Instant)
-				CreateSpellEntry( 50227 ), -- Sword and Board
-				CreateSpellEntry( 122510 ), -- Ultimatum
-				CreateSpellEntry( 85739 ), -- Meat Cleaver
-				CreateSpellEntry( 12880 ), -- Enrage
-				CreateSpellEntry( 86663 ), -- Rude Interruption
-			},
+		procs = {
+			CreateSpellEntry(44544), -- Fingers of Frost
+			CreateSpellEntry(79683), -- Arcane Missiles!
+			CreateSpellEntry(48107), -- Heating Up!
 		},
+	},
+	MONK = {
+		target = {
+			CreateSpellEntry(130320), -- Risin Sun Kick
+			CreateSpellEntry(123727), -- Dizzying Haze
+			CreateSpellEntry(123725), -- Breath of Fire
+			CreateSpellEntry(115804), -- Mortal Wounds
+			CreateSpellEntry(119611), -- Renewing Mists
+			CreateSpellEntry(132120), -- Envolpeing Mists
+			CreateSpellEntry(116849), -- Life Cocoon
+			CreateSpellEntry(115175), -- Soothing Mist
+			CreateSpellEntry(116095), -- Disable
+			CreateSpellEntry(115078), -- Paralysis
+		},
+		player = {
+			CreateSpellEntry(124081), -- Zensphere
+			CreateSpellEntry(125195), -- Tigereye Brew
+			CreateSpellEntry(125359), -- Tiger Power
+			CreateSpellEntry(115307), -- Shuffle
+			CreateSpellEntry(118636), -- Power Guard
+			CreateSpellEntry(115295), -- Guard
+			CreateSpellEntry(128939), -- Elusive Brew
+			CreateSpellEntry(118674), -- Vital Mists
+			CreateSpellEntry(127722), -- Serpent's Zeal
+			CreateSpellEntry(116680), -- Thunder Focus Tea
+			CreateSpellEntry(120954), -- Fortifying Brew
+			CreateSpellEntry(107270), -- Spinning Crane Kick
+			CreateSpellEntry(115176), -- Zen Meditation
+			CreateSpellEntry(119085), -- Momentum
+			CreateSpellEntry(115867), -- Mana Tea
+			CreateSpellEntry(124275), -- Light Stagger
+			CreateSpellEntry(116740), -- Tigereye Brew
+		},
+		procs = {
+			CreateSpellEntry(116768), -- Combobreaker: Blackout-Kick
+			CreateSpellEntry(120273), -- Tiger Strikes
+			CreateSpellEntry(118864), -- Combobreaker: Tigerpalm
+			CreateSpellEntry(104993), -- Jade Spirit
+		}
+	},
+	PALADIN = {
+		target = {
+			CreateSpellEntry(31803), -- Censure
+			CreateSpellEntry(20066), -- Repentance
+			CreateSpellEntry(853), -- Hammer of Justice
+			CreateSpellEntry(31935), -- Avenger's Shield
+			CreateSpellEntry(20170), -- Seal of Justice
+		},
+		player = {
+			CreateSpellEntry(642), -- Divine Shield
+			CreateSpellEntry(31850), -- Ardent Defender
+			CreateSpellEntry(498), -- Divine Protection
+			CreateSpellEntry(31884), -- Avenging Wrath
+			CreateSpellEntry(25771), -- Debuff: Forbearance
+			CreateSpellEntry(1044), -- Hand of Freedom
+			CreateSpellEntry(1022), -- Hand of Protection
+			CreateSpellEntry(1038), -- Hand of Salvation
+			CreateSpellEntry(53563), -- Beacon of Light
+			CreateSpellEntry(156910), -- Beacon of Faith
+			CreateSpellEntry(31821), -- Aura Mastery
+			CreateSpellEntry(54428), -- Divine Plea
+			CreateSpellEntry(31482), -- Divine Favor
+			CreateSpellEntry(6940), -- Hand of Sacrifice
+			CreateSpellEntry(84963), -- Inquisition
+			CreateSpellEntry(20925), -- Inquisition
+			CreateSpellEntry(105809), -- Holy Avenger
+			CreateSpellEntry(86659), -- Guardian of Ancient Kings
+			CreateSpellEntry(85499), -- Speed of Light
+			CreateSpellEntry(90174), -- Devine Purpose
+			CreateSpellEntry(114250), -- Selfless Healer
+			CreateSpellEntry(160002), -- Improved Holy Shock
+			CreateSpellEntry(157007), -- Beacon of Insight
+		},
+		procs = {
+			CreateSpellEntry(53672), CreateSpellEntry(54149), -- Infusion of Light (Rank1/Rank2)
+			CreateSpellEntry(85496), -- Speed of Light
+			CreateSpellEntry(88819), -- Daybreak
+			CreateSpellEntry(85416), -- Grand Crusader
+			CreateSpellEntry(20053), -- Conviction (Rank1/Rank2/Rank3)
+			CreateSpellEntry(104993), -- Jade Spirit
+			CreateSpellEntry(128985), -- Relic of Yu'lon
+		},
+	},
+	PRIEST = {
+		target = {
+			CreateSpellEntry(17), -- Power Word: Shield
+			CreateSpellEntry(6788, true, nil, 1), -- Weakened Soul
+			CreateSpellEntry(139), -- Renew
+			CreateSpellEntry(33076), -- Prayer of Mending
+			CreateSpellEntry(33206), -- Pain Suppression
+			CreateSpellEntry(34914, false, nil, nil, 34914), -- Vampiric Touch
+			CreateSpellEntry(589), -- Shadow Word: Pain
+			CreateSpellEntry(158831), -- Devouring Plague
+			CreateSpellEntry(47788), -- Guardian Spirit
+			CreateSpellEntry(155361), -- Void Entropy
+		},
+		player = {
+			CreateSpellEntry(139), -- Renew
+			CreateSpellEntry(10060), -- Power Infusion
+			CreateSpellEntry(47585), -- Dispersion
+			CreateSpellEntry(63735), -- Serendipity
+			CreateSpellEntry(81700), -- Archangel
+			CreateSpellEntry(81206), -- Chakra Heal
+			CreateSpellEntry(81208), -- Chakra Renew
+			CreateSpellEntry(81209), -- Chakra Smite
+		},
+		procs = {
+			CreateSpellEntry(88690), -- Surge of Light
+			CreateSpellEntry(81661), -- Evangelism
+			CreateSpellEntry(59888), -- Borrowed Time
+			CreateSpellEntry(104993), -- Jade Spirit
+			CreateSpellEntry(128985), -- Relic of Yu'lon
+		},
+	},
+	ROGUE = {
+		target = {
+			CreateSpellEntry(408), -- Kidney Shot
+			CreateSpellEntry(703), -- Garrote
+			CreateSpellEntry(1776), -- Gouge
+			CreateSpellEntry(1833), -- Cheap Shot
+			CreateSpellEntry(1943), -- Rupture
+			CreateSpellEntry(2094), -- Blind
+			CreateSpellEntry(2818), -- Deadly Poison
+			CreateSpellEntry(3409),  -- Crippling Poison
+			CreateSpellEntry(5760), -- Mind-Numbing Poison
+			CreateSpellEntry(6770), -- Sap
+			CreateSpellEntry(16511), -- Hemorrhage
+			CreateSpellEntry(79140), -- vendetta
+			CreateSpellEntry(84617), -- Revealing Strike
+			CreateSpellEntry(89775), -- Hemorrhage
+			CreateSpellEntry(91021), -- Find Weakness
+			CreateSpellEntry(122233), -- Crimson Tempest
+		},
+		player = {
+			CreateSpellEntry(1776), -- Gouge
+			CreateSpellEntry(1966), -- Feint
+			CreateSpellEntry(2983), -- Sprint
+			CreateSpellEntry(5171), -- Slice and Dice
+			CreateSpellEntry(5277), -- Evasion
+			CreateSpellEntry(13750), -- Adrenaline Rush
+			CreateSpellEntry(31665), -- Master of Subtlety
+			CreateSpellEntry(32645), -- Envenom
+			CreateSpellEntry(51713), -- Shadow Dance
+			CreateSpellEntry(73651), -- Recuperate
+			CreateSpellEntry(74001), -- Combat Readiness
+			CreateSpellEntry(84745), -- Shallow Insight
+			CreateSpellEntry(84746), -- Moderate Insight
+			CreateSpellEntry(84747), -- Deep Insight
+			CreateSpellEntry(115189), -- Anticipation
+			CreateSpellEntry(121471), -- Shadow Blades
+		},
+		procs = {
+			CreateSpellEntry(13877), -- Blade Flurry
+			CreateSpellEntry(121152), -- Blindside
+		},
+	},
+	SHAMAN = {
+		target = {
+			CreateSpellEntry(974), -- Earth Shield
+			CreateSpellEntry(8050), -- Flame Shock
+			CreateSpellEntry(8056), -- Frost Shock
+			CreateSpellEntry(61295), -- Riptide
+			CreateSpellEntry(51945), -- Earthliving
+			CreateSpellEntry(77657), -- Searing Flames
+			CreateSpellEntry(16166), -- Elemental Mastery
+			CreateSpellEntry(77661), -- Searing Flame
+		},
+		player = {
+			CreateSpellEntry(324), -- Lightning Shield
+			CreateSpellEntry(52127), -- Water Shield
+			CreateSpellEntry(974), -- Earth Shield
+			CreateSpellEntry(30823), -- Shamanistic Rage
+			CreateSpellEntry(61295), -- Riptide
+			CreateSpellEntry(53390), -- Tidal Waves Rank 1/2/3
+			CreateSpellEntry(79206), -- Spiritwalker's Grace
+			CreateSpellEntry(114050), CreateSpellEntry(114051), CreateSpellEntry(114052), -- Ascendance
+			CreateSpellEntry(118473), -- Unleashed Fury
+			CreateSpellEntry(73685), -- Unleash Live
+		},
+		procs = {
+			CreateSpellEntry(53817), -- Maelstrom Weapon
+			CreateSpellEntry(16246), -- Clearcasting
+			CreateSpellEntry(104993), -- Jade Spirit
+			CreateSpellEntry(128985), -- Relic of Yu'lon
+		},
+	},
+	WARLOCK = {
+		target = {
+			CreateSpellEntry(980), -- Bane of Agony
+			CreateSpellEntry(603), -- Bane of Doom
+			CreateSpellEntry(80240), -- Bane of Havoc
+			CreateSpellEntry(1490), -- Curse of the Elements
+			CreateSpellEntry(18223), -- Curse of Exhaustion
+			CreateSpellEntry(1714), -- Curse of Tongue
+			CreateSpellEntry(109466), -- Curse of Enfeeblement
+			CreateSpellEntry(172), -- Corruption
+			CreateSpellEntry(27243, false, nil, nil, 27243), -- Seed of Corruption
+			CreateSpellEntry(48181, false, nil, nil, 48181), -- Haunt
+			CreateSpellEntry(30108, false, nil, nil, 30108), -- Unstable Affliction
+			CreateSpellEntry(348, false, nil, nil, 348), -- Immolate
+			CreateSpellEntry(5782), -- Fear
+			CreateSpellEntry(710), -- Banish
+			CreateSpellEntry(5484), -- Howl of Terror
+			CreateSpellEntry(74434), -- Soulburn
+			CreateSpellEntry(17962), -- Conflagrate
+			CreateSpellEntry(108686), -- Immolate (Area)
+			CreateSpellEntry(87389), -- Seed of Corruption via Soulburn
+			CreateSpellEntry(47960), -- Shadowflame
+			CreateSpellEntry(146739), -- Corruption 5.4
+			CreateSpellEntry(157736), -- Immolate
+		},
+		player = {
+			CreateSpellEntry(17941), -- Shadow Trance
+			CreateSpellEntry(64371), -- Eradication
+			CreateSpellEntry(85383), -- Improved Soul Fire
+			CreateSpellEntry(79459),  CreateSpellEntry(79463),  CreateSpellEntry(79460),  CreateSpellEntry(79462),  CreateSpellEntry(79464), -- Demon Soul
+			CreateSpellEntry(103103), -- Malefic Grasp
+			CreateSpellEntry(113860), -- Dark Soul: Misery
+			CreateSpellEntry(113858), -- Dark Soul: Instability
+			CreateSpellEntry(104773), -- Unending Resolve
+			CreateSpellEntry(108359), -- Dark Regeneration
+			CreateSpellEntry(34936), -- Backlash
+		},
+		procs = {
+			CreateSpellEntry(86121), CreateSpellEntry(86211), -- Soul Swap
+			CreateSpellEntry(117828),-- Backdraft rank 1/2/3
+			CreateSpellEntry(122355), -- Molten Core
+			CreateSpellEntry(63167), -- Decimation
+			CreateSpellEntry(47283), -- Empowered Imp
+			CreateSpellEntry(108559), -- Demonic Rebirth
+		},
+	},
+	WARRIOR = {
+		target = {
+			CreateSpellEntry(1160), -- Demoralizing Shout
+			CreateSpellEntry(64382), -- Shattering Throw
+			CreateSpellEntry(58567), -- Sunder Armor
+			CreateSpellEntry(86346), -- Colossus Smash
+			CreateSpellEntry(7922), -- Charge (stun)
+			CreateSpellEntry(1715), -- Hamstring
+			CreateSpellEntry(676), -- Disarm
+			CreateSpellEntry(18498), -- Gag Order
+			CreateSpellEntry(6343), -- Thunderclap
+			CreateSpellEntry(115767), -- Deep Wounds
+			CreateSpellEntry(113746), -- Weakend Armor
+		},
+		player = {
+			CreateSpellEntry(469), -- Commanding Shout
+			CreateSpellEntry(6673), -- Battle Shout
+			CreateSpellEntry(55694), -- Enraged Regeneration
+			CreateSpellEntry(23920), -- Spell Reflection
+			CreateSpellEntry(871), -- Shield Wall
+			CreateSpellEntry(1719), -- Recklessness
+			CreateSpellEntry(12975), -- Last Stand
+			CreateSpellEntry(32216), -- Victorious (Victory Rush enabled)
+			CreateSpellEntry(85738), CreateSpellEntry(85739), -- Meat Cleaver Rank 1 and 2
+			CreateSpellEntry(86662), CreateSpellEntry(86663), -- Rude interruption rank 1 and 2
+			CreateSpellEntry(23885), -- Blood Thirst
+			CreateSpellEntry(86663), CreateSpellEntry(84585), CreateSpellEntry(84586), -- Slaughter
+			CreateSpellEntry(60503), -- Taste for Blood
+			CreateSpellEntry(112048), -- Shield Barrier
+			CreateSpellEntry(132404), -- Shield Block
+			CreateSpellEntry(122510), -- Ultimatum
+			CreateSpellEntry(169686), -- Unyielding Strikes
+			CreateSpellEntry(13046), -- Enrage
+			CreateSpellEntry(12880),
+			CreateSpellEntry(12292), -- Bloodbath
+			CreateSpellEntry(107574), -- Avatar
+		},
+		procs = {
+			CreateSpellEntry(46916), -- Bloodsurge Slam (Free & Instant)
+		},
+	},
 };
+
 
 local CreateUnitAuraDataSource;
 do
@@ -1185,6 +1153,7 @@ do
 		dataSource:Sort();
 		
 		local count = dataSource:Count();
+
 
 		for index, auraInfo in ipairs( dataSource:Get() ) do
 			SetAuraBar( self, index, auraInfo );
