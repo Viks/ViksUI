@@ -88,19 +88,17 @@ end)
 
 -- Role Check button
 CreateButton("RaidUtilityRoleButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOP", RaidUtilityConvertButton, "BOTTOM", 0, -5, ROLE_POLL)
-RaidUtilityRoleButton:SetScript("OnMouseUp", function(self) InitiateRolePoll() end)
+RaidUtilityRoleButton:SetScript("OnMouseUp", function(self)
+		if CheckRaidStatus() then
+			InitiateRolePoll()
+		end
+	end)
 
 -- MainTank button
-CreateButton("RaidUtilityMainTankButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureActionButtonTemplate", (RaidUtilityDisbandButton:GetWidth() / 2) - 2, 18, "TOPLEFT", RaidUtilityRoleButton, "BOTTOMLEFT", 0, -5, TANK)
+CreateButton("RaidUtilityMainTankButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureActionButtonTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOPLEFT", RaidUtilityRoleButton, "BOTTOMLEFT", 0, -5, TANK)
 RaidUtilityMainTankButton:SetAttribute("type", "maintank")
 RaidUtilityMainTankButton:SetAttribute("unit", "target")
 RaidUtilityMainTankButton:SetAttribute("action", "toggle")
-
--- MainAssist button
-CreateButton("RaidUtilityMainAssistButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureActionButtonTemplate", (RaidUtilityDisbandButton:GetWidth() / 2) - 2, 18, "TOPRIGHT", RaidUtilityRoleButton, "BOTTOMRIGHT", 0, -5, MAINASSIST)
-RaidUtilityMainAssistButton:SetAttribute("type", "mainassist")
-RaidUtilityMainAssistButton:SetAttribute("unit", "target")
-RaidUtilityMainAssistButton:SetAttribute("action", "toggle")
 
 -- Ready Check button
 CreateButton("RaidUtilityReadyCheckButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityRoleButton:GetWidth() * 0.75, 18, "TOPLEFT", RaidUtilityMainTankButton, "BOTTOMLEFT", 0, -5, READY_CHECK)
@@ -108,7 +106,7 @@ RaidUtilityReadyCheckButton:SetScript("OnMouseUp", function(self) DoReadyCheck()
 
 -- World Marker button
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:ClearAllPoints()
-CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetPoint("TOPRIGHT", RaidUtilityMainAssistButton, "BOTTOMRIGHT", 0, -5)
+CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetPoint("TOPRIGHT", RaidUtilityMainTankButton, "BOTTOMRIGHT", 0, -5)
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetParent("RaidUtilityPanel")
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetHeight(18)
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetWidth(RaidUtilityRoleButton:GetWidth() * 0.22)
