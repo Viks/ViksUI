@@ -1173,8 +1173,6 @@ MBFDB = {
 				"MMHolder", -- [58]
 				"LeftMiniPanel", -- [59]
 				"RightMiniPanel", -- [60]
-				"ElvConfigToggle", -- [61]
-				"ElvUI_ConsolidatedBuffs", -- [62]
 			},
 			["padding"] = 3,
 		},
@@ -1327,7 +1325,7 @@ local UploadChat = function()
 end
 
 local UploadCvar = function()
-	SetCVar("alternateResourceText", 1)
+	--SetCVar("alternateResourceText", 1)
 	SetCVar("statusTextDisplay", "BOTH")
 	SetCVar("screenshotQuality", 10)
 	SetCVar("cameraDistanceMax", 50)
@@ -1339,19 +1337,18 @@ local UploadCvar = function()
 	SetCVar("removeChatDelay", 1)
 	SetCVar("chatStyle", "im")
 	SetCVar("WholeChatWindowClickable", 0)
-	SetCVar("ConversationMode", "inline")
-	SetCVar("WhisperMode", "inline")
-	SetCVar("BnWhisperMode", "inline")
+	--SetCVar("WhisperMode", "inline")
+	--SetCVar("BnWhisperMode", "inline")
 	SetCVar("colorblindMode", 0)
 	SetCVar("lootUnderMouse", 0)
 	SetCVar("autoLootDefault", 1)
 	SetCVar("RotateMinimap", 0)
-	SetCVar("ConsolidateBuffs", 0)
+	--SetCVar("ConsolidateBuffs", 0)
 	SetCVar("autoQuestProgress", 1)
 	SetCVar("scriptErrors", 0)
 	SetCVar("taintLog", 0)
 	SetCVar("buffDurations", 1)
-	SetCVar("enableCombatText", 1)
+	--SetCVar("enableCombatText", 1)
 	SetCVar("autoOpenLootHistory", 0)
 	SetCVar("lossOfControl", 0)
 	SetCVar("threatWarning", 3)
