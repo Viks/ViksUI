@@ -260,7 +260,7 @@ Anchorviksraid:SetPoint("BOTTOM", UIParent, "BOTTOM", -2, 180)
 CreateAnchor(Anchorviksraid, "Move raid", 530, 20)
 
 Anchorvikstot = CreateFrame("Frame","Move_tot",UIParent)
-Anchorvikstot:SetPoint("BOTTOM", UIParent, "BOTTOM", 560, 400) 
+Anchorvikstot:SetPoint("BOTTOM", UIParent, "BOTTOM", 552, 271) 
 CreateAnchor(Anchorvikstot, "Move tot", 100, 18)
 
 Anchorvikspet = CreateFrame("Frame","Move_pet",UIParent)
@@ -284,7 +284,7 @@ Anchorviksfocuscastbar:SetPoint("TOPLEFT", UIParent, "BOTTOM", 579, 450)
 CreateAnchor(Anchorviksfocuscastbar, "Move focuscastbar", 158, 13)
 
 Anchorvikstank = CreateFrame("Frame","Move_tank",UIParent)
-Anchorvikstank:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 220, 303)
+Anchorvikstank:SetPoint("BOTTOM", UIParent, "BOTTOM", -80, 300)
 CreateAnchor(Anchorvikstank, "Move tank", 80, 18)
 
 Anchorviksboss = CreateFrame("Frame","Move_boss",UIParent)

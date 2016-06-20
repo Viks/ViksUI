@@ -7,9 +7,9 @@ if Viks.minimapp.enable ~= true then return end
 local switch = CreateFrame("Button", "SwitchLayout", UIParent)
 switch:SetTemplate("ClassColor")
 if Viks.actionbar.toggle_mode == true then
-	switch:SetPoint("TOPLEFT", Minimap, "TOPRIGHT", 3, -18)
+	switch:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -3, 39)
 else
-	switch:SetPoint("TOPLEFT", Minimap, "TOPRIGHT", 3, 2)
+	switch:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -3, 39)
 end
 switch:SetSize(19, 19)
 switch:SetAlpha(0)
@@ -23,13 +23,10 @@ switch:EnableMouse(true)
 switch:RegisterForClicks("AnyUp")
 switch:SetScript("OnClick", function(self, button)
 	if button == "LeftButton" then
-		SavedOptions.RaidLayout = "HEAL"
+		ViksConfig.unitframes.HealFrames = true
 		ReloadUI()
 	elseif button == "RightButton" then
-		SavedOptions.RaidLayout = "DPS"
-		ReloadUI()
-	elseif button == "MiddleButton" then
-		SavedOptions.RaidLayout = "NONE"
+		ViksConfig.unitframes.HealFrames = false
 		ReloadUI()
 	end
 end)
@@ -41,7 +38,7 @@ switch:SetScript("OnEnter", function()
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddLine(L_MINIMAP_HEAL_LAYOUT)
 	GameTooltip:AddLine(L_MINIMAP_DPS_LAYOUT)
-	GameTooltip:AddLine(L_MINIMAP_BLIZZ_LAYOUT)
+	--GameTooltip:AddLine(L_MINIMAP_BLIZZ_LAYOUT)
 	GameTooltip:Show()
 end)
 
@@ -52,16 +49,10 @@ end)
 
 switch:RegisterEvent("PLAYER_LOGIN")
 switch:SetScript("OnEvent", function(self)
-	if SavedOptions and SavedOptions.RaidLayout == "DPS" then
+	if ViksConfig.unitframes.HealFrames == false then
 		switch.t:SetTexCoord(0.25, 0.5, 0, 1)
-	elseif SavedOptions and SavedOptions.RaidLayout == "HEAL" then
+	elseif ViksConfig.unitframes.HealFrames == true then
 		switch.t:SetTexCoord(0.75, 1, 0, 1)
-	elseif SavedOptions and SavedOptions.RaidLayout == "NONE" then
-		switch.t:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
-		switch.t:SetTexCoord(0.2, 0.8, -0.1, 1.1)
-	elseif SavedOptions and SavedOptions.RaidLayout == "UNKNOWN" or SavedOptions == nil then
-		switch.t:SetTexture("Interface\\InventoryItems\\WoWUnknownItem01")
-		switch.t:SetTexCoord(0.2, 0.8, 0.2, 0.8)
 	end
 end)
 

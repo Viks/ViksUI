@@ -544,10 +544,8 @@ StaticPopupDialogs.SWITCH_RAID = {
 	text = L_POPUP_SWITCH_RAID,
 	button1 = DAMAGER,
 	button2 = HEALER,
-	button3 = "Blizzard",
-	OnAccept = function() SavedOptionsPerChar.RaidLayout = "DPS" ReloadUI() end,
-	OnCancel = function() SavedOptionsPerChar.RaidLayout = "HEAL" ReloadUI() end,
-	OnAlt = function() SavedOptionsPerChar.RaidLayout = "NONE" ReloadUI() end,
+	OnAccept = function() ViksConfig.unitframes.HealFrames = false ReloadUI() end,
+	OnCancel = function() ViksConfig.unitframes.HealFrames = true ReloadUI() end,
 	timeout = 0,
 	whileDead = 1,
 	hideOnEscape = false,
@@ -578,7 +576,7 @@ OnLogon:SetScript("OnEvent", function(self, event)
 	if SavedPositions == nil then SavedPositions = {} end
 	if SavedAddonProfiles == nil then SavedAddonProfiles = {} end
 	if SavedOptionsPerChar == nil then SavedOptionsPerChar = {} end
-	if SavedOptionsPerChar.RaidLayout == nil then SavedOptionsPerChar.RaidLayout = "UNKNOWN" end
+	if ViksConfig.unitframes.HealFrames == nil then ViksConfig.unitframes.HealFrames = "UNKNOWN" end
 	if SavedOptionsPerChar.FogOfWar == nil then SavedOptionsPerChar.FogOfWar = false end
 	if SavedOptionsPerChar.AutoInvite == nil then SavedOptionsPerChar.AutoInvite = false end
 	if SavedOptionsPerChar.Archaeology == nil then SavedOptionsPerChar.Archaeology = false end

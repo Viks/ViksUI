@@ -123,7 +123,7 @@ cfg.showarena = false
  cfg.unit_positionsH = { 				
              Player = { x= -270, y=   305},  
              Target = { x=	270, y=   305},  
-       Targettarget = { x=  560, y=   400},  
+       Targettarget = { x=  560, y=   200},  
               Focus = { x=  196, y=   230},  
                 Pet = { x=	  0, y=   289},  
                Boss = { x= -100, y=   -90},  
