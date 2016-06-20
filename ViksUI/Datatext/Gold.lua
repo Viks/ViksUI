@@ -172,6 +172,8 @@ Stat:SetScript("OnEnter", function(self)
 	if Viks.datatext.CurrRaid then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("Raid")
+		Currency(1191, false, true) --Valor
+		Currency(1166, false, false) --Timewarped Badge
 		Currency(1129, false, true) --Seal of Inevitable Fate
 		Currency(994, false, true) --Seal of Tempered Fate
 		--Currency(697, false, true) --Elder Charm of Good Fortune
