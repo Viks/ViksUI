@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Garrison skin
@@ -6,7 +6,7 @@ local T, Viks, L, _ = unpack(select(2, ...))
 local LoadTootlipSkin = CreateFrame("Frame")
 LoadTootlipSkin:RegisterEvent("ADDON_LOADED")
 LoadTootlipSkin:SetScript("OnEvent", function(self, event, addon)
-	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") or not Viks.tooltip.enable then
+	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") or not C.tooltip.enable then
 		self:UnregisterEvent("ADDON_LOADED")
 		return
 	end
@@ -54,7 +54,7 @@ LoadTootlipSkin:SetScript("OnEvent", function(self, event, addon)
 	end
 end)
 
-if Viks.skins.blizzard_frames ~= true then return end
+if C.skins.blizzard_frames ~= true then return end
 
 local function LoadSkin()
 	-- Building frame
@@ -200,7 +200,7 @@ local function LoadSkin()
 		unselectedTab:SetWidth(198)
 
 		unselectedTab:SetNormalTexture("")
-		unselectedTab.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+		unselectedTab.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 		unselectedTab.backdrop.overlay:SetVertexColor(0.1, 0.1, 0.1, 1)
 
 		self:SetNormalTexture("")
@@ -212,7 +212,7 @@ local function LoadSkin()
 		xpBar:StripTextures()
 		xpBar:CreateBackdrop("Default")
 		xpBar.backdrop:SetFrameLevel(xpBar.backdrop:GetFrameLevel() + 1)
-		xpBar:SetStatusBarTexture(Viks.media.texture)
+		xpBar:SetStatusBarTexture(C.media.texture)
 	end
 
 	local function onShowFollower(self, followerId)

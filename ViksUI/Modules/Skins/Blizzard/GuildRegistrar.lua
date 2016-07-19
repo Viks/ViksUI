@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	GuildRegistrar skin

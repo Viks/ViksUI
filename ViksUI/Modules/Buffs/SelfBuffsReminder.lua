@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.reminder.solo_buffs_enable ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.reminder.solo_buffs_enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Self buffs on player(by Tukz and Elv22)
@@ -45,7 +45,7 @@ local function OnEvent(self, event, arg1, arg2)
 		end
 	end
 
-	if not self.icon:GetTexture() and event == "PLAYER_LOGIN" then
+	if not self.icon:GetTexture() and event == "PLAYER_ENTERING_WORLD" then
 		self:UnregisterAllEvents()
 		self:RegisterEvent("LEARNED_SPELL_IN_TAB")
 		return
@@ -85,7 +85,7 @@ local function OnEvent(self, event, arg1, arg2)
 	end
 
 	if spec ~= nil then
-		if spec == GetSpecialization() then
+		if spec == GetSpecialization(specID) then
 			specpass = true
 		else
 			specpass = false
@@ -98,8 +98,8 @@ local function OnEvent(self, event, arg1, arg2)
 	if reversecheck ~= nil and (role == nil and spec == nil) then reversecheck = nil end
 
 	-- Only time we allow it to play a sound
-	if (event == "ZONE_CHANGED_NEW_AREA" or event == "PLAYER_REGEN_DISABLED") and Viks.reminder.solo_buffs_sound == true then canplaysound = true end
-	if event == "PLAYER_LOGIN" then return end
+	if (event == "ZONE_CHANGED_NEW_AREA" or event == "PLAYER_REGEN_DISABLED") and C.reminder.solo_buffs_sound == true then canplaysound = true end
+	if event == "PLAYER_ENTERING_WORLD" then return end
 
 	if ((combat and UnitAffectingCombat("player")) or (instance and difficultyID ~= 0) or (pvp and (instanceType == "arena" or instanceType == "pvp"))) and
 	specpass == true and rolepass == true and not UnitInVehicle("player") then
@@ -112,7 +112,7 @@ local function OnEvent(self, event, arg1, arg2)
 			end
 		end
 		self:Show()
-		if canplaysound == true then PlaySoundFile(Viks.media.warning_sound, "Master") end
+		if canplaysound == true then PlaySoundFile(C.media.warning_sound, "Master") end
 	elseif ((combat and UnitAffectingCombat("player")) or (instance and difficultyID ~= 0)) and
 	reversecheck == true and not UnitInVehicle("player") then
 		if negate_reversecheck and negate_reversecheck == GetSpecialization() then self:Hide() return end
@@ -121,7 +121,7 @@ local function OnEvent(self, event, arg1, arg2)
 			local _, _, icon, _, _, _, _, unitCaster = UnitBuff("player", name)
 			if name and icon and unitCaster == "player" then
 				self:Show()
-				if canplaysound == true then PlaySoundFile(Viks.media.warning_sound, "Master") end
+				if canplaysound == true then PlaySoundFile(C.media.warning_sound, "Master") end
 				return
 			end
 		end
@@ -132,7 +132,7 @@ end
 
 for i = 1, #tab do
 	local frame = CreateFrame("Frame", "ReminderFrame"..i, UIParent)
-	frame:CreatePanel("Default", Viks.reminder.solo_buffs_size, Viks.reminder.solo_buffs_size, unpack(Viks.position.self_buffs))
+	frame:CreatePanel("Default", C.reminder.solo_buffs_size, C.reminder.solo_buffs_size, unpack(C.position.self_buffs))
 	frame:SetFrameLevel(6)
 	frame.id = i
 
@@ -140,12 +140,12 @@ for i = 1, #tab do
 	frame.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -2)
 	frame.icon:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 2)
-	frame.icon:SetSize(Viks.reminder.solo_buffs_size, Viks.reminder.solo_buffs_size)
+	frame.icon:SetSize(C.reminder.solo_buffs_size, C.reminder.solo_buffs_size)
 
 	frame:Hide()
 
 	frame:RegisterEvent("UNIT_AURA")
-	frame:RegisterEvent("PLAYER_LOGIN")
+	frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 	frame:RegisterEvent("PLAYER_REGEN_ENABLED")
 	frame:RegisterEvent("PLAYER_REGEN_DISABLED")
 	frame:RegisterEvent("ZONE_CHANGED_NEW_AREA")

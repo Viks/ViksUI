@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if not Viks.datatext.Regen and not Viks.datatext.Regen > 0 then return end
+local T, C, L, _ = unpack(select(2, ...))
+if not C.datatext.Regen and not C.datatext.Regen > 0 then return end
 
 local regen
 
@@ -8,14 +8,14 @@ Stat:SetFrameStrata("BACKGROUND")
 Stat:SetFrameLevel(3)
 
 local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-	if Viks.datatext.Regen >= 6 then
-		Text:SetTextColor(unpack(Viks.media.pxcolor1))
-		Text:SetFont(Viks.media.pxfontHeader, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+	if C.datatext.Regen >= 6 then
+		Text:SetTextColor(unpack(C.media.pxcolor1))
+		Text:SetFont(C.media.pxfontHeader, C.media.pxfontHsize, C.media.pxfontHFlag)
 	else
-		Text:SetTextColor(unpack(Viks.media.pxcolor1))
-		Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+		Text:SetTextColor(unpack(C.media.pxcolor1))
+		Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	end
-PP(Viks.datatext.Regen, Text)
+PP(C.datatext.Regen, Text)
 
 Stat:RegisterEvent("PLAYER_ENTERING_WORLD")
 Stat:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -30,7 +30,7 @@ Stat:SetScript("OnEvent", function(self)
 	else
 		regen = floor(base*5)		
 	end
-	if Viks.datatext.Regen >= 6 then
+	if C.datatext.Regen >= 6 then
 	Text:SetText("|cffFFFFFF"..regen..qColor2.." "..MANA_REGEN_ABBR)
 	else
 	Text:SetText(qColor..regen..qColor2.." "..MANA_REGEN_ABBR)

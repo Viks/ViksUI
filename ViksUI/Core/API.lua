@@ -1,7 +1,7 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
-local backdropr, backdropg, backdropb, backdropa = unpack(Viks.media.backdropcolor)
-local borderr, borderg, borderb, bordera = unpack(Viks.media.bordercolor)
+local backdropr, backdropg, backdropb, backdropa = unpack(C.media.backdrop_color)
+local borderr, borderg, borderb, bordera = unpack(C.media.border_color)
 
 ----------------------------------------------------------------------------------------
 --	Template functions
@@ -12,7 +12,7 @@ local function CreateOverlay(f)
 	local overlay = f:CreateTexture("$parentOverlay", "BORDER", f)
 	overlay:SetPoint("TOPLEFT", 2, -2)
 	overlay:SetPoint("BOTTOMRIGHT", -2, 2)
-	overlay:SetTexture(Viks.media.blank_border)
+	overlay:SetTexture(C.media.blank_border)
 	overlay:SetVertexColor(0.1, 0.1, 0.1, 1)
 	f.overlay = overlay
 end
@@ -24,10 +24,10 @@ local function CreateBorder(f, i, o)
 		border:SetPoint("TOPLEFT", T.mult, -T.mult)
 		border:SetPoint("BOTTOMRIGHT", -T.mult, T.mult)
 		border:SetBackdrop({
-			edgeFile = Viks.media.blank_border, edgeSize = T.mult,
+			edgeFile = C.media.blank_border, edgeSize = T.mult,
 			insets = {left = T.mult, right = T.mult, top = T.mult, bottom = T.mult}
 		})
-		border:SetBackdropBorderColor(unpack(Viks.media.backdropcolor))
+		border:SetBackdropBorderColor(unpack(C.media.backdrop_color))
 		f.iborder = border
 	end
 
@@ -38,10 +38,10 @@ local function CreateBorder(f, i, o)
 		border:SetPoint("BOTTOMRIGHT", T.mult, -T.mult)
 		border:SetFrameLevel(f:GetFrameLevel() + 1)
 		border:SetBackdrop({
-			edgeFile = Viks.media.blank_border, edgeSize = T.mult,
+			edgeFile = C.media.blank_border, edgeSize = T.mult,
 			insets = {left = T.mult, right = T.mult, top = T.mult, bottom = T.mult}
 		})
-		border:SetBackdropBorderColor(unpack(Viks.media.backdropcolor))
+		border:SetBackdropBorderColor(unpack(C.media.backdrop_color))
 		f.oborder = border
 	end
 end
@@ -50,10 +50,10 @@ local function GetTemplate(t)
 	if t == "ClassColor" then
 		local c = T.oUF_colors.class[T.class]
 		borderr, borderg, borderb, bordera = c[1], c[2], c[3], c[4]
-		backdropr, backdropg, backdropb, backdropa = unpack(Viks.media.backdropcolor)
+		backdropr, backdropg, backdropb, backdropa = unpack(C.media.backdrop_color)
 	else
-		borderr, borderg, borderb, bordera = unpack(Viks.media.bordercolor)
-		backdropr, backdropg, backdropb, backdropa = unpack(Viks.media.backdropcolor)
+		borderr, borderg, borderb, bordera = unpack(C.media.border_color)
+		backdropr, backdropg, backdropb, backdropa = unpack(C.media.backdrop_color)
 	end
 end
 
@@ -61,18 +61,18 @@ local function SetTemplate(f, t)
 	GetTemplate(t)
 
 	f:SetBackdrop({
-		bgFile = Viks.media.blank_border, edgeFile = Viks.media.blank_border, edgeSize = T.mult,
+		bgFile = C.media.blank_border, edgeFile = C.media.blank_border, edgeSize = T.mult,
 		insets = {left = -T.mult, right = -T.mult, top = -T.mult, bottom = -T.mult}
 	})
 
 	if t == "Transparent" then
-		backdropa = Viks.media.overlay_color[4]
+		backdropa = C.media.overlay_color[4]
 		f:CreateBorder(true, true)
 	elseif t == "Overlay" then
 		backdropa = 1
 		f:CreateOverlay()
 	else
-		backdropa = Viks.media.backdropcolor[4]
+		backdropa = C.media.backdrop_color[4]
 	end
 
 	f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
@@ -88,12 +88,12 @@ local function CreatePanel(f, t, w, h, a1, p, a2, x, y)
 	f:SetFrameStrata("BACKGROUND")
 	f:SetPoint(a1, p, a2, x, y)
 	f:SetBackdrop({
-		bgFile = Viks.media.blank_border, edgeFile = Viks.media.blank_border, edgeSize = T.mult,
+		bgFile = C.media.blank_border, edgeFile = C.media.blank_border, edgeSize = T.mult,
 		insets = {left = -T.mult, right = -T.mult, top = -T.mult, bottom = -T.mult}
 	})
 
 	if t == "Transparent" then
-		backdropa = Viks.media.overlay_color[4]
+		backdropa = C.media.overlay_color[4]
 		f:CreateBorder(true, true)
 	elseif t == "Overlay" then
 		backdropa = 1
@@ -102,7 +102,7 @@ local function CreatePanel(f, t, w, h, a1, p, a2, x, y)
 		backdropa = 0
 		bordera = 0
 	else
-		backdropa = Viks.media.backdropcolor[4]
+		backdropa = C.media.backdrop_color[4]
 	end
 
 	f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
@@ -148,8 +148,8 @@ function frame1px1_1(f)
 	})
 	f:SetPoint("TOPLEFT", -2, 2)
 	f:SetPoint("BOTTOMRIGHT", 2, -2)
-	f:SetBackdropColor(unpack(Viks.media.backdropcolor))
-	f:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+	f:SetBackdropColor(unpack(C.media.backdrop_color))
+	f:SetBackdropBorderColor(unpack(C.media.border_color))
 end
 
 function frame1px(f)
@@ -158,8 +158,8 @@ function frame1px(f)
         edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = T.mult, 
 		insets = {left = -T.mult, right = -T.mult, top = -T.mult, bottom = -T.mult} 
 	})
-	f:SetBackdropColor(unpack(Viks.media.backdropcolor))
-	f:SetBackdropBorderColor(unpack(Viks.media.bordercolor))	
+	f:SetBackdropColor(unpack(C.media.backdrop_color))
+	f:SetBackdropBorderColor(unpack(C.media.border_color))	
 end
 ----------------------------------------------------------------------------------------
 --	Kill object function
@@ -183,7 +183,7 @@ local function StyleButton(button, t, size)
 	if not size then size = 2 end
 	if button.SetHighlightTexture and not button.hover then
 		local hover = button:CreateTexture(nil, nil, self)
-		hover:SetTexture(1, 1, 1, 0.3)
+		hover:SetColorTexture(1, 1, 1, 0.3)
 		hover:SetPoint("TOPLEFT", button, size, -size)
 		hover:SetPoint("BOTTOMRIGHT", button, -size, size)
 		button.hover = hover
@@ -192,7 +192,7 @@ local function StyleButton(button, t, size)
 
 	if not t and button.SetPushedTexture and not button.pushed then
 		local pushed = button:CreateTexture(nil, nil, self)
-		pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
+		pushed:SetColorTexture(0.9, 0.8, 0.1, 0.3)
 		pushed:SetPoint("TOPLEFT", button, size, -size)
 		pushed:SetPoint("BOTTOMRIGHT", button, -size, size)
 		button.pushed = pushed
@@ -201,7 +201,7 @@ local function StyleButton(button, t, size)
 
 	if button.SetCheckedTexture and not button.checked then
 		local checked = button:CreateTexture(nil, nil, self)
-		checked:SetTexture(0, 1, 0, 0.3)
+		checked:SetColorTexture(0, 1, 0, 0.3)
 		checked:SetPoint("TOPLEFT", button, size, -size)
 		checked:SetPoint("BOTTOMRIGHT", button, -size, size)
 		button.checked = checked
@@ -229,7 +229,7 @@ end
 
 T.SetOriginalBackdrop = function(self)
 	if self:GetButtonState() == "DISABLED" then return end
-	self:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+	self:SetBackdropBorderColor(unpack(C.media.border_color))
 	if self.overlay then
 		self.overlay:SetVertexColor(0.1, 0.1, 0.1, 1)
 	end

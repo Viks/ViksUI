@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Help skin
@@ -86,11 +86,11 @@ local function LoadSkin()
 		b:SkinButton()
 
 		if b.text then
-			b.text:SetFont(Viks.media.font, 13)
+			b.text:SetFont(C.media.normal_font, 13)
 		end
 
 		if t then
-			t:SetTexture(T.color.r, T.color.g, T.color.b, 0.3)
+			t:SetColorTexture(T.color.r, T.color.g, T.color.b, 0.3)
 			t:SetPoint("TOPLEFT", b, 2, -2)
 			t:SetPoint("BOTTOMRIGHT", b, -2, 2)
 		end
@@ -102,10 +102,10 @@ local function LoadSkin()
 		local t = _G["HelpFrameButton"..i.."Selected"]
 
 		b:SkinButton()
-		b.text:SetFont(Viks.media.font, 13)
+		b.text:SetFont(C.media.normal_font, 13)
 
 		if t then
-			t:SetTexture(T.color.r, T.color.g, T.color.b, 0.3)
+			t:SetColorTexture(T.color.r, T.color.g, T.color.b, 0.3)
 			t:SetPoint("TOPLEFT", b, 2, -2)
 			t:SetPoint("BOTTOMRIGHT", b, -2, 2)
 		end

@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Options skin
@@ -15,14 +15,18 @@ local function LoadSkin()
 	local frames = {
 		"VideoOptionsFrameCategoryFrame",
 		"VideoOptionsFramePanelContainer",
-		"AudioOptionsSoundPanel",
-		"AudioOptionsSoundPanelPlayback",
-		"AudioOptionsSoundPanelHardware",
-		"AudioOptionsSoundPanelVolume",
-		"AudioOptionsVoicePanel",
 		"Display_",
 		"Graphics_",
-		"RaidGraphics_"
+		"RaidGraphics_",
+		"InterfaceOptionsFrameCategories",
+		"InterfaceOptionsFramePanelContainer",
+		"InterfaceOptionsFrameAddOns",
+		"AudioOptionsSoundPanelPlayback",
+		"AudioOptionsSoundPanelVolume",
+		"AudioOptionsSoundPanelHardware",
+		"AudioOptionsVoicePanelTalking",
+		"AudioOptionsVoicePanelBinding",
+		"AudioOptionsVoicePanelListening",
 	}
 
 	for i = 1, getn(frames) do
@@ -43,12 +47,12 @@ local function LoadSkin()
 		if frame then
 			frame:StripTextures()
 			frame:SetBackdrop({
-				bgFile = Viks.media.blank, edgeFile = Viks.media.blank, edgeSize = T.mult,
+				bgFile = C.media.blank, edgeFile = C.media.blank, edgeSize = T.mult,
 				insets = {left = -T.mult, right = -T.mult, top = -T.mult, bottom = -T.mult}
 			})
 			frame:CreateBorder(true, true)
 			frame:SetBackdropColor(0, 0, 0, 0)
-			frame:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+			frame:SetBackdropBorderColor(unpack(C.media.border_color))
 		end
 	end
 
@@ -114,13 +118,11 @@ local function LoadSkin()
 		"Graphics_TextureResolutionDropDown",
 		"Graphics_FilteringDropDown",
 		"Graphics_ProjectedTexturesDropDown",
-		"Graphics_ViewDistanceDropDown",
-		"Graphics_EnvironmentalDetailDropDown",
-		"Graphics_GroundClutterDropDown",
 		"Graphics_ShadowsDropDown",
 		"Graphics_LiquidDetailDropDown",
 		"Graphics_SunshaftsDropDown",
 		"Graphics_ParticleDensityDropDown",
+		"Graphics_SSAODropDown",
 		"Graphics_DepthEffectsDropDown",
 		"Graphics_LightingQualityDropDown",
 		"Graphics_OutlineModeDropDown",
@@ -132,19 +134,16 @@ local function LoadSkin()
 		"Advanced_MultisampleAlphaTest",
 		"Advanced_PostProcessAntiAliasingDropDown",
 		"Advanced_ResampleQualityDropDown",
+		"Advanced_PhysicsInteractionDropDown",
 		"AudioOptionsSoundPanelHardwareDropDown",
 		"AudioOptionsSoundPanelSoundChannelsDropDown",
+		"AudioOptionsSoundPanelSoundCacheSizeDropDown",
 		"AudioOptionsVoicePanelInputDeviceDropDown",
 		"AudioOptionsVoicePanelChatModeDropDown",
 		"AudioOptionsVoicePanelOutputDeviceDropDown",
-		"Graphics_SSAODropDown",
-		"Graphics_RefractionDropDown",
 		"RaidGraphics_TextureResolutionDropDown",
 		"RaidGraphics_FilteringDropDown",
 		"RaidGraphics_ProjectedTexturesDropDown",
-		"RaidGraphics_ViewDistanceDropDown",
-		"RaidGraphics_EnvironmentalDetailDropDown",
-		"RaidGraphics_GroundClutterDropDown",
 		"RaidGraphics_ShadowsDropDown",
 		"RaidGraphics_LiquidDetailDropDown",
 		"RaidGraphics_SunshaftsDropDown",
@@ -156,6 +155,7 @@ local function LoadSkin()
 		"RaidGraphics_OutlineModeDropDown"
 	}
 
+
 	for i = 1, getn(dropdown) do
 		local frame = _G[dropdown[i]]
 		if frame then
@@ -165,12 +165,13 @@ local function LoadSkin()
 
 	local sliders = {
 		"Graphics_Quality",
-		"Advanced_UIScaleSlider",
+		"Graphics_ViewDistanceSlider",
+		"Graphics_EnvironmentalDetailSlider",
+		"Graphics_GroundClutterSlider",
 		"Advanced_MaxFPSSlider",
 		"Advanced_MaxFPSBKSlider",
 		"Advanced_GammaSlider",
 		"Advanced_RenderScaleSlider",
-		"AudioOptionsSoundPanelSoundQuality",
 		"AudioOptionsSoundPanelMasterVolume",
 		"AudioOptionsSoundPanelSoundVolume",
 		"AudioOptionsSoundPanelMusicVolume",
@@ -180,8 +181,6 @@ local function LoadSkin()
 		"AudioOptionsVoicePanelSoundFade",
 		"AudioOptionsVoicePanelMusicFade",
 		"AudioOptionsVoicePanelAmbienceFade",
-		"AudioOptionsSoundPanelDialogVolume",
-		"RaidGraphics_Quality"
 	}
 
 	for i = 1, getn(sliders) do
@@ -192,10 +191,10 @@ local function LoadSkin()
 		end
 	end
 
-	_G["Graphics_Quality"].SetBackdrop = T.dummy
-	_G["RaidGraphics_Quality"].SetBackdrop = T.dummy
-	_G["Graphics_RightQuality"]:StripTextures()
-	_G["RaidGraphics_RightQuality"]:StripTextures()
+	--_G["Graphics_Quality"].SetBackdrop = T.dummy
+	--_G["RaidGraphics_Quality"].SetBackdrop = T.dummy
+	--_G["Graphics_RightQuality"]:StripTextures()
+	--_G["RaidGraphics_RightQuality"]:StripTextures()
 
 	LoopbackVUMeter:CreateBackdrop("Overlay")
 	LoopbackVUMeter:SetFrameLevel(LoopbackVUMeter:GetFrameLevel() + 1)

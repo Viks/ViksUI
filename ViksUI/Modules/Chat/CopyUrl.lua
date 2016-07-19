@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.chat.enable ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.chat.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Copy url from chat(module from Gibberish by p3lim)

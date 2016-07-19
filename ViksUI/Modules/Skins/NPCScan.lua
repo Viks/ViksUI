@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.npcscan ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.npcscan ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	NPCScan skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event)
 	if not IsAddOnLoaded("_NPCScan") then return end
 	_NPCScanButton:StripTextures()
@@ -39,7 +39,7 @@ frame:SetScript("OnEvent", function(self, event)
 			close.backdrop:SetPoint("TOPLEFT", 8, -8)
 			close.backdrop:SetPoint("BOTTOMRIGHT", -8, 8)
 
-			close.text = close:FontString(nil, Viks.media.font, 17)
+			close.text = close:FontString(nil, C.media.normal_font, 17)
 			close.text:SetPoint("CENTER", 0, 1)
 			close.text:SetText("x")
 
@@ -51,7 +51,7 @@ frame:SetScript("OnEvent", function(self, event)
 			end)
 
 			close:HookScript("OnLeave", function(self)
-				close.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+				close.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 				if close.backdrop.overlay then
 					close.backdrop.overlay:SetVertexColor(0.1, 0.1, 0.1, 1)
 				end

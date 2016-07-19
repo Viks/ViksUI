@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local addon, ns = ...
 local cfg = CreateFrame("Frame")
 
@@ -12,7 +12,7 @@ cfg.Textbar_texture = mediapath.."textures\\backdrop"
 cfg.highlight_texture = mediapath.."textures\\raidbg"
 cfg.debuffBorder = mediapath.."textures\\iconborder"
 cfg.squarefont = mediapath.."Font\\squares.ttf"
-cfg.font = Viks.unitframes.UFfont
+cfg.font = C.unitframe.UFfont
 cfg.symbol = mediapath.."Font\\symbol.ttf"
 cfg.symbols2 = mediapath.."Font\\PIZZADUDEBULLETS.ttf"
 cfg.fontsize = 12
@@ -21,66 +21,67 @@ cfg.hordepvpico = mediapath.."Other\\Horde"									-- Icon to show for PVP Hord
 cfg.alliancepvpico = mediapath.."Other\\Alliance"								-- Icon to show for PVP Horde Side.
 cfg.combatico = mediapath.."Other\\combat2"									-- Setting the icon to show when in combat on unitframe
 cfg.restico = mediapath.."Other\\resting"										-- Setting the icon to show when in resting on unitframe. Credit to Karma for the icon.
-cfg.oUFfont = Viks.unitframes.UFNamefont								-- Font to use on Names
+cfg.oUFfont = C.unitframe.UFNamefont								-- Font to use on Names
 cfg.shadowedge = mediapath.."Other\\glowTex"
-cfg.backdropcolor = Viks.media.backdropcolor
-cfg.bordercolor = Viks.media.bordercolor
-cfg.aurasize = Viks.unitframes.aurasize								-- Aura Size for indicator type 2
-cfg.insideAlpha = Viks.unitframes.insideAlpha						-- Alpha when Unitframe is in range	
-cfg.outsideAlpha = Viks.unitframes.outsideAlpha						-- Alpha when Unitframe is out of range
+cfg.backdropcolor = C.media.backdrop_color
+cfg.bordercolor = C.media.border_color
+cfg.aurasize = C.unitframe.aurasize								-- Aura Size for indicator type 2
+cfg.insideAlpha = C.unitframe.insideAlpha						-- Alpha when Unitframe is in range	
+cfg.outsideAlpha = C.unitframe.outsideAlpha						-- Alpha when Unitframe is out of range
 cfg.pixelfont = mediapath.."Font\\pixel.ttf"							-- Pixelfont, working on adding this atm!
 
 
 	-----------------------------
 	-- Enable / disable parts (true/false)
 	-----------------------------
-cfg.ShowRaid = Viks.unitframes.ShowRaid								-- Show Raid Frames
-cfg.portraitHPbar = Viks.unitframes.showPortraitHPbar				-- show portraits on Healthbar
-cfg.showPortrait = Viks.unitframes.showPortrait						-- show portraits Icon
-cfg.HealFrames = Viks.unitframes.HealFrames							-- Healing layout/positions
-cfg.HealthcolorClass = Viks.unitframes.HealthcolorClass				-- health color = class color
-cfg.showLFDIcons = Viks.unitframes.showLFDIcons						-- Show LFD Icons, must be true to show the other 2 options. False on next 2 to show default icons.
-cfg.customLFDIcons = Viks.unitframes.customLFDIcons					-- Use Custom Icons; cfg.customLFDText must be false
-cfg.customLFDText = Viks.unitframes.customLFDText					-- Use Text instead of Icon; Tank/Dps/Heal. cfg.customLFDIcons must be false
-cfg.RCheckIcon = Viks.unitframes.RCheckIcon							-- Show Ready Check Icons On Health Frames
-cfg.Experiencebar = Viks.unitframes.Experiencebar					-- show experience bar
-cfg.Reputationbar = Viks.unitframes.Reputationbar					-- show reputation bar
-cfg.enableDebuffHighlight = Viks.unitframes.enableDebuffHighlight	-- Highlight Unit Frame if having a Debuffs
-cfg.showAuraWatch = Viks.unitframes.showAuraWatch					-- watch specific auras
-cfg.showIndicators = Viks.unitframes.showIndicators					-- Show Indicators on frames
-cfg.ShowIncHeals = Viks.unitframes.ShowIncHeals						-- Show incoming heals in player and raid frames
-cfg.Castbars = Viks.unitframes.Castbars								-- Show built-in castbars
-cfg.debuffsOnlyShowPlayer = Viks.unitframes.debuffsOnlyShowPlayer 	-- only show your debuffs on target
-cfg.buffsOnlyShowPlayer = Viks.unitframes.buffsOnlyShowPlayer 		-- only show your buffs
-cfg.showRaidDebuffs = Viks.unitframes.showRaidDebuffs 				-- Shows debuff as icon on your raid frames
+cfg.ShowRaid = C.unitframe.ShowRaid								-- Show Raid Frames
+cfg.portraitHPbar = C.unitframe.showPortraitHPbar				-- show portraits on Healthbar
+cfg.showPortrait = C.unitframe.showPortrait						-- show portraits Icon
+cfg.HealFrames = C.unitframe.HealFrames							-- Healing layout/positions
+cfg.HealthcolorClass = C.unitframe.HealthcolorClass				-- health color = class color
+cfg.showLFDIcons = C.unitframe.showLFDIcons						-- Show LFD Icons, must be true to show the other 2 options. False on next 2 to show default icons.
+cfg.customLFDIcons = C.unitframe.customLFDIcons					-- Use Custom Icons; cfg.customLFDText must be false
+cfg.customLFDText = C.unitframe.customLFDText					-- Use Text instead of Icon; Tank/Dps/Heal. cfg.customLFDIcons must be false
+cfg.RCheckIcon = C.unitframe.RCheckIcon							-- Show Ready Check Icons On Health Frames
+cfg.Experiencebar = C.unitframe.Experiencebar					-- show experience bar
+cfg.Reputationbar = C.unitframe.Reputationbar					-- show reputation bar
+cfg.enableDebuffHighlight = C.unitframe.enableDebuffHighlight	-- Highlight Unit Frame if having a Debuffs
+cfg.showAuraWatch = C.unitframe.showAuraWatch					-- watch specific auras
+cfg.showIndicators = C.unitframe.showIndicators					-- Show Indicators on frames
+cfg.ShowIncHeals = C.unitframe.ShowIncHeals						-- Show incoming heals in player and raid frames
+cfg.Castbars = C.unitframe.Castbars								-- Show built-in castbars
+cfg.debuffsOnlyShowPlayer = C.unitframe.debuffsOnlyShowPlayer 	-- only show your debuffs on target
+cfg.buffsOnlyShowPlayer = C.unitframe.buffsOnlyShowPlayer 		-- only show your buffs
+cfg.showRaidDebuffs = C.unitframe.showRaidDebuffs 				-- Shows debuff as icon on your raid frames
 cfg.scale = 1
-cfg.showPlayerAuras = Viks.unitframes.showPlayerAuras				-- use a custom player buffs/debuffs frame instead of blizzard's default
-cfg.Powercolor = Viks.unitframes.Powercolor							-- power color = class color
+cfg.showPlayerAuras = C.unitframe.showPlayerAuras				-- use a custom player buffs/debuffs frame instead of blizzard's default
+cfg.Powercolor = C.unitframe.Powercolor							-- power color = class color
 
-cfg.showEclipsebar = Viks.unitframe_class_bar.eclipse				-- Eclipse bar
-cfg.showShardbar = Viks.unitframe_class_bar.shard					-- Shard/Burning bar
-cfg.showHolybar = Viks.unitframe_class_bar.holy						-- Holy Power bar
-cfg.showRunebar = Viks.unitframe_class_bar.rune						-- Rune bar
-cfg.showHarmony = Viks.unitframe_class_bar.chi						-- Chi bar
-cfg.showShadowOrbsBar = Viks.unitframe_class_bar.shadow				-- Shadow Orbs bar
-cfg.TotemBars = Viks.unitframe_class_bar.totem						-- Totem bar
-cfg.showVengeance = Viks.unitframe_class_bar.vengeance				-- Vengeance bar
-cfg.class_bar_range = Viks.unitframe_class_bar.range				-- Range bar (only for Priest)
-cfg.CPoints = Viks.unitframe_class_bar.combo						-- Rogue/Druid Combo bar
-cfg.IndicatorIcons2 = Viks.unitframes.IndicatorIcons2				-- Toggles different Indicator types.
-cfg.RaidShowAllGroups = Viks.unitframes.RaidShowAllGroups			-- Show All 8 Raid Groups, if not then 5
-cfg.RaidShowSolo = Viks.unitframes.RaidShowSolo						-- show raid frames even when solo
-cfg.ShowParty = Viks.unitframes.ShowParty							-- show party frames (shown as 5man raid)
-cfg.showtot = Viks.unitframes.showtot								-- show target of target frame
-cfg.showpet = Viks.unitframes.showpet								-- show pet frame 
-cfg.showfocus = Viks.unitframes.showfocus							-- show focus frame
-cfg.showfocustarget = Viks.unitframes.showfocustarget				-- show focus targets frame		
-cfg.showBossFrames = Viks.unitframes.showBossFrames					-- show boss frame
-cfg.showTankFrames = Viks.unitframes.MTFrames						-- show main tank frames			
-cfg.indicatorsize = Viks.unitframes.indicatorsize					-- Size on Squares on Indicator type 2
-cfg.symbolsize = Viks.unitframes.symbolsize							-- Size on Symbols on Indicator type 2
-cfg.fontsizeEdge = Viks.unitframes.fontsizeEdge
-cfg.Findoutline = Viks.unitframes.Findoutline
+cfg.showEclipsebar = C.unitframe_class_bar.eclipse				-- Eclipse bar
+cfg.showShardbar = C.unitframe_class_bar.shard					-- Shard/Burning bar
+cfg.showHolybar = C.unitframe_class_bar.holy						-- Holy Power bar
+cfg.showRunebar = C.unitframe_class_bar.rune						-- Rune bar
+cfg.showHarmony = C.unitframe_class_bar.chi						-- Chi bar
+cfg.showShadowOrbsBar = C.unitframe_class_bar.shadow				-- Shadow Orbs bar
+cfg.TotemBars = C.unitframe_class_bar.totem						-- Totem bar
+cfg.showArcaneChargesbar = C.unitframe_class_bar.arcane			-- show Mage Arcane Charges bar
+cfg.showVengeance = C.unitframe_class_bar.vengeance				-- Vengeance bar
+cfg.class_bar_range = C.unitframe_class_bar.range				-- Range bar (only for Priest)
+cfg.CPoints = C.unitframe_class_bar.combo						-- Rogue/Druid Combo bar
+cfg.IndicatorIcons2 = C.unitframe.IndicatorIcons2				-- Toggles different Indicator types.
+cfg.RaidShowAllGroups = C.unitframe.RaidShowAllGroups			-- Show All 8 Raid Groups, if not then 5
+cfg.RaidShowSolo = C.unitframe.RaidShowSolo						-- show raid frames even when solo
+cfg.ShowParty = C.unitframe.ShowParty							-- show party frames (shown as 5man raid)
+cfg.showtot = C.unitframe.showtot								-- show target of target frame
+cfg.showpet = C.unitframe.showpet								-- show pet frame 
+cfg.showfocus = C.unitframe.showfocus							-- show focus frame
+cfg.showfocustarget = C.unitframe.showfocustarget				-- show focus targets frame		
+cfg.showBossFrames = C.unitframe.showBossFrames					-- show boss frame
+cfg.showTankFrames = C.unitframe.MTFrames						-- show main tank frames			
+cfg.indicatorsize = C.unitframe.indicatorsize					-- Size on Squares on Indicator type 2
+cfg.symbolsize = C.unitframe.symbolsize							-- Size on Symbols on Indicator type 2
+cfg.fontsizeEdge = C.unitframe.fontsizeEdge
+cfg.Findoutline = C.unitframe.Findoutline
 
 
 
@@ -163,7 +164,7 @@ cfg.showarena = false
 ------------------------------------------------------------------------------------------------
 	cfg.IndicatorList = {
 		["NUMBERS"] = {
-			["DEATHKNIGHT"] 	= "[DK:DeathBarrier]",
+			--["DEATHKNIGHT"] 	= "[DK:DeathBarrier]",
 			["DRUID"]			= "[Druid:Lifebloom][Druid:Rejuv][Druid:Germination][Druid:Regrowth]",
 			["HUNTER"]			= "[Hunter:Misdirection]",
 			--["MAGE"]			= ,
@@ -171,9 +172,9 @@ cfg.showarena = false
 			--["PALADIN"]		= ,
 			["PRIEST"]			= "[Priest:Renew][Priest:SpiritShell][Priest:ClarityOfWill][Priest:PowerWordShield]",
 			--["ROGUE"]			= tricks,
-			["SHAMAN"]			= "[Shaman:Riptide][Shaman:EarthShield]",
+			["SHAMAN"]			= "[Shaman:Riptide]",
 			--["WARLOCK"]		= ,
-			["WARRIOR"]			= "[Warrior:Vigilance][Warrior:Safeguard]",
+			--["WARRIOR"]			= ,
 		},
 		["SQUARE"] = {
 			--["DEATHKNIGHT"] 	= ,
@@ -194,6 +195,7 @@ cfg.showarena = false
 -- Aura Watch list to show on raid frames. Add the spell id below to add it.
 ------------------------------------------------------------------------------------------------
 	cfg.AuraWatchList = { -- List of all buffs you want to watch on raid frames, sorted by class
+	--[[
 			DEATHKNIGHT = {
 			},
 			DRUID = {
@@ -210,7 +212,7 @@ cfg.showarena = false
 			MAGE = {
 				1459, -- Arcane Brilliance
 				61316, -- Dalaran Brilliance
-				111264, -- Ice Ward
+				--111264, -- Ice Ward
 			},
 			MONK = {
 				119611, -- Renewing Mist
@@ -224,12 +226,11 @@ cfg.showarena = false
 				20925, -- Sacred Shield
 				114163, -- Eternal Flame
 				157007, -- Beacon of Insight
-				156910, -- Beacon of Faith
 				1022, -- Hand of Protection
 				1044, -- Hand of Freedom
 				1038, -- Hand of Salvation
 				6940, -- Hand of Sacrifice
-				114039, -- Hand of Purity
+				--114039, -- Hand of Purity
 			},
 			PRIEST = { 
 				6788, -- Weakened Soul
@@ -253,6 +254,7 @@ cfg.showarena = false
 				114030, -- Vigilance
 				3411, -- Intervene
 			},
+			--]]
 	}
 	cfg.DebuffWatchList = {
 		debuffs = {
@@ -265,7 +267,7 @@ cfg.showarena = false
 ---------------------------CLASSES/PVP--------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------			--------------------------------
 			-- Death Knight
-			[GetSpellInfo(115001)] = 3,	-- Remorseless Winter
+			--[GetSpellInfo(115001)] = 3,	-- Remorseless Winter
 			[GetSpellInfo(108194)] = 3,	-- Asphyxiate
 			[GetSpellInfo(47476)] = 3,	-- Strangulate
 			[GetSpellInfo(47481)] = 3,	-- Gnaw (Ghoul)
@@ -287,16 +289,16 @@ cfg.showarena = false
 			[GetSpellInfo(31661)] = 3,	-- Dragon's Breath
 			[GetSpellInfo(82691)] = 3,	-- Ring of Frost
 			[GetSpellInfo(61305)] = 3,	-- Polymorph
-			[GetSpellInfo(102051)] = 3,	-- Frostjaw
+			--[GetSpellInfo(102051)] = 3,	-- Frostjaw
 			--WoD[GetSpellInfo(55021)] = 3,	-- Improved Counterspell
 			[GetSpellInfo(122)] = 3,		-- Frost Nova
-			[GetSpellInfo(111340)] = 3,	-- Ice Ward
+			--[GetSpellInfo(111340)] = 3,	-- Ice Ward
 			-- Monk
 			[GetSpellInfo(115078)] = 3,	-- Paralysis
 			-- Paladin
 			[GetSpellInfo(20066)] = 3,	-- Repentance
 			[GetSpellInfo(853)] = 3,	-- Hammer of Justice
-			[GetSpellInfo(105593)] = 3,	-- Fist of Justice
+			--[GetSpellInfo(105593)] = 3,	-- Fist of Justice
 			[GetSpellInfo(105421)] = 3,	-- Blinding Light
 			[GetSpellInfo(25771)] = 10,	-- Forebance
 			-- Priest
@@ -314,8 +316,8 @@ cfg.showarena = false
 			[GetSpellInfo(51514)] = 3,	-- Hex
 			[GetSpellInfo(118905)] = 3,	-- Static Charge
 			[GetSpellInfo(3600)] = 3,	-- Earthbind
-			[GetSpellInfo(8056)] = 3,	-- Frost Shock
-			[GetSpellInfo(63685)] = 3,	-- Freeze
+			--[GetSpellInfo(8056)] = 3,	-- Frost Shock
+			--[GetSpellInfo(63685)] = 3,	-- Freeze
 			-- Warlock
 			[GetSpellInfo(118699)] = 3,	-- Fear
 			--WoD[GetSpellInfo(104045)] = 3,	-- Sleep
@@ -775,7 +777,7 @@ cfg.showarena = false
 -- PvP
 -----------------------------------------------------------------
 		-- Death Knight
-		[GetSpellInfo(115001)] = 3,	-- Remorseless Winter
+		--[GetSpellInfo(115001)] = 3,	-- Remorseless Winter
 		[GetSpellInfo(108194)] = 3,	-- Asphyxiate
 		[GetSpellInfo(91797)] = 3,	-- Monstrous Blow (Mutated Ghoul)
 		[GetSpellInfo(91800)] = 3,	-- Gnaw (Ghoul)
@@ -792,18 +794,18 @@ cfg.showarena = false
 		-- Mage
 		[GetSpellInfo(61305)] = 3,	-- Polymorph
 		[GetSpellInfo(82691)] = 3,	-- Ring of Frost
-		[GetSpellInfo(44572)] = 3,	-- Deep Freeze
+		--[GetSpellInfo(44572)] = 3,	-- Deep Freeze
 		[GetSpellInfo(31661)] = 3,	-- Dragon's Breath
-		[GetSpellInfo(102051)] = 3,	-- Frostjaw
+		--[GetSpellInfo(102051)] = 3,	-- Frostjaw
 		[GetSpellInfo(122)] = 2,	-- Frost Nova
-		[GetSpellInfo(111340)] = 2,	-- Ice Ward
+		--[GetSpellInfo(111340)] = 2,	-- Ice Ward
 		-- Monk
 		[GetSpellInfo(115078)] = 3,	-- Paralysis
 		[GetSpellInfo(119381)] = 3,	-- Leg Sweep
 		-- Paladin
 		[GetSpellInfo(20066)] = 3,	-- Repentance
 		[GetSpellInfo(853)] = 3,	-- Hammer of Justice
-		[GetSpellInfo(105593)] = 3,	-- Fist of Justice
+		--[GetSpellInfo(105593)] = 3,	-- Fist of Justice
 		[GetSpellInfo(105421)] = 3,	-- Blinding Light
 		-- Priest
 		[GetSpellInfo(605)] = 3,	-- Dominate Mind
@@ -817,7 +819,7 @@ cfg.showarena = false
 		-- Shaman
 		[GetSpellInfo(51514)] = 3,	-- Hex
 		[GetSpellInfo(118905)] = 3,	-- Static Charge
-		[GetSpellInfo(63685)] = 2,	-- Frozen Power
+		--[GetSpellInfo(63685)] = 2,	-- Frozen Power
 		-- Warlock
 		[GetSpellInfo(118699)] = 3,	-- Fear
 		[GetSpellInfo(6789)] = 3,	-- Mortal Coil

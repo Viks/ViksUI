@@ -1,9 +1,9 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --[[
 --ViksMiniMap, Must be used with ViksUI!
 -- Based on qMap and using Picomenu
 --]]
-if Viks.minimapp.enable then
+if C.minimapp.enable then
 
 ----------------------------------------------
 -- Config
@@ -20,8 +20,8 @@ position = "CENTER"        -- Initial Position
 Minimap:SetFrameLevel(4)
 Minimap:ClearAllPoints()
 Minimap:SetPoint(position, AnchorMinimap, -3, 0)
-Minimap:SetHeight(Viks.minimapp.size -4)
-Minimap:SetWidth(Viks.minimapp.size -4)
+Minimap:SetHeight(C.minimapp.size -4)
+Minimap:SetWidth(C.minimapp.size -4)
 --Creating the Borders
 	BorderFrame = CreateFrame("Frame", nil, Minimap) --Helpframe
 	BorderFrame:SetFrameLevel(2)
@@ -95,7 +95,7 @@ end
 MiniMapMailFrame:ClearAllPoints()
 MiniMapMailFrame:SetPoint("TOPRIGHT", Minimap, 0, 0)
 MiniMapMailFrame:SetFrameStrata("LOW")
-MiniMapMailIcon:SetTexture("Interface\\AddOns\\ViksUI\\media\\Other\\mail.tga")
+MiniMapMailIcon:SetTexture("Interface\\AddOns\\ViksUI\\media\\Other\\mail")
 MiniMapMailBorder:Hide()
 
 MiniMapInstanceDifficulty:ClearAllPoints()
@@ -125,7 +125,7 @@ GarrisonLandingPageMinimapButton:ClearAllPoints()
 GarrisonLandingPageMinimapButton:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 3, 2)
 GarrisonLandingPageMinimapButton:SetSize(32, 32)
 
-if Viks.minimapp.Picomenu then
+if C.minimapp.Picomenu then
 ----------------------------------------------------------------------------------------
 -- Picomenu: MainMenuBar replacement by Neal, butchered by Qupe 
 ----------------------------------------------------------------------------------------
@@ -210,7 +210,7 @@ local menuList = {
 		if T.level >= SHOW_PVP_LEVEL then
 				TogglePVPUI()
 		else
-			if Viks.error.white == false then
+			if C.error.white == false then
 				UIErrorsFrame:AddMessage(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_PVP_LEVEL), 1, 0.1, 0.1)
 			else
 				print("|cffffff00"..format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_PVP_LEVEL).."|r")
@@ -358,7 +358,7 @@ Minimap:SetMaskTexture('Interface\\ChatFrame\\ChatFrameBackground');			--Make th
 function GetMinimapShape() return "SQUARE" end
 
 -- Hide Game Time
-Minimap:RegisterEvent("PLAYER_LOGIN")
+Minimap:RegisterEvent("PLAYER_ENTERING_WORLD")
 Minimap:RegisterEvent("ADDON_LOADED")
 Minimap:SetScript("OnEvent", function(self, event, addon)
 	if addon == "Blizzard_TimeManager" then
@@ -366,7 +366,7 @@ Minimap:SetScript("OnEvent", function(self, event, addon)
 	end
 end)
 ----------------------------------------------------------------------------------------------------------------------------------------
-if Viks.minimapp.compass then
+if C.minimapp.compass then
 function compass()
 
 		frameC = CreateFrame("Frame", "Compass", Minimap)
@@ -408,12 +408,12 @@ m_zone:SetFrameLevel(5)
 m_zone:SetFrameStrata("LOW")
 CreateShadow(m_zone)
 m_zone:SetPoint("TOPRIGHT",Minimap,-2,4)
-m_zone:SetBackdropColor(unpack(Viks.media.backdropcolor))
-m_zone:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+m_zone:SetBackdropColor(unpack(C.media.backdrop_color))
+m_zone:SetBackdropBorderColor(unpack(C.media.border_color))
 m_zone:Hide()
 
 local m_zone_text = m_zone:CreateFontString(nil,"Overlay")
-m_zone_text:SetFont(Viks.media.font,10,"OUTLINE")
+m_zone_text:SetFont(C.media.normal_font,10,"OUTLINE")
 m_zone_text:SetPoint("Center",0,0)
 m_zone_text:SetJustifyH("CENTER")
 m_zone_text:SetJustifyV("MIDDLE")
@@ -423,12 +423,12 @@ local m_coord = CreateFrame("Frame",nil,UIParent)
 CreatePanel(m_coord, 36, 16, "BOTTOM", Minimap, "BOTTOM",0,-40)
 m_coord:SetFrameStrata("LOW")
 CreateShadow(m_coord)
-m_coord:SetBackdropColor(unpack(Viks.media.backdropcolor))
-m_coord:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+m_coord:SetBackdropColor(unpack(C.media.backdrop_color))
+m_coord:SetBackdropBorderColor(unpack(C.media.border_color))
 m_coord:Hide()	
 
 local m_coord_text = m_coord:CreateFontString(nil,"Overlay")
-m_coord_text:SetFont(Viks.media.font,10,"OUTLINE")
+m_coord_text:SetFont(C.media.normal_font,10,"OUTLINE")
 m_coord_text:SetPoint("Center",2,0)
 m_coord_text:SetJustifyH("CENTER")
 m_coord_text:SetJustifyV("MIDDLE")
@@ -506,7 +506,7 @@ end)
 do
 	SetFontString = function(parent, fontName, fontHeight, fontStyle)
 		local fs = parent:CreateFontString(nil, "OVERLAY")
-		fs:SetFont(Viks.media.font, fontHeight, fontStyle)
+		fs:SetFont(C.media.normal_font, fontHeight, fontStyle)
 		fs:SetJustifyH("LEFT")
 		fs:SetShadowColor(0, 0, 0)
 		fs:SetShadowOffset(1.25, -1.25)

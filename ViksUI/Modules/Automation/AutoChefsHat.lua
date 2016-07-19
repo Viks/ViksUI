@@ -1,6 +1,6 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.chefs_hat ~= true then return end
-
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.automation.chefs_hat ~= true then return end
+--[[ Beta
 ----------------------------------------------------------------------------------------
 --	Auto equip Chef's Hat(module from Inomena by p3lim)
 ----------------------------------------------------------------------------------------
@@ -25,14 +25,15 @@ frame:SetScript("OnEvent", function(self, event)
 	elseif event == "TRADE_SKILL_CLOSE" then
 		if hat then
 			EquipItemByName(hat)
-			ShowHelm(show)
+			--ShowHelm(show)
 			hat = nil
 		end
 	elseif event == "TRADE_SKILL_UPDATE" then
 		if hat and GetTradeSkillLine() ~= PROFESSIONS_COOKING then
 			EquipItemByName(hat)
-			ShowHelm(show)
+			--ShowHelm(show)
 			hat = nil
 		end
 	end
 end)
+]]

@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.announcements.flask_food ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.announcements.flask_food ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Checks the usage of flasks and food of your party/raid members(ffCheck by Silverwind)
@@ -56,7 +56,7 @@ local function run(autoreport)
 	local checkType
 	local output
 
-	if Viks.announcements.flask_food_auto == true then Viks.announcements.flask_food_raid = true end
+	if C.announcements.flask_food_auto == true then C.announcements.flask_food_raid = true end
 
 	table.wipe(noFood)
 	table.wipe(noFlask)
@@ -86,7 +86,7 @@ local function run(autoreport)
 	if #noFlask > 0 then
 		table.sort(noFlask)
 		output = L_ANNOUNCE_FF_NOFLASK..table.concat(noFlask, ", ")
-		if Viks.announcements.flask_food_raid then
+		if C.announcements.flask_food_raid then
 			SendChatMessage(output, T.CheckChat())
 		else
 			print(output)
@@ -96,7 +96,7 @@ local function run(autoreport)
 	if #noFood > 0 then
 		table.sort(noFood)
 		output = L_ANNOUNCE_FF_NOFOOD..table.concat(noFood, ", ")
-		if Viks.announcements.flask_food_raid then
+		if C.announcements.flask_food_raid then
 			SendChatMessage(output, T.CheckChat())
 		else
 			print(output)
@@ -104,7 +104,7 @@ local function run(autoreport)
 	end
 
 	if #noFood == 0 and #noFlask == 0 then
-		if Viks.announcements.flask_food_raid then
+		if C.announcements.flask_food_raid then
 			SendChatMessage(L_ANNOUNCE_FF_ALLBUFFED, T.CheckChat())
 		else
 			print(L_ANNOUNCE_FF_ALLBUFFED)
@@ -116,7 +116,7 @@ end
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("READY_CHECK")
 frame:SetScript("OnEvent", function(self, event, ...)
-	if Viks.announcements.flask_food_auto then
+	if C.announcements.flask_food_auto then
 		run(true)
 	end
 end)
@@ -127,7 +127,7 @@ SLASH_FFCHECK1 = "/ffcheck"
 SLASH_FFCHECK2 = "/аасрусл"
 
 -- Check button
-if Viks.misc.raid_tools == true then
+if C.misc.raid_tools == true then
 	RaidUtilityPanel:SetHeight(168)
 
 	local button = CreateFrame("Button", "FoodFlaskCheckButton", RaidUtilityPanel, "UIPanelButtonTemplate")
@@ -144,7 +144,7 @@ if Viks.misc.raid_tools == true then
 	button:SetScript("OnMouseUp", function(self) run() end)
 
 	local t = button:CreateFontString(nil, "OVERLAY", button)
-	t:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+	t:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	t:SetPoint("CENTER")
 	t:SetJustifyH("CENTER")
 	t:SetText(L_ANNOUNCE_FF_CHECK_BUTTON)

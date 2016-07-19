@@ -9,18 +9,10 @@ local argcheck = Private.argcheck
 
 local print = Private.print
 local error = Private.error
-local OnEvent = Private.OnEvent
 
 local styles, style = {}
-local callback, units, objects = {}, {}, {}
+local callback, objects, headers = {}, {}, {}
 
-local select = select
-local UnitExists = UnitExists
-
-local conv = {
-	['playerpet'] = 'pet',
-	['playertarget'] = 'target',
-}
 local elements = {}
 local activeElements = {}
 
@@ -97,12 +89,23 @@ local frame_metatable = {
 Private.frame_metatable = frame_metatable
 
 for k, v in pairs{
+	UpdateElement = function(self, name)
+		local unit = self.unit
+		if(not unit or not UnitExists(unit)) then return end	
+		
+		local element = elements[name]
+		if(not element or not self:IsElementEnabled(name) or not activeElements[self]) then return end
+		if(element.update) then
+			element.update(self, 'OnShow', unit)
+		end
+	end,
+
 	EnableElement = function(self, name, unit)
 		argcheck(name, 2, 'string')
 		argcheck(unit, 3, 'string', 'nil')
 
 		local element = elements[name]
-		if(not element or self:IsElementEnabled(name)) then return end
+		if(not element or self:IsElementEnabled(name) or not activeElements[self]) then return end
 
 		if(element.enable(self, unit or self.unit)) then
 			activeElements[self][name] = true
@@ -191,7 +194,6 @@ local UpdatePet = function(self, event, unit)
 		petUnit = unit:gsub('^(%a+)(%d+)', '%1pet%2')
 	end
 
-
 	if(self.unit ~= petUnit) then return end
 	if(not updateActiveUnit(self, event)) then
 		return self:UpdateAllElements(event)
@@ -222,21 +224,21 @@ local initObject = function(unit, style, styleFunc, header, ...)
 		end
 
 		if(not (suffix == 'target' or objectUnit and objectUnit:match'target')) then
-			object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit)
-			object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit)
+			object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit, true)
+			object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit, true)
 
 			-- We don't need to register UNIT_PET for the player unit. We register it
 			-- mainly because UNIT_EXITED_VEHICLE and UNIT_ENTERED_VEHICLE doesn't always
 			-- have pet information when they fire for party and raid units.
 			if(objectUnit ~= 'player') then
-				object:RegisterEvent('UNIT_PET', updateActiveUnit)
+				object:RegisterEvent('UNIT_PET', UpdatePet, true)
 			end
 		end
 
 		if(not header) then
 			-- No header means it's a frame created through :Spawn().
 			object:SetAttribute("*type1", "target")
-			object:SetAttribute('*type2', 'menu')
+			object:SetAttribute('*type2', 'togglemenu')
 
 			-- No need to enable this for *target frames.
 			if(not (unit:match'target' or suffix == 'target')) then
@@ -402,7 +404,7 @@ local generateName = function(unit, ...)
 			else
 				local _, count = groupFilter:gsub(',', '')
 				if(count == 0) then
-					append = groupFilter
+					append = 'Raid' .. groupFilter
 				else
 					append = 'Raid'
 				end
@@ -482,7 +484,7 @@ do
 				end
 
 				frame:SetAttribute('*type1', 'target')
-				frame:SetAttribute('*type2', 'menu')
+				frame:SetAttribute('*type2', 'togglemenu')
 				frame:SetAttribute('toggleForVehicle', true)
 				frame:SetAttribute('oUF-guessUnit', unit)
 			end
@@ -521,6 +523,9 @@ do
 		header.style = style
 		header.styleFunction = styleProxy
 
+		-- Expose the header through oUF.headers.
+		table.insert(headers, header)
+
 		-- We set it here so layouts can't directly override it.
 		header:SetAttribute('initialConfigFunction', initialConfigFunction)
 		header:SetAttribute('oUF-headerType', isPetHeader and 'pet' or 'group')
@@ -547,23 +552,17 @@ do
 	end
 end
 
-function oUF:Spawn(unit, overrideName)
+function oUF:Spawn(unit, overrideName, overrideTemplate)
 	argcheck(unit, 2, 'string')
 	if(not style) then return error("Unable to create frame. No styles have been registered.") end
 
 	unit = unit:lower()
 
 	local name = overrideName or generateName(unit)
-	local object = CreateFrame("Button", name, oUF_PetBattleFrameHider, "SecureUnitButtonTemplate")
+	local object = CreateFrame("Button", name, oUF_PetBattleFrameHider, overrideTemplate or "SecureUnitButtonTemplate")
 	Private.UpdateUnits(object, unit)
-	object.unit = unit
-	object.id = unit:match"^.-(%d+)"
-
-
-	units[unit] = object
 
 	self:DisableBlizzard(unit)
-	self:HandleUnit(object)
 	walkObject(object, unit)
 
 	object:SetAttribute("unit", unit)
@@ -587,8 +586,8 @@ function oUF:AddElement(name, update, enable, disable)
 end
 
 oUF.version = _VERSION
-oUF.units = units
 oUF.objects = objects
+oUF.headers = headers
 
 if(global) then
 	if(parent ~= 'oUF' and global == 'oUF') then

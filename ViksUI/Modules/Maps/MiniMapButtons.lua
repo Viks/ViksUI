@@ -1,12 +1,12 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.minimapp.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.minimapp.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Switch layout mouseover button on minimap
 ----------------------------------------------------------------------------------------
 local switch = CreateFrame("Button", "SwitchLayout", UIParent)
 switch:SetTemplate("ClassColor")
-if Viks.actionbar.toggle_mode == true then
+if C.actionbar.toggle_mode == true then
 	switch:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -3, 39)
 else
 	switch:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -3, 39)
@@ -23,10 +23,14 @@ switch:EnableMouse(true)
 switch:RegisterForClicks("AnyUp")
 switch:SetScript("OnClick", function(self, button)
 	if button == "LeftButton" then
-		ViksConfig.unitframes.HealFrames = true
+		GUIConfig.unitframes.HealFrames = true
+		GUIConfigSettings.unitframes.HealFrames = true
+		--DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerY = -210
 		ReloadUI()
 	elseif button == "RightButton" then
-		ViksConfig.unitframes.HealFrames = false
+		GUIConfig.unitframes.HealFrames = false
+		GUIConfigSettings.unitframes.HealFrames = false
+		--DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerY = -240
 		ReloadUI()
 	end
 end)
@@ -49,9 +53,9 @@ end)
 
 switch:RegisterEvent("PLAYER_LOGIN")
 switch:SetScript("OnEvent", function(self)
-	if ViksConfig.unitframes.HealFrames == false then
+	if SavedOptions and (GUIConfig.unitframes.HealFrames ~= true or GUIConfigSettings.unitframes.HealFrames ~= true) then
 		switch.t:SetTexCoord(0.25, 0.5, 0, 1)
-	elseif ViksConfig.unitframes.HealFrames == true then
+	elseif SavedOptions and (GUIConfig.unitframes.HealFrames == true or GUIConfigSettings.unitframes.HealFrames == true) then
 		switch.t:SetTexCoord(0.75, 1, 0, 1)
 	end
 end)
@@ -62,13 +66,13 @@ end)
 local show = false
 SlashCmdList.FARMMODE = function()
 	if show == false then
-		Minimap:SetSize(Viks.minimapp.size * 1.65, Viks.minimapp.size * 1.65)
+		Minimap:SetSize(C.minimapp.size * 1.65, C.minimapp.size * 1.65)
 		AnchorMinimap:SetPoint("TOPRIGHT", MinimapBackdrop, "TOPRIGHT", -46, -46)
 		MBFToggle:SetAlpha(0)
 		show = true
 	else
-		Minimap:SetSize(Viks.minimapp.size-4, Viks.minimapp.size-4)
-		AnchorMinimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, -(Viks.panels.yoffset+Viks.panels.CPbarsheight+2))
+		Minimap:SetSize(C.minimapp.size-4, C.minimapp.size-4)
+		AnchorMinimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, -(C.panels.yoffset+C.panels.CPbarsheight+2))
 		MBFToggle:SetAlpha(1)
 		show = false
 	end

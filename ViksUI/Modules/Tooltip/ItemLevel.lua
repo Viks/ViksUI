@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true or Viks.tooltip.average_lvl ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true or C.tooltip.average_lvl ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Equipped average item level(Cloudy Unit Info by Cloudyfa)
@@ -90,23 +90,12 @@ local function BOALevel(level, id)
 		level = 187 - (80 - level) * 4
 	elseif level > 57 then
 		level = 105 - (67 - level) * 2.9
-	elseif level > 5 then
-		level = level + 5
 	else
-		level = 10
+		level = level + 5
 	end
 
 	return level
 end
-
-local timewarped = {
-	[615] = 660, -- Dungeon drops
-	[692] = 675, -- Timewarped badge vendors
-}
-
-local timewarped_warforged = {
-	[656] = 675, -- Dungeon drops
-}
 
 --- Unit Gear Info
 local function UnitGear(unit)
@@ -143,15 +132,10 @@ local function UnitGear(unit)
 								pvp = pvp + 1
 							end
 
-							local warped = select(15, strsplit(":", itemLink))
-							local warforged = select(16, strsplit(":", itemLink))
-							level = timewarped[tonumber(warped)] or level
-							level = timewarped_warforged[tonumber(warforged)] or level
-
 							local upgrade = itemLink:match(":(%d+)\124h%[")
-							if upgrades[upgrade] == nil then upgrades[upgrade] = 0 end
+							--if upgrades[upgrade] == nil then upgrades[upgrade] = 0 end
 
-							total = total + (level + upgrades[upgrade])
+							total = total + (level)
 						end
 
 						if i >= 16 then
@@ -236,6 +220,7 @@ local function ScanUnit(unit, forced)
 end
 
 --- Character Info Sheet
+--[[ --BETA
 hooksecurefunc("PaperDollFrame_SetItemLevel", function(self, unit)
 	if unit ~= "player" then return end
 
@@ -253,6 +238,7 @@ hooksecurefunc("PaperDollFrame_SetItemLevel", function(self, unit)
 
 	self.tooltip = detailColor..STAT_AVERAGE_ITEM_LEVEL.." "..ilvl
 end)
+--]]
 
 --- Handle Events
 f:SetScript("OnEvent", function(self, event, ...)

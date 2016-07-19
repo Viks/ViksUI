@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.loot.auto_greed ~= true or T.level ~= MAX_PLAYER_LEVEL then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.loot.auto_greed ~= true or T.level ~= MAX_PLAYER_LEVEL then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto greed/disenchant on green items(by Tekkub) and NeedTheOrb(by Myrilandell of Lothar)

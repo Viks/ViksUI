@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local _, ns = ...
 
 local spellcache = setmetatable({}, {__index=function(t,v) local a = {GetSpellInfo(v)} if GetSpellInfo(v) then t[v] = a end return a end})
@@ -24,7 +24,7 @@ ns.auras = {
 		[GetSpellInfo(33786)] = 10, -- Cyclone 
 		[GetSpellInfo(118)] = 7, -- Polymorph 
 		[GetSpellInfo(339)] = 7, -- Entangling Roots 
-		[GetSpellInfo(1499)] = 7, -- Freezing Trap 
+		--[GetSpellInfo(1499)] = 7, -- Freezing Trap 
 		[GetSpellInfo(25809)] = 6, -- Crippling Poison 
 		[GetSpellInfo(1715)] = 5, -- Hamstring 
 		[GetSpellInfo(5782)] = 3, -- Fear 

@@ -1,22 +1,22 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Clear UIErrorsFrame(module from Kousei by Haste)
 ----------------------------------------------------------------------------------------
-if Viks.error.white == true or Viks.error.black == true then
+if C.error.white == true or C.error.black == true then
 	local frame = CreateFrame("Frame")
-	frame:SetScript("OnEvent", function(self, event, text)
-		if Viks.error.white == true and Viks.error.black == false then
+	frame:SetScript("OnEvent", function(self, event, _, text)
+		if C.error.white == true and C.error.black == false then
 			if T.white_list[text] then
-				UIErrorsFrame:AddMessage(text, 1, 0 ,0)
+				UIErrorsFrame:AddMessage(text, 1, 0, 0)
 			else
 				L_INFO_ERRORS = text
 			end
-		elseif Viks.error.black == true and Viks.error.white == false then
+		elseif C.error.black == true and C.error.white == false then
 			if T.black_list[text] then
 				L_INFO_ERRORS = text
 			else
-				UIErrorsFrame:AddMessage(text, 1, 0 ,0)
+				UIErrorsFrame:AddMessage(text, 1, 0, 0)
 			end
 		end
 	end)
@@ -31,7 +31,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Clear all UIErrors frame in combat
 ----------------------------------------------------------------------------------------
-if Viks.error.combat == true then
+if C.error.combat == true then
 	local frame = CreateFrame("Frame")
 	local OnEvent = function(self, event, ...) self[event](self, event, ...) end
 	frame:SetScript("OnEvent", OnEvent)

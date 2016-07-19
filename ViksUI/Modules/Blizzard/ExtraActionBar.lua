@@ -1,11 +1,11 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.actionbar.enable ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.actionbar.enable ~= true then return end
 
 ------------------------------------------------------------------------------------------
 --	Make ExtraActionBarFrame movable(use macro /click ExtraActionButton1)
 ------------------------------------------------------------------------------------------
 local anchor = CreateFrame("Frame", nil, UIParent)
-anchor:SetPoint(unpack(Viks.position.extra_button))
+anchor:SetPoint(unpack(C.position.extra_button))
 anchor:SetSize(ExtraActionBarFrame:GetSize())
 
 ExtraActionBarFrame:SetParent(UIParent)

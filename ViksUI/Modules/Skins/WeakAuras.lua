@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.weak_auras ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.weak_auras ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	WeakAuras skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event)
 	if not IsAddOnLoaded("WeakAuras") then return end
@@ -20,23 +20,23 @@ frame:SetScript("OnEvent", function(self, event)
 		end
 
 		if frame.bar then
-			frame.bar.fg:SetTexture(Viks.media.texture)
-			frame.bar.bg:SetTexture(Viks.media.texture)
+			frame.bar.fg:SetTexture(C.media.texture)
+			frame.bar.bg:SetTexture(C.media.texture)
 		end
 
 		if frame.stacks then
-			frame.stacks:SetFont(Viks.font.filger_font, select(2, frame.stacks:GetFont()), Viks.font.filger_font_style)
-			frame.stacks:SetShadowOffset(Viks.media.filger_font_shadow and 1 or 0, Viks.media.filger_font_shadow and -1 or 0)
+			frame.stacks:SetFont(C.font.filger_font, select(2, frame.stacks:GetFont()), C.font.filger_font_style)
+			frame.stacks:SetShadowOffset(C.media.filger_font_shadow and 1 or 0, C.media.filger_font_shadow and -1 or 0)
 		end
 
 		if frame.timer then
-			frame.timer:SetFont(Viks.font.filger_font, select(2, frame.timer:GetFont()), Viks.font.filger_font_style)
-			frame.timer:SetShadowOffset(Viks.font.filger_font_shadow and 1 or 0, Viks.font.filger_font_shadow and -1 or 0)
+			frame.timer:SetFont(C.font.filger_font, select(2, frame.timer:GetFont()), C.font.filger_font_style)
+			frame.timer:SetShadowOffset(C.font.filger_font_shadow and 1 or 0, C.font.filger_font_shadow and -1 or 0)
 		end
 
 		if frame.text then
-			frame.text:SetFont(Viks.font.filger_font, select(2, frame.text:GetFont()), Viks.font.filger_font_style)
-			frame.text:SetShadowOffset(Viks.font.filger_font_shadow and 1 or 0, Viks.font.filger_font_shadow and -1 or 0)
+			frame.text:SetFont(C.font.filger_font, select(2, frame.text:GetFont()), C.font.filger_font_style)
+			frame.text:SetShadowOffset(C.font.filger_font_shadow and 1 or 0, C.font.filger_font_shadow and -1 or 0)
 		end
 	end
 

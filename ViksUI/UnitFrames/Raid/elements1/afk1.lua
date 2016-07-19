@@ -17,7 +17,7 @@ end
 
 oUF.Tags.Methods['freebgrid:afk'] = function(u)
     local name = UnitName(u)
-    if(Viks.raidframes.afk and (UnitIsAFK(u) or not UnitIsConnected(u))) then
+    if(C.raidframes.afk and (UnitIsAFK(u) or not UnitIsConnected(u))) then
         if not timer[name] then
             timer[name] = GetTime()
         end
@@ -36,8 +36,8 @@ local Enable = function(self)
     local afktext = self.Health:CreateFontString(nil, "OVERLAY")
     afktext:SetPoint("TOP")
     afktext:SetShadowOffset(1.25, -1.25)
-    afktext:SetFont(Viks.media.font, Viks.raidframes.fontsizeEdge, Viks.raidframes.outline)
-    afktext:SetWidth(Viks.raidframes.width)
+    afktext:SetFont(C.media.normal_font, C.raidframes.fontsizeEdge, C.raidframes.outline)
+    afktext:SetWidth(C.raidframes.width)
     afktext.frequentUpdates = 1
     self:Tag(afktext, "[freebgrid:afk]")
     self.AFKtext = afktext

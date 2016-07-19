@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.move_blizzard ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.misc.move_blizzard ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Move some Blizzard frames

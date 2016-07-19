@@ -1,0 +1,16 @@
+tag Release-60203-18
+82440dc3698127cf989a4b3afe85dbab33a0e728
+Alar of Daggerspine <alar@aspide.it>
+2016-03-02 18:33:34 +0100
+
+Fixes tooltip scanning for timewarpoed and possibly other variable level
+items
+
+--------------------
+
+Alar of Daggerspine:
+	- Fix: timewarped items
+	Restores tooltip scan for all upgraded items
+	Added IsHeirloom method
+	- Added IsBop  and IsBoe functions
+	Signed-off-by: Alar of Daggerspine <alar@aspide.it>

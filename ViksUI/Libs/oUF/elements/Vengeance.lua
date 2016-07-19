@@ -1,5 +1,6 @@
-local T, Viks, L = unpack(select(2, ...))
-if Viks.unitframes.enable ~= true or Viks.unitframe_class_bar.vengeance ~= true then return end
+--[[
+local T, C, L, _ = unpack(select(2, ...))
+if C.unitframe.enable ~= true or C.unitframe_class_bar.vengeance ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on oUF_VengeanceBar(by Evilpaul)
@@ -29,14 +30,14 @@ local Update = function(self, event, unit)
 		vb:Show()
 
 		if self.Debuffs then
-			if (T.class == "PALADIN" and Viks.unitframe_class_bar.holy == true)
-			or (T.class == "DEATHKNIGHT" and Viks.unitframe_class_bar.rune == true)
-			or (T.class == "MONK" and Viks.unitframe_class_bar.chi == true) then
+			if (T.class == "PALADIN" and C.unitframe_class_bar.holy == true)
+			or (T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune == true)
+			or (T.class == "MONK" and C.unitframe_class_bar.chi == true) then
 				self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 33)
 			elseif (T.class == "WARRIOR" or T.class == "DRUID")
-			or (T.class == "DEATHKNIGHT" and Viks.unitframe_class_bar.rune ~= true)
-			or (T.class == "PALADIN" and Viks.unitframe_class_bar.holy ~= true)
-			or (T.class == "MONK" and Viks.unitframe_class_bar.chi ~= true) then
+			or (T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune ~= true)
+			or (T.class == "PALADIN" and C.unitframe_class_bar.holy ~= true)
+			or (T.class == "MONK" and C.unitframe_class_bar.chi ~= true) then
 				self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 19)
 			end
 		end
@@ -44,14 +45,14 @@ local Update = function(self, event, unit)
 		vb:Hide()
 
 		if self.Debuffs then
-			if (T.class == "PALADIN" and Viks.unitframe_class_bar.holy == true)
-			or (T.class == "DEATHKNIGHT" and Viks.unitframe_class_bar.rune == true)
-			or (T.class == "MONK" and Viks.unitframe_class_bar.chi == true) then
+			if (T.class == "PALADIN" and C.unitframe_class_bar.holy == true)
+			or (T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune == true)
+			or (T.class == "MONK" and C.unitframe_class_bar.chi == true) then
 				self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 19)
 			elseif (T.class == "WARRIOR" or (T.class == "DRUID" and T.Role == "Tank"))
-			or (T.class == "DEATHKNIGHT" and Viks.unitframe_class_bar.rune ~= true)
-			or (T.class == "PALADIN" and Viks.unitframe_class_bar.holy ~= true)
-			or (T.class == "MONK" and Viks.unitframe_class_bar.chi ~= true) then
+			or (T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune ~= true)
+			or (T.class == "PALADIN" and C.unitframe_class_bar.holy ~= true)
+			or (T.class == "MONK" and C.unitframe_class_bar.chi ~= true) then
 				self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 5)
 			end
 		end
@@ -92,3 +93,4 @@ local Disable = function(self)
 end
 
 oUF:AddElement("VengeanceBar", Path, Enable, Disable)
+--]]

@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if not Viks.cooldown.enable == true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if not C.cooldown.enable == true then return end
 -- want hex color instead of RGB?
 RGBToHex = function(r, g, b)
 	r = r <= 1 and r >= 0 and r or 0
@@ -15,7 +15,7 @@ local DAYISH, HOURISH, MINUTEISH = 3600 * 23.5, 60 * 59.5, 59.5 --used for forma
 local HALFDAYISH, HALFHOURISH, HALFMINUTEISH = DAY/2 + 0.5, HOUR/2 + 0.5, MINUTE/2 + 0.5 --used for calculating next update times
 
 --configuration settings
-local FONT_FACE = Viks.media.pxfont --what font to use
+local FONT_FACE = C.media.pixel_font --what font to use
 local FONT_SIZE = 17 --the base font size to use at a scale of 1
 local MIN_SCALE = 0.5 --the minimum scale we want to show cooldown counts at, anything below this will be hidden
 local MIN_DURATION = 2.5 --the minimum duration to show cooldown text for

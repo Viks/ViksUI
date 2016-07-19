@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Move vehicle indicator
@@ -20,7 +20,7 @@ end)
 ----------------------------------------------------------------------------------------
 --	Vehicle indicator on mouseover
 ----------------------------------------------------------------------------------------
-if Viks.misc.vehicle_mouseover == true then
+if C.misc.vehicle_mouseover == true then
 	local function VehicleNumSeatIndicator()
 		if VehicleSeatIndicatorButton6 then
 			T.numSeat = 6

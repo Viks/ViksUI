@@ -1,34 +1,34 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.pulsecooldown.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.pulsecooldown.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on Doom Cooldown Pulse(by Woffle of Dark Iron, editor Affli)
 ----------------------------------------------------------------------------------------
 local GetTime = GetTime
 local fadeInTime, fadeOutTime, maxAlpha, elapsed, runtimer = 0.5, 0.7, 1, 0, 0
-local animScale, iconSize, holdTime, threshold = Viks.pulsecooldown.anim_scale, Viks.pulsecooldown.size, Viks.pulsecooldown.hold_time, Viks.pulsecooldown.threshold
+local animScale, iconSize, holdTime, threshold = C.pulsecooldown.anim_scale, C.pulsecooldown.size, C.pulsecooldown.hold_time, C.pulsecooldown.threshold
 local cooldowns, animating, watching = {}, {}, {}
 
 --local anchor = CreateFrame("Frame", "PulseCDAnchor", UIParent)
---anchor:SetSize(Viks.pulsecooldown.size, Viks.pulsecooldown.size)
---anchor:SetPoint(unpack(Viks.position.pulse_cooldown))
+--anchor:SetSize(C.pulsecooldown.size, C.pulsecooldown.size)
+--anchor:SetPoint(unpack(C.position.pulse_cooldown))
 
 AnchorPulseCD = CreateFrame("Frame","Move_PulseCD",UIParent)
-AnchorPulseCD:SetPoint(unpack(Viks.position.pulse_cooldown))
-CreateAnchor(AnchorPulseCD, "Move PulseCD", Viks.pulsecooldown.size, Viks.pulsecooldown.size)
+AnchorPulseCD:SetPoint(unpack(C.position.pulse_cooldown))
+CreateAnchor(AnchorPulseCD, "Move PulseCD", C.pulsecooldown.size, C.pulsecooldown.size)
 
 local PulseCDAnchor = CreateFrame("Frame", "PulseCDAnchor", UIParent)
-PulseCDAnchor:SetSize(Viks.pulsecooldown.size, Viks.pulsecooldown.size)
-PulseCDAnchor:SetPoint(unpack(Viks.position.pulse_cooldown))
+PulseCDAnchor:SetSize(C.pulsecooldown.size, C.pulsecooldown.size)
+PulseCDAnchor:SetPoint(unpack(C.position.pulse_cooldown))
 
 local frame = CreateFrame("Frame", "PulseCDFrame", PulseCDAnchor)
 frame:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
 frame:SetBackdrop({
-	bgFile = Viks.media.blank, edgeFile = Viks.media.blank, edgeSize = T.noscalemult,
+	bgFile = C.media.blank, edgeFile = C.media.blank, edgeSize = T.noscalemult,
 	insets = {left = -T.noscalemult, right = -T.noscalemult, top = -T.noscalemult, bottom = -T.noscalemult}
 })
-frame:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
-frame:SetBackdropColor(unpack(Viks.media.backdropcolor))
+frame:SetBackdropBorderColor(unpack(C.media.border_color))
+frame:SetBackdropColor(unpack(C.media.backdrop_color))
 frame:SetPoint("CENTER", PulseCDAnchor, "CENTER")
 
 local icon = frame:CreateTexture(nil, "ARTWORK")
@@ -112,8 +112,8 @@ local function OnUpdate(_, update)
 		else
 			if not icon:GetTexture() then
 				icon:SetTexture(animating[1][1])
-				if Viks.pulsecooldown.sound == true then
-					PlaySoundFile(Viks.media.proc_sound, "Master")
+				if C.pulsecooldown.sound == true then
+					PlaySoundFile(C.media.proc_sound, "Master")
 				end
 			end
 			local alpha = maxAlpha
@@ -126,8 +126,8 @@ local function OnUpdate(_, update)
 			local scale = iconSize + (iconSize * ((animScale - 1) * (runtimer / (fadeInTime + holdTime + fadeOutTime))))
 			frame:SetWidth(scale)
 			frame:SetHeight(scale)
-			frame:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
-			frame:SetBackdropColor(unpack(Viks.media.backdropcolor))
+			frame:SetBackdropBorderColor(unpack(C.media.border_color))
+			frame:SetBackdropColor(unpack(C.media.backdrop_color))
 		end
 	end
 end
@@ -204,8 +204,8 @@ end)
 
 SlashCmdList.PulseCD = function()
 	tinsert(animating, {GetSpellTexture(87214)})
-	if Viks.pulsecooldown.sound == true then
-		PlaySoundFile(Viks.media.proc_sound, "Master")
+	if C.pulsecooldown.sound == true then
+		PlaySoundFile(C.media.proc_sound, "Master")
 	end
 	frame:SetScript("OnUpdate", OnUpdate)
 end

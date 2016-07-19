@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Gossip skin
@@ -49,7 +49,7 @@ local function LoadSkin()
 	T.SkinScrollBar(GossipGreetingScrollFrameScrollBar)
 
 	NPCFriendshipStatusBar:StripTextures()
-	NPCFriendshipStatusBar:SetStatusBarTexture(Viks.media.texture)
+	NPCFriendshipStatusBar:SetStatusBarTexture(C.media.texture)
 	NPCFriendshipStatusBar:CreateBackdrop("Overlay")
 	NPCFriendshipStatusBar.icon:SetPoint("TOPLEFT", -30, 7)
 

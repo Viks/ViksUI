@@ -1,17 +1,17 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.chat.bubbles ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.chat.bubbles ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	ChatBubbles skin(by Haleth)
 ----------------------------------------------------------------------------------------
 local f = CreateFrame("Frame", nil, UIParent)
-local noscalemult = T.mult * Viks.general.UiScale
+local noscalemult = T.mult * C.general.uiscale
 local total = 0
 local numKids = 0
 
-backdropr, backdropg, backdropb, backdropa = unpack(Viks.media.overlay_color)
-if Viks.chat.transp_bubbles == true then
-backdropa = Viks.chat.transp_bubbles_a
+backdropr, backdropg, backdropb, backdropa = unpack(C.media.overlay_color)
+if C.chat.transp_bubbles == true then
+backdropa = C.chat.transp_bubbles_a
 else
 end
 
@@ -24,11 +24,11 @@ local function styleBubble(frame)
 	end
 
 	frame:SetBackdrop({
-		bgFile = Viks.media.blank_border, edgeFile = Viks.media.blank_border, edgeSize = noscalemult,
+		bgFile = C.media.blank_border, edgeFile = C.media.blank_border, edgeSize = noscalemult,
 		insets = {left = -noscalemult, right = -noscalemult, top = -noscalemult, bottom = -noscalemult}
 	})
 	frame:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
-	frame:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+	frame:SetBackdropBorderColor(unpack(C.media.border_color))
 	frame:SetClampedToScreen(false)
 	frame:SetFrameStrata("BACKGROUND")
 end

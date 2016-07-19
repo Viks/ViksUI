@@ -1,13 +1,13 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 if IsAddOnLoaded("MoveAnything") then return end
-
+--[[
 ----------------------------------------------------------------------------------------
 --	Based on AchievementMover
 ----------------------------------------------------------------------------------------
 local AchievementAnchor = CreateFrame("Frame", "AchievementAnchor", UIParent)
 AchievementAnchor:SetWidth(DungeonCompletionAlertFrame1:GetWidth() - 36)
 AchievementAnchor:SetHeight(DungeonCompletionAlertFrame1:GetHeight() - 4)
-AchievementAnchor:SetPoint(unpack(Viks.position.achievement))
+AchievementAnchor:SetPoint(unpack(C.position.achievement))
 
 local POSITION, ANCHOR_POINT, YOFFSET, FIRST_YOFFSET = "BOTTOM", "TOP", -9
 
@@ -217,3 +217,4 @@ hooksecurefunc(GroupLootContainer, "SetPoint", function(self, point, anchorTo, a
 		fixAnchors()
 	end
 end)
+--]]

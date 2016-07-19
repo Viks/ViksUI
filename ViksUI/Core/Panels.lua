@@ -1,31 +1,31 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 
 ----------------------------------------------------------------------------------------
 -- Default Size Values
 ----------------------------------------------------------------------------------------
---//Using UiScale and Tw to calculate width on some panels
-local UiScale = min(2, max(.64, 768/string.match(({GetScreenResolutions()})[GetCurrentResolution()], "%d+x(%d+)")))
+--//Using uiscale and Tw to calculate width on some panels
+local uiscale = min(2, max(.64, 768/string.match(({GetScreenResolutions()})[GetCurrentResolution()], "%d+x(%d+)")))
 local Tw = WorldFrame:GetWidth()
 
 
-CPwidth = Viks.panels.CPwidth 					-- Width for Left and RIght side panels that holds text. 
-CPTextheight = Viks.panels.CPTextheight 			-- Hight for panel where chat window is inside
-CPbarsheight = Viks.panels.CPbarsheight 			-- Hight for Panels under/above Chat window
-CPABarSide = Viks.panels.CPABarSide 				-- Width for Action Bars next to chat windows
-CPXPBa_r = Viks.panels.CPXPBa_r 					-- Hight for the XP bar above Left Chat
-xoffset = Viks.panels.xoffset 					-- Horisontal spacing between panels
-yoffset = Viks.panels.yoffset 					-- Vertical spacing between panels
-CPSidesWidth = Viks.panels.CPSidesWidth 			-- Width of panels that is used to hold dmg meter and threathbar (Recount & Omen) 
-CPMABwidth = Viks.panels.CPMABwidth				-- Width for Main Actionbar
-CPMABheight = Viks.panels.CPMABheight 			-- Hight for Main Actionbar
-CPMAByoffset = Viks.panels.CPMAByoffset 			-- Hight for Main Actionbar
-CPCooldheight = Viks.panels.CPCooldheight 		-- Hight for Cooldown Bar
-CPTop = Viks.panels.CPTop 						-- Width for Top Panels
-CPMinimap = Viks.minimapp.size 					-- Width/Hight for Minimap Panel
-Pscale = Viks.misc.Pscale						-- Can be used to resize all panels. It does not change X Y Values
+CPwidth = C.panels.CPwidth 					-- Width for Left and RIght side panels that holds text. 
+CPTextheight = C.panels.CPTextheight 			-- Hight for panel where chat window is inside
+CPbarsheight = C.panels.CPbarsheight 			-- Hight for Panels under/above Chat window
+CPABarSide = C.panels.CPABarSide 				-- Width for Action Bars next to chat windows
+CPXPBa_r = C.panels.CPXPBa_r 					-- Hight for the XP bar above Left Chat
+xoffset = C.panels.xoffset 					-- Horisontal spacing between panels
+yoffset = C.panels.yoffset 					-- Vertical spacing between panels
+CPSidesWidth = C.panels.CPSidesWidth 			-- Width of panels that is used to hold dmg meter and threathbar (Recount & Omen) 
+CPMABwidth = C.panels.CPMABwidth				-- Width for Main Actionbar
+CPMABheight = C.panels.CPMABheight 			-- Hight for Main Actionbar
+CPMAByoffset = C.panels.CPMAByoffset 			-- Hight for Main Actionbar
+CPCooldheight = C.panels.CPCooldheight 		-- Hight for Cooldown Bar
+CPTop = C.panels.CPTop 						-- Width for Top Panels
+CPMinimap = C.minimapp.size 					-- Width/Hight for Minimap Panel
+Pscale = C.misc.Pscale						-- Can be used to resize all panels. It does not change X Y Values
 
-if Viks.panels.NoPanels == true then
+if C.panels.NoPanels == true then
 pAlpha = 0
 else
 pAlpha = 1
@@ -112,7 +112,7 @@ end
 
 --Top of Screen Panel
 local CPTopp = CreateFrame("Frame", "CPTopp",UIParent)
-CPTopp:CreatePanel("Transparent", (Tw/UiScale)-5, CPbarsheight, "TOP", UIParent, "TOP", 0, -1)
+CPTopp:CreatePanel("Transparent", (Tw/uiscale)-5, CPbarsheight, "TOP", UIParent, "TOP", 0, -1)
 CPTopp:SetFrameLevel(2)
 CPTopp:SetAlpha(pAlpha)
 
@@ -121,7 +121,7 @@ local CPMinim = CreateFrame("Frame", "CPMinim",UIParent)
 CPMinim:CreatePanel("Transparent", Pscale*CPMinimap, Pscale*CPMinimap, "TOPRIGHT", CPTopp, "BOTTOMRIGHT", 0, -(yoffset+1))
 CPMinim:SetFrameLevel(2)
 --If minimap is turned off hide the panel. We are anchoring stuff to this frame so it's needed!
-if Viks.minimapp.enable == true then
+if C.minimapp.enable == true then
 CPMinim:SetAlpha(pAlpha)
 else
 CPMinim:SetAlpha(pAlpha)
@@ -131,7 +131,7 @@ end
 local CPMinimb1 = CreateFrame("Frame", "CPMinimb1",UIParent)
 CPMinimb1:CreatePanel("Transparent", (.5*(Pscale*CPMinimap))-(xoffset/2), Pscale*CPbarsheight, "TOPRIGHT", CPMinim, "BOTTOMRIGHT", 0, -yoffset)
 CPMinimb1:SetFrameLevel(2)
-if Viks.minimapp.minimb1 == true then
+if C.minimapp.minimb1 == true then
 CPMinimb1:SetAlpha(pAlpha)
 else
 CPMinimb1:SetAlpha(pAlpha)
@@ -141,7 +141,7 @@ end
 local CPMinimb2 = CreateFrame("Frame", "CPMinimb2",UIParent)
 CPMinimb2:CreatePanel("Transparent", (.5*(Pscale*CPMinimap))-(xoffset/2), Pscale*CPbarsheight, "TOPLEFT", CPMinim, "BOTTOMLEFT", 0, -yoffset)
 CPMinimb2:SetFrameLevel(2)
-if Viks.minimapp.minimb2 == true then
+if C.minimapp.minimb2 == true then
 CPMinimb2:SetAlpha(pAlpha)
 else
 CPMinimb2:SetAlpha(pAlpha)
@@ -155,7 +155,7 @@ CPCool:SetAlpha(pAlpha)
 
 
 --Backgrounds for Extra Actionbar Buttons
-if Viks.misc.BT4Bars == true then
+if C.misc.BT4Bars == true then
  -- Right side Actionbar (Close to right edge)
 local SideBar = CreateFrame("Frame", "SideBar", UIParent)
 SideBar:CreatePanel("Transparent", 1+(CPABarSide*Pscale), Pscale*(400), "RIGHT", UIParent, "RIGHT", -xoffset, 1)
@@ -180,7 +180,7 @@ end
 --	Lines when panels are hidden
 ----------------------------------------------------------------------------------------
 
-if Viks.panels.NoPanels == true then
+if C.panels.NoPanels == true then
 
 ----------------------------------------------------------------------------------------
 --	Bottom line
@@ -195,10 +195,10 @@ bottompanel:SetPoint("RIGHT", UIParent, "RIGHT", -3, 0)
 --	Chat Lines
 ----------------------------------------------------------------------------------------
 local leftpanel = CreateFrame("Frame", "LeftPanel", UIParent)
-leftpanel:CreatePanel("ClassColor", 1, Viks.chat.height - 2, "BOTTOMLEFT", bottompanel, "LEFT", 0, 0)
+leftpanel:CreatePanel("ClassColor", 1, C.chat.height - 2, "BOTTOMLEFT", bottompanel, "LEFT", 0, 0)
 
 local rightpanel = CreateFrame("Frame", "RightPanel", UIParent)
-rightpanel:CreatePanel("ClassColor", 1, Viks.chat.height - 2, "BOTTOMRIGHT", bottompanel, "RIGHT", 0, 0)
+rightpanel:CreatePanel("ClassColor", 1, C.chat.height - 2, "BOTTOMRIGHT", bottompanel, "RIGHT", 0, 0)
 
 local CPCool = CreateFrame("Frame", "CPCool",UIParent)
 CPCool:CreatePanel("ClassColor", Pscale*CPMABwidth, Pscale*CPCooldheight, "BOTTOM", UIParent, "BOTTOM", 0, 5)
@@ -222,18 +222,18 @@ RegisterStateDriver(CPMAB, "visibility", "[petbattle] hide; show")
 --	Bottom bars anchor
 ----------------------------------------------------------------------------------------
 local bottombaranchor = CreateFrame("Frame", "ActionBarAnchor", oUF_PetBattleFrameHider)
-bottombaranchor:CreatePanel("Invisible", 1, 1, unpack(Viks.position.bottom_bars))
-bottombaranchor:SetWidth((Viks.actionbar.button_size * 12) + (Viks.actionbar.button_space * 11))
-if Viks.actionbar.bottombars == 2 then
-	bottombaranchor:SetHeight((Viks.actionbar.button_size * 2) + Viks.actionbar.button_space)
-elseif Viks.actionbar.bottombars == 3 then
-	if Viks.actionbar.split_bars == true then
-		bottombaranchor:SetHeight((Viks.actionbar.button_size * 2) + Viks.actionbar.button_space)
+bottombaranchor:CreatePanel("Invisible", 1, 1, unpack(C.position.bottom_bars))
+bottombaranchor:SetWidth((C.actionbar.button_size * 12) + (C.actionbar.button_space * 11))
+if C.actionbar.bottombars == 2 then
+	bottombaranchor:SetHeight((C.actionbar.button_size * 2) + C.actionbar.button_space)
+elseif C.actionbar.bottombars == 3 then
+	if C.actionbar.split_bars == true then
+		bottombaranchor:SetHeight((C.actionbar.button_size * 2) + C.actionbar.button_space)
 	else
-		bottombaranchor:SetHeight((Viks.actionbar.button_size * 3) + (Viks.actionbar.button_space * 2))
+		bottombaranchor:SetHeight((C.actionbar.button_size * 3) + (C.actionbar.button_space * 2))
 	end
 else
-	bottombaranchor:SetHeight(Viks.actionbar.button_size)
+	bottombaranchor:SetHeight(C.actionbar.button_size)
 end
 bottombaranchor:SetFrameStrata("LOW")
 
@@ -241,14 +241,14 @@ bottombaranchor:SetFrameStrata("LOW")
 --	Right bars anchor
 ----------------------------------------------------------------------------------------
 local rightbaranchor = CreateFrame("Frame", "RightActionBarAnchor", oUF_PetBattleFrameHider)
-rightbaranchor:CreatePanel("Invisible", 1, 1, unpack(Viks.position.right_bars))
-rightbaranchor:SetHeight((Viks.actionbar.button_size * 12) + (Viks.actionbar.button_space * 11))
-if Viks.actionbar.rightbars == 1 then
-	rightbaranchor:SetWidth(Viks.actionbar.button_size)
-elseif Viks.actionbar.rightbars == 2 then
-	rightbaranchor:SetWidth((Viks.actionbar.button_size * 2) + Viks.actionbar.button_space)
-elseif Viks.actionbar.rightbars == 3 then
-	rightbaranchor:SetWidth((Viks.actionbar.button_size * 3) + (Viks.actionbar.button_space * 2))
+rightbaranchor:CreatePanel("Invisible", 1, 1, unpack(C.position.right_bars))
+rightbaranchor:SetHeight((C.actionbar.button_size * 12) + (C.actionbar.button_space * 11))
+if C.actionbar.rightbars == 1 then
+	rightbaranchor:SetWidth(C.actionbar.button_size)
+elseif C.actionbar.rightbars == 2 then
+	rightbaranchor:SetWidth((C.actionbar.button_size * 2) + C.actionbar.button_space)
+elseif C.actionbar.rightbars == 3 then
+	rightbaranchor:SetWidth((C.actionbar.button_size * 3) + (C.actionbar.button_space * 2))
 else
 	rightbaranchor:Hide()
 end
@@ -257,13 +257,13 @@ rightbaranchor:SetFrameStrata("LOW")
 ----------------------------------------------------------------------------------------
 --	Split bar anchor
 ----------------------------------------------------------------------------------------
-if Viks.actionbar.split_bars == true then
+if C.actionbar.split_bars == true then
 	local SplitBarLeft = CreateFrame("Frame", "SplitBarLeft", oUF_PetBattleFrameHider)
-	SplitBarLeft:CreatePanel("Invisible", (Viks.actionbar.button_size * 3) + (Viks.actionbar.button_space * 2), (Viks.actionbar.button_size * 2) + Viks.actionbar.button_space, "BOTTOMRIGHT", ActionBarAnchor, "BOTTOMLEFT", -Viks.actionbar.button_space, 0)
+	SplitBarLeft:CreatePanel("Invisible", (C.actionbar.button_size * 3) + (C.actionbar.button_space * 2), (C.actionbar.button_size * 2) + C.actionbar.button_space, "BOTTOMRIGHT", ActionBarAnchor, "BOTTOMLEFT", -C.actionbar.button_space, 0)
 	SplitBarLeft:SetFrameStrata("LOW")
 
 	local SplitBarRight = CreateFrame("Frame", "SplitBarRight", oUF_PetBattleFrameHider)
-	SplitBarRight:CreatePanel("Invisible", (Viks.actionbar.button_size * 3) + (Viks.actionbar.button_space * 2), (Viks.actionbar.button_size * 2) + Viks.actionbar.button_space, "BOTTOMLEFT", ActionBarAnchor, "BOTTOMRIGHT", Viks.actionbar.button_space, 0)
+	SplitBarRight:CreatePanel("Invisible", (C.actionbar.button_size * 3) + (C.actionbar.button_space * 2), (C.actionbar.button_size * 2) + C.actionbar.button_space, "BOTTOMLEFT", ActionBarAnchor, "BOTTOMRIGHT", C.actionbar.button_space, 0)
 	SplitBarRight:SetFrameStrata("LOW")
 end
 
@@ -272,35 +272,35 @@ end
 ----------------------------------------------------------------------------------------
 local petbaranchor = CreateFrame("Frame", "PetActionBarAnchor", oUF_PetBattleFrameHider)
 petbaranchor:SetFrameStrata("LOW")
-if Viks.actionbar.rightbars > 0 then
-	if Viks.actionbar.petbar_horizontal == true then
-		petbaranchor:CreatePanel("Invisible", (Viks.actionbar.button_size * 10) + (Viks.actionbar.button_space * 9), (Viks.actionbar.button_size + Viks.actionbar.button_space), unpack(Viks.position.pet_horizontal))
+if C.actionbar.rightbars > 0 then
+	if C.actionbar.petbar_horizontal == true then
+		petbaranchor:CreatePanel("Invisible", (C.actionbar.button_size * 10) + (C.actionbar.button_space * 9), (C.actionbar.button_size + C.actionbar.button_space), unpack(C.position.pet_horizontal))
 	else
-		petbaranchor:CreatePanel("Invisible", Viks.actionbar.button_size + 3, (Viks.actionbar.button_size * 10) + (Viks.actionbar.button_space * 9), "RIGHT", rightbaranchor, "LEFT", 0, 0)
+		petbaranchor:CreatePanel("Invisible", C.actionbar.button_size + 3, (C.actionbar.button_size * 10) + (C.actionbar.button_space * 9), "RIGHT", rightbaranchor, "LEFT", 0, 0)
 	end
 else
-	petbaranchor:CreatePanel("Invisible", (Viks.actionbar.button_size + Viks.actionbar.button_space), (Viks.actionbar.button_size * 10) + (Viks.actionbar.button_space * 9), unpack(Viks.position.right_bars))
+	petbaranchor:CreatePanel("Invisible", (C.actionbar.button_size + C.actionbar.button_space), (C.actionbar.button_size * 10) + (C.actionbar.button_space * 9), unpack(C.position.right_bars))
 end
 
 ----------------------------------------------------------------------------------------
 --	Stance bar anchor
 ----------------------------------------------------------------------------------------
-if Viks.actionbar.stancebar_hide ~= true then
+if C.actionbar.stancebar_hide ~= true then
 	local shiftanchor = CreateFrame("Frame", "ShapeShiftBarAnchor", oUF_PetBattleFrameHider)
-	shiftanchor:RegisterEvent("PLAYER_LOGIN")
+	shiftanchor:RegisterEvent("PLAYER_ENTERING_WORLD")
 	shiftanchor:RegisterEvent("PLAYER_ENTERING_WORLD")
 	shiftanchor:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
 	shiftanchor:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 	shiftanchor:SetScript("OnEvent", function(self, event, ...)
 		local forms = GetNumShapeshiftForms()
 		if forms > 0 then
-			if Viks.actionbar.stancebar_horizontal ~= true then
-				shiftanchor:SetWidth(Viks.actionbar.button_size + 3)
-				shiftanchor:SetHeight((Viks.actionbar.button_size * forms) + ((Viks.actionbar.button_space * forms) - 3))
+			if C.actionbar.stancebar_horizontal ~= true then
+				shiftanchor:SetWidth(C.actionbar.button_size + 3)
+				shiftanchor:SetHeight((C.actionbar.button_size * forms) + ((C.actionbar.button_space * forms) - 3))
 				shiftanchor:SetPoint("TOPLEFT", _G["StanceButton1"], "TOPLEFT")
 			else
-				shiftanchor:SetWidth((Viks.actionbar.button_size * forms) + ((Viks.actionbar.button_space * forms) - 3))
-				shiftanchor:SetHeight(Viks.actionbar.button_size)
+				shiftanchor:SetWidth((C.actionbar.button_size * forms) + ((C.actionbar.button_space * forms) - 3))
+				shiftanchor:SetHeight(C.actionbar.button_size)
 				shiftanchor:SetPoint("TOPLEFT", _G["StanceButton1"], "TOPLEFT")
 			end
 		end
@@ -318,37 +318,37 @@ bottompanel:SetPoint("RIGHT", UIParent, "RIGHT", -21, 0)
 ----------------------------------------------------------------------------------------
 --	Chat background
 ----------------------------------------------------------------------------------------
-if Viks.chat.background == true then
+if C.chat.background == true then
 	local chatbd = CreateFrame("Frame", "ChatBackground", UIParent)
-	chatbd:CreatePanel("Transparent", Viks.chat.width + 7, Viks.chat.height + 4, "TOPLEFT", ChatFrame1, "TOPLEFT", -3, 1)
+	chatbd:CreatePanel("Transparent", C.chat.width + 7, C.chat.height + 4, "TOPLEFT", ChatFrame1, "TOPLEFT", -3, 1)
 	chatbd:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
-	chatbd:SetBackdropColor(0, 0, 0, Viks.chat.background_alpha)
+	chatbd:SetBackdropColor(0, 0, 0, C.chat.background_alpha)
 
-	if Viks.chat.tabs_mouseover ~= true then
+	if C.chat.tabs_mouseover ~= true then
 		local chattabs = CreateFrame("Frame", "ChatTabsPanel", UIParent)
 		chattabs:CreatePanel("Transparent", chatbd:GetWidth(), 20, "BOTTOM", chatbd, "TOP", 0, 3)
 		chattabs:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
-		chattabs:SetBackdropColor(0, 0, 0, Viks.chat.background_alpha)
+		chattabs:SetBackdropColor(0, 0, 0, C.chat.background_alpha)
 	end
 else
 	local leftpanel = CreateFrame("Frame", "LeftPanel", UIParent)
-	leftpanel:CreatePanel("ClassColor", 1, Viks.chat.height - 2, "BOTTOMLEFT", bottompanel, "LEFT", 0, 0)
+	leftpanel:CreatePanel("ClassColor", 1, C.chat.height - 2, "BOTTOMLEFT", bottompanel, "LEFT", 0, 0)
 end
 
 --]]
 ----------------------------------------------------------------------------------------
 --	Top panel
 ----------------------------------------------------------------------------------------
-if Viks.toppanel.enable ~= true then return end
+if C.toppanel.enable ~= true then return end
 
 local toppanelanchor = CreateFrame("Frame", "TopPanelAnchor", oUF_PetBattleFrameHider)
-toppanelanchor:SetPoint(unpack(Viks.position.top_panel))
-toppanelanchor:SetSize(Viks.toppanel.width, Viks.toppanel.height / 2)
+toppanelanchor:SetPoint(unpack(C.position.top_panel))
+toppanelanchor:SetSize(C.toppanel.width, C.toppanel.height / 2)
 
 local toppanel = CreateFrame("Frame", "TopPanel", oUF_PetBattleFrameHider)
 toppanel:SetPoint("CENTER", toppanelanchor, "CENTER", 0, 0)
-toppanel:SetSize(Viks.toppanel.width, Viks.toppanel.height / 2)
-if Viks.toppanel.mouseover == true then
+toppanel:SetSize(C.toppanel.width, C.toppanel.height / 2)
+if C.toppanel.mouseover == true then
 	toppanel:SetAlpha(0)
 	toppanel:SetScript("OnEnter", function()
 		if InCombatLockdown() then return end
@@ -361,60 +361,60 @@ end
 
 toppanel.bgl = toppanel:CreateTexture(nil, "BORDER")
 toppanel.bgl:SetPoint("RIGHT", toppanel, "CENTER", 0, 0)
-toppanel.bgl:SetSize(Viks.toppanel.width / 2, Viks.toppanel.height / 2)
-toppanel.bgl:SetTexture(Viks.media.blank_border)
+toppanel.bgl:SetSize(C.toppanel.width / 2, C.toppanel.height / 2)
+toppanel.bgl:SetTexture(C.media.blank_border)
 toppanel.bgl:SetGradientAlpha("HORIZONTAL", T.color.r, T.color.g, T.color.b, 0, T.color.r, T.color.g, T.color.b, 0.1)
 
 toppanel.bgr = toppanel:CreateTexture(nil, "BORDER")
 toppanel.bgr:SetPoint("LEFT", toppanel, "CENTER", 0, 0)
-toppanel.bgr:SetSize(Viks.toppanel.width / 2, Viks.toppanel.height / 2)
-toppanel.bgr:SetTexture(Viks.media.blank_border)
+toppanel.bgr:SetSize(C.toppanel.width / 2, C.toppanel.height / 2)
+toppanel.bgr:SetTexture(C.media.blank_border)
 toppanel.bgr:SetGradientAlpha("HORIZONTAL", T.color.r, T.color.g, T.color.b, 0.1, T.color.r, T.color.g, T.color.b, 0)
 
 toppanel.tbl = toppanel:CreateTexture(nil, "ARTWORK")
 toppanel.tbl:SetPoint("RIGHT", toppanel, "TOP", 0, 0)
-toppanel.tbl:SetSize(Viks.toppanel.width / 2, 3)
-toppanel.tbl:SetTexture(Viks.media.blank_border)
+toppanel.tbl:SetSize(C.toppanel.width / 2, 3)
+toppanel.tbl:SetTexture(C.media.blank_border)
 toppanel.tbl:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0, 0, 0, 0, 1)
 
 toppanel.tcl = toppanel:CreateTexture(nil, "OVERLAY")
 toppanel.tcl:SetPoint("RIGHT", toppanel, "TOP", 0, 0)
-toppanel.tcl:SetSize(Viks.toppanel.width / 2, 1)
-toppanel.tcl:SetTexture(Viks.media.blank_border)
+toppanel.tcl:SetSize(C.toppanel.width / 2, 1)
+toppanel.tcl:SetTexture(C.media.blank_border)
 toppanel.tcl:SetGradientAlpha("HORIZONTAL", T.color.r, T.color.g, T.color.b, 0, T.color.r, T.color.g, T.color.b, 1)
 
 toppanel.tbr = toppanel:CreateTexture(nil, "ARTWORK")
 toppanel.tbr:SetPoint("LEFT", toppanel, "TOP", 0, 0)
-toppanel.tbr:SetSize(Viks.toppanel.width / 2, 3)
-toppanel.tbr:SetTexture(Viks.media.blank_border)
+toppanel.tbr:SetSize(C.toppanel.width / 2, 3)
+toppanel.tbr:SetTexture(C.media.blank_border)
 toppanel.tbr:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 1, 0, 0, 0, 0)
 
 toppanel.tcr = toppanel:CreateTexture(nil, "OVERLAY")
 toppanel.tcr:SetPoint("LEFT", toppanel, "TOP", 0, 0)
-toppanel.tcr:SetSize(Viks.toppanel.width / 2, 1)
-toppanel.tcr:SetTexture(Viks.media.blank_border)
+toppanel.tcr:SetSize(C.toppanel.width / 2, 1)
+toppanel.tcr:SetTexture(C.media.blank_border)
 toppanel.tcr:SetGradientAlpha("HORIZONTAL", T.color.r, T.color.g, T.color.b, 1, T.color.r, T.color.g, T.color.b, 0)
 
 toppanel.bbl = toppanel:CreateTexture(nil, "ARTWORK")
 toppanel.bbl:SetPoint("RIGHT", toppanel, "BOTTOM", 0, 0)
-toppanel.bbl:SetSize(Viks.toppanel.width / 2, 3)
-toppanel.bbl:SetTexture(Viks.media.blank_border)
+toppanel.bbl:SetSize(C.toppanel.width / 2, 3)
+toppanel.bbl:SetTexture(C.media.blank_border)
 toppanel.bbl:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 0, 0, 0, 0, 1)
 
 toppanel.bcl = toppanel:CreateTexture(nil, "OVERLAY")
 toppanel.bcl:SetPoint("RIGHT", toppanel, "BOTTOM", 0, 0)
-toppanel.bcl:SetSize(Viks.toppanel.width / 2, 1)
-toppanel.bcl:SetTexture(Viks.media.blank_border)
+toppanel.bcl:SetSize(C.toppanel.width / 2, 1)
+toppanel.bcl:SetTexture(C.media.blank_border)
 toppanel.bcl:SetGradientAlpha("HORIZONTAL", T.color.r, T.color.g, T.color.b, 0, T.color.r, T.color.g, T.color.b, 1)
 
 toppanel.bbr = toppanel:CreateTexture(nil, "ARTWORK")
 toppanel.bbr:SetPoint("LEFT", toppanel, "BOTTOM", 0, 0)
-toppanel.bbr:SetSize(Viks.toppanel.width / 2, 3)
-toppanel.bbr:SetTexture(Viks.media.blank_border)
+toppanel.bbr:SetSize(C.toppanel.width / 2, 3)
+toppanel.bbr:SetTexture(C.media.blank_border)
 toppanel.bbr:SetGradientAlpha("HORIZONTAL", 0, 0, 0, 1, 0, 0, 0, 0)
 
 toppanel.bcr = toppanel:CreateTexture(nil, "OVERLAY")
 toppanel.bcr:SetPoint("LEFT", toppanel, "BOTTOM", 0, 0)
-toppanel.bcr:SetSize(Viks.toppanel.width / 2, 1)
-toppanel.bcr:SetTexture(Viks.media.blank_border)
+toppanel.bcr:SetSize(C.toppanel.width / 2, 1)
+toppanel.bcr:SetTexture(C.media.blank_border)
 toppanel.bcr:SetGradientAlpha("HORIZONTAL", T.color.r, T.color.g, T.color.b, 1, T.color.r, T.color.g, T.color.b, 0)

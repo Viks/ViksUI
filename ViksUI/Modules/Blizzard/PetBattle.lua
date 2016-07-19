@@ -1,13 +1,13 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Pet Battles UI
 ----------------------------------------------------------------------------------------
 local bar = CreateFrame("Frame", "PetBattleBarHolder", UIParent, "SecureHandlerStateTemplate")
-bar:SetSize(((Viks.actionbar.buttonsize * 1.5) * 6) + (Viks.actionbar.buttonspacing * 5), Viks.actionbar.buttonsize * 1.5)
+bar:SetSize(((C.actionbar.buttonsize * 1.5) * 6) + (C.actionbar.buttonspacing * 5), C.actionbar.buttonsize * 1.5)
 bar:EnableMouse(true)
 bar:SetFrameStrata("LOW")
-bar:SetPoint(unpack(Viks.position.bottom_bars))
+bar:SetPoint(unpack(C.position.bottom_bars))
 RegisterStateDriver(bar, "visibility", "[petbattle] show; hide")
 
 local f = PetBattleFrame
@@ -38,7 +38,7 @@ for i, unit in pairs(units) do
 	unit.HealthBarBackdrop:SetFrameLevel(unit:GetFrameLevel() - 1)
 	unit.HealthBarBackdrop:SetTemplate("Transparent")
 	unit.HealthBarBackdrop:SetWidth(unit.healthBarWidth + 4)
-	unit.ActualHealthBar:SetTexture(Viks.media.texture)
+	unit.ActualHealthBar:SetTexture(C.media.texture)
 
 	unit.ActualHealthBar:ClearAllPoints()
 	unit.Name:ClearAllPoints()
@@ -229,7 +229,7 @@ bf.xpBar:SetWidth(bar:GetWidth() - 4)
 bf.xpBar:CreateBackdrop("Overlay")
 bf.xpBar:ClearAllPoints()
 bf.xpBar:SetPoint("BOTTOM", bf.TurnTimer.SkipButton, "TOP", 0, 5)
-bf.xpBar:SetScript("OnShow", function(self) self:StripTextures() self:SetStatusBarTexture(Viks.media.texture) end)
+bf.xpBar:SetScript("OnShow", function(self) self:StripTextures() self:SetStatusBarTexture(C.media.texture) end)
 
 bf.TurnTimer:SetParent(bar)
 bf.TurnTimer:SetSize(bf.TurnTimer.SkipButton:GetWidth(), bf.TurnTimer.SkipButton:GetHeight())
@@ -271,7 +271,7 @@ local function SkinPetButton(self)
 
 	self:CreateBackdrop("Transparent")
 	self.backdrop:SetAllPoints()
-	if Viks.actionbar.classcolor_border == true then
+	if C.actionbar.classcolor_border == true then
 		self.backdrop:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
 	end
 
@@ -286,11 +286,11 @@ local function SkinPetButton(self)
 	self.CooldownShadow:SetAllPoints()
 	self.CooldownFlash:SetAllPoints()
 
-	if Viks.actionbar.hotkey == true then
+	if C.actionbar.hotkey == true then
 		self.HotKey:SetPoint("TOPRIGHT", 0, 0)
-		self.HotKey:SetFont(Viks.font.action_bars_font, Viks.font.action_bars_font_size, Viks.font.action_bars_font_style)
-		self.HotKey:SetShadowOffset(Viks.font.action_bars_font_shadow and 1 or 0, Viks.font.action_bars_font_shadow and -1 or 0)
-		self.HotKey:SetWidth((Viks.actionbar.buttonsize * 1.5) - 1)
+		self.HotKey:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
+		self.HotKey:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
+		self.HotKey:SetWidth((C.actionbar.buttonsize * 1.5) - 1)
 	else
 		self.HotKey:Kill()
 	end
@@ -303,34 +303,34 @@ hooksecurefunc("PetBattleFrame_UpdateActionBarLayout", function(self)
 
 		SkinPetButton(b)
 		b:SetParent(bar)
-		b:SetSize(Viks.actionbar.buttonsize * 1.5, Viks.actionbar.buttonsize * 1.5)
+		b:SetSize(C.actionbar.buttonsize * 1.5, C.actionbar.buttonsize * 1.5)
 		b:ClearAllPoints()
 		if i == 1 then
 			b:SetPoint("BOTTOMLEFT", 0, 0)
 		else
 			local previous = bf.abilityButtons[i-1]
-			b:SetPoint("LEFT", previous, "RIGHT", Viks.actionbar.buttonspacing, 0)
+			b:SetPoint("LEFT", previous, "RIGHT", C.actionbar.buttonspacing, 0)
 		end
 	end
 
 	bf.SwitchPetButton:SetParent(bar)
-	bf.SwitchPetButton:SetSize(Viks.actionbar.buttonsize * 1.5, Viks.actionbar.buttonsize * 1.5)
+	bf.SwitchPetButton:SetSize(C.actionbar.buttonsize * 1.5, C.actionbar.buttonsize * 1.5)
 	bf.SwitchPetButton:ClearAllPoints()
-	bf.SwitchPetButton:SetPoint("LEFT", bf.abilityButtons[3], "RIGHT", Viks.actionbar.buttonspacing, 0)
+	bf.SwitchPetButton:SetPoint("LEFT", bf.abilityButtons[3], "RIGHT", C.actionbar.buttonspacing, 0)
 
 	bf.SwitchPetButton:SetScript("OnClick", function(self)
 		PetBattlePetSelectionFrame_Show(bf.PetSelectionFrame)
 	end)
 
 	bf.CatchButton:SetParent(bar)
-	bf.CatchButton:SetSize(Viks.actionbar.buttonsize * 1.5, Viks.actionbar.buttonsize * 1.5)
+	bf.CatchButton:SetSize(C.actionbar.buttonsize * 1.5, C.actionbar.buttonsize * 1.5)
 	bf.CatchButton:ClearAllPoints()
-	bf.CatchButton:SetPoint("LEFT", bf.SwitchPetButton, "RIGHT", Viks.actionbar.buttonspacing, 0)
+	bf.CatchButton:SetPoint("LEFT", bf.SwitchPetButton, "RIGHT", C.actionbar.buttonspacing, 0)
 
 	bf.ForfeitButton:SetParent(bar)
 	bf.ForfeitButton:ClearAllPoints()
-	bf.ForfeitButton:SetSize(Viks.actionbar.buttonsize * 1.5, Viks.actionbar.buttonsize * 1.5)
-	bf.ForfeitButton:SetPoint("LEFT", bf.CatchButton, "RIGHT", Viks.actionbar.buttonspacing, 0)
+	bf.ForfeitButton:SetSize(C.actionbar.buttonsize * 1.5, C.actionbar.buttonsize * 1.5)
+	bf.ForfeitButton:SetPoint("LEFT", bf.CatchButton, "RIGHT", C.actionbar.buttonspacing, 0)
 
 	SkinPetButton(bf.SwitchPetButton)
 	SkinPetButton(bf.CatchButton)
@@ -370,7 +370,7 @@ table.insert(UISpecialFrames, "FloatingBattlePetTooltip")
 
 -- Tooltip position
 hooksecurefunc("PetBattleAbilityButton_OnEnter", function()
-	PetBattleAbilityTooltip_Show(unpack(Viks.position.tooltip))
+	PetBattleAbilityTooltip_Show(unpack(C.position.tooltip))
 	PetBattlePrimaryAbilityTooltip:SetFrameLevel(5)
 end)
 
@@ -401,7 +401,7 @@ hooksecurefunc("PetBattleUnitFrame_UpdateDisplay", function(self)
 	if nQuality >= 2 and not isTooltip and self.IconBackdrop then
 		self.IconBackdrop:SetBackdropBorderColor(r, g, b)
 	elseif self.IconBackdrop then
-		self.IconBackdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+		self.IconBackdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 	end
 
 	-- Color the Name with the Quality color

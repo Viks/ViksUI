@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.cool_line ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.cool_line ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	CoolLine skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event, addon)
 	if not IsAddOnLoaded("CoolLine") then return end
 
@@ -14,9 +14,9 @@ frame:SetScript("OnEvent", function(self, event, addon)
 	CoolLineDB.inactivealpha = 1
 	CoolLineDB.activealpha = 1
 	CoolLineDB.font = "Hooge"
-	CoolLineDB.fontsize = Viks.font.stylization_font_size
-	CoolLineDB.w = (Viks.actionbar.buttonsize * 12) + (Viks.actionbar.buttonspacing * 11) - 4
-	CoolLineDB.h = Viks.actionbar.buttonsize - 4
+	CoolLineDB.fontsize = C.font.stylization_font_size
+	CoolLineDB.w = (C.actionbar.buttonsize * 12) + (C.actionbar.buttonspacing * 11) - 4
+	CoolLineDB.h = C.actionbar.buttonsize - 4
 
 	local CoolLineBar = CreateFrame("Frame", "CoolLineBar", CoolLine)
 	CoolLineBar:SetPoint("TOPLEFT", CoolLine, "TOPLEFT", -2, 2)

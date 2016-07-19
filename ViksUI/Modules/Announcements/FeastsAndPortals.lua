@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Announce Feasts/Souls/Repair Bots/Portals/Ritual of Summoning
@@ -12,47 +12,47 @@ frame:SetScript("OnEvent", function(self, event, _, subEvent, _, _, srcName, _, 
 	local srcName = format(srcName:gsub("%-[^|]+", ""))
 	if subEvent == "SPELL_CAST_SUCCESS" then
 		-- Feasts
-		if Viks.announcements.feasts and (spellID == 126492 or spellID == 126494) then
+		if C.announcements.feasts and (spellID == 126492 or spellID == 126494) then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_STAT, srcName, GetSpellLink(spellID), SPELL_STAT1_NAME), T.CheckChat(true))
-		elseif Viks.announcements.feasts and (spellID == 126495 or spellID == 126496) then
+		elseif C.announcements.feasts and (spellID == 126495 or spellID == 126496) then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_STAT, srcName, GetSpellLink(spellID), SPELL_STAT2_NAME), T.CheckChat(true))
-		elseif Viks.announcements.feasts and (spellID == 126501 or spellID == 126502) then
+		elseif C.announcements.feasts and (spellID == 126501 or spellID == 126502) then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_STAT, srcName, GetSpellLink(spellID), SPELL_STAT3_NAME), T.CheckChat(true))
-		elseif Viks.announcements.feasts and (spellID == 126497 or spellID == 126498) then
+		elseif C.announcements.feasts and (spellID == 126497 or spellID == 126498) then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_STAT, srcName, GetSpellLink(spellID), SPELL_STAT4_NAME), T.CheckChat(true))
-		elseif Viks.announcements.feasts and (spellID == 126499 or spellID == 126500) then
+		elseif C.announcements.feasts and (spellID == 126499 or spellID == 126500) then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_STAT, srcName, GetSpellLink(spellID), SPELL_STAT5_NAME), T.CheckChat(true))
-		elseif Viks.announcements.feasts and (spellID == 104958 or spellID == 105193 or spellID == 126503 or spellID == 126504 or spellID == 145166 or spellID == 145169 or spellID == 145196) then
+		elseif C.announcements.feasts and (spellID == 104958 or spellID == 105193 or spellID == 126503 or spellID == 126504 or spellID == 145166 or spellID == 145169 or spellID == 145196) then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_PRE, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		-- Refreshment Table
-		elseif Viks.announcements.feasts and spellID == 43987 then
+		elseif C.announcements.feasts and spellID == 43987 then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_PRE, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		-- Ritual of Summoning
-		elseif Viks.announcements.portals and spellID == 698 then
+		elseif C.announcements.portals and spellID == 698 then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_CLICK, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		-- Piccolo of the Flaming Fire
-		elseif Viks.announcements.toys and spellID == 18400 then
+		elseif C.announcements.toys and spellID == 18400 then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_USE, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		end
 	elseif subEvent == "SPELL_SUMMON" then
 		-- Repair Bots
-		if Viks.announcements.feasts and T.AnnounceBots[spellID] then
+		if C.announcements.feasts and T.AnnounceBots[spellID] then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_PUT, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		end
 	elseif subEvent == "SPELL_CREATE" then
 		-- Ritual of Souls and MOLL-E
-		if Viks.announcements.feasts and (spellID == 29893 or spellID == 54710) then
+		if C.announcements.feasts and (spellID == 29893 or spellID == 54710) then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_PUT, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		-- Toys
-		elseif Viks.announcements.toys and T.AnnounceToys[spellID] then
+		elseif C.announcements.toys and T.AnnounceToys[spellID] then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_PUT, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		-- Portals
-		elseif Viks.announcements.portals and T.AnnouncePortals[spellID] then
+		elseif C.announcements.portals and T.AnnouncePortals[spellID] then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_CAST, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		end
 	elseif subEvent == "SPELL_AURA_APPLIED" then
 		-- Turkey Feathers and Party G.R.E.N.A.D.E.
-		if Viks.announcements.toys and (spellID == 61781 or ((spellID == 51508 or spellID == 51510) and destName == T.name)) then
+		if C.announcements.toys and (spellID == 61781 or ((spellID == 51508 or spellID == 51510) and destName == T.name)) then
 			SendChatMessage(string.format(L_ANNOUNCE_FP_USE, srcName, GetSpellLink(spellID)), T.CheckChat(true))
 		end
 	end

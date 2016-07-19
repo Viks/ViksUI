@@ -1,18 +1,18 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --------------------------------------------------------------------
  -- BAGS
 --------------------------------------------------------------------
 
-if Viks.datatext.Bags and Viks.datatext.Bags > 0 then
+if C.datatext.Bags and C.datatext.Bags > 0 then
 	local Stat = CreateFrame("Frame")
 	Stat:EnableMouse(true)
 	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
 
 	local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-	Text:SetTextColor(unpack(Viks.media.pxcolor1))
-	Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
-	PP(Viks.datatext.Bags, Text)
+	Text:SetTextColor(unpack(C.media.pxcolor1))
+	Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
+	PP(C.datatext.Bags, Text)
 
 	local function OnEvent(self, event, ...)
 		local free, total, used = 0, 0, 0
@@ -38,7 +38,7 @@ if Viks.datatext.Bags and Viks.datatext.Bags > 0 then
 	Stat:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	end
           
-	Stat:RegisterEvent("PLAYER_LOGIN")
+	Stat:RegisterEvent("PLAYER_ENTERING_WORLD")
 	Stat:RegisterEvent("BAG_UPDATE")
 	Stat:SetScript("OnEvent", OnEvent)
 	Stat:SetScript("OnMouseDown", function() ToggleAllBags() end)

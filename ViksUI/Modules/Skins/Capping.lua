@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.capping ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.capping ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Capping skin
@@ -50,10 +50,10 @@ function self:PosBar(b)
 	tb.icon:SetSize(db.height, db.height)
 	b.spark:Hide()
 
-	b.timetext:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-	b.timetext:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-	b.displaytext:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-	b.displaytext:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+	b.timetext:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+	b.timetext:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+	b.displaytext:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+	b.displaytext:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 
 	if db.iconpos == "<-" then
 		b.barback:SetPoint("LEFT", b.icon, "RIGHT", 7, 0)

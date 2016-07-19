@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.raid_tools ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.misc.raid_tools ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Raid Utility(by Elv22)
@@ -15,7 +15,7 @@ RaidUtilityPanel:SetFrameLevel(0)
 RaidUtilityPanel:SetFrameStrata("HIGH")
 
 --if GetCVarBool("watchFrameWidth") then
-	--RaidUtilityPanel:SetPoint(Viks.position.raid_utility[1], Viks.position.raid_utility[2], Viks.position.raid_utility[3], Viks.position.raid_utility[4] + 100, Viks.position.raid_utility[5])
+	--RaidUtilityPanel:SetPoint(C.position.raid_utility[1], C.position.raid_utility[2], C.position.raid_utility[3], C.position.raid_utility[4] + 100, C.position.raid_utility[5])
 --end
 RaidUtilityPanel.toggled = false
 
@@ -38,7 +38,7 @@ local function CreateButton(name, parent, template, width, height, point, relati
 	b:EnableMouse(true)
 	if text then
 		b.t = b:CreateFontString(nil, "OVERLAY")
-		b.t:SetFont(Viks.media.pxfont, 8, Viks.media.pxfontFlag)
+		b.t:SetFont(C.media.pixel_font, 8, C.media.pixel_font_style)
 		b.t:SetPoint("CENTER")
 		b.t:SetJustifyH("CENTER")
 		b.t:SetText(text)
@@ -88,17 +88,19 @@ end)
 
 -- Role Check button
 CreateButton("RaidUtilityRoleButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOP", RaidUtilityConvertButton, "BOTTOM", 0, -5, ROLE_POLL)
-RaidUtilityRoleButton:SetScript("OnMouseUp", function(self)
-		if CheckRaidStatus() then
-			InitiateRolePoll()
-		end
-	end)
+RaidUtilityRoleButton:SetScript("OnMouseUp", function(self) InitiateRolePoll() end)
 
 -- MainTank button
-CreateButton("RaidUtilityMainTankButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureActionButtonTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOPLEFT", RaidUtilityRoleButton, "BOTTOMLEFT", 0, -5, TANK)
+CreateButton("RaidUtilityMainTankButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureActionButtonTemplate", (RaidUtilityDisbandButton:GetWidth() / 2) - 2, 18, "TOPLEFT", RaidUtilityRoleButton, "BOTTOMLEFT", 0, -5, TANK)
 RaidUtilityMainTankButton:SetAttribute("type", "maintank")
 RaidUtilityMainTankButton:SetAttribute("unit", "target")
 RaidUtilityMainTankButton:SetAttribute("action", "toggle")
+
+-- MainAssist button
+CreateButton("RaidUtilityMainAssistButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureActionButtonTemplate", (RaidUtilityDisbandButton:GetWidth() / 2) - 2, 18, "TOPRIGHT", RaidUtilityRoleButton, "BOTTOMRIGHT", 0, -5, MAINASSIST)
+RaidUtilityMainAssistButton:SetAttribute("type", "mainassist")
+RaidUtilityMainAssistButton:SetAttribute("unit", "target")
+RaidUtilityMainAssistButton:SetAttribute("action", "toggle")
 
 -- Ready Check button
 CreateButton("RaidUtilityReadyCheckButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityRoleButton:GetWidth() * 0.75, 18, "TOPLEFT", RaidUtilityMainTankButton, "BOTTOMLEFT", 0, -5, READY_CHECK)
@@ -106,7 +108,7 @@ RaidUtilityReadyCheckButton:SetScript("OnMouseUp", function(self) DoReadyCheck()
 
 -- World Marker button
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:ClearAllPoints()
-CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetPoint("TOPRIGHT", RaidUtilityMainTankButton, "BOTTOMRIGHT", 0, -5)
+CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetPoint("TOPRIGHT", RaidUtilityMainAssistButton, "BOTTOMRIGHT", 0, -5)
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetParent("RaidUtilityPanel")
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetHeight(18)
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetWidth(RaidUtilityRoleButton:GetWidth() * 0.22)

@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 -- Learn all available skills(TrainAll by SDPhantom)
@@ -9,7 +9,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 	if addon == "Blizzard_TrainerUI" then
 		local button = CreateFrame("Button", "ClassTrainerTrainAllButton", ClassTrainerFrame, "UIPanelButtonTemplate")
 		button:SetText(ACHIEVEMENTFRAME_FILTER_ALL)
-		if Viks.skins.blizzard_frames == true then
+		if C.skins.blizzard_frames == true then
 			button:SkinButton()
 			button:SetPoint("TOPRIGHT", ClassTrainerTrainButton, "TOPLEFT", -3, 0)
 		else

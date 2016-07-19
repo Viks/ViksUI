@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	InspectUI skin
@@ -60,8 +60,7 @@ local function LoadSkin()
 
 	InspectGuildFrameBG:Kill()
 
-	
-	SpecializationSpecName:SetFont(Viks.media.font, 20)
+	SpecializationSpecName:SetFont(C.media.normal_font, 20)
 	InspectTalentFrame:DisableDrawLayer("BACKGROUND")
 	InspectTalentFrame:DisableDrawLayer("BORDER")
 
@@ -78,6 +77,8 @@ local function LoadSkin()
 			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		end
 	end
+
+	InspectPaperDollFrame.ViewButton:SkinButton()
 
 	-- Unit Background Texture
 	InspectModelFrameBackgroundTopLeft:SetPoint("TOPLEFT", InspectModelFrame.backdrop, "TOPLEFT", 2, -2)

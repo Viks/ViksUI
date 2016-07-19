@@ -27,7 +27,7 @@ oUF.Tags.Methods['freebgrid:def'] = function(u)
     
     end
    
-    if Viks.raidframes.perc then
+    if C.raidframes.perc then
         local perc = oUF.Tags.Methods['perhp'](u)
         if perc < 95 then
             local _, class = UnitClass(u)
@@ -38,7 +38,7 @@ oUF.Tags.Methods['freebgrid:def'] = function(u)
 					return perc.."%|r" 
 				end
 			end
-    elseif Viks.raidframes.deficit or Viks.raidframes.actual then
+    elseif C.raidframes.deficit or C.raidframes.actual then
         local cur = UnitHealth(u)
         local max = UnitHealthMax(u)
         local per = cur/max
@@ -47,7 +47,7 @@ oUF.Tags.Methods['freebgrid:def'] = function(u)
             local _, class = UnitClass(u)
             local color = colorCache[class]
             if color then
-                return color..(Viks.raidframes.deficit and "-"..numberize(max-cur) or numberize(cur)).."|r"
+                return color..(C.raidframes.deficit and "-"..numberize(max-cur) or numberize(cur)).."|r"
             end
         end
     end 
@@ -83,7 +83,7 @@ oUF.Tags.Events['freebgrid:othersheals'] = oUF.Tags.Events['freebgrid:heals']
 local Update = function(self, event, unit)
     if self.unit ~= unit then return end
 
-    local overflow = Viks.raidframes.healoverflow and 1.20 or 1
+    local overflow = C.raidframes.healoverflow and 1.20 or 1
     local myIncomingHeal = UnitGetIncomingHeals(unit, "player") or 0
     local allIncomingHeal = UnitGetIncomingHeals(unit) or 0
 
@@ -102,7 +102,7 @@ local Update = function(self, event, unit)
     end
 
     self.myHealPredictionBar:SetMinMaxValues(0, maxHealth) 
-    if Viks.raidframes.healothersonly then
+    if C.raidframes.healothersonly then
         self.myHealPredictionBar:SetValue(0)
     else
         self.myHealPredictionBar:SetValue(myIncomingHeal)
@@ -116,35 +116,35 @@ end
 
 local Enable = function(self)
     if self.freebHeals then
-        if Viks.raidframes.healbar then
+        if C.raidframes.healbar then
             self.myHealPredictionBar = CreateFrame('StatusBar', nil, self.Health)
-            if Viks.raidframes.orientation == "VERTICAL" then
+            if C.raidframes.orientation == "VERTICAL" then
                 self.myHealPredictionBar:SetPoint("BOTTOMLEFT", self.Health:GetStatusBarTexture(), "TOPLEFT", 0, 0)
                 self.myHealPredictionBar:SetPoint("BOTTOMRIGHT", self.Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-                self.myHealPredictionBar:SetSize(0, Viks.raidframes.height)
+                self.myHealPredictionBar:SetSize(0, C.raidframes.height)
                 self.myHealPredictionBar:SetOrientation"VERTICAL"
             else
                 self.myHealPredictionBar:SetPoint("TOPLEFT", self.Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
                 self.myHealPredictionBar:SetPoint("BOTTOMLEFT", self.Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-                self.myHealPredictionBar:SetSize(Viks.raidframes.width, 0)
+                self.myHealPredictionBar:SetSize(C.raidframes.width, 0)
             end
             self.myHealPredictionBar:SetStatusBarTexture("", "BORDER")
-            self.myHealPredictionBar:GetStatusBarTexture():SetTexture(unpack(Viks.raidframes.myhealcolor))
+            self.myHealPredictionBar:GetStatusBarTexture():SetColorTexture(unpack(C.raidframes.myhealcolor))
             self.myHealPredictionBar:Hide()
 
             self.otherHealPredictionBar = CreateFrame('StatusBar', nil, self.Health)
-            if Viks.raidframes.orientation == "VERTICAL" then
+            if C.raidframes.orientation == "VERTICAL" then
                 self.otherHealPredictionBar:SetPoint("BOTTOMLEFT", self.myHealPredictionBar:GetStatusBarTexture(), "TOPLEFT", 0, 0)
                 self.otherHealPredictionBar:SetPoint("BOTTOMRIGHT", self.myHealPredictionBar:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-                self.otherHealPredictionBar:SetSize(0, Viks.raidframes.height)
+                self.otherHealPredictionBar:SetSize(0, C.raidframes.height)
                 self.otherHealPredictionBar:SetOrientation"VERTICAL"
             else
                 self.otherHealPredictionBar:SetPoint("TOPLEFT", self.myHealPredictionBar:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
                 self.otherHealPredictionBar:SetPoint("BOTTOMLEFT", self.myHealPredictionBar:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-                self.otherHealPredictionBar:SetSize(Viks.raidframes.width, 0)
+                self.otherHealPredictionBar:SetSize(C.raidframes.width, 0)
             end
             self.otherHealPredictionBar:SetStatusBarTexture("", "BORDER")
-            self.otherHealPredictionBar:GetStatusBarTexture():SetTexture(unpack(Viks.raidframes.otherhealcolor))
+            self.otherHealPredictionBar:GetStatusBarTexture():SetColorTexture(unpack(C.raidframes.otherhealcolor))
             self.otherHealPredictionBar:Hide() 
 
             self:RegisterEvent('UNIT_HEAL_PREDICTION', Update)
@@ -155,12 +155,12 @@ local Enable = function(self)
         local healtext = self.Health:CreateFontString(nil, "OVERLAY")
         healtext:SetPoint("BOTTOM")
         healtext:SetShadowOffset(1.25, -1.25)
-        healtext:SetFont(Viks.media.font, Viks.raidframes.fontsizeEdge, Viks.raidframes.outline)
-        healtext:SetWidth(Viks.raidframes.width)
+        healtext:SetFont(C.media.normal_font, C.raidframes.fontsizeEdge, C.raidframes.outline)
+        healtext:SetWidth(C.raidframes.width)
         self.Healtext = healtext
 
-        if Viks.raidframes.healtext then
-            if Viks.raidframes.healothersonly then
+        if C.raidframes.healtext then
+            if C.raidframes.healothersonly then
                 self:Tag(healtext, "[freebgrid:othersheals]")
             else
                 self:Tag(healtext, "[freebgrid:heals]")
@@ -173,7 +173,7 @@ end
 
 local Disable = function(self)
     if self.freebHeals then
-        if Viks.raidframes.healbar then
+        if C.raidframes.healbar then
             self:UnregisterEvent('UNIT_HEAL_PREDICTION', Update)
             self:UnregisterEvent('UNIT_MAXHEALTH', Update)
             self:UnregisterEvent('UNIT_HEALTH', Update)

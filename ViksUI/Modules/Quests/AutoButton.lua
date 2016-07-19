@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.quest_auto_button ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.quest_auto_button ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	AutoButton for used items(by Elv22)
@@ -50,7 +50,7 @@ AnchorAutoButtonAnchor:SetPoint("BOTTOMLEFT", RChatTab, "TOPLEFT", 0, 4)
 CreateAnchor(AutoButtonAnchor, "Move AutoButton", 40, 40)
 
 --local AutoButtonAnchor = CreateFrame("Frame", "AutoButtonAnchor", UIParent)
---AutoButtonAnchor:SetPoint(unpack(Viks.position.auto_button))
+--AutoButtonAnchor:SetPoint(unpack(C.position.auto_button))
 --AutoButtonAnchor:SetSize(40, 40)
 
 -- Create button
@@ -71,7 +71,7 @@ AutoButton.t:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
 -- Count text for our button
 AutoButton.c = AutoButton:CreateFontString(nil, "OVERLAY")
-AutoButton.c:SetFont(Viks.media.pxfont, Viks.media.pxfontsize * 2, Viks.media.pxfontFlag)
+AutoButton.c:SetFont(C.media.pixel_font, C.media.pixel_font_size * 2, C.media.pixel_font_style)
 AutoButton.c:SetTextColor(1, 1, 1, 1)
 AutoButton.c:SetPoint("BOTTOMRIGHT", AutoButton, "BOTTOMRIGHT", 1, -2)
 AutoButton.c:SetJustifyH("CENTER")
@@ -109,7 +109,7 @@ Scanner:SetScript("OnEvent", function()
 
 					AutoButton:SetScript("OnUpdate", function(self, elapsed)
 						local cd_start, cd_finish, cd_enable = GetContainerItemCooldown(b, s)
-						CooldownFrame_SetTimer(AutoButton.cd, cd_start, cd_finish, cd_enable)
+						CooldownFrame_Set(AutoButton.cd, cd_start, cd_finish, cd_enable)
 					end)
 
 					AutoButton:SetScript("OnEnter", function(self)
@@ -139,7 +139,7 @@ Scanner:SetScript("OnEvent", function()
 
 				AutoButton:SetScript("OnUpdate", function(self, elapsed)
 					local cd_start, cd_finish, cd_enable = GetInventoryItemCooldown("player", w)
-					CooldownFrame_SetTimer(AutoButton.cd, cd_start, cd_finish, cd_enable)
+					CooldownFrame_Set(AutoButton.cd, cd_start, cd_finish, cd_enable)
 				end)
 
 				AutoButton:SetScript("OnEnter", function(self)

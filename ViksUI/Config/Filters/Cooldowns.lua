@@ -1,11 +1,11 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	The best way to add or delete spell is to go at www.wowhead.com, search for a spell.
 --	Example: Rebirth -> http://www.wowhead.com/spell=20484
 --	Take the number ID at the end of the URL, and add it to the list
 ----------------------------------------------------------------------------------------
-if Viks.raidcooldown.enable == true then
+if C.raidcooldown.enable == true then
 	T.raid_spells = {
 		-- Battle resurrection
 		[20484] = 600,	-- Rebirth
@@ -28,7 +28,7 @@ if Viks.raidcooldown.enable == true then
 		[108280] = 180,	-- Healing Tide Totem
 		[15286] = 180,	-- Vampiric Embrace
 		[108281] = 120,	-- Ancestral Guidance
-		[157535] = 90,	-- Breath of the Serpent
+		--[157535] = 90,	-- Breath of the Serpent
 		-- Defense
 		[62618] = 180,	-- Power Word: Barrier
 		[33206] = 180,	-- Pain Suppression
@@ -53,7 +53,7 @@ if Viks.raidcooldown.enable == true then
 	end
 end
 
-if Viks.enemycooldown.enable == true then
+if C.enemycooldown.enable == true then
 	T.enemy_spells = {
 		-- Interrupts and Silences
 		[57994] = 12,	-- Wind Shear
@@ -63,23 +63,23 @@ if Viks.enemycooldown.enable == true then
 		[96231] = 15,	-- Rebuke
 		[1766] = 15,	-- Kick
 		[6552] = 15,	-- Pummel
-		[102051] = 20,	-- Frostjaw
+		--[102051] = 20,	-- Frostjaw
 		[147362] = 24,	-- Counter Shot
 		[2139] = 24,	-- Counterspell
 		[19647] = 24,	-- Spell Lock
 		[115781] = 24,	-- Optical Blast
-		[102060] = 40,	-- Disrupting Shout
+		--[102060] = 40,	-- Disrupting Shout
 		[15487] = 45,	-- Silence
 		[47476] = 60,	-- Strangulate
 		[78675] = 60,	-- Solar Beam
 		-- Crowd Controls
 		[115078] = 15,	-- Paralysis
 		[20066] = 15,	-- Repentance
-		[10326] = 15,	-- Turn Evil
+		--[10326] = 15,	-- Turn Evil
 		[108194] = 30,	-- Asphyxiate
-		[1499] = 30,	-- Freezing Trap
-		[44572] = 30,	-- Deep Freeze
-		[105593] = 30,	-- Fist of Justice
+		--[1499] = 30,	-- Freezing Trap
+		--[44572] = 30,	-- Deep Freeze
+		--[105593] = 30,	-- Fist of Justice
 		[8122] = 30,	-- Psychic Scream
 		[30283] = 30,	-- Shadowfury
 		[107570] = 30,	-- Storm Bolt
@@ -91,15 +91,15 @@ if Viks.enemycooldown.enable == true then
 		[51514] = 45,	-- Hex
 		[6789] = 45,	-- Mortal Coil
 		[853] = 60,		-- Hammer of Justice
-		[108200] = 60,	-- Remorseless Winter
+		--[108200] = 60,	-- Remorseless Winter
 		-- Defense abilities
 		[48707] = 45,	-- Anti-Magic Shell
 		[31224] = 60,	-- Cloak of Shadows
-		[8143] = 60,	-- Tremor Totem
+		--[8143] = 60,	-- Tremor Totem
 		[46924] = 60,	-- Bladestorm
 		[108978] = 90,	-- Alter Time
 		[49039] = 120,	-- Lichborne
-		[137562] = 120,	-- Nimble Brew
+		--[137562] = 120,	-- Nimble Brew
 		[47585] = 120,	-- Dispersion
 		[1856] = 120,	-- Vanish
 		[7744] = 120,	-- Will of the Forsaken (Racial)
@@ -114,7 +114,7 @@ if Viks.enemycooldown.enable == true then
 	end
 end
 
-if Viks.pulsecooldown.enable == true then
+if C.pulsecooldown.enable == true then
 	T.pulse_ignored_spells = {
 		--GetSpellInfo(779),	-- Swipe
 		--GetSpellInfo(6807),	-- Maul

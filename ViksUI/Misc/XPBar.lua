@@ -1,6 +1,6 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local addon, ns = ...
-if Viks.XPBar.enable then
+if C.XPBar.enable then
 -- The code starting point is from saftExperiencebar. Credits to Safturento.
 
 --------------------------
@@ -21,11 +21,11 @@ local Anchor = { "TOP", PetBattleHider, "BOTTOM", -0.5 , 32.5 }
 --Fonts
 local showText = true -- Set to false to hide text
 local mouseoverText = true -- Set to true to only show text on mouseover
-local font,fontsize,flags = Viks.media.pxfont, 12, "OUTLINEMONOCHROME"
+local font,fontsize,flags = C.media.pixel_font, 12, "OUTLINEMONOCHROME"
 
 --Textures
-local barTex = Viks.media.texture
-local flatTex = Viks.media.texture
+local barTex = C.media.texture
+local flatTex = C.media.texture
 
 -----------------------------------------------------------
 -- Don't edit past here unless you know what your doing! --
@@ -83,14 +83,14 @@ local aName = "XPBars_"
 
 --Create Background and Border
 local backdrop = CreateFrame("Frame", aName.."Backdrop", UIParent)
-if Viks.XPBar.pos1 then
+if C.XPBar.pos1 then
 backdrop:SetHeight(CPCool:GetHeight()-4)
 backdrop:SetWidth(CPCool:GetWidth()-4)
 backdrop:SetPoint("BOTTOM", CPCool, "BOTTOM", 0, 2)
 end
-if Viks.XPBar.pos2 then
-backdrop:SetHeight(Viks.XPBar.height)
-backdrop:SetWidth(Viks.XPBar.width)
+if C.XPBar.pos2 then
+backdrop:SetHeight(C.XPBar.height)
+backdrop:SetWidth(C.XPBar.width)
 backdrop:SetPoint("CENTER", AnchorXPBar)
 end
 backdrop:SetBackdrop({

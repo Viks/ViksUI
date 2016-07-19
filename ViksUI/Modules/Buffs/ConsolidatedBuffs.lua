@@ -1,11 +1,11 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.aura.player_auras ~= true then return end
-
+local T, C, L, _ = unpack(select(2, ...))
+if C.aura.player_auras ~= true then return end
+--[[
 ----------------------------------------------------------------------------------------
 --	Buffs duration in consolidated buff window(ShowConsolidatedBuffDuration by Hoochie)
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function()
 	local curframe
 	local title = "ConsolidatedBuffsTooltipBuff"
@@ -35,8 +35,8 @@ ConsolidatedBuffsTooltip:SetScale(1)
 for i = 1, NUM_LE_RAID_BUFF_TYPES do
 	local buff = ConsolidatedBuffsTooltip["Buff"..i]
 
-	buff.label:SetFont(Viks.font.auras_font, Viks.font.auras_font_size, Viks.font.auras_font_style)
-	buff.label:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+	buff.label:SetFont(C.font.auras_font, C.font.auras_font_size, C.font.auras_font_style)
+	buff.label:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 
 	buff.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
@@ -46,3 +46,4 @@ for i = 1, NUM_LE_RAID_BUFF_TYPES do
 	bg:SetFrameLevel(buff:GetFrameLevel() - 1)
 	bg:SetTemplate("Default")
 end
+--]]

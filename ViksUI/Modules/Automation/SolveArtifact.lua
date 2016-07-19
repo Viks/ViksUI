@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.solve_artifact ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.automation.solve_artifact ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto popup for solve artifact(module from Inomena by p3lim)

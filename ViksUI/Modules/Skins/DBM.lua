@@ -1,16 +1,16 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.dbm ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.dbm ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	DBM skin(by Affli)
 ----------------------------------------------------------------------------------------
 local backdrop = {
-	bgFile = Viks.media.blank_border,
+	bgFile = C.media.blank_border,
 	insets = {left = 0, right = 0, top = 0, bottom = 0},
 }
 
 local DBMSkin = CreateFrame("Frame")
-DBMSkin:RegisterEvent("PLAYER_LOGIN")
+DBMSkin:RegisterEvent("PLAYER_ENTERING_WORLD")
 DBMSkin:RegisterEvent("ADDON_LOADED")
 DBMSkin:SetScript("OnEvent", function(self, event, addon)
 	if IsAddOnLoaded("DBM-Core") then
@@ -92,7 +92,7 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 						end
 
 						if not texture.styled then
-							texture:SetTexture(Viks.media.texture)
+							texture:SetTexture(C.media.texture)
 							texture.styled = true
 						end
 
@@ -107,8 +107,8 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 							name:SetPoint("LEFT", frame, "LEFT", 4, 0)
 							name:SetWidth(165)
 							name:SetHeight(8)
-							name:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-							name:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+							name:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+							name:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 							name:SetJustifyH("LEFT")
 							name.SetFont = T.dummy
 							name.styled = true
@@ -117,8 +117,8 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 						if not timer.styled then
 							timer:ClearAllPoints()
 							timer:SetPoint("RIGHT", frame, "RIGHT", -1, 0)
-							timer:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-							timer:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+							timer:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+							timer:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 							timer:SetJustifyH("RIGHT")
 							timer.SetFont = T.dummy
 							timer.styled = true
@@ -135,7 +135,7 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 					end
 					bar:ApplyStyle()
 					bar.ApplyPosition = function()
-						if Viks.unitframes.enable ~= true then return end
+						if C.unitframe.enable ~= true then return end
 						self.mainAnchor:ClearAllPoints()
 						self.mainAnchor:SetPoint("BOTTOMLEFT", RChatTab, "BOTTOMLEFT", 122, 0)
 					end
@@ -149,8 +149,8 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 			if not anchor.styled then
 				local header = {anchor:GetRegions()}
 				if header[1]:IsObjectType("FontString") then
-					header[1]:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-					header[1]:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+					header[1]:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+					header[1]:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 					header[1]:SetTextColor(1, 1, 1, 1)
 					anchor.styled = true
 				end
@@ -195,7 +195,7 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 				end
 
 				if not progress.styled then
-					progress:SetStatusBarTexture(Viks.media.texture)
+					progress:SetStatusBarTexture(C.media.texture)
 					progress:SetBackdrop(backdrop)
 					progress:SetBackdropColor(T.color.r, T.color.g, T.color.b, 0.2)
 					progress.styled = true
@@ -207,8 +207,8 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 				if not name.styled then
 					name:ClearAllPoints()
 					name:SetPoint("LEFT", bar, "LEFT", 4, 0)
-					name:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-					name:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+					name:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+					name:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 					name:SetJustifyH("LEFT")
 					name.styled = true
 				end
@@ -216,8 +216,8 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 				if not timer.styled then
 					timer:ClearAllPoints()
 					timer:SetPoint("RIGHT", bar, "RIGHT", -1, 0)
-					timer:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-					timer:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+					timer:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+					timer:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 					timer:SetJustifyH("RIGHT")
 					timer.styled = true
 				end
@@ -305,7 +305,7 @@ function T.UploadDBM()
 		DBM_AllSavedOptions["Default"].RangeFrameX = 244
 		DBM_AllSavedOptions["Default"].RangeFramePoint = "LEFT"
 		DBM_AllSavedOptions["Default"].ShowSpecialWarnings = true
-		DBM_AllSavedOptions["Default"].SpecialWarningFont = Viks.media.font
+		DBM_AllSavedOptions["Default"].SpecialWarningFont = C.media.normal_font
 		DBM_AllSavedOptions["Default"].SpecialWarningFontSize = 50
 		DBM_AllSavedOptions["Default"].SpecialWarningX = 0
 		DBM_AllSavedOptions["Default"].SpecialWarningY = 75
@@ -333,15 +333,15 @@ function T.UploadDBM()
 		DBT_AllPersistentOptions["Default"]["DBM"].HugeScale = 1
 		DBT_AllPersistentOptions["Default"]["DBM"].BarXOffset = 0
 		DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 18
-		DBT_AllPersistentOptions["Default"]["DBM"].Font = Viks.font.stylization_font
-		DBT_AllPersistentOptions["Default"]["DBM"].FontSize = Viks.font.stylization_font_size
+		DBT_AllPersistentOptions["Default"]["DBM"].Font = C.font.stylization_font
+		DBT_AllPersistentOptions["Default"]["DBM"].FontSize = C.font.stylization_font_size
 		DBT_AllPersistentOptions["Default"]["DBM"].Width = 189
 		DBT_AllPersistentOptions["Default"]["DBM"].TimerX = 143
 		DBT_AllPersistentOptions["Default"]["DBM"].TimerPoint = "BOTTOMLEFT"
 		DBT_AllPersistentOptions["Default"]["DBM"].FillUpBars = true
 		DBT_AllPersistentOptions["Default"]["DBM"].IconLeft = true
 		DBT_AllPersistentOptions["Default"]["DBM"].ExpandUpwards = true
-		DBT_AllPersistentOptions["Default"]["DBM"].Texture = Viks.media.texture
+		DBT_AllPersistentOptions["Default"]["DBM"].Texture = C.media.texture
 		DBT_AllPersistentOptions["Default"]["DBM"].IconRight = false
 		DBT_AllPersistentOptions["Default"]["DBM"].HugeBarXOffset = 0
 		DBT_AllPersistentOptions["Default"]["DBM"].HugeBarsEnabled = true

@@ -1,12 +1,11 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-
+local T, C, L, _ = unpack(select(2, ...))
 ----------------------------------------------------------------------------------------
 --	EncounterJournal skin
-----------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 local LoadTootlipSkin = CreateFrame("Frame")
 LoadTootlipSkin:RegisterEvent("ADDON_LOADED")
 LoadTootlipSkin:SetScript("OnEvent", function(self, event, addon)
-	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") or not Viks.tooltip.enable then
+	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") or not C.tooltip.enable then
 		self:UnregisterEvent("ADDON_LOADED")
 		return
 	end
@@ -37,9 +36,9 @@ LoadTootlipSkin:SetScript("OnEvent", function(self, event, addon)
 	end
 end)
 
-if Viks.skins.blizzard_frames ~= true then return end
-local function LoadSkin()
-	EncounterJournal:StripTextures(true)
+if C.skins.blizzard_frames ~= true then return end
+local function LoadSkin()	EncounterJournal:StripTextures(true)
+	EncounterJournal:SetTemplate("Transparent")
 	EncounterJournal:CreateBackdrop("Transparent")
 	EncounterJournal.backdrop:SetPoint("TOPLEFT", -3, 0)
 	EncounterJournal.backdrop:SetPoint("BOTTOMRIGHT", 0, -2)
@@ -71,7 +70,9 @@ local function LoadSkin()
 		EncounterJournalEncounterFrameInfoOverviewTab,
 		EncounterJournalEncounterFrameInfoLootTab,
 		EncounterJournalEncounterFrameInfoBossTab,
-		EncounterJournalEncounterFrameInfoModelTab
+		EncounterJournalInstanceSelectLootJournalTab,
+		EncounterJournalEncounterFrameInfoModelTab,
+		EncounterJournalInstanceSelectSuggestTab
 	}
 	for _, tab in pairs(tabs) do
 		tab:CreateBackdrop("Overlay")
@@ -103,6 +104,41 @@ local function LoadSkin()
 			suggestion.centerDisplay.button:SkinButton()
 		end
 	end
+	
+	local function SkinDungeons()
+		local b1 = EncounterJournalInstanceSelectScrollFrameScrollChildInstanceButton1
+		if b1 and not b1.isSkinned then 
+			b1:CreateBackdrop()
+			b1.backdrop:SetBackdropColor(0, 0, 0, 0)
+			b1:StyleButton()
+			b1.isSkinned = true
+			b1.bgImage:SetTexCoord(.08, .6, .08, .6)
+			b1.bgImage:SetDrawLayer("OVERLAY")
+		end
+
+		for i = 1, 100 do
+			local b = _G["EncounterJournalInstanceSelectScrollFrameinstance"..i]
+			if b and not b.isSkinned then
+				b:CreateBackdrop()
+				b.backdrop:SetBackdropColor(0, 0, 0, 0)
+				b:StyleButton()
+				b.isSkinned = true
+				b.bgImage:SetTexCoord(.08, .6, .08, .6)
+				b.bgImage:SetDrawLayer("OVERLAY")
+			end
+		end
+	end
+	SkinDungeons()
+	hooksecurefunc("EncounterJournal_ListInstances", SkinDungeons)
+	
+	EncounterJournal.LootJournal:StripTextures()
+	T.SkinDropDownBox(LootJournalViewDropDown)
+	EncounterJournal.LootJournal.LegendariesFrame.ClassButton:StripTextures()
+	EncounterJournal.LootJournal.LegendariesFrame.ClassButton:SkinButton()
+	EncounterJournal.LootJournal.LegendariesFrame.SlotButton:StripTextures()
+	EncounterJournal.LootJournal.LegendariesFrame.SlotButton:SkinButton()
+	EncounterJournal.LootJournal.ItemSetsFrame.ClassButton:StripTextures()
+	EncounterJournal.LootJournal.ItemSetsFrame.ClassButton:SkinButton()
 end
 
 T.SkinFuncs["Blizzard_EncounterJournal"] = LoadSkin

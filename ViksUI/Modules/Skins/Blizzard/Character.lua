@@ -1,12 +1,15 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Character skin
 ----------------------------------------------------------------------------------------
 local function LoadSkin()
 	T.SkinCloseButton(CharacterFrameCloseButton)
-
+	T.SkinScrollBar(ReputationListScrollFrameScrollBar)
+	T.SkinScrollBar(TokenFrameContainerScrollBar)
+	T.SkinScrollBar(GearManagerDialogPopupScrollFrameScrollBar)
+	
 	local slots = {
 		"HeadSlot",
 		"NeckSlot",
@@ -30,24 +33,21 @@ local function LoadSkin()
 
 	select(11, _G["CharacterMainHandSlot"]:GetRegions()):Hide()
 	select(11, _G["CharacterSecondaryHandSlot"]:GetRegions()):Hide()
-	
-	for _, i in pairs(slots) do
-		_G["Character"..i.."Frame"]:Hide()
-		local icon = _G["Character"..i.."IconTexture"]
-		local slot = _G["Character"..i]
-		local border = _G["Character"..i].IconBorder
 
-		border:Kill()
-
-		slot:StyleButton()
-		slot:SetNormalTexture("")
-		slot:SetFrameLevel(slot:GetFrameLevel() + 2)
-		slot:SetTemplate("Default")
-
+	for _, slot in pairs(slots) do
+		local icon = _G["Character" .. slot .. "IconTexture"]
+		slot = _G["Character" .. slot]
+		slot:StripTextures()
+		slot:StyleButton(false)
+		slot.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
+		slot:SetTemplate("Default", true)
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		icon:ClearAllPoints()
 		icon:SetPoint("TOPLEFT", 2, -2)
 		icon:SetPoint("BOTTOMRIGHT", -2, 2)
+
+		hooksecurefunc(slot.IconBorder, "SetVertexColor", function(self, r, g, b) self:GetParent():SetBackdropBorderColor(r, g, b) end)
+		hooksecurefunc(slot.IconBorder, "Hide", function(self) self:GetParent():SetBackdropBorderColor(unpack(C["media"].border_color)) end)
 	end
 
 	-- Strip Textures
@@ -61,8 +61,9 @@ local function LoadSkin()
 		"PaperDollEquipmentManagerPane"
 	}
 
-	CharacterFrameExpandButton:SetSize(CharacterFrameExpandButton:GetWidth() - 7, CharacterFrameExpandButton:GetHeight() - 7)
-	T.SkinNextPrevButton(CharacterFrameExpandButton)
+	--CharacterFrameExpandButton:SetSize(CharacterFrameExpandButton:GetWidth() - 7, CharacterFrameExpandButton:GetHeight() - 7)
+	--T.SkinNextPrevButton(CharacterFrameExpandButton)
+
 
 	EquipmentFlyoutFrameHighlight:Kill()
 	local function SkinItemFlyouts()
@@ -103,10 +104,6 @@ local function LoadSkin()
 	local scrollbars = {
 		"PaperDollTitlesPaneScrollBar",
 		"PaperDollEquipmentManagerPaneScrollBar",
-		"CharacterStatsPaneScrollBar",
-		"TokenFrameContainerScrollBar",
-		"ReputationListScrollFrameScrollBar",
-		"GearManagerDialogPopupScrollFrameScrollBar"
 	}
 
 	for _, scrollbar in pairs(scrollbars) do
@@ -116,7 +113,19 @@ local function LoadSkin()
 	for _, object in pairs(charframe) do
 		_G[object]:StripTextures()
 	end
+	CharacterStatsPane.AttributesCategory:StripTextures()
+	CharacterStatsPane.AttributesCategory:SetTemplate("Transparent")
+	CharacterStatsPane.AttributesCategory:SetHeight(CharacterStatsPane.AttributesCategory:GetHeight() - 20)
+	CharacterStatsPane.AttributesCategory.Title:ClearAllPoints()
+	CharacterStatsPane.AttributesCategory.Title:SetPoint("CENTER", 0, -1)
+	CharacterStatsPane.EnhancementsCategory:StripTextures()
+	CharacterStatsPane.EnhancementsCategory:SetTemplate("Transparent")
+	CharacterStatsPane.EnhancementsCategory:SetHeight(CharacterStatsPane.EnhancementsCategory:GetHeight() - 20)
+	CharacterStatsPane.EnhancementsCategory.Title:ClearAllPoints()
+	CharacterStatsPane.EnhancementsCategory.Title:SetPoint("CENTER", 0, -1)
 
+	CharacterFrame:SetTemplate("Transparent")
+	
 	-- Titles
 	PaperDollTitlesPane:HookScript("OnShow", function(self)
 		for x, object in pairs(PaperDollTitlesPane.buttons) do
@@ -193,7 +202,7 @@ local function LoadSkin()
 	end)
 
 	-- Handle Tabs at bottom of character frame
-	for i = 1, 4 do
+	for i = 1, 3 do
 		T.SkinTab(_G["CharacterFrameTab"..i])
 	end
 
@@ -202,10 +211,10 @@ local function LoadSkin()
 		for i = 1, #PAPERDOLL_SIDEBARS do
 			local tab = _G["PaperDollSidebarTab"..i]
 			if tab then
-				tab.Highlight:SetTexture(1, 1, 1, 0.3)
+				tab.Highlight:SetColorTexture(1, 1, 1, 0.3)
 				tab.Highlight:SetPoint("TOPLEFT", 3, -4)
 				tab.Highlight:SetPoint("BOTTOMRIGHT", -1, 0)
-				tab.Hider:SetTexture(0.4, 0.4, 0.4, 0.4)
+				tab.Hider:SetColorTexture(0.4, 0.4, 0.4, 0.4)
 				tab.Hider:SetPoint("TOPLEFT", 3, -4)
 				tab.Hider:SetPoint("BOTTOMRIGHT", -1, 0)
 				tab.TabBg:Kill()
@@ -225,15 +234,15 @@ local function LoadSkin()
 	end
 	hooksecurefunc("PaperDollFrame_UpdateSidebarTabs", FixSidebarTabCoords)
 
-	hooksecurefunc("PaperDollFrame_CollapseStatCategory", function(categoryFrame)
-		categoryFrame.BgMinimized:Hide()
-	end)
+	--hooksecurefunc("PaperDollFrame_CollapseStatCategory", function(categoryFrame)
+		--categoryFrame.BgMinimized:Hide()
+	--end)
 
-	hooksecurefunc("PaperDollFrame_ExpandStatCategory", function(categoryFrame)
-		categoryFrame.BgTop:Hide()
-		categoryFrame.BgMiddle:Hide()
-		categoryFrame.BgBottom:Hide()
-	end)
+	--hooksecurefunc("PaperDollFrame_ExpandStatCategory", function(categoryFrame)
+		--categoryFrame.BgTop:Hide()
+		--categoryFrame.BgMiddle:Hide()
+		--categoryFrame.BgBottom:Hide()
+	--end)
 
 	-- Reputation
 	local function UpdateFactionSkins()
@@ -243,7 +252,7 @@ local function LoadSkin()
 			local statusbar = _G["ReputationBar"..i.."ReputationBar"]
 
 			if statusbar then
-				statusbar:SetStatusBarTexture(Viks.media.texture)
+				statusbar:SetStatusBarTexture(C.media.texture)
 
 				if not statusbar.backdrop then
 					statusbar:CreateBackdrop("Overlay")
@@ -294,22 +303,6 @@ local function LoadSkin()
 		T.SkinCheckBox(TokenFramePopupBackpackCheckBox)
 		T.SkinCheckBox(TokenFramePopupInactiveCheckBox)
 	end)
-
-	-- Pet
-	PetModelFrame:CreateBackdrop("Default")
-	PetModelFrame.backdrop:SetPoint("TOPLEFT", -2, 2)
-	PetModelFrame.backdrop:SetPoint("BOTTOMRIGHT", 1, -2)
-	T.SkinRotateButton(PetModelFrameRotateRightButton)
-	T.SkinRotateButton(PetModelFrameRotateLeftButton)
-	PetModelFrameRotateLeftButton:ClearAllPoints()
-	PetModelFrameRotateLeftButton:SetPoint("TOPLEFT", PetModelFrame.backdrop, "TOPLEFT", 6, -6)
-	PetModelFrameRotateRightButton:ClearAllPoints()
-	PetModelFrameRotateRightButton:SetPoint("LEFT", PetModelFrameRotateLeftButton, "RIGHT", 4, 0)
-
-	local xtex = PetPaperDollPetInfo:GetRegions()
-	xtex:SetTexCoord(0.12, 0.63, 0.15, 0.55)
-	PetPaperDollPetInfo:CreateBackdrop("Default")
-	PetPaperDollPetInfo:SetSize(24, 24)
 
 	CharacterFrame:SetTemplate("Transparent")
 

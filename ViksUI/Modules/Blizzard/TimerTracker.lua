@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Skin TimerTracker(by Tukz)
@@ -9,18 +9,18 @@ local function SkinIt(bar)
 		if region:GetObjectType() == "Texture" then
 			region:SetTexture(nil)
 		elseif region:GetObjectType() == "FontString" then
-			region:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+			region:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 			region:SetShadowOffset(0, 0)
 		end
 	end
 
 	bar:CreateBackdrop("Default")
-	bar:SetStatusBarTexture(Viks.media.texture)
+	bar:SetStatusBarTexture(C.media.texture)
 	bar:SetStatusBarColor(0.7, 0, 0)
 
 	bar.bg = bar:CreateTexture(nil, "BACKGROUND")
 	bar.bg:SetAllPoints(bar)
-	bar.bg:SetTexture(Viks.media.texture)
+	bar.bg:SetTexture(C.media.texture)
 	bar.bg:SetVertexColor(0.7, 0, 0, 0.3)
 end
 

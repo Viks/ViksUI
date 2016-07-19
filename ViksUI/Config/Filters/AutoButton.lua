@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.quest_auto_button ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.misc.quest_auto_button ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	The best way to add or delete item is to go at www.wowhead.com, search for a item.

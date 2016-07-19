@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 ----------------------------------------------------------------------------------------
 --	MSBT settings
 ----------------------------------------------------------------------------------------
@@ -1328,7 +1328,7 @@ local UploadCvar = function()
 	--SetCVar("alternateResourceText", 1)
 	SetCVar("statusTextDisplay", "BOTH")
 	SetCVar("screenshotQuality", 10)
-	SetCVar("cameraDistanceMax", 50)
+	SetCVar("cameraDistanceMaxFactor", 2)
 	SetCVar("ShowClassColorInNameplate", 1)
 	SetCVar("showTutorials", 0)
 	SetCVar("gameTip", "0")
@@ -1337,7 +1337,8 @@ local UploadCvar = function()
 	SetCVar("removeChatDelay", 1)
 	SetCVar("chatStyle", "im")
 	SetCVar("WholeChatWindowClickable", 0)
-	--SetCVar("WhisperMode", "inline")
+	--SetCVar("ConversationMode", 1)
+	SetCVar("WhisperMode", "inline")
 	--SetCVar("BnWhisperMode", "inline")
 	SetCVar("colorblindMode", 0)
 	SetCVar("lootUnderMouse", 0)
@@ -1345,7 +1346,7 @@ local UploadCvar = function()
 	SetCVar("RotateMinimap", 0)
 	--SetCVar("ConsolidateBuffs", 0)
 	SetCVar("autoQuestProgress", 1)
-	SetCVar("scriptErrors", 0)
+	SetCVar("scriptErrors", 1)
 	SetCVar("taintLog", 0)
 	SetCVar("buffDurations", 1)
 	--SetCVar("enableCombatText", 1)
@@ -1360,8 +1361,8 @@ StaticPopupDialogs.SETTINGS_ALL = {
 	button1 = ACCEPT,
 	button2 = CANCEL,
 	OnAccept = function()
-		if IsAddOnLoaded("DBM-Core") and Viks.skins.dbm then T.UploadDBM() end
-		if IsAddOnLoaded("DXE") and Viks.skins.dxe then T.UploadDXE() end
+		if IsAddOnLoaded("DBM-Core") and C.skins.dbm then T.UploadDBM() end
+		if IsAddOnLoaded("DXE") and C.skins.dxe then T.UploadDXE() end
 		if IsAddOnLoaded("MikScrollingBattleText") then UploadMSBT() end
 		if IsAddOnLoaded("Skada") then UploadSkada() end
 		if IsAddOnLoaded("Bartender4") then UploadBartender() end
@@ -1378,7 +1379,7 @@ StaticPopupDialogs.SETTINGS_ALL = {
 SlashCmdList.SETTINGS = function(msg)
 	if msg == "dbm" then
 		if IsAddOnLoaded("DBM-Core") then
-			if Viks.skins.dbm == true then
+			if C.skins.dbm == true then
 				StaticPopup_Show("SETTINGS_DBM")
 			else
 				print("|cffffff00"..L_INFO_SKIN_DISABLED1.."DBM"..L_INFO_SKIN_DISABLED2.."|r")
@@ -1388,7 +1389,7 @@ SlashCmdList.SETTINGS = function(msg)
 		end
 	elseif msg == "dxe" then
 		if IsAddOnLoaded("DXE") then
-			if Viks.skins.dxe == true then
+			if C.skins.dxe == true then
 				StaticPopup_Show("SETTINGS_DXE")
 			else
 				print("|cffffff00"..L_INFO_SKIN_DISABLED1.."DXE"..L_INFO_SKIN_DISABLED2.."|r")

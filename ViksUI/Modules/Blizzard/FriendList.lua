@@ -127,7 +127,7 @@ hooksecurefunc("WhoList_Update", function()
 			local columnTable = {zone, guild, race}
 
 			local c = classColorRaw[classFileName]
-			nameText:SetTextColor(Viks.r, Viks.g, Viks.b)
+			nameText:SetTextColor(C.r, C.g, C.b)
 			levelText:SetText(diffColor[level]..level)
 			variableText:SetText(columnTable[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)])
 		end

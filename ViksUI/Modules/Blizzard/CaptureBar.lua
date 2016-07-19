@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Reposition Capture Bar
@@ -12,7 +12,7 @@ local function CaptureUpdate()
 		if bar and bar:IsVisible() then
 			bar:ClearAllPoints()
 			if i == 1 then
-				bar:SetPoint(unpack(Viks.position.capture_bar))
+				bar:SetPoint(unpack(C.position.capture_bar))
 			else
 				bar:SetPoint("TOPLEFT", _G["WorldStateCaptureBar"..i-1], "BOTTOMLEFT", 0, -7)
 			end
@@ -26,9 +26,9 @@ local function CaptureUpdate()
 				_G[barname.."LeftIconHighlight"]:SetAlpha(0)
 				_G[barname.."RightIconHighlight"]:SetAlpha(0)
 
-				left:SetTexture(Viks.media.texture)
-				right:SetTexture(Viks.media.texture)
-				middle:SetTexture(Viks.media.texture)
+				left:SetTexture(C.media.texture)
+				right:SetTexture(C.media.texture)
+				middle:SetTexture(C.media.texture)
 
 				left:SetVertexColor(0.2, 0.6, 1)
 				right:SetVertexColor(0.9, 0.2, 0.2)
@@ -57,7 +57,7 @@ local function StateUpdate()
 			f:ClearAllPoints()
 			f:SetFrameStrata("BACKGROUND")
 			if i == 1 then
-				f:SetPoint(unpack(Viks.position.attempt))
+				f:SetPoint(unpack(C.position.attempt))
 			else
 				f:SetPoint("TOPLEFT", _G["AlwaysUpFrame"..i-1], "BOTTOMLEFT", 0, 0)
 			end

@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local addon, ns = ...
 local cfg = ns.cfg
 local cast = CreateFrame("Frame")  
@@ -6,19 +6,19 @@ local cast = CreateFrame("Frame")
 local channelingTicks = {
 	--Warlock
 	[GetSpellInfo(689)] = 6, -- "Drain Life"
-	[GetSpellInfo(108371)] = 6, -- "Harvest Life"
+	--[GetSpellInfo(108371)] = 6, -- "Harvest Life"
 	[GetSpellInfo(5740)] = 4, -- "Rain of Fire"
 	[GetSpellInfo(755)] = 6, -- Health Funnel
-	[GetSpellInfo(103103)] = 4, --Malefic Grasp
+	--[GetSpellInfo(103103)] = 4, --Malefic Grasp
 	--Druid
-	[GetSpellInfo(16914)] = 10, -- "Hurricane"
+	--[GetSpellInfo(16914)] = 10, -- "Hurricane"
 	--Priest
 	[GetSpellInfo(48045)] = 5, -- "Mind Sear"
 	[GetSpellInfo(179338)] = 5, -- "Searing insanity"
 	[GetSpellInfo(64843)] = 4, -- Divine Hymn
 	--Mage
 	[GetSpellInfo(5143)] = 5, -- "Arcane Missiles"
-	[GetSpellInfo(10)] = 8, -- "Blizzard"
+	--[GetSpellInfo(10)] = 8, -- "Blizzard"
 	[GetSpellInfo(12051)] = 3, -- "Evocation"
 	--Monk
 	[GetSpellInfo(115175)] = 9, -- "Smoothing Mist"

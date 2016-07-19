@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.nug_running ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.nug_running ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	NugRunning skin(by MrRuben5)
@@ -24,17 +24,17 @@ frame:SetScript("OnEvent", function(self, event, addon)
 
 		f.bar:CreateBackdrop("Default")
 
-		f.bar:SetStatusBarTexture(Viks.media.texture)
+		f.bar:SetStatusBarTexture(C.media.texture)
 		f.bar:GetStatusBarTexture():SetDrawLayer("ARTWORK")
-		f.bar.bg:SetTexture(Viks.media.texture)
+		f.bar.bg:SetTexture(C.media.texture)
 		f.bar.bg:SetAlpha(0.3)
 
-		f.timeText:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		f.timeText:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		f.spellText:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		f.spellText:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		f.stacktext:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		f.stacktext:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+		f.timeText:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		f.timeText:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		f.spellText:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		f.spellText:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		f.stacktext:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		f.stacktext:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 
 		TimerBar.Resize(f, w, h)
 

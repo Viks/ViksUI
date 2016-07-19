@@ -1,8 +1,8 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 do
 	SetFontString = function(parent, fontName, fontHeight, fontStyle)
 		local fs = parent:CreateFontString(nil, "OVERLAY")
-		fs:SetFont(Viks.media.font, fontHeight, fontStyle)
+		fs:SetFont(C.media.normal_font, fontHeight, fontStyle)
 		fs:SetJustifyH("LEFT")
 		fs:SetShadowColor(0, 0, 0)
 		fs:SetShadowOffset(1.25, -1.25)
@@ -24,9 +24,9 @@ end
 Fonts:RegisterEvent("ADDON_LOADED")
 Fonts:SetScript("OnEvent", function(self, event, addon)
 	
-	local NORMAL     =  Viks.media.font
-	local COMBAT     =  Viks.media.fontcombat
-	local NUMBER     =  Viks.media.font
+	local NORMAL     =  C.media.normal_font
+	local COMBAT     =  C.media.fontcombat
+	local NUMBER     =  C.media.normal_font
 	local _, editBoxFontSize, _, _, _, _, _, _, _, _ = GetChatWindowInfo(1)
 	
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
@@ -37,30 +37,30 @@ Fonts:SetScript("OnEvent", function(self, event, addon)
 	DAMAGE_TEXT_FONT   = COMBAT
 	STANDARD_TEXT_FONT = NORMAL
 	
-	SetFont(GameTooltipHeader,                  NORMAL, Viks.media.fontsize)
-	SetFont(NumberFont_OutlineThick_Mono_Small, NUMBER, Viks.media.fontsize, "OUTLINE")
+	SetFont(GameTooltipHeader,                  NORMAL, C.media.fontsize)
+	SetFont(NumberFont_OutlineThick_Mono_Small, NUMBER, C.media.fontsize, "OUTLINE")
 	SetFont(NumberFont_Outline_Huge,            NUMBER, 28, "THICKOUTLINE", 28)
 	SetFont(NumberFont_Outline_Large,           NUMBER, 15, "OUTLINE")
-	SetFont(NumberFont_Outline_Med,             NUMBER, Viks.media.fontsize*1.1, "OUTLINE")
-	SetFont(NumberFont_Shadow_Med,              NORMAL, Viks.media.fontsize+1) --chat editbox uses this
-	SetFont(NumberFont_Shadow_Small,            NORMAL, Viks.media.fontsize)
-	SetFont(QuestFont,                          NORMAL, Viks.media.fontsize)
+	SetFont(NumberFont_Outline_Med,             NUMBER, C.media.fontsize*1.1, "OUTLINE")
+	SetFont(NumberFont_Shadow_Med,              NORMAL, C.media.fontsize+1) --chat editbox uses this
+	SetFont(NumberFont_Shadow_Small,            NORMAL, C.media.fontsize)
+	SetFont(QuestFont,                          NORMAL, C.media.fontsize)
 	SetFont(QuestFont_Large,                    NORMAL, 14)
 	SetFont(SystemFont_Large,                   NORMAL, 15)
 	SetFont(SystemFont_Shadow_Huge1,			NORMAL, 20, "THINOUTLINE") -- Raid Warning, Boss emote frame too
-	SetFont(SystemFont_Med1,                    NORMAL, Viks.media.fontsize)
-	SetFont(SystemFont_Med3,                    NORMAL, Viks.media.fontsize*1.1)
+	SetFont(SystemFont_Med1,                    NORMAL, C.media.fontsize)
+	SetFont(SystemFont_Med3,                    NORMAL, C.media.fontsize*1.1)
 	SetFont(SystemFont_OutlineThick_Huge2,      NORMAL, 20, "THICKOUTLINE")
-	SetFont(SystemFont_Outline_Small,           NUMBER, Viks.media.fontsize, "OUTLINE")
+	SetFont(SystemFont_Outline_Small,           NUMBER, C.media.fontsize, "OUTLINE")
 	SetFont(SystemFont_Shadow_Large,            NORMAL, 15)
-	SetFont(SystemFont_Shadow_Med1,             NORMAL, Viks.media.fontsize)
-	SetFont(SystemFont_Shadow_Med3,             NORMAL, Viks.media.fontsize*1.1)
+	SetFont(SystemFont_Shadow_Med1,             NORMAL, C.media.fontsize)
+	SetFont(SystemFont_Shadow_Med3,             NORMAL, C.media.fontsize*1.1)
 	SetFont(SystemFont_Shadow_Outline_Huge2,    NORMAL, 20, "OUTLINE")
-	SetFont(SystemFont_Shadow_Small,            NORMAL, Viks.media.fontsize*0.9)
-	SetFont(SystemFont_Small,                   NORMAL, Viks.media.fontsize)
-	SetFont(SystemFont_Tiny,                    NORMAL, Viks.media.fontsize)
-	SetFont(Tooltip_Med,                        NORMAL, Viks.media.fontsize)
-	SetFont(Tooltip_Small,                      NORMAL, Viks.media.fontsize)
+	SetFont(SystemFont_Shadow_Small,            NORMAL, C.media.fontsize*0.9)
+	SetFont(SystemFont_Small,                   NORMAL, C.media.fontsize)
+	SetFont(SystemFont_Tiny,                    NORMAL, C.media.fontsize)
+	SetFont(Tooltip_Med,                        NORMAL, C.media.fontsize)
+	SetFont(Tooltip_Small,                      NORMAL, C.media.fontsize)
 	SetFont(ZoneTextString,						NORMAL, 32, "OUTLINE")
 	SetFont(SubZoneTextString,					NORMAL, 25, "OUTLINE")
 	SetFont(PVPInfoTextString,					NORMAL, 22, "THINOUTLINE")
@@ -73,11 +73,11 @@ Fonts:SetScript("OnEvent", function(self, event, addon)
 	SetFont(QuestFont_Shadow_Small, 			NORMAL, 15)
 	SetFont(ReputationDetailFont, 				NORMAL, 10)
 	SetFont(SpellFont_Small, 					NORMAL, 10)
-	SetFont(FriendsFont_Small, 					NORMAL, Viks.media.fontsize)
-	SetFont(FriendsFont_Normal, 				NORMAL, Viks.media.fontsize)
-	SetFont(FriendsFont_Large, 					NORMAL, Viks.media.fontsize)
-	SetFont(FriendsFont_UserText, 				NORMAL, Viks.media.fontsize)
-	SetFont(ChatBubbleFont, 					NORMAL, Viks.media.fontsize)
+	SetFont(FriendsFont_Small, 					NORMAL, C.media.fontsize)
+	SetFont(FriendsFont_Normal, 				NORMAL, C.media.fontsize)
+	SetFont(FriendsFont_Large, 					NORMAL, C.media.fontsize)
+	SetFont(FriendsFont_UserText, 				NORMAL, C.media.fontsize)
+	SetFont(ChatBubbleFont, 					NORMAL, C.media.fontsize)
 	
 	SetFont = nil
 	self:SetScript("OnEvent", nil)
@@ -90,7 +90,7 @@ end)
 
 --- true = yes 
 --- false = no
-local font = Viks.media.fontcombat                           --- The font you want to have.
+local font = C.media.fontcombat                           --- The font you want to have.
 local fFlags = "" 
 local ZoneText = true                                             --- Should the ZoneText have another font?
 local CombatText = true                                         --- Should the DamageText have another font?

@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.chars_currency ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.chars_currency ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Tracks your currency tokens across multiple characters(Exonumist by Phanx)
@@ -194,11 +194,11 @@ frame:SetScript("OnEvent", function(self, event, addon)
 		self:UnregisterEvent("ADDON_LOADED")
 
 		if IsLoggedIn() then
-			self:GetScript("OnEvent")(self, "PLAYER_LOGIN")
+			self:GetScript("OnEvent")(self, "PLAYER_ENTERING_WORLD")
 		else
-			self:RegisterEvent("PLAYER_LOGIN")
+			self:RegisterEvent("PLAYER_ENTERING_WORLD")
 		end
-	elseif event == "PLAYER_LOGIN" then
+	elseif event == "PLAYER_ENTERING_WORLD" then
 		for k, v in pairs(CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS) do
 			classColor[k] = {v.r, v.g, v.b}
 		end
@@ -211,6 +211,6 @@ frame:SetScript("OnEvent", function(self, event, addon)
 				end
 			end)
 		end
-		self:UnregisterEvent("PLAYER_LOGIN")
+		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	end
 end)

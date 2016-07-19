@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.map.map_boss_count ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.map.map_boss_count ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Show boss count in WorldMap(BetterMapPortraits by Magdain)

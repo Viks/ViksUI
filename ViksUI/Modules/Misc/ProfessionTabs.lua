@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.profession_tabs ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.profession_tabs ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Professions tabs on tradeskill frame(ProfessionTabs by Beoko)
@@ -75,11 +75,11 @@ local function UpdateTab(object, name, rank, texture)
 		tab:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
 		local F, C = unpack(Aurora)
-		tab:SetCheckedTexture(Viks.media.checked)
-		tab:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+		tab:SetCheckedTexture(C.media.checked)
+		tab:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
 		tab:GetHighlightTexture():SetAllPoints(tab:GetNormalTexture())
 		F.CreateBG(tab)
-	elseif Viks.skins.blizzard_frames == true then
+	elseif C.skins.blizzard_frames == true then
 		tab:SetPoint("TOPLEFT", object, "TOPRIGHT", 1, (-44 * index) + 44)
 
 		tab:DisableDrawLayer("BACKGROUND")

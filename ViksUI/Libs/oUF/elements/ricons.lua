@@ -37,6 +37,7 @@ local GetRaidTargetIndex = GetRaidTargetIndex
 local SetRaidTargetIconTexture = SetRaidTargetIconTexture
 
 local Update = function(self, event)
+	if not self.unit then return end
 	local icon = self.RaidIcon
 	if(icon.PreUpdate) then
 		icon:PreUpdate()
@@ -83,6 +84,7 @@ end
 local Disable = function(self)
 	local ricon = self.RaidIcon
 	if(ricon) then
+		ricon:Hide()
 		self:UnregisterEvent("RAID_TARGET_UPDATE", Path)
 	end
 end

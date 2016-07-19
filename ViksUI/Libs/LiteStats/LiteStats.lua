@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Based on LiteStats(by Katae)
@@ -103,13 +103,11 @@ end profiles = nil end
 
 
 ------------------------------------------
-local function zsub(s, ...) local t = {...} for i = 1, #t, 2 do s = gsub(s, t[i], t[i + 1]) end return s end
-
-
 local function comma_value(n) -- credit http://richard.warburton.it
 	local left, num, right = string.match(n,"^([^%d]*%d)(%d*)(.-)$")
 	return left..(num:reverse():gsub("(%d%d%d)","%1,"):reverse())..right
 end
+
 local function formatgold(style, amount)
 	local gold, silver, copper = floor(amount * 0.0001), floor(mod(amount * 0.01, 100)), floor(mod(amount, 100))
 	if style == 1 then
@@ -126,6 +124,7 @@ local function formatgold(style, amount)
 	end
 end
 
+local function zsub(s, ...) local t = {...} for i = 1, #t, 2 do s = gsub(s, t[i], t[i + 1]) end return s end
 local function abbr(t, s) return t[s] or zsub(_G[strupper(s).."_ONELETTER_ABBR"], "%%d", "", "^%s*", "") end
 local function fmttime(sec, t)
 	local t = t or {}
@@ -382,7 +381,7 @@ if durability.enabled then
 			RegEvents(self, "UPDATE_INVENTORY_DURABILITY MERCHANT_SHOW PLAYER_LOGIN")
 		end,
 		OnEvent = function(self, event, ...)
-			if event == "UPDATE_INVENTORY_DURABILITY" or event == "PLAYER_LOGIN" then
+			if event == "UPDATE_INVENTORY_DURABILITY" or event == "PLAYER_ENTERING_WORLD" then
 				local dmin = 100
 				for id = 1, 18 do
 					local dur, dmax = GetInventoryItemDurability(id)
@@ -419,7 +418,7 @@ if durability.enabled then
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(modules.Durability.tip_anchor, modules.Durability.tip_frame, modules.Durability.tip_x, modules.Durability.tip_y)
 			GameTooltip:ClearLines()
-			if Viks.tooltip.average_lvl == true then
+			if C.tooltip.average_lvl == true then
 				local avgItemLevel, avgItemLevelEquipped = GetAverageItemLevel()
 				avgItemLevel = floor(avgItemLevel)
 				avgItemLevelEquipped = floor(avgItemLevelEquipped)
@@ -479,6 +478,17 @@ end
 --	Gold
 ----------------------------------------------------------------------------------------
 if gold.enabled then
+
+
+
+
+
+
+
+
+
+
+
 	Inject("Gold", {
 		OnLoad = function(self)
 			self.started = GetMoney()
@@ -513,10 +523,13 @@ if gold.enabled then
 			local curgold = GetMoney()
 			conf.Gold = curgold
 			GameTooltip:SetOwner(self, "ANCHOR_NONE")
+
+
 			GameTooltip:ClearAllPoints()
 			GameTooltip:SetPoint(gold.tip_anchor, gold.tip_frame, gold.tip_x, gold.tip_y)
 			GameTooltip:ClearLines()
 			GameTooltip:AddLine(CURRENCY, tthead.r, tthead.g, tthead.b)
+
 			GameTooltip:AddLine(" ")
 			if self.started ~= curgold then
 				local gained = curgold > self.started
@@ -525,6 +538,7 @@ if gold.enabled then
 				GameTooltip:AddLine(" ")
 			end
 			GameTooltip:AddLine(L_STATS_SERVER_GOLD, ttsubh.r, ttsubh.g, ttsubh.b)
+
 			local total = 0
 			for char, conf in pairs(SavedStats[realm]) do
 				if conf.Gold and conf.Gold > 99 then
@@ -559,6 +573,7 @@ if gold.enabled then
 				self:GetScript("OnEnter")(self)
 			end
 		end
+
 	})
 	SLASH_KJUNK1 = "/junk"
 	function SlashCmdList.KJUNK(s)
@@ -614,6 +629,7 @@ if gold.enabled then
 			if discovered then GameTooltip:AddDoubleLine(name, format("%s |T%s:"..t_icon..":"..t_icon..":0:0:64:64:5:59:5:59:%d|t", amount, tex, t_icon), 1, 1, 1, 1, 1, 1) end
 		end
 	end
+
 	Inject("Gold2", {
 		OnLoad = function(self)
 			self.started = GetMoney()
@@ -621,6 +637,7 @@ if gold.enabled then
 			if not SavedStats.JunkIgnore then SavedStats.JunkIgnore = {} end
 		end,
 		OnEvent = function(self, event)
+
 			conf.Gold2 = GetMoney()
 			if event == "MERCHANT_SHOW" then
 				if conf.AutoSell and not (IsAltKeyDown() or IsShiftKeyDown()) then
@@ -642,14 +659,17 @@ if gold.enabled then
 				end
 				return
 			end
+
 			self.text:SetText(formatgold(2, conf.Gold2))
 		end,
 		OnEnter = function(self)
 			local curgold = GetMoney()
 			local _, _, archaeology, _, cooking = GetProfessions()
+
 			conf.Gold2 = curgold
 			GameTooltip:SetOwner(self, "ANCHOR_NONE")
 			GameTooltip:ClearAllPoints()
+
 			GameTooltip:SetPoint(gold2.tip_anchor, gold2.tip_frame, gold2.tip_x, gold2.tip_y)
 			GameTooltip:ClearLines()
 			GameTooltip:AddLine(CURRENCY, tthead.r, tthead.g, tthead.b)
@@ -663,6 +683,9 @@ if gold.enabled then
 			GameTooltip:AddLine(L_STATS_SERVER_GOLD, ttsubh.r, ttsubh.g, ttsubh.b)
 			local total = 0
 			for char, conf in pairs(SavedStats[realm]) do
+
+
+
 				if conf.Gold2 and conf.Gold2 > 99 then
 					GameTooltip:AddDoubleLine(char, formatgold(1, conf.Gold2), 1, 1, 1, 1, 1, 1)
 					total = total + conf.Gold2
@@ -683,61 +706,67 @@ if gold.enabled then
 					currencies = currencies + 1
 				end
 			end
-			if archaeology and Viks.stats.CurrArchaeology then
+			if archaeology and C.stats.CurrArchaeology then
+
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(PROFESSIONS_ARCHAEOLOGY, ttsubh.r, ttsubh.g, ttsubh.b)
-				Currency(398)
-				Currency(384)
-				Currency(393)
-				Currency(677)
-				Currency(400)
-				Currency(394)
-				Currency(397)
-				Currency(676)
-				Currency(401)
-				Currency(385)
-				Currency(399)
-				Currency(829)
-				Currency(944)
-				Currency(810)
-				Currency(821)
-				Currency(754)
-				Currency(677)
-				Currency(676)
+				Currency(384)	-- Dwarf Archaeology Fragment
+				Currency(385)	-- Troll Archaeology Fragment
+				Currency(393)	-- Fossil Archaeology Fragment
+				Currency(394)	-- Night Elf Archaeology Fragment
+				Currency(397)	-- Orc Archaeology Fragment
+				Currency(398)	-- Draenei Archaeology Fragment
+				Currency(399)	-- Vrykul Archaeology Fragment
+				Currency(400)	-- Nerubian Archaeology Fragment
+				Currency(401)	-- Tol'vir Archaeology Fragment
+				Currency(676)	-- Pandaren Archaeology Fragment
+				Currency(677)	-- Mogu Archaeology Fragment
+				Currency(754)	-- Mantid Archaeology Fragment
+				Currency(821)	-- Draenor Clans Archaeology Fragment
+				Currency(828)	-- Ogre Archaeology Fragment
+				Currency(829)	-- Arakkoa Archaeology Fragment
 			end
 
-			if cooking and Viks.stats.CurrCooking then
+			if cooking and C.stats.CurrCooking then
+
+
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(PROFESSIONS_COOKING, ttsubh.r, ttsubh.g, ttsubh.b)	
 				Currency(81)
 				Currency(402)
 			end
 
-			if Viks.stats.CurrProfessions then
+			if C.stats.CurrProfessions then
+
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(TRADE_SKILLS, ttsubh.r, ttsubh.g, ttsubh.b)
 				Currency(910)	-- Secret of Draenor Alchemy
 				Currency(1020)	-- Secret of Draenor Blacksmithing
 				Currency(1008)	-- Secret of Draenor Jewelcrafting
 				Currency(1017)	-- Secret of Draenor Leatherworking
+
+
 				Currency(999)	-- Secret of Draenor Tailoring
 			end
 
-			if Viks.stats.CurrRaid and T.level >= 100 then
+			if C.stats.CurrRaid and T.level >= 100 then
+
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(L_STATS_CURRENCY_RAID_T, ttsubh.r, ttsubh.g, ttsubh.b)
 				Currency(1129, false, true)	-- Seal of Inevitable Fate
 				Currency(994, false, true)	-- Seal of Tempered Fate
 			end
 
-			if Viks.stats.CurrPvP then
+			if C.stats.CurrPvP then
+
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(PVP_FLAG, ttsubh.r, ttsubh.g, ttsubh.b)
 				Currency(390, true)			-- Conquest Points
 				Currency(392, false, true)	-- Honor Points
 			end
 
-			if Viks.stats.CurrMiscellaneous then
+			if C.stats.CurrMiscellaneous then
+
 				GameTooltip:AddLine(" ")
 				GameTooltip:AddLine(MISCELLANEOUS, ttsubh.r, ttsubh.g, ttsubh.b)
 				Currency(515)				-- Darkmoon Prize Ticket
@@ -747,6 +776,7 @@ if gold.enabled then
 				Currency(823)				-- Apexis Crystal
 				Currency(1101)				-- Oil
 			end
+
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddDoubleLine(" ", L_STATS_AUTO_SELL..": "..(conf.AutoSell and "|cff55ff55"..L_STATS_ON or "|cffff5555"..strupper(OFF)), 1, 1, 1, ttsubh.r, ttsubh.g, ttsubh.b)
 			GameTooltip:Show()
@@ -761,6 +791,7 @@ if gold.enabled then
 		end
 	})
 end
+
 ----------------------------------------------------------------------------------------
 --	Clock
 ----------------------------------------------------------------------------------------
@@ -858,7 +889,12 @@ if clock.enabled then
 			if T.level >= 100 then
 				local c = 0
 				for _, q in ipairs({36054, 36055, 36056, 36057, 36058, 36060, 37453, 37452, 37454, 37455, 37456, 37457, 37458, 37459}) do if IsQuestFlaggedCompleted(q) then c = c + 1 end end
+
+
+
+
 				GameTooltip:AddLine(" ")
+
 				GameTooltip:AddLine("Misc", ttsubh.r, ttsubh.g, ttsubh.b)
 				GameTooltip:AddDoubleLine( "Seals this week" .. ": ", c, 1, 1, 1, 1, 1, 1)
 			end
@@ -951,8 +987,8 @@ if ping.enabled then
 			self.animGroup = self.text:CreateAnimationGroup()
 			self.anim = self.animGroup:CreateAnimation("Alpha")
 			self.animGroup:SetScript("OnFinished", function() self.text:Hide() end)
-			self.anim:SetChange(-1)
-			self.anim:SetOrder(1)
+			self.anim:SetFromAlpha(1)
+			self.anim:SetToAlpha(0)
 			self.anim:SetDuration(2.8)
 			self.anim:SetStartDelay(5)
 			end,
@@ -1295,7 +1331,7 @@ if friends.enabled then
 								end
 							}
 
-							if BNTable[i][6] == "WoW" and UnitFactionGroup("player") == BNTable[i][12] then
+							if BNTable[i][6] == BNET_CLIENT_WOW and UnitFactionGroup("player") == BNTable[i][12] then
 								if not (UnitInParty(BNTable[i][4]) or UnitInRaid(BNTable[i][4])) then
 									menuCountInvites = menuCountInvites + 1
 									menuList[2].menuList[menuCountInvites] = {
@@ -1356,8 +1392,9 @@ if friends.enabled then
 					GameTooltip:AddLine(" ")
 					GameTooltip:AddLine(BATTLENET_FRIEND)
 					for i = 1, BNtotal do
-						_, presenceName, _, _, toonName, toonID, client, isOnline, _, isAFK, isDND = BNGetFriendInfo(i)
-						if not toonName then toonName = presenceName end
+						_, presenceName, battleTag, _, toonName, toonID, client, isOnline, _, isAFK, isDND = BNGetFriendInfo(i)
+
+						toonName = BNet_GetValidatedCharacterName(toonName, battleTag, client) or ""
 						if not isOnline then break end
 						if isAFK then
 							status = "|cffE7E716"..L_CHAT_AFK.."|r"
@@ -1368,7 +1405,7 @@ if friends.enabled then
 								status = ""
 							end
 						end
-						if client == "WoW" then
+						if client == BNET_CLIENT_WOW then
 							local _, toonName, client, realmName, _, _, _, class, _, zoneName, level = BNGetGameAccountInfo(toonID)
 							for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do if class == v then class = k end end
 							if GetLocale() ~= "enUS" then
@@ -1424,12 +1461,12 @@ if bags.enabled then
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddLine(format(NUM_FREE_SLOTS, free, total), 1, 1, 1)
 			GameTooltip:Show()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(1)
 			end
 		end,
 		OnLeave = function()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(0)
 			end
 		end,
@@ -1486,13 +1523,13 @@ if talents.enabled then
 				end
 				GameTooltip:Show()
 			end
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(1)
 			end
 		end,
 		OnLeave = function(self)
 			self.hovered = false
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(0)
 			end
 		end,
@@ -1519,6 +1556,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Character Stats
 ----------------------------------------------------------------------------------------
+
 if stats.enabled then
 	local function tags(sub)
 		local percent, string = true
@@ -1571,8 +1609,6 @@ if stats.enabled then
 		elseif sub == "armor" then
 			local _, eff = UnitArmor(P)
 			string, percent = eff
-		elseif sub == "strike" then
-			string = GetMultistrike()
 		elseif sub == "versatility" then
 			string = GetCombatRating(29)
 		elseif sub == "leech" then
@@ -1691,7 +1727,7 @@ if experience.enabled then
 			elseif event == "TIME_PLAYED_MSG" then
 				playedtotal, playedlevel = ...
 				playedmsg = GetTime()
-			elseif (event == "UPDATE_FACTION" or event == "PLAYER_LOGIN") and conf.ExpMode == "rep" then
+			elseif (event == "UPDATE_FACTION" or event == "PLAYER_ENTERING_WORLD") and conf.ExpMode == "rep" then
 				local standing
 				repname, standing, minrep, maxrep, currep = GetWatchedFactionInfo()
 				if not repname then repname = NONE end
@@ -1824,12 +1860,12 @@ if loot.enabled then
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddLine(OPTION_TOOLTIP_AUTO_LOOT_DEFAULT, 1, 1, 1, 1)
 			GameTooltip:Show()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(1)
 			end
 		end,
 		OnLeave = function()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(0)
 			end
 		end,
@@ -1839,6 +1875,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Helm
 ----------------------------------------------------------------------------------------
+--[[
 if helm.enabled then
 	Inject("Helm", {
 		OnLoad = function(self) RegEvents(self, "PLAYER_LOGIN CVAR_UPDATE") end,
@@ -1847,6 +1884,7 @@ if helm.enabled then
 				self.text:SetText(format(helm.fmt, "|cff55ff55"..L_STATS_ON.."|r"))
 			else
 				self.text:SetText(format(helm.fmt, "|cffff5555"..strupper(OFF).."|r"))
+
 			end
 		end,
 		OnClick = function(self, button)
@@ -1857,6 +1895,8 @@ if helm.enabled then
 				else
 					ShowHelm(true)
 					self.text:SetText(format(helm.fmt, "|cff55ff55"..L_STATS_ON.."|r"))
+
+
 				end
 			end
 		end,
@@ -1867,21 +1907,26 @@ if helm.enabled then
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddLine(OPTION_TOOLTIP_SHOW_HELM, 1, 1, 1)
 			GameTooltip:Show()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(1)
+
 			end
 		end,
 		OnLeave = function()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(0)
+
 			end
 		end,
+
 	})
 end
 
+--]]
 ----------------------------------------------------------------------------------------
 --	Cloak
 ----------------------------------------------------------------------------------------
+--[[
 if cloak.enabled then
 	Inject("Cloak", {
 		OnLoad = function(self) RegEvents(self, "PLAYER_LOGIN CVAR_UPDATE") end,
@@ -1890,6 +1935,7 @@ if cloak.enabled then
 				self.text:SetText(format(cloak.fmt, "|cff55ff55"..L_STATS_ON.."|r"))
 			else
 				self.text:SetText(format(cloak.fmt, "|cffff5555"..strupper(OFF).."|r"))
+
 			end
 		end,
 		OnClick = function(self, button)
@@ -1900,6 +1946,8 @@ if cloak.enabled then
 				else
 					ShowCloak(true)
 					self.text:SetText(format(cloak.fmt, "|cff55ff55"..L_STATS_ON.."|r"))
+
+
 				end
 			end
 		end,
@@ -1910,18 +1958,22 @@ if cloak.enabled then
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddLine(OPTION_TOOLTIP_SHOW_CLOAK, 1, 1, 1)
 			GameTooltip:Show()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(1)
+
 			end
 		end,
 		OnLeave = function()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(0)
+
 			end
 		end,
+
 	})
 end
 
+--]]
 ----------------------------------------------------------------------------------------
 --	Nameplates
 ----------------------------------------------------------------------------------------
@@ -1953,12 +2005,12 @@ if nameplates.enabled then
 			GameTooltip:AddLine(" ")
 			GameTooltip:AddLine(OPTION_TOOLTIP_UNIT_NAMEPLATES_ALLOW_OVERLAP, 1, 1, 1, 1)
 			GameTooltip:Show()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(1)
 			end
 		end,
 		OnLeave = function()
-			if Viks.toppanel.enable == true and Viks.toppanel.mouseover == true then
+			if C.toppanel.enable == true and C.toppanel.mouseover == true then
 				TopPanel:SetAlpha(0)
 			end
 		end,

@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	AlertFrames skin
@@ -9,7 +9,7 @@ local function LoadSkin()
 		if f:GetObjectType() == "AnimationGroup" then
 			f = f:GetParent()
 		end
-		f.backdrop:SetBackdropColor(unpack(Viks.media.overlay_color))
+		f.backdrop:SetBackdropColor(unpack(C.media.overlay_color))
 	end
 
 	local function SkinAchievePopUp()
@@ -41,9 +41,9 @@ local function LoadSkin()
 
 				-- Text
 				_G["AchievementAlertFrame"..i.."Name"]:SetTextColor(1, 0.8, 0)
-				_G["AchievementAlertFrame"..i.."Name"]:SetFont(Viks.media.font, 11)
+				_G["AchievementAlertFrame"..i.."Name"]:SetFont(C.media.normal_font, 11)
 				_G["AchievementAlertFrame"..i.."Unlocked"]:SetTextColor(1, 1, 1)
-				_G["AchievementAlertFrame"..i.."Unlocked"]:SetFont(Viks.media.font, 11)
+				_G["AchievementAlertFrame"..i.."Unlocked"]:SetFont(C.media.normal_font, 11)
 
 				-- Icon
 				_G["AchievementAlertFrame"..i.."IconTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -62,7 +62,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetAchievementAnchors", SkinAchievePopUp)
+	--hooksecurefunc("AlertFrame_SetAchievementAnchors", SkinAchievePopUp)
 
 	local function SkinDungeonPopUp()
 		for i = 1, DUNGEON_COMPLETION_MAX_REWARDS do
@@ -114,8 +114,8 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetDungeonCompletionAnchors", SkinDungeonPopUp)
-
+	--hooksecurefunc("AlertFrame_SetDungeonCompletionAnchors", SkinDungeonPopUp)
+--[[
 	hooksecurefunc("DungeonCompletionAlertFrame_ShowAlert", function()
 		local frame = DungeonCompletionAlertFrame1Reward1
 		local index = 1
@@ -142,7 +142,7 @@ local function LoadSkin()
 			frame = _G["DungeonCompletionAlertFrame1Reward"..index]
 		end
 	end)
-
+--]]
 	local function SkinGuildChallengePopUp()
 		local frame = _G["GuildChallengeAlertFrame"]
 
@@ -183,7 +183,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetGuildChallengeAnchors", SkinGuildChallengePopUp)
+	--hooksecurefunc("AlertFrame_SetGuildChallengeAnchors", SkinGuildChallengePopUp)
 
 	local function SkinChallengePopUp()
 		local frame = _G["ChallengeModeAlertFrame1"]
@@ -226,7 +226,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetChallengeModeAnchors", SkinChallengePopUp)
+	--hooksecurefunc("AlertFrame_SetChallengeModeAnchors", SkinChallengePopUp)
 
 	local function SkinScenarioPopUp()
 		local frame = _G["ScenarioAlertFrame1"]
@@ -269,7 +269,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetScenarioAnchors", SkinScenarioPopUp)
+	--hooksecurefunc("AlertFrame_SetScenarioAnchors", SkinScenarioPopUp)
 
 	local function SkinCriteriaPopUp()
 		for i = 1, MAX_ACHIEVEMENT_ALERTS do
@@ -319,7 +319,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetCriteriaAnchors", SkinCriteriaPopUp)
+	--hooksecurefunc("AlertFrame_SetCriteriaAnchors", SkinCriteriaPopUp)
 
 	local function SkinLootWonPopUp()
 		for i = 1, #LOOT_WON_ALERT_FRAMES do
@@ -376,7 +376,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetLootWonAnchors", SkinLootWonPopUp)
+	--hooksecurefunc("AlertFrame_SetLootWonAnchors", SkinLootWonPopUp)
 
 	local function SkinMoneyWonPopUp()
 		for i = 1, #MONEY_WON_ALERT_FRAMES do
@@ -414,7 +414,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetMoneyWonAnchors", SkinMoneyWonPopUp)
+	--hooksecurefunc("AlertFrame_SetMoneyWonAnchors", SkinMoneyWonPopUp)
 
 	local function DigsiteCompleteToastPopUp()
 		local frame = _G["DigsiteCompleteToastFrame"]
@@ -441,7 +441,7 @@ local function LoadSkin()
 			_G["DigsiteCompleteToastFrameShine"]:Kill()
 		end
 	end
-	hooksecurefunc("AlertFrame_SetDigsiteCompleteToastFrameAnchors", DigsiteCompleteToastPopUp)
+	--hooksecurefunc("AlertFrame_SetDigsiteCompleteToastFrameAnchors", DigsiteCompleteToastPopUp)
 
 	local function SkinStorePurchasePopUp()
 		local frame = _G["StorePurchaseAlertFrame"]
@@ -479,7 +479,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetStorePurchaseAnchors", SkinStorePurchasePopUp)
+	--hooksecurefunc("AlertFrame_SetStorePurchaseAnchors", SkinStorePurchasePopUp)
 
 	local function SkinLootUpgradePopUp()
 		for i = 1, #LOOT_UPGRADE_ALERT_FRAMES do
@@ -523,7 +523,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetLootUpgradeFrameAnchors", SkinLootUpgradePopUp)
+	--hooksecurefunc("AlertFrame_SetLootUpgradeFrameAnchors", SkinLootUpgradePopUp)
 
 	local function SkinGarrisonBuildingPopUp()
 		local frame = _G["GarrisonBuildingAlertFrame"]
@@ -562,7 +562,7 @@ local function LoadSkin()
 			end
 		end
 	end
-	hooksecurefunc("AlertFrame_SetGarrisonBuildingAlertFrameAnchors", SkinGarrisonBuildingPopUp)
+	--hooksecurefunc("AlertFrame_SetGarrisonBuildingAlertFrameAnchors", SkinGarrisonBuildingPopUp)
 
 	local function SkinGarrisonMissionPopUp()
 		local frame = _G["GarrisonMissionAlertFrame"]
@@ -589,7 +589,7 @@ local function LoadSkin()
 			frame.Background:Kill()
 		end
 	end
-	hooksecurefunc("AlertFrame_SetGarrisonMissionAlertFrameAnchors", SkinGarrisonMissionPopUp)
+	--hooksecurefunc("AlertFrame_SetGarrisonMissionAlertFrameAnchors", SkinGarrisonMissionPopUp)
 
 	local function SkinGarrisonShipMissionPopUp()
 		local frame = _G["GarrisonShipMissionAlertFrame"]
@@ -615,7 +615,7 @@ local function LoadSkin()
 			frame.Background:Kill()
 		end
 	end
-	hooksecurefunc("AlertFrame_SetGarrisonShipMissionAlertFrameAnchors", SkinGarrisonShipMissionPopUp)
+	--hooksecurefunc("AlertFrame_SetGarrisonShipMissionAlertFrameAnchors", SkinGarrisonShipMissionPopUp)
 
 	local function SkinGarrisonFollowerPopUp()
 		local frame = _G["GarrisonFollowerAlertFrame"]
@@ -643,7 +643,7 @@ local function LoadSkin()
 			frame.PortraitFrame:SetPoint("LEFT", 23, 0)
 		end
 	end
-	hooksecurefunc("AlertFrame_SetGarrisonFollowerAlertFrameAnchors", SkinGarrisonFollowerPopUp)
+	--hooksecurefunc("AlertFrame_SetGarrisonFollowerAlertFrameAnchors", SkinGarrisonFollowerPopUp)
 
 	local function SkinGarrisonShipFollowerPopUp()
 		local frame = _G["GarrisonShipFollowerAlertFrame"]
@@ -669,7 +669,7 @@ local function LoadSkin()
 			frame.Background:Kill()
 		end
 	end
-	hooksecurefunc("AlertFrame_SetGarrisonShipFollowerAlertFrameAnchors", SkinGarrisonShipFollowerPopUp)
+	--hooksecurefunc("AlertFrame_SetGarrisonShipFollowerAlertFrameAnchors", SkinGarrisonShipFollowerPopUp)
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

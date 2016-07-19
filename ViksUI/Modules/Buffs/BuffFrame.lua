@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.aura.player_auras ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.aura.player_auras ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Style player buff(by Tukz)
@@ -19,26 +19,26 @@ end
 
 local BuffsAnchor = CreateFrame("Frame", "BuffsAnchor", UIParent)
 BuffsAnchor:SetPoint("TOPRIGHT", AnchorBuff)
-BuffsAnchor:SetSize((15 * Viks.aura.player_buff_size) + 42, (Viks.aura.player_buff_size * 2) + 3)
+BuffsAnchor:SetSize((15 * C.aura.player_buff_size) + 42, (C.aura.player_buff_size * 2) + 3)
 
 
-ConsolidatedBuffs:ClearAllPoints()
-ConsolidatedBuffs:SetPoint("TOPRIGHT", BuffsAnchor, "TOPRIGHT", 0, 0)
-ConsolidatedBuffs:SetSize(Viks.aura.player_buff_size, Viks.aura.player_buff_size)
-ConsolidatedBuffs.SetPoint = T.dummy
-ConsolidatedBuffs:CreateBackdrop("Default")
-ConsolidatedBuffs.backdrop:SetAllPoints()
+--ConsolidatedBuffs:ClearAllPoints()
+--ConsolidatedBuffs:SetPoint("TOPRIGHT", BuffsAnchor, "TOPRIGHT", 0, 0)
+--ConsolidatedBuffs:SetSize(C.aura.player_buff_size, C.aura.player_buff_size)
+--ConsolidatedBuffs.SetPoint = T.dummy
+--ConsolidatedBuffs:CreateBackdrop("Default")
+--ConsolidatedBuffs.backdrop:SetAllPoints()
 
-if Viks.aura.classcolor_border == true then
-	ConsolidatedBuffs.backdrop:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
+if C.aura.classcolor_border == true then
+	--ConsolidatedBuffs.backdrop:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
 end
 
-ConsolidatedBuffsIcon:SetTexCoord(0.16, 0.34, 0.29, 0.7)
-ConsolidatedBuffsIcon:SetSize(Viks.aura.player_buff_size - 4, Viks.aura.player_buff_size - 4)
+--ConsolidatedBuffsIcon:SetTexCoord(0.16, 0.34, 0.29, 0.7)
+--ConsolidatedBuffsIcon:SetSize(C.aura.player_buff_size - 4, C.aura.player_buff_size - 4)
 
-ConsolidatedBuffsCount:SetPoint("BOTTOMRIGHT", 0, 1)
-ConsolidatedBuffsCount:SetFont(Viks.font.auras_font, Viks.font.auras_font_size, Viks.font.auras_font_style)
-ConsolidatedBuffsCount:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+--ConsolidatedBuffsCount:SetPoint("BOTTOMRIGHT", 0, 1)
+--ConsolidatedBuffsCount:SetFont(C.font.auras_font, C.font.auras_font_size, C.font.auras_font_style)
+--ConsolidatedBuffsCount:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 
 
 
@@ -52,12 +52,12 @@ for i = 1, NUM_TEMP_ENCHANT_FRAMES do
 
 	if i ~= 3 then
 		buff:SetTemplate("Default")
-		if Viks.aura.classcolor_border == true then
+		if C.aura.classcolor_border == true then
 			buff:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
 		end
 	end
 
-	buff:SetSize(Viks.aura.player_buff_size, Viks.aura.player_buff_size)
+	buff:SetSize(C.aura.player_buff_size, C.aura.player_buff_size)
 
 	icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	icon:SetPoint("TOPLEFT", buff, 2, -2)
@@ -67,8 +67,8 @@ for i = 1, NUM_TEMP_ENCHANT_FRAMES do
 	duration:ClearAllPoints()
 	duration:SetPoint("CENTER", 2, 1)
 	duration:SetDrawLayer("ARTWORK")
-	duration:SetFont(Viks.font.auras_font, Viks.font.auras_font_size, Viks.font.auras_font_style)
-	duration:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+	duration:SetFont(C.font.auras_font, C.font.auras_font_size, C.font.auras_font_style)
+	duration:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 
 	_G["TempEnchant2"]:ClearAllPoints()
 	_G["TempEnchant2"]:SetPoint("RIGHT", _G["TempEnchant1"], "LEFT", -3, 0)
@@ -85,11 +85,11 @@ local function StyleBuffs(buttonName, index)
 
 	if icon and not buff.isSkinned then
 		buff:SetTemplate("Default")
-		if Viks.aura.classcolor_border == true then
+		if C.aura.classcolor_border == true then
 			buff:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
 		end
 		
-		buff:SetSize(Viks.aura.player_buff_size, Viks.aura.player_buff_size)
+		buff:SetSize(C.aura.player_buff_size, C.aura.player_buff_size)
 
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		icon:SetPoint("TOPLEFT", buff, 2, -2)
@@ -99,14 +99,14 @@ local function StyleBuffs(buttonName, index)
 		duration:ClearAllPoints()
 		duration:SetPoint("CENTER", 2, 1)
 		duration:SetDrawLayer("ARTWORK")
-		duration:SetFont(Viks.font.auras_font, Viks.font.auras_font_size, Viks.font.auras_font_style)
-		duration:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+		duration:SetFont(C.font.auras_font, C.font.auras_font_size, C.font.auras_font_style)
+		duration:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 
 		count:ClearAllPoints()
 		count:SetPoint("BOTTOMRIGHT", 2, 0)
 		count:SetDrawLayer("ARTWORK")
-		count:SetFont(Viks.font.auras_font, Viks.font.auras_font_size, Viks.font.auras_font_style)
-		count:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+		count:SetFont(C.font.auras_font, C.font.auras_font_size, C.font.auras_font_style)
+		count:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 
 		buff.isSkinned = true
 	end
@@ -119,15 +119,16 @@ local function StyleDeBuffs(buttonName, index)
 	local border = _G[buttonName..index.."Border"]
 	local duration = _G[buttonName..index.."Duration"]
 	local count = _G[buttonName..index.."Count"]
-	local dtype = select(5, UnitDebuff("player",i))  
-	local color = DebuffTypeColor[dtype or "none"]
+	--local dtype = select(5, UnitDebuff("player",i))
+	--local dtype, _, _, _, debuffType, _, _, _, _, _, _, _, _ = UnitDebuff("player", i)	
+	--local color = 1,1,1
 	
 	if border then border:Hide() end
 
 	if icon and not buff.isSkinned then
 		buff:SetTemplate("Default")
-		buff:SetBackdropBorderColor(color.r * 3/5, color.g * 3/5, color.b * 3/5)
-		buff:SetSize(Viks.aura.player_buff_size*1.5, Viks.aura.player_buff_size*1.5)
+		buff:SetBackdropBorderColor(1 * 3/5, 0 * 3/5, 0 * 3/5)
+		buff:SetSize(C.aura.player_buff_size*1.5, C.aura.player_buff_size*1.5)
 
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		icon:SetPoint("TOPLEFT", buff, 2, -2)
@@ -137,14 +138,14 @@ local function StyleDeBuffs(buttonName, index)
 		duration:ClearAllPoints()
 		duration:SetPoint("CENTER", 2, 1)
 		duration:SetDrawLayer("ARTWORK")
-		duration:SetFont(Viks.font.auras_font, Viks.font.auras_font_size*2, Viks.font.auras_font_style)
-		duration:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+		duration:SetFont(C.font.auras_font, C.font.auras_font_size*2, C.font.auras_font_style)
+		duration:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 
 		count:ClearAllPoints()
 		count:SetPoint("BOTTOMRIGHT", 2, 0)
 		count:SetDrawLayer("ARTWORK")
-		count:SetFont(Viks.font.auras_font, Viks.font.auras_font_size*2, Viks.font.auras_font_style)
-		count:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+		count:SetFont(C.font.auras_font, C.font.auras_font_size*2, C.font.auras_font_style)
+		count:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 
 		buff.isSkinned = true
 	end
@@ -158,7 +159,7 @@ end
 
 local function UpdateDuration(auraButton, timeLeft)
 	local duration = auraButton.duration
-	if timeLeft and Viks.aura.show_timer == true then
+	if timeLeft and C.aura.show_timer == true then
 		duration:SetFormattedText(GetFormattedTime(timeLeft))
 		duration:SetVertexColor(1, 1, 1)
 		duration:Show()
@@ -175,9 +176,9 @@ local function UpdateBuffAnchors()
 	local slack = BuffFrame.numEnchants
 	local mainhand, _, _, offhand = GetWeaponEnchantInfo()
 
-	if ShouldShowConsolidatedBuffFrame() then
-		slack = slack + 1
-	end
+	--if ShouldShowConsolidatedBuffFrame() then
+		--slack = slack + 1
+	--end
 
 	for index = 1, BUFF_ACTUAL_DISPLAY do
 		StyleBuffs(buttonName, index)

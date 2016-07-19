@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local ADDON_NAME, ns = ...
 local oUF = ns.oUF or oUF
 local lib = CreateFrame("Frame")
@@ -41,17 +41,17 @@ InBGFrame:RegisterEvent("PARTY_MEMBERS_CHANGED");
 local function eventHandler(self, event, ...)
 	numpeeps = GetNumRaidMembers();
 	if     (numpeeps == 0 ) then --Not in a raid
-		local WidthRaid = Viks.raidframes.width-0;
-		local HightRaid = Viks.raidframes.height-0;
+		local WidthRaid = C.raidframes.width-0;
+		local HightRaid = C.raidframes.height-0;
 	elseif (numpeeps <= 5 ) then --Regular group - large frames.
-		local WidthRaid = Viks.raidframes.width-0;
-		local HightRaid = Viks.raidframes.height-0;
+		local WidthRaid = C.raidframes.width-0;
+		local HightRaid = C.raidframes.height-0;
 	elseif (numpeeps <= 15) then --Small raid/BG - medium frames.
-		local WidthRaid = Viks.raidframes.width/2;
-		local HightRaid = Viks.raidframes.height;
+		local WidthRaid = C.raidframes.width/2;
+		local HightRaid = C.raidframes.height;
 	else                         --Large raid/BG - small frames.
-		local WidthRaid = Viks.raidframes.width/3;
-		local HightRaid = Viks.raidframes.height/2;
+		local WidthRaid = C.raidframes.width/3;
+		local HightRaid = C.raidframes.height/2;
 	end
 end
 InBGFrame:SetScript("OnEvent", eventHandler);
@@ -62,79 +62,33 @@ local function updateHealbar(object)
     object.myHealPredictionBar:ClearAllPoints()
     object.otherHealPredictionBar:ClearAllPoints()
 
-    if Viks.raidframes.orientation == "VERTICAL" then
+    if C.raidframes.orientation == "VERTICAL" then
         object.myHealPredictionBar:SetPoint("BOTTOMLEFT", object.Health:GetStatusBarTexture(), "TOPLEFT", 0, 0)
         object.myHealPredictionBar:SetPoint("BOTTOMRIGHT", object.Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-        object.myHealPredictionBar:SetSize(0, Viks.raidframes.height)
+        object.myHealPredictionBar:SetSize(0, C.raidframes.height)
         object.myHealPredictionBar:SetOrientation"VERTICAL"
 
         object.otherHealPredictionBar:SetPoint("BOTTOMLEFT", object.myHealPredictionBar:GetStatusBarTexture(), "TOPLEFT", 0, 0)
         object.otherHealPredictionBar:SetPoint("BOTTOMRIGHT", object.myHealPredictionBar:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-        object.otherHealPredictionBar:SetSize(0, Viks.raidframes.height)
+        object.otherHealPredictionBar:SetSize(0, C.raidframes.height)
         object.otherHealPredictionBar:SetOrientation"VERTICAL"
     else
         object.myHealPredictionBar:SetPoint("TOPLEFT", object.Health:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
         object.myHealPredictionBar:SetPoint("BOTTOMLEFT", object.Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-        object.myHealPredictionBar:SetSize(Viks.raidframes.width, 0)
+        object.myHealPredictionBar:SetSize(C.raidframes.width, 0)
         object.myHealPredictionBar:SetOrientation"HORIZONTAL"
 
         object.otherHealPredictionBar:SetPoint("TOPLEFT", object.myHealPredictionBar:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
         object.otherHealPredictionBar:SetPoint("BOTTOMLEFT", object.myHealPredictionBar:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-        object.otherHealPredictionBar:SetSize(Viks.raidframes.width, 0)
+        object.otherHealPredictionBar:SetSize(C.raidframes.width, 0)
         object.otherHealPredictionBar:SetOrientation"HORIZONTAL"
     end
 
-    object.myHealPredictionBar:GetStatusBarTexture():SetTexture(unpack(Viks.raidframes.myhealcolor))
-    object.otherHealPredictionBar:GetStatusBarTexture():SetTexture(unpack(Viks.raidframes.otherhealcolor))
+    object.myHealPredictionBar:GetStatusBarTexture():SetColorTexture(unpack(C.raidframes.myhealcolor))
+    object.otherHealPredictionBar:GetStatusBarTexture():SetColorTexture(unpack(C.raidframes.otherhealcolor))
 end
 
--- Unit Menu
-local dropdown = CreateFrame('Frame', ADDON_NAME .. 'DropDown', UIParent, 'UIDropDownMenuTemplate')
 
-local function menu(self)
-    dropdown:SetParent(self)
-    return ToggleDropDownMenu(1, nil, dropdown, 'cursor', 0, 0)
-end
-
-local init = function(self)
-    if Viks.raidframes.hidemenu and InCombatLockdown() then
-        return
-    end
-
-    local unit = self:GetParent().unit
-    local menu, name, id
-
-    if(not unit) then
-        return
-    end
-
-    if(UnitIsUnit(unit, "player")) then
-        menu = "SELF"
-    elseif(UnitIsUnit(unit, "vehicle")) then
-        menu = "VEHICLE"
-    elseif(UnitIsUnit(unit, "pet")) then
-        menu = "PET"
-    elseif(UnitIsPlayer(unit)) then
-        id = UnitInRaid(unit)
-        if(id) then
-            menu = "RAID_PLAYER"
-            name = GetRaidRosterInfo(id)
-        elseif(UnitInParty(unit)) then
-            menu = "PARTY"
-        else
-            menu = "PLAYER"
-        end
-    else
-        menu = "TARGET"
-        name = RAID_TARGET_ICON
-    end
-
-    if(menu) then
-        UnitPopup_ShowMenu(self, menu, unit, name, id)
-    end
-end
-
-UIDropDownMenu_Initialize(dropdown, init, 'MENU')
 
 local backdrop = {
     bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
@@ -142,7 +96,7 @@ local backdrop = {
 }
 
 local border = {
-    bgFile = [=[Interface\AddOns\ViksUI\Media\textures\white2.tga]=],
+    bgFile = [=[Interface\AddOns\ViksUI\Media\textures\white2]=],
     insets = {top = -2, left = -2, bottom = -2, right = -2},
 }
 
@@ -152,7 +106,7 @@ local border2 = {
 }
 -- Show Target Border
 local ChangedTarget = function(self)
-    if Viks.raidframes.tborder and UnitIsUnit('target', self.unit) then
+    if C.raidframes.tborder and UnitIsUnit('target', self.unit) then
         self.TargetBorder:Show()
     else
         self.TargetBorder:Hide()
@@ -161,7 +115,7 @@ end
 
 -- Show Focus Border
 local FocusTarget = function(self)
-    if Viks.raidframes.fborder and UnitIsUnit('focus', self.unit) then
+    if C.raidframes.fborder and UnitIsUnit('focus', self.unit) then
         self.FocusHighlight:Show()
     else
         self.FocusHighlight:Hide()
@@ -217,7 +171,7 @@ function ns:UpdateName(name, unit)
             substring = utf8sub(_NAME, 1, length)
             name:SetText(substring)
 
-            if name:GetStringWidth() <= Viks.raidframes.width - 8 then name:SetText(nil); break end
+            if name:GetStringWidth() <= C.raidframes.width - 8 then name:SetText(nil); break end
 			end
 
 
@@ -235,8 +189,8 @@ local function PostHealth(hp, unit)
         ns:UpdateName(self.Name, unit)
     end
 		
-    if Viks.raidframes.definecolors and hp.colorSmooth then
-        hp.bg:SetVertexColor(unpack(Viks.raidframes.hpbgcolor))
+    if C.raidframes.definecolors and hp.colorSmooth then
+        hp.bg:SetVertexColor(unpack(C.raidframes.hpbgcolor))
         return
     end
 
@@ -246,9 +200,9 @@ local function PostHealth(hp, unit)
         hp:SetStatusBarColor(r*.2, g*.2, b*.2)
         hp.bg:SetVertexColor(r, g, b)
         return
-    elseif Viks.raidframes.definecolors then
-        hp.bg:SetVertexColor(unpack(Viks.raidframes.hpbgcolor))
-        hp:SetStatusBarColor(unpack(Viks.raidframes.hpcolor))
+    elseif C.raidframes.definecolors then
+        hp.bg:SetVertexColor(unpack(C.raidframes.hpbgcolor))
+        hp:SetStatusBarColor(unpack(C.raidframes.hpcolor))
         return 
     end
 
@@ -265,7 +219,7 @@ local function PostHealth(hp, unit)
     end
 
     if(b) then
-        if Viks.raidframes.reversecolors then
+        if C.raidframes.reversecolors then
             hp.bg:SetVertexColor(r*.2, g*.2, b*.2)
             hp:SetStatusBarColor(r, g, b)
         else
@@ -276,28 +230,28 @@ local function PostHealth(hp, unit)
 end
 
 function ns:UpdateHealth(hp)
-    hp:SetStatusBarTexture(Viks.media.texture)
-    hp:SetOrientation(Viks.raidframes.orientation)
-    hp.bg:SetTexture(Viks.media.texture)
+    hp:SetStatusBarTexture(C.media.texture)
+    hp:SetOrientation(C.raidframes.orientation)
+    hp.bg:SetTexture(C.media.texture)
     hp.Smooth = true
 
-    hp.colorSmooth = Viks.raidframes.colorSmooth
+    hp.colorSmooth = C.raidframes.colorSmooth
     hp.smoothGradient = { 
-        unpack(Viks.raidframes.gradient),
-        unpack(Viks.raidframes.hpcolor),
+        unpack(C.raidframes.gradient),
+        unpack(C.raidframes.hpcolor),
     }
 
-    if not Viks.raidframes.powerbar then
-        hp:SetHeight(Viks.raidframes.height)
-        hp:SetWidth(Viks.raidframes.width)
+    if not C.raidframes.powerbar then
+        hp:SetHeight(C.raidframes.height)
+        hp:SetWidth(C.raidframes.width)
     end
 
     hp:ClearAllPoints()
     hp:SetPoint"TOP"
-    if Viks.raidframes.orientation == "VERTICAL" and Viks.raidframes.porientation == "VERTICAL" then
+    if C.raidframes.orientation == "VERTICAL" and C.raidframes.porientation == "VERTICAL" then
         hp:SetPoint"LEFT"
         hp:SetPoint"BOTTOM"
-    elseif Viks.raidframes.orientation == "HORIZONTAL" and Viks.raidframes.porientation == "VERTICAL" then
+    elseif C.raidframes.orientation == "HORIZONTAL" and C.raidframes.porientation == "VERTICAL" then
         hp:SetPoint"RIGHT"
         hp:SetPoint"BOTTOM"
     else
@@ -313,19 +267,19 @@ local function PostPower(power, unit)
 
     if ptype == 'MANA' then
         power:Show()
-        if(Viks.raidframes.porientation == "VERTICAL")then
-            power:SetWidth(Viks.raidframes.width*Viks.raidframes.powerbarsize)
-            self.Health:SetWidth((0.98 - Viks.raidframes.powerbarsize)*Viks.raidframes.width)
+        if(C.raidframes.porientation == "VERTICAL")then
+            power:SetWidth(C.raidframes.width*C.raidframes.powerbarsize)
+            self.Health:SetWidth((0.98 - C.raidframes.powerbarsize)*C.raidframes.width)
         else
-            power:SetHeight(Viks.raidframes.height*Viks.raidframes.powerbarsize)
-            self.Health:SetHeight((0.98 - Viks.raidframes.powerbarsize)*Viks.raidframes.height)
+            power:SetHeight(C.raidframes.height*C.raidframes.powerbarsize)
+            self.Health:SetHeight((0.98 - C.raidframes.powerbarsize)*C.raidframes.height)
         end
     else
         power:Hide()
-        if(Viks.raidframes.porientation == "VERTICAL")then
-            self.Health:SetWidth(Viks.raidframes.width)
+        if(C.raidframes.porientation == "VERTICAL")then
+            self.Health:SetWidth(C.raidframes.width)
         else
-            self.Health:SetHeight(Viks.raidframes.height)
+            self.Health:SetHeight(C.raidframes.height)
         end
     end
 
@@ -339,14 +293,14 @@ local function PostPower(power, unit)
         updateThreat(self, nil, unit)
    -- end
 
-    if Viks.raidframes.powerdefinecolors then
-        power.bg:SetVertexColor(unpack(Viks.raidframes.powerbgcolor))
-        power:SetStatusBarColor(unpack(Viks.raidframes.powercolor))
+    if C.raidframes.powerdefinecolors then
+        power.bg:SetVertexColor(unpack(C.raidframes.powerbgcolor))
+        power:SetStatusBarColor(unpack(C.raidframes.powercolor))
         return
     end
 
     local r, g, b, t
-    t = Viks.raidframes.powerclass and colors.class[class] or colors.power[ptype]
+    t = C.raidframes.powerclass and colors.class[class] or colors.power[ptype]
 
     if(t) then
         r, g, b = t[1], t[2], t[3]
@@ -355,7 +309,7 @@ local function PostPower(power, unit)
     end
 
     if(b) then
-        if Viks.raidframes.reversecolors or Viks.raidframes.powerclass then
+        if C.raidframes.reversecolors or C.raidframes.powerclass then
             power.bg:SetVertexColor(r*.2, g*.2, b*.2)
             power:SetStatusBarColor(r, g, b)
         else
@@ -366,7 +320,7 @@ local function PostPower(power, unit)
 end
 
 function ns:UpdatePower(power)
-    if Viks.raidframes.powerbar then
+    if C.raidframes.powerbar then
         power:Show()
         power.PostUpdate = PostPower
     else
@@ -374,16 +328,16 @@ function ns:UpdatePower(power)
         power.PostUpdate = nil
         return
     end
-    power:SetStatusBarTexture(Viks.media.texture)
-    power:SetOrientation(Viks.raidframes.porientation)
-    power.bg:SetTexture(Viks.media.texture)
+    power:SetStatusBarTexture(C.media.texture)
+    power:SetOrientation(C.raidframes.porientation)
+    power.bg:SetTexture(C.media.texture)
 
     power:ClearAllPoints()
-    if Viks.raidframes.orientation == "HORIZONTAL" and Viks.raidframes.porientation == "VERTICAL" then
+    if C.raidframes.orientation == "HORIZONTAL" and C.raidframes.porientation == "VERTICAL" then
         power:SetPoint"LEFT"
         power:SetPoint"TOP"
         power:SetPoint"BOTTOM"
-    elseif Viks.raidframes.porientation == "VERTICAL" then
+    elseif C.raidframes.porientation == "VERTICAL" then
         power:SetPoint"TOP"
         power:SetPoint"RIGHT"
         power:SetPoint"BOTTOM"
@@ -396,19 +350,19 @@ end
 
 -- Show Mouseover highlight
 local OnEnter = function(self)
-    if Viks.raidframes.tooltip then
+    if C.raidframes.tooltip then
         UnitFrame_OnEnter(self)
     else
         GameTooltip:Hide()
     end
 
-    if Viks.raidframes.highlight then
+    if C.raidframes.highlight then
         self.Highlight:Show()
     end
 end
 
 local OnLeave = function(self)
-    if Viks.raidframes.tooltip then
+    if C.raidframes.tooltip then
         UnitFrame_OnLeave(self)
     end
     self.Highlight:Hide()
@@ -473,9 +427,9 @@ local style = function(self)
     local name = self.Health:CreateFontString(nil, "OVERLAY")
     name:SetPoint("CENTER")
     name:SetJustifyH("CENTER")
-    name:SetFont(Viks.media.font, Viks.raidframes.fontsize, Viks.raidframes.outline)
+    name:SetFont(C.media.normal_font, C.raidframes.fontsize, C.raidframes.outline)
     name:SetShadowOffset(1.25, -1.25)
-    name:SetWidth(Viks.raidframes.width)
+    name:SetWidth(C.raidframes.width)
     name.overrideUnit = true
     self.Name = name
     self:Tag(self.Name, '[color][name]')
@@ -492,7 +446,7 @@ local style = function(self)
     -- Highlight tex
     local hl = self.Health:CreateTexture(nil, "OVERLAY")
     hl:SetAllPoints(self)
-    hl:SetTexture([=[Interface\AddOns\ViksUI\Media\textures\white2.tga]=])
+    hl:SetTexture([=[Interface\AddOns\ViksUI\Media\textures\white2]=])
     hl:SetVertexColor(1,1,1,.1)
     hl:SetBlendMode("ADD")
     hl:Hide()
@@ -522,26 +476,26 @@ local style = function(self)
     local ricon = self.Health:CreateTexture(nil, 'OVERLAY')
     ricon:SetPoint("TOP", self, 0, 5)
 	ricon:SetTexture("Interface\\AddOns\\ViksUI\\Media\\Other\\raidicons")	
-    ricon:SetSize(Viks.raidframes.leadersize+2, Viks.raidframes.leadersize+2)
+    ricon:SetSize(C.raidframes.leadersize+2, C.raidframes.leadersize+2)
     self.RaidIcon = ricon
 
     -- Leader Icon
     self.Leader = self.Health:CreateTexture(nil, "OVERLAY")
     self.Leader:SetPoint("TOPLEFT", self, 0, 8)
-    self.Leader:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    self.Leader:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
 
     -- Assistant Icon
     self.Assistant = self.Health:CreateTexture(nil, "OVERLAY")
     self.Assistant:SetPoint("TOPLEFT", self, 0, 8)
-    self.Assistant:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    self.Assistant:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
 
     local masterlooter = self.Health:CreateTexture(nil, 'OVERLAY')
-    masterlooter:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    masterlooter:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
     masterlooter:SetPoint('LEFT', self.Leader, 'RIGHT')
     self.MasterLooter = masterlooter
 
     -- Role Icon
-    if Viks.raidframes.roleicon then
+    if C.raidframes.roleicon then
         local lfd = fs(self.Health, "OVERLAY", fontsymbol, 10, OUTLINE, 1, 1, 1)
 
 
@@ -561,18 +515,18 @@ local style = function(self)
     -- Range
     self.Range = {
 		insideAlpha = 1,
-		outsideAlpha = Viks.raidframes.outsideRange,	}
+		outsideAlpha = C.raidframes.outsideRange,	}
 		
     -- ReadyCheck
     self.ReadyCheck = self.Health:CreateTexture(nil, "OVERLAY")
     self.ReadyCheck:SetPoint("TOP", self)
-    self.ReadyCheck:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    self.ReadyCheck:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
 
     -- Auras
     local auras = CreateFrame("Frame", nil, self)
-    auras:SetSize(Viks.raidframes.aurasize, Viks.raidframes.aurasize)
+    auras:SetSize(C.raidframes.aurasize, C.raidframes.aurasize)
     auras:SetPoint("CENTER", self.Health)
-    auras.size = Viks.raidframes.aurasize
+    auras.size = C.raidframes.aurasize
     self.freebAuras = auras
 
     -- Add events
@@ -581,7 +535,7 @@ local style = function(self)
     self:RegisterEvent('PLAYER_TARGET_CHANGED', ChangedTarget)
     self:RegisterEvent('RAID_ROSTER_UPDATE', ChangedTarget)
 
-    self:SetScale(Viks.raidframes.scale)
+    self:SetScale(C.raidframes.scale)
 
     table.insert(ns._Objects, self)
 end
@@ -637,9 +591,9 @@ local style25 = function(self)
     local name = self.Health:CreateFontString(nil, "OVERLAY")
     name:SetPoint("CENTER")
     name:SetJustifyH("CENTER")
-    name:SetFont(Viks.media.font, Viks.raidframes.fontsize-2, Viks.raidframes.outline)
+    name:SetFont(C.media.normal_font, C.raidframes.fontsize-2, C.raidframes.outline)
     name:SetShadowOffset(1.25, -1.25)
-    name:SetWidth(Viks.raidframes.width25)
+    name:SetWidth(C.raidframes.width25)
     name.overrideUnit = true
     self.Name = name
     self:Tag(self.Name, '[color][name]')
@@ -656,7 +610,7 @@ local style25 = function(self)
     -- Highlight tex
     local hl = self.Health:CreateTexture(nil, "OVERLAY")
     hl:SetAllPoints(self)
-    hl:SetTexture([=[Interface\AddOns\ViksUI\Media\textures\white2.tga]=])
+    hl:SetTexture([=[Interface\AddOns\ViksUI\Media\textures\white2]=])
     hl:SetVertexColor(1,1,1,.1)
     hl:SetBlendMode("ADD")
     hl:Hide()
@@ -686,26 +640,26 @@ local style25 = function(self)
     local ricon = self.Health:CreateTexture(nil, 'OVERLAY')
     ricon:SetPoint("TOP", self, 0, 5)
 	ricon:SetTexture("Interface\\AddOns\\ViksUI\\Media\\Other\\raidicons")	
-    ricon:SetSize(Viks.raidframes.leadersize+2, Viks.raidframes.leadersize+2)
+    ricon:SetSize(C.raidframes.leadersize+2, C.raidframes.leadersize+2)
     self.RaidIcon = ricon
 
     -- Leader Icon
     self.Leader = self.Health:CreateTexture(nil, "OVERLAY")
     self.Leader:SetPoint("TOPLEFT", self, 0, 8)
-    self.Leader:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    self.Leader:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
 
     -- Assistant Icon
     self.Assistant = self.Health:CreateTexture(nil, "OVERLAY")
     self.Assistant:SetPoint("TOPLEFT", self, 0, 8)
-    self.Assistant:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    self.Assistant:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
 
     local masterlooter = self.Health:CreateTexture(nil, 'OVERLAY')
-    masterlooter:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    masterlooter:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
     masterlooter:SetPoint('LEFT', self.Leader, 'RIGHT')
     self.MasterLooter = masterlooter
 
     -- Role Icon
-    if Viks.raidframes.roleicon then
+    if C.raidframes.roleicon then
         local lfd = fs(self.Health, "OVERLAY", fontsymbol, 10, OUTLINE, 1, 1, 1)
 
 
@@ -725,18 +679,18 @@ local style25 = function(self)
     -- Range
     self.Range = {
 		insideAlpha = 1,
-		outsideAlpha = Viks.raidframes.outsideRange,	}
+		outsideAlpha = C.raidframes.outsideRange,	}
 		
     -- ReadyCheck
     self.ReadyCheck = self.Health:CreateTexture(nil, "OVERLAY")
     self.ReadyCheck:SetPoint("TOP", self)
-    self.ReadyCheck:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    self.ReadyCheck:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
 
     -- Auras
     local auras = CreateFrame("Frame", nil, self)
-    auras:SetSize(Viks.raidframes.aurasize, Viks.raidframes.aurasize)
+    auras:SetSize(C.raidframes.aurasize, C.raidframes.aurasize)
     auras:SetPoint("CENTER", self.Health)
-    auras.size = Viks.raidframes.aurasize
+    auras.size = C.raidframes.aurasize
     self.freebAuras = auras
 
     -- Add events
@@ -745,7 +699,7 @@ local style25 = function(self)
     self:RegisterEvent('PLAYER_TARGET_CHANGED', ChangedTarget)
     self:RegisterEvent('RAID_ROSTER_UPDATE', ChangedTarget)
 
-    self:SetScale(Viks.raidframes.scale)
+    self:SetScale(C.raidframes.scale)
 
     table.insert(ns._Objects, self)
 end
@@ -800,9 +754,9 @@ local style40 = function(self)
     local name = self.Health:CreateFontString(nil, "OVERLAY")
     name:SetPoint("CENTER")
     name:SetJustifyH("CENTER")
-    name:SetFont(Viks.media.font, Viks.raidframes.fontsize-3, Viks.raidframes.outline)
+    name:SetFont(C.media.normal_font, C.raidframes.fontsize-3, C.raidframes.outline)
     name:SetShadowOffset(1.25, -1.25)
-    name:SetWidth(Viks.raidframes.width40)
+    name:SetWidth(C.raidframes.width40)
     name.overrideUnit = true
     self.Name = name
     self:Tag(self.Name, '[color][name]')
@@ -819,7 +773,7 @@ local style40 = function(self)
     -- Highlight tex
     local hl = self.Health:CreateTexture(nil, "OVERLAY")
     hl:SetAllPoints(self)
-    hl:SetTexture([=[Interface\AddOns\ViksUI\Media\textures\white2.tga]=])
+    hl:SetTexture([=[Interface\AddOns\ViksUI\Media\textures\white2]=])
     hl:SetVertexColor(1,1,1,.1)
     hl:SetBlendMode("ADD")
     hl:Hide()
@@ -849,26 +803,26 @@ local style40 = function(self)
     local ricon = self.Health:CreateTexture(nil, 'OVERLAY')
     ricon:SetPoint("TOP", self, 0, 5)
 	ricon:SetTexture("Interface\\AddOns\\ViksUI\\Media\\Other\\raidicons")	
-    ricon:SetSize(Viks.raidframes.leadersize+2, Viks.raidframes.leadersize+2)
+    ricon:SetSize(C.raidframes.leadersize+2, C.raidframes.leadersize+2)
     self.RaidIcon = ricon
 
     -- Leader Icon
     self.Leader = self.Health:CreateTexture(nil, "OVERLAY")
     self.Leader:SetPoint("TOPLEFT", self, 0, 8)
-    self.Leader:SetSize(Viks.raidframes.leadersize-2, Viks.raidframes.leadersize-2)
+    self.Leader:SetSize(C.raidframes.leadersize-2, C.raidframes.leadersize-2)
 
     -- Assistant Icon
     self.Assistant = self.Health:CreateTexture(nil, "OVERLAY")
     self.Assistant:SetPoint("TOPLEFT", self, 0, 8)
-    self.Assistant:SetSize(Viks.raidframes.leadersize-2, Viks.raidframes.leadersize-2)
+    self.Assistant:SetSize(C.raidframes.leadersize-2, C.raidframes.leadersize-2)
 
     local masterlooter = self.Health:CreateTexture(nil, 'OVERLAY')
-    masterlooter:SetSize(Viks.raidframes.leadersize-2, Viks.raidframes.leadersize-2)
+    masterlooter:SetSize(C.raidframes.leadersize-2, C.raidframes.leadersize-2)
     masterlooter:SetPoint('LEFT', self.Leader, 'RIGHT')
     self.MasterLooter = masterlooter
 
     -- Role Icon
-    if Viks.raidframes.roleicon then
+    if C.raidframes.roleicon then
         local lfd = fs(self.Health, "OVERLAY", fontsymbol, 10, OUTLINE, 1, 1, 1)
 
 
@@ -888,18 +842,18 @@ local style40 = function(self)
     -- Range
     self.Range = {
 		insideAlpha = 1,
-		outsideAlpha = Viks.raidframes.outsideRange,	}
+		outsideAlpha = C.raidframes.outsideRange,	}
 		
     -- ReadyCheck
     self.ReadyCheck = self.Health:CreateTexture(nil, "OVERLAY")
     self.ReadyCheck:SetPoint("TOP", self)
-    self.ReadyCheck:SetSize(Viks.raidframes.leadersize, Viks.raidframes.leadersize)
+    self.ReadyCheck:SetSize(C.raidframes.leadersize, C.raidframes.leadersize)
 
     -- Auras
     local auras = CreateFrame("Frame", nil, self)
-    auras:SetSize(Viks.raidframes.aurasize, Viks.raidframes.aurasize)
+    auras:SetSize(C.raidframes.aurasize, C.raidframes.aurasize)
     auras:SetPoint("CENTER", self.Health)
-    auras.size = Viks.raidframes.aurasize
+    auras.size = C.raidframes.aurasize
     self.freebAuras = auras
 
     -- Add events
@@ -908,7 +862,7 @@ local style40 = function(self)
     self:RegisterEvent('PLAYER_TARGET_CHANGED', ChangedTarget)
     self:RegisterEvent('RAID_ROSTER_UPDATE', ChangedTarget)
 
-    self:SetScale(Viks.raidframes.scale)
+    self:SetScale(C.raidframes.scale)
 
     table.insert(ns._Objects, self)
 end
@@ -918,7 +872,7 @@ oUF:RegisterStyle("Freebgrid40", style40)
 
 function ns:Colors()
     for class, color in next, colors.class do
-        if Viks.raidframes.reversecolors then
+        if C.raidframes.reversecolors then
             ns.colorCache[class] = "|cffFFFFFF"
         else
             ns.colorCache[class] = ns:hex(color)
@@ -932,8 +886,8 @@ end
 
 local pos, posRel, colX, colY
 local function freebHeader(name, group, temp, pet, MT)
-    local horiz, grow = Viks.raidframes.horizontal, Viks.raidframes.growth
-    local numUnits = Viks.raidframes.multi and 5 or Viks.raidframes.numUnits
+    local horiz, grow = C.raidframes.horizontal, C.raidframes.growth
+    local numUnits = C.raidframes.multi and 5 or C.raidframes.numUnits
 
     local initconfig = [[
     self:SetWidth(%d)
@@ -943,47 +897,47 @@ local function freebHeader(name, group, temp, pet, MT)
     local point, growth, xoff, yoff
     if horiz then
         point = "LEFT"
-        xoff = Viks.raidframes.spacing
+        xoff = C.raidframes.spacing
         yoff = 0
         if grow == "UP" then
             growth = "BOTTOM"
             pos = "BOTTOMLEFT"
             posRel = "TOPLEFT"
-            colY = Viks.raidframes.spacing
+            colY = C.raidframes.spacing
         else
             growth = "TOP"
             pos = "TOPLEFT"
             posRel = "BOTTOMLEFT"
-            colY = -Viks.raidframes.spacing
+            colY = -C.raidframes.spacing
         end
     else
         point = "TOP"
         xoff = 0
-        yoff = -Viks.raidframes.spacing
+        yoff = -C.raidframes.spacing
         if grow == "RIGHT" then
             growth = "LEFT"
             pos = "TOPLEFT"
             posRel = "TOPRIGHT"
-            colX = Viks.raidframes.spacing
+            colX = C.raidframes.spacing
         else
             growth = "RIGHT"
             pos = "TOPRIGHT"
             posRel = "TOPLEFT"
-            colX = -Viks.raidframes.spacing
+            colX = -C.raidframes.spacing
         end
     end
 
     local sort, groupBy, groupOrder = "INDEX", "GROUP", "1,2,3,4,5,6,7,8"
     if not pet and not MT then
-        if Viks.raidframes.sortName then
+        if C.raidframes.sortName then
             sort = "NAME"
             groupBy = nil
         end
 
-        if Viks.raidframes.sortClass then
+        if C.raidframes.sortClass then
             groupBy = "CLASS"
-            groupOrder = Viks.raidframes.classOrder
-            group = Viks.raidframes.classOrder
+            groupOrder = C.raidframes.classOrder
+            group = C.raidframes.classOrder
         end
     end
 
@@ -993,10 +947,10 @@ local function freebHeader(name, group, temp, pet, MT)
 	---local raid = oUF:SpawnHeader("oUF_Raid", nil, "custom [@raid1,exists] hide; [group:party,nogroup:raid] show;", 
 	---local header = oUF:SpawnHeader(name, template, 'raid,party,solo',"custom [@raid1,exists] hide; [group:party,nogroup:raid] show; [nogroup] show"
     local header = oUF:SpawnHeader(name, template, "custom [@raid11,exists] hide; [group:party,@raid1,exists] show; [@player,exists] show; hide",
-    'oUF-initialConfigFunction', (initconfig):format(Viks.raidframes.width, Viks.raidframes.height),
-    'showPlayer', Viks.raidframes.player,
-    'showSolo', Viks.raidframes.solo,
-    'showParty', Viks.raidframes.party,
+    'oUF-initialConfigFunction', (initconfig):format(C.raidframes.width, C.raidframes.height),
+    'showPlayer', C.raidframes.player,
+    'showSolo', C.raidframes.solo,
+    'showParty', C.raidframes.party,
     'showRaid', true,
     'xOffset', xoff,
     'yOffset', yoff,
@@ -1005,9 +959,9 @@ local function freebHeader(name, group, temp, pet, MT)
     'groupFilter', group,
     'groupingOrder', groupOrder,
     'groupBy', groupBy,
-    'maxColumns', Viks.raidframes.numCol,
+    'maxColumns', C.raidframes.numCol,
     'unitsPerColumn', numUnits,
-    'columnSpacing', Viks.raidframes.spacing,
+    'columnSpacing', C.raidframes.spacing,
     'columnAnchorPoint', growth)
 	return header
 end
@@ -1023,11 +977,11 @@ oUF:Factory(function(self)
 	CompactRaidFrameContainer.Show = dummy
 	CompactRaidFrameContainer:Hide()
 	
-	if Viks.raidframes.enable then
+	if C.raidframes.enable then
 		self:SetActiveStyle"Freebgrid"
-		if Viks.raidframes.multi then
+		if C.raidframes.multi then
 			local raid = {}
-			for i=1, Viks.raidframes.numCol do
+			for i=1, C.raidframes.numCol do
 				local group = freebHeader("Raid_Freebgrid"..i, i)
 				if i == 1 then
 					group:SetPoint("BOTTOM", Anchorviksraid, 0, -30)
@@ -1047,8 +1001,8 @@ oUF:Factory(function(self)
 end)
 
 local function freebHeader25(name, group, temp, pet, MT)
-    local horiz, grow = Viks.raidframes.horizontal, Viks.raidframes.growth
-    local numUnits = Viks.raidframes.multi and 5 or Viks.raidframes.numUnits
+    local horiz, grow = C.raidframes.horizontal, C.raidframes.growth
+    local numUnits = C.raidframes.multi and 5 or C.raidframes.numUnits
 
     local initconfig = [[
     self:SetWidth(%d)
@@ -1058,47 +1012,47 @@ local function freebHeader25(name, group, temp, pet, MT)
     local point, growth, xoff, yoff
     if horiz then
         point = "LEFT"
-        xoff = Viks.raidframes.spacing
+        xoff = C.raidframes.spacing
         yoff = 0
         if grow == "UP" then
             growth = "BOTTOM"
             pos = "BOTTOMLEFT"
             posRel = "TOPLEFT"
-            colY = Viks.raidframes.spacing
+            colY = C.raidframes.spacing
         else
             growth = "TOP"
             pos = "TOPLEFT"
             posRel = "BOTTOMLEFT"
-            colY = -Viks.raidframes.spacing
+            colY = -C.raidframes.spacing
         end
     else
         point = "TOP"
         xoff = 0
-        yoff = -Viks.raidframes.spacing
+        yoff = -C.raidframes.spacing
         if grow == "RIGHT" then
             growth = "LEFT"
             pos = "TOPLEFT"
             posRel = "TOPRIGHT"
-            colX = Viks.raidframes.spacing
+            colX = C.raidframes.spacing
         else
             growth = "RIGHT"
             pos = "TOPRIGHT"
             posRel = "TOPLEFT"
-            colX = -Viks.raidframes.spacing
+            colX = -C.raidframes.spacing
         end
     end
 
     local sort, groupBy, groupOrder = "INDEX", "GROUP", "1,2,3,4,5,6,7,8"
     if not pet and not MT then
-        if Viks.raidframes.sortName then
+        if C.raidframes.sortName then
             sort = "NAME"
             groupBy = nil
         end
 
-        if Viks.raidframes.sortClass then
+        if C.raidframes.sortClass then
             groupBy = "CLASS"
-            groupOrder = Viks.raidframes.classOrder
-            group = Viks.raidframes.classOrder
+            groupOrder = C.raidframes.classOrder
+            group = C.raidframes.classOrder
         end
     end
 	
@@ -1108,7 +1062,7 @@ local function freebHeader25(name, group, temp, pet, MT)
 	---local raid = oUF:SpawnHeader("oUF_Raid", nil, "custom [@raid1,exists] hide; [group:party,nogroup:raid] show;", 
 	---local header = oUF:SpawnHeader(name, template, 'raid,party,solo',"custom [@raid1,exists] hide; [group:party,nogroup:raid] show; [nogroup] show"
     local header25 = oUF:SpawnHeader(name, template, "custom [@raid26,exists] hide; [@raid11,exists] show; hide",
-    'oUF-initialConfigFunction', (initconfig):format(Viks.raidframes.width25, Viks.raidframes.height25),
+    'oUF-initialConfigFunction', (initconfig):format(C.raidframes.width25, C.raidframes.height25),
     'showPlayer', true,
     'showSolo', false,
     'showParty', false,
@@ -1120,9 +1074,9 @@ local function freebHeader25(name, group, temp, pet, MT)
     'groupFilter', group,
     'groupingOrder', groupOrder,
     'groupBy', groupBy,
-    'maxColumns', Viks.raidframes.numCol,
+    'maxColumns', C.raidframes.numCol,
     'unitsPerColumn', numUnits,
-    'columnSpacing', Viks.raidframes.spacing,
+    'columnSpacing', C.raidframes.spacing,
     'columnAnchorPoint', growth)
 	return header25
 end
@@ -1138,11 +1092,11 @@ oUF:Factory(function(self)
 	CompactRaidFrameContainer.Show = dummy
 	CompactRaidFrameContainer:Hide()
 	
-	if Viks.raidframes.enable then
+	if C.raidframes.enable then
 		self:SetActiveStyle"Freebgrid25"
-		if Viks.raidframes.multi then
+		if C.raidframes.multi then
 			local raid = {}
-			for i=1, Viks.raidframes.numCol do
+			for i=1, C.raidframes.numCol do
 				local group = freebHeader25("Raid_Freebgrid25"..i, i)
 				if i == 1 then
 					group:SetPoint("BOTTOM", Anchorviksraid, 0, -40)
@@ -1161,7 +1115,7 @@ oUF:Factory(function(self)
 	
 end)
 local function freebHeader40(name, group, temp, pet, MT)
-    local horiz, grow = Viks.raidframes.horizontal, Viks.raidframes.growth
+    local horiz, grow = C.raidframes.horizontal, C.raidframes.growth
     local numUnits = 8
 
     local initconfig = [[
@@ -1172,47 +1126,47 @@ local function freebHeader40(name, group, temp, pet, MT)
     local point, growth, xoff, yoff
     if horiz then
         point = "LEFT"
-        xoff = Viks.raidframes.spacing
+        xoff = C.raidframes.spacing
         yoff = 0
         if grow == "UP" then
             growth = "BOTTOM"
             pos = "BOTTOMLEFT"
             posRel = "TOPLEFT"
-            colY = Viks.raidframes.spacing
+            colY = C.raidframes.spacing
         else
             growth = "TOP"
             pos = "TOPLEFT"
             posRel = "BOTTOMLEFT"
-            colY = -Viks.raidframes.spacing
+            colY = -C.raidframes.spacing
         end
     else
         point = "TOP"
         xoff = 0
-        yoff = -Viks.raidframes.spacing
+        yoff = -C.raidframes.spacing
         if grow == "RIGHT" then
             growth = "LEFT"
             pos = "TOPLEFT"
             posRel = "TOPRIGHT"
-            colX = Viks.raidframes.spacing
+            colX = C.raidframes.spacing
         else
             growth = "RIGHT"
             pos = "TOPRIGHT"
             posRel = "TOPLEFT"
-            colX = -Viks.raidframes.spacing
+            colX = -C.raidframes.spacing
         end
     end
 
     local sort, groupBy, groupOrder = "INDEX", "GROUP", "1,2,3,4,5,6,7,8"
     if not pet and not MT then
-        if Viks.raidframes.sortName then
+        if C.raidframes.sortName then
             sort = "NAME"
             groupBy = nil
         end
 
-        if Viks.raidframes.sortClass then
+        if C.raidframes.sortClass then
             groupBy = "CLASS"
-            groupOrder = Viks.raidframes.classOrder
-            group = Viks.raidframes.classOrder
+            groupOrder = C.raidframes.classOrder
+            group = C.raidframes.classOrder
         end
     end
 
@@ -1222,7 +1176,7 @@ local function freebHeader40(name, group, temp, pet, MT)
 	---local raid = oUF:SpawnHeader("oUF_Raid", nil, "custom [@raid1,exists] hide; [group:party,nogroup:raid] show;", 
 	---local header = oUF:SpawnHeader(name, template, 'raid,party,solo',"custom [@raid1,exists] hide; [group:party,nogroup:raid] show; [nogroup] show"
     local header40 = oUF:SpawnHeader(name, template, "custom [@raid26,exists] show; hide",
-    'oUF-initialConfigFunction', (initconfig):format(Viks.raidframes.width40, Viks.raidframes.height40),
+    'oUF-initialConfigFunction', (initconfig):format(C.raidframes.width40, C.raidframes.height40),
     'showPlayer', true,
     'showSolo', false,
     'showParty', false,
@@ -1236,7 +1190,7 @@ local function freebHeader40(name, group, temp, pet, MT)
     'groupBy', "GROUP",
     'maxColumns', 4,
     'unitsPerColumn', 10,
-    'columnSpacing', Viks.raidframes.spacing,
+    'columnSpacing', C.raidframes.spacing,
     'columnAnchorPoint', growth)
 	return header40
 end
@@ -1252,9 +1206,9 @@ oUF:Factory(function(self)
 	CompactRaidFrameContainer.Show = dummy
 	CompactRaidFrameContainer:Hide()
 	
-	if Viks.raidframes.enable then
+	if C.raidframes.enable then
 		self:SetActiveStyle"Freebgrid40"
-		if not Viks.raidframes.multi then
+		if not C.raidframes.multi then
 			local raid = {}
 			for i=1, 5 do
 				local group = freebHeader40("Raid_Freebgrid40"..i, i)

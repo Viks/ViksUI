@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	BonusRoll skin
@@ -19,7 +19,7 @@ local function LoadSkin()
 	BonusRollFrame.PromptFrame.IconBackdrop:SetPoint("BOTTOMRIGHT", BonusRollFrame.PromptFrame.Icon, 2, -2)
 
 	BonusRollFrame.PromptFrame.Timer:CreateBackdrop("Default")
-	BonusRollFrame.PromptFrame.Timer.Bar:SetTexture(1, 1, 1)
+	BonusRollFrame.PromptFrame.Timer.Bar:SetColorTexture(1, 1, 1)
 
 	BonusRollMoneyWonFrame:StripTextures()
 	BonusRollMoneyWonFrame:CreateBackdrop("Transparent")

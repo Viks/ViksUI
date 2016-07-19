@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.ovale ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.ovale ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	OvaleSpellPriority skin
@@ -34,14 +34,14 @@ frame:SetScript("OnEvent", function(self, event, addon)
 				button.icone:SetPoint("TOPLEFT", button, 2, -2)
 				button.icone:SetPoint("BOTTOMRIGHT", button, -2, 2)
 
-				button.remains:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-				button.remains:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+				button.remains:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+				button.remains:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 
-				button.shortcut:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-				button.shortcut:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+				button.shortcut:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+				button.shortcut:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 
-				button.focusText:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-				button.focusText:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+				button.focusText:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+				button.focusText:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 
 				button.isSkinned = true
 			end

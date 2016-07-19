@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.loot.rolllootframe ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.loot.rolllootframe ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on teksLoot(by Tekkub)
@@ -98,8 +98,8 @@ local function CreateRollButton(parent, ntex, ptex, htex, rolltype, tiptext, ...
 	f:SetScript("OnClick", ClickRoll)
 	f:SetMotionScriptsWhileDisabled(true)
 	local txt = f:CreateFontString(nil, nil)
-	txt:SetFont(Viks.font.loot_font, Viks.font.loot_font_size, Viks.font.loot_font_style)
-	txt:SetShadowOffset(Viks.font.loot_font_shadow and 1 or 0, Viks.font.loot_font_shadow and -1 or 0)
+	txt:SetFont(C.font.loot_font, C.font.loot_font_size, C.font.loot_font_style)
+	txt:SetShadowOffset(C.font.loot_font_shadow and 1 or 0, C.font.loot_font_shadow and -1 or 0)
 	txt:SetPoint("CENTER", 0, rolltype == 2 and 1 or rolltype == 0 and -1.2 or 0)
 	return f, txt
 end
@@ -134,7 +134,7 @@ local function CreateRollFrame()
 	status:SetPoint("BOTTOMRIGHT", 0, 0)
 	status:SetScript("OnUpdate", StatusUpdate)
 	status:SetFrameLevel(status:GetFrameLevel() - 1)
-	status:SetStatusBarTexture(Viks.media.texture)
+	status:SetStatusBarTexture(C.media.texture)
 	status:SetStatusBarColor(0.8, 0.8, 0.8, 0.9)
 	status.parent = frame
 	frame.status = status
@@ -153,13 +153,13 @@ local function CreateRollFrame()
 
 	local bind = frame:CreateFontString()
 	bind:SetPoint("LEFT", pass, "RIGHT", 3, 1)
-	bind:SetFont(Viks.font.loot_font, Viks.font.loot_font_size, Viks.font.loot_font_style)
-	bind:SetShadowOffset(Viks.font.loot_font_shadow and 1 or 0, Viks.font.loot_font_shadow and -1 or 0)
+	bind:SetFont(C.font.loot_font, C.font.loot_font_size, C.font.loot_font_style)
+	bind:SetShadowOffset(C.font.loot_font_shadow and 1 or 0, C.font.loot_font_shadow and -1 or 0)
 	frame.fsbind = bind
 
 	local loot = frame:CreateFontString(nil, "ARTWORK")
-	loot:SetFont(Viks.font.loot_font, Viks.font.loot_font_size, Viks.font.loot_font_style)
-	loot:SetShadowOffset(Viks.font.loot_font_shadow and 1 or 0, Viks.font.loot_font_shadow and -1 or 0)
+	loot:SetFont(C.font.loot_font, C.font.loot_font_size, C.font.loot_font_style)
+	loot:SetShadowOffset(C.font.loot_font_shadow and 1 or 0, C.font.loot_font_shadow and -1 or 0)
 	loot:SetPoint("LEFT", bind, "RIGHT", 0, 0)
 	loot:SetPoint("RIGHT", frame, "RIGHT", -5, 0)
 	loot:SetSize(200, 10)
@@ -227,7 +227,7 @@ local function START_LOOT_ROLL(rollID, time)
 	f.button.icon:SetTexture(texture)
 	f.button.link = GetLootRollItemLink(rollID)
 
-	if Viks.loot.auto_greed and T.level == MAX_PLAYER_LEVEL and quality == 2 and not bop then return end
+	if C.loot.auto_greed and T.level == MAX_PLAYER_LEVEL and quality == 2 and not bop then return end
 
 	if canNeed then
 		f.needbutt:Enable()
@@ -270,7 +270,7 @@ local function START_LOOT_ROLL(rollID, time)
 	f.fsloot:SetVertexColor(color.r, color.g, color.b)
 
 	f.status:SetStatusBarColor(color.r, color.g, color.b, 0.7)
-	f.status.bg:SetTexture(color.r, color.g, color.b)
+	f.status.bg:SetColorTexture(color.r, color.g, color.b)
 
 	f.backdrop:SetBackdropBorderColor(color.r, color.g, color.b, 0.7)
 	f.button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b, 0.7)
@@ -306,7 +306,7 @@ LootRollAnchor:SetScript("OnEvent", function(frame, event, addon)
 		end
 	end)
 
-	LootRollAnchor:SetPoint(unpack(Viks.position.group_loot))
+	LootRollAnchor:SetPoint(unpack(C.position.group_loot))
 end)
 
 SlashCmdList.TESTROLL = function()
@@ -328,7 +328,7 @@ SlashCmdList.TESTROLL = function()
 		f.status:SetMinMaxValues(0, 100)
 		f.status:SetValue(math.random(50, 90))
 		f.status:SetStatusBarColor(r, g, b, 0.7)
-		f.status.bg:SetTexture(r, g, b)
+		f.status.bg:SetColorTexture(r, g, b)
 
 		f.backdrop:SetBackdropBorderColor(r, g, b, 0.7)
 		f.button.backdrop:SetBackdropBorderColor(r, g, b, 0.7)

@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.logging_combat ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.automation.logging_combat ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto enables combat log text file in raid instances(EasyLogger by Sildor)

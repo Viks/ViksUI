@@ -1,22 +1,22 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --------------------------------------------------------------------
 -- System Stats
 --------------------------------------------------------------------
-if Viks.datatext.System and Viks.datatext.System > 0 then
+if C.datatext.System and C.datatext.System > 0 then
 	local Stat = CreateFrame("Frame")
 	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
 	Stat:EnableMouse(true)
 	
 	local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-if Viks.datatext.Talents >= 9 then
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfontHeader, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+if C.datatext.Talents >= 9 then
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pxfontHeader, C.media.pxfontHsize, C.media.pxfontHFlag)
 else
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 end
-	PP(Viks.datatext.System, Text)
+	PP(C.datatext.System, Text)
 	local colorme = string.format("%02x%02x%02x", 1*255, 1*255, 1*255)
 	
 	local function formatMem(memory, color)

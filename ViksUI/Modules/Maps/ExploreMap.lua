@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.map.explore_map ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.map.explore_map ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Tracking Explorer and Lore Master achievements in World Map(ExpLoreMaster by CrusaderHeimdall)
@@ -118,7 +118,7 @@ local function XLM_UD()
 	end
 	GameTooltip:FadeOut()
 
-	if Viks.tooltip.shift_modifer ~= true then
+	if C.tooltip.shift_modifer ~= true then
 		WorldMapFrame:SetScript("OnHide", function()
 			GameTooltip:Hide()
 			CancelEmote()

@@ -56,7 +56,7 @@ local Update = function(self, event)
 			mlUnit = 'raid'..rid
 		end
 
-		if(UnitIsUnit(unit, mlUnit)) then
+		if(unit and mlUnit and UnitIsUnit(unit, mlUnit)) then
 			masterlooter:Show()
 		elseif(masterlooter:IsShown()) then
 			masterlooter:Hide()
@@ -97,6 +97,7 @@ end
 
 local function Disable(self)
 	if(self.MasterLooter) then
+		self.MasterLooter:Hide()
 		self:UnregisterEvent('PARTY_LOOT_METHOD_CHANGED', Path)
 		self:UnregisterEvent('GROUP_ROSTER_UPDATE', Path)
 	end

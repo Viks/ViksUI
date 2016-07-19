@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.accept_quest ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.automation.accept_quest ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Quest automation(Monomyth by p3lim)
@@ -442,7 +442,7 @@ local function BagUpdate(bag)
 	end
 end
 
-QuickQuest:Register("PLAYER_LOGIN", function()
+QuickQuest:Register("PLAYER_ENTERING_WORLD", function()
 	QuickQuest:Register("BAG_UPDATE", BagUpdate)
 
 	if GetNumAutoQuestPopUps() > 0 then

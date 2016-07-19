@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true or Viks.tooltip.unit_role ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true or C.tooltip.unit_role ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Displays a players LFD/LFR role(gTooltipRoles by g0st)

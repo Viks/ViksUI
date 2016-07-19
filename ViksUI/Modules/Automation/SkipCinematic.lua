@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.skip_cinematic ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.automation.skip_cinematic ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Skip cinematics/movies(CinematicSkip by Pigmonkey)

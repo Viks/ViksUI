@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.bigwigs ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.bigwigs ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	BigWigs skin(by Affli)
@@ -103,14 +103,14 @@ local applystyle = function(bar)
 	end
 
 	-- Setup timer and bar name fonts and positions
-	bar.candyBarLabel:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-	bar.candyBarLabel:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+	bar.candyBarLabel:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+	bar.candyBarLabel:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	bar.candyBarLabel:SetJustifyH("LEFT")
 	bar.candyBarLabel:ClearAllPoints()
 	bar.candyBarLabel:SetPoint("LEFT", bar, "LEFT", 2, 0)
 
-	bar.candyBarDuration:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-	bar.candyBarDuration:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+	bar.candyBarDuration:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+	bar.candyBarDuration:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	bar.candyBarDuration:SetJustifyH("RIGHT")
 	bar.candyBarDuration:ClearAllPoints()
 	bar.candyBarDuration:SetPoint("RIGHT", bar, "RIGHT", 1, 0)
@@ -120,11 +120,11 @@ local applystyle = function(bar)
 	bar.candyBarBar:SetAllPoints(bar)
 	bar.candyBarBar.OldSetPoint = bar.candyBarBar.SetPoint
 	bar.candyBarBar.SetPoint = T.dummy
-	bar.candyBarBar:SetStatusBarTexture(Viks.media.texture)
+	bar.candyBarBar:SetStatusBarTexture(C.media.texture)
 	if not bar.data["bigwigs:emphasized"] == true then
 		bar.candyBarBar:SetStatusBarColor(T.color.r, T.color.g, T.color.b, 1)
 	end
-	bar.candyBarBackground:SetTexture(Viks.media.texture)
+	bar.candyBarBackground:SetTexture(C.media.texture)
 
 	-- Setup icon positions and other things
 	bar.candyBarIconFrame:ClearAllPoints()
@@ -162,7 +162,7 @@ f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", function(self, event, addon)
 	if event == "ADDON_LOADED" then
 		if addon == "BigWigs_Plugins" then
-			if not BigWigs3DB.namespaces.BigWigs_Plugins_Bars or BigWigs3DB.namespaces.BigWigs_Plugins_Bars.profiles.Default.InstalledBars ~= Viks.actionbar.bottombars then
+			if not BigWigs3DB.namespaces.BigWigs_Plugins_Bars or BigWigs3DB.namespaces.BigWigs_Plugins_Bars.profiles.Default.InstalledBars ~= C.actionbar.bottombars then
 				StaticPopup_Show("BW_TEST")
 			end
 			registerStyle()
@@ -180,26 +180,26 @@ StaticPopupDialogs.BW_TEST = {
 		local bars = BigWigs and BigWigs:GetPlugin("Bars")
 		if bars then
 			bars.db.profile.barStyle = "ViksUI"
-			bars.db.profile.font = Viks.font.stylization_font
+			bars.db.profile.font = C.font.stylization_font
 			bars.db.profile.BigWigsAnchor_width = 185
 			bars.db.profile.BigWigsAnchor_x = 49
 			bars.db.profile.BigWigsEmphasizeAnchor_width = 185
 			bars.db.profile.BigWigsEmphasizeAnchor_x = 541
 			bars.db.profile.BigWigsEmphasizeAnchor_y = 493
 			bars.db.profile.emphasizeGrowup = true
-			bars.db.profile.InstalledBars = Viks.actionbar.bottombars
-			if Viks.actionbar.bottombars == 1 then
+			bars.db.profile.InstalledBars = C.actionbar.bottombars
+			if C.actionbar.bottombars == 1 then
 				bars.db.profile.BigWigsAnchor_y = 150
-			elseif Viks.actionbar.bottombars == 2 then
+			elseif C.actionbar.bottombars == 2 then
 				bars.db.profile.BigWigsAnchor_y = 177
-			elseif Viks.actionbar.bottombars == 3 then
+			elseif C.actionbar.bottombars == 3 then
 				bars.db.profile.BigWigsAnchor_y = 203
 			end
 		end
 
 		local mess = BigWigs and BigWigs:GetPlugin("Messages")
 		if mess then
-			mess.db.profile.font = Viks.media.font
+			mess.db.profile.font = C.media.normal_font
 			mess.db.profile.outline = "OUTLINE"
 			mess.db.profile.fontSize = 30
 			mess.db.profile.BWMessageAnchor_y = 320
@@ -210,7 +210,7 @@ StaticPopupDialogs.BW_TEST = {
 		end
 		local prox = BigWigs and BigWigs:GetPlugin("Proximity")
 		if prox then
-			prox.db.profile.font = Viks.media.normal_font
+			prox.db.profile.font = C.media.normal_font
 			prox.db.profile.objects.ability = false
 		end
 		BigWigs3IconDB.hide = true

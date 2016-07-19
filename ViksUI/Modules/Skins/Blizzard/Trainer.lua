@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	TrainerUI skin
@@ -34,7 +34,7 @@ local function LoadSkin()
 		_G["ClassTrainerScrollFrameButton"..i].backdrop:SetPoint("BOTTOMRIGHT", _G["ClassTrainerScrollFrameButton"..i.."Icon"], "BOTTOMRIGHT", 2, -2)
 		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:SetParent(_G["ClassTrainerScrollFrameButton"..i].backdrop)
 
-		_G["ClassTrainerScrollFrameButton"..i].selectedTex:SetTexture(1, 1, 1, 0.3)
+		_G["ClassTrainerScrollFrameButton"..i].selectedTex:SetColorTexture(1, 1, 1, 0.3)
 		_G["ClassTrainerScrollFrameButton"..i].selectedTex:ClearAllPoints()
 		_G["ClassTrainerScrollFrameButton"..i].selectedTex:SetPoint("TOPLEFT", 2, -2)
 		_G["ClassTrainerScrollFrameButton"..i].selectedTex:SetPoint("BOTTOMRIGHT", -2, 2)
@@ -69,13 +69,13 @@ local function LoadSkin()
 	ClassTrainerFrameSkillStepButton.backdrop:SetPoint("TOPLEFT", ClassTrainerFrameSkillStepButton.icon, "TOPLEFT", -2, 2)
 	ClassTrainerFrameSkillStepButton.backdrop:SetPoint("BOTTOMRIGHT", ClassTrainerFrameSkillStepButton.icon, "BOTTOMRIGHT", 2, -2)
 	ClassTrainerFrameSkillStepButton.icon:SetParent(ClassTrainerFrameSkillStepButton.backdrop)
-	ClassTrainerFrameSkillStepButtonHighlight:SetTexture(1, 1, 1, 0.3)
-	ClassTrainerFrameSkillStepButton.selectedTex:SetTexture(1, 1, 1, 0.3)
+	ClassTrainerFrameSkillStepButtonHighlight:SetColorTexture(1, 1, 1, 0.3)
+	ClassTrainerFrameSkillStepButton.selectedTex:SetColorTexture(1, 1, 1, 0.3)
 
 	T.SkinScrollBar(ClassTrainerScrollFrameScrollBar)
 
 	ClassTrainerStatusBar:StripTextures()
-	ClassTrainerStatusBar:SetStatusBarTexture(Viks.media.texture)
+	ClassTrainerStatusBar:SetStatusBarTexture(C.media.texture)
 	ClassTrainerStatusBar:CreateBackdrop("Overlay")
 	ClassTrainerStatusBar:SetHeight(17)
 	ClassTrainerStatusBar:ClearAllPoints()

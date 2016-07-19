@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	PvE skin
@@ -133,9 +133,9 @@ local function LoadSkin()
 				button.backdrop.overlay:SetVertexColor(1, 0.82, 0, 0.3)
 				button.border.backdrop:SetBackdropBorderColor(1, 0.82, 0, 1)
 			else
-				button.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+				button.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 				button.backdrop.overlay:SetVertexColor(0.1, 0.1, 0.1, 1)
-				button.border.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+				button.border.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 			end
 		end
 	end)
@@ -285,7 +285,7 @@ local function LoadSkin()
 			button.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 			button.Icon:SetPoint("TOPLEFT", 2, -2)
 			button.Icon:SetPoint("BOTTOMRIGHT", -2, 2)
-			button.SelectedTexture:SetTexture(1, 0.82, 0, 0.3)
+			button.SelectedTexture:SetColorTexture(1, 0.82, 0, 0.3)
 			button.SelectedTexture:SetPoint("TOPLEFT", 2, -2)
 			button.SelectedTexture:SetPoint("BOTTOMRIGHT", -2, 2)
 			button.styled = true
@@ -348,33 +348,33 @@ tinsert(T.SkinFuncs["ViksUI"], LoadSkin)
 local function LoadSecondarySkin()
 	ChallengesFrameInset:StripTextures()
 	ChallengesFrameInsetBg:Hide()
-	ChallengesFrameDetails.bg:Hide()
-	select(2, ChallengesFrameDetails:GetRegions()):Hide()
-	select(9, ChallengesFrameDetails:GetRegions()):Hide()
-	select(10, ChallengesFrameDetails:GetRegions()):Hide()
-	select(11, ChallengesFrameDetails:GetRegions()):Hide()
-	ChallengesFrameDungeonButton1:SetPoint("TOPLEFT", ChallengesFrame, "TOPLEFT", 8, -83)
+	--BETA ChallengesFrameDetails.bg:Hide()
+	-- select(2, ChallengesFrameDetails:GetRegions()):Hide()
+	-- select(9, ChallengesFrameDetails:GetRegions()):Hide()
+	-- select(10, ChallengesFrameDetails:GetRegions()):Hide()
+	-- select(11, ChallengesFrameDetails:GetRegions()):Hide()
+	-- ChallengesFrameDungeonButton1:SetPoint("TOPLEFT", ChallengesFrame, "TOPLEFT", 8, -83)
 
-	ChallengesFrameLeaderboard:SkinButton(true)
+	-- ChallengesFrameLeaderboard:SkinButton(true)
 
-	for i = 1, 8 do
-		local button = ChallengesFrame["button"..i]
-		button:SetTemplate("Overlay")
-		button:StyleButton()
-		button.selectedTex:SetDrawLayer("ARTWORK")
-		button.selectedTex:SetTexture(1, 0.82, 0, 0.3)
-		button.selectedTex:SetPoint("TOPLEFT", 2, -2)
-		button.selectedTex:SetPoint("BOTTOMRIGHT", -2, 2)
-	end
+	-- for i = 1, 8 do
+		-- local button = ChallengesFrame["button"..i]
+		-- button:SetTemplate("Overlay")
+		-- button:StyleButton()
+		-- button.selectedTex:SetDrawLayer("ARTWORK")
+		-- button.selectedTex:SetColorTexture(1, 0.82, 0, 0.3)
+		-- button.selectedTex:SetPoint("TOPLEFT", 2, -2)
+		-- button.selectedTex:SetPoint("BOTTOMRIGHT", -2, 2)
+	-- end
 
-	for i = 1, 3 do
-		local rewardsRow = ChallengesFrame["RewardRow"..i]
-		for j = 1, 2 do
-			local button = rewardsRow["Reward"..j]
-			button:CreateBackdrop("Default")
-			button.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-		end
-	end
+	-- for i = 1, 3 do
+		-- local rewardsRow = ChallengesFrame["RewardRow"..i]
+		-- for j = 1, 2 do
+			-- local button = rewardsRow["Reward"..j]
+			-- button:CreateBackdrop("Default")
+			-- button.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		-- end
+	-- end
 end
 
 T.SkinFuncs["Blizzard_ChallengesUI"] = LoadSecondarySkin

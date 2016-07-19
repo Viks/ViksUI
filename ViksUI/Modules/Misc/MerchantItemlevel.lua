@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.merchant_itemlevel ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.merchant_itemlevel ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Show item level for weapons and armor in merchant
@@ -24,8 +24,8 @@ local function MerchantItemlevel()
 
 			local itemLink = GetMerchantItemLink(index)
 			if itemLink then
-				local _, _, quality, itemlevel, _, itemType = GetItemInfo(itemLink)
-				if (itemlevel and itemlevel > 1) and (quality and quality > 1) and (itemType == weapon or itemType == armor) then
+				local _, _, quality, itemlevel, _, _, _, _, _, _, _, itemClassID = GetItemInfo(itemLink)
+				if (itemlevel and itemlevel > 1) and (quality and quality > 1) and (itemClassID == 2 or itemClassID == 4) then
 					button.text:SetText(itemlevel)
 				end
 			end

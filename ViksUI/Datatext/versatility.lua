@@ -1,21 +1,21 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --------------------------------------------------------------------
 -- Player Versatility
 --------------------------------------------------------------------
 
 -- Versatility Rating
-if not Viks.datatext.Versatility == nil or Viks.datatext.Versatility > 0 then
+if not C.datatext.Versatility == nil or C.datatext.Versatility > 0 then
 	local Stat = CreateFrame("Frame")
 
 	local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-if Viks.datatext.Versatility >= 9 then
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfontHeader, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+if C.datatext.Versatility >= 9 then
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pxfontHeader, C.media.pxfontHsize, C.media.pxfontHFlag)
 else
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 end
-	PP(Viks.datatext.Versatility, Text)
+	PP(C.datatext.Versatility, Text)
 	local vDB = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE)
 	local vDTR = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_TAKEN) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_TAKEN)
 

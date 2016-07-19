@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Reskin Blizzard windows(by Tukz and Co)
@@ -97,50 +97,15 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			T.SkinCloseButton(_G["StaticPopup"..i.."CloseButton"])
 		end
 
-		-- What's new frame
-		SplashFrame:CreateBackdrop("Transparent")
-		SplashFrame.BottomCloseButton:SkinButton()
-		T.SkinCloseButton(SplashFrame.TopCloseButton)
-
-		-- Social Browser frame
-		SocialBrowserFrame:StripTextures()
-		SocialBrowserFrame:SetTemplate("Transparent")
-		T.SkinCloseButton(SocialBrowserFrame.CloseButton)
-		SocialBrowserFrame.CloseButton:SetSize(16, 16)
-
-		-- NavBar Buttons (Used in WorldMapFrame, EncounterJournal and HelpFrame)
-		local function SkinNavBarButtons(self)
-			local navButton = self.navList[#self.navList]
-			if navButton and not navButton.isSkinned then
-				navButton:SkinButton(true)
-				if navButton.MenuArrowButton then
-					navButton.MenuArrowButton:SetNormalTexture(nil)
-					navButton.MenuArrowButton:SetPushedTexture(nil)
-					navButton.MenuArrowButton:SetHighlightTexture(nil)
-				end
-				navButton.isSkinned = true
-				navButton.xoffset = 1
-			end
-		end
-		hooksecurefunc("NavBar_AddButton", SkinNavBarButtons)
-
-		local function SetHomeButtonOffsetX(self)
-			if self.homeButton then
-				self.homeButton.xoffset = 1
-			end
-		end
-		
- 		hooksecurefunc("NavBar_Initialize", SetHomeButtonOffsetX)
- 
 		-- Cinematic popup
-		_G["CinematicFrameCloseDialog"]:SetScale(Viks.general.UiScale)
+		_G["CinematicFrameCloseDialog"]:SetScale(C.general.uiscale)
 		_G["CinematicFrameCloseDialog"]:SetTemplate("Transparent")
 		_G["CinematicFrameCloseDialogConfirmButton"]:SkinButton()
 		_G["CinematicFrameCloseDialogResumeButton"]:SkinButton()
 		_G["CinematicFrameCloseDialogResumeButton"]:SetPoint("LEFT", _G["CinematicFrameCloseDialogConfirmButton"], "RIGHT", 15, 0)
 
 		-- Movie popup
-		MovieFrame.CloseDialog:SetScale(Viks.general.UiScale)
+		MovieFrame.CloseDialog:SetScale(C.general.uiscale)
 		MovieFrame.CloseDialog:SetTemplate("Transparent")
 		MovieFrame.CloseDialog.ConfirmButton:SkinButton()
 		MovieFrame.CloseDialog.ResumeButton:SkinButton()
@@ -150,6 +115,13 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		_G["PetBattleQueueReadyFrame"]:SetTemplate("Transparent")
 		_G["PetBattleQueueReadyFrame"].AcceptButton:SkinButton()
 		_G["PetBattleQueueReadyFrame"].DeclineButton:SkinButton()
+
+		-- Wardrobe Outfit
+		WardrobeOutfitEditFrame:SetTemplate("Transparent")
+		WardrobeOutfitEditFrame.AcceptButton:SkinButton()
+		WardrobeOutfitEditFrame.CancelButton:SkinButton()
+		WardrobeOutfitEditFrame.DeleteButton:SkinButton()
+		T.SkinEditBox(WardrobeOutfitEditFrame.EditBox, 250, 25)
 
 		-- Reskin Dropdown menu
 		hooksecurefunc("UIDropDownMenu_InitializeHelper", function(frame)
@@ -240,7 +212,7 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			"BasicScriptErrorsButton"
 		}
 
-		if Viks.misc.raid_tools == true then
+		if C.misc.raid_tools == true then
 			tinsert(BlizzardButtons, "CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton")
 		end
 
@@ -260,7 +232,7 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		}
 
 		for _, scrollbar in pairs(scrollbars) do
-			local bars = _G[_G[scrollbar]]
+			local bars = _G[scrollbar]
 			if bars then
 				T.SkinScrollBar(bars)
 			end
@@ -306,7 +278,41 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		T.SkinCloseButton(_G["RolePollPopupCloseButton"])
 		T.SkinCloseButton(_G["ItemRefCloseButton"])
 		T.SkinCloseButton(_G["BNToastFrameCloseButton"])
-		if Viks.skins.blizzard_frames == true then
+		if C.skins.blizzard_frames == true then
+			-- Social Browser frame
+			SocialBrowserFrame:StripTextures()
+			SocialBrowserFrame:SetTemplate("Transparent")
+			T.SkinCloseButton(SocialBrowserFrame.CloseButton)
+			SocialBrowserFrame.CloseButton:SetSize(16, 16)
+
+			-- What's new frame
+			SplashFrame:CreateBackdrop("Transparent")
+			SplashFrame.BottomCloseButton:SkinButton()
+			T.SkinCloseButton(SplashFrame.TopCloseButton)
+
+			-- NavBar Buttons (Used in WorldMapFrame, EncounterJournal and HelpFrame)
+			local function SkinNavBarButtons(self)
+				local navButton = self.navList[#self.navList]
+				if navButton and not navButton.isSkinned then
+					navButton:SkinButton(true)
+					if navButton.MenuArrowButton then
+						navButton.MenuArrowButton:SetNormalTexture(nil)
+						navButton.MenuArrowButton:SetPushedTexture(nil)
+						navButton.MenuArrowButton:SetHighlightTexture(nil)
+					end
+					navButton.xoffset = 1
+					navButton.isSkinned = true
+				end
+			end
+			hooksecurefunc("NavBar_AddButton", SkinNavBarButtons)
+
+			local function SetHomeButtonOffsetX(self)
+				if self.homeButton then
+					self.homeButton.xoffset = 1
+				end
+			end
+			hooksecurefunc("NavBar_Initialize", SetHomeButtonOffsetX)
+
 			if T.client == "ruRU" then
 				_G["DeclensionFrame"]:SetTemplate("Transparent")
 				_G["DeclensionFrameCancelButton"]:SkinButton()
@@ -319,7 +325,7 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 					_G["DeclensionFrameDeclension"..i.."Edit"]:SetTextInsets(3, 0, 0, 0)
 				end
 			end
-			if Viks.skins.clique ~= true and IsAddOnLoaded("Clique") then
+			if C.skins.clique ~= true and IsAddOnLoaded("Clique") then
 				CliqueSpellTab:GetRegions():SetSize(0.1, 0.1)
 				CliqueSpellTab:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 				CliqueSpellTab:GetNormalTexture():ClearAllPoints()

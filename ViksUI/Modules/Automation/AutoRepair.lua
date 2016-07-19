@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 -- Vendor Crap and Auto Repair
@@ -15,7 +15,7 @@ f:SetScript("OnEvent", function()
 			local ItemPrice = 0
 			local ItemCount = 0
 			local CurrentItemLink
-	if Viks.automation.vendor then
+	if C.automation.vendor then
 			for BagID = 0,4 do
 				for BagSlot = 1, GetContainerNumSlots(BagID) do
 					CurrentItemLink = GetContainerItemLink(BagID, BagSlot)
@@ -35,14 +35,14 @@ f:SetScript("OnEvent", function()
 	end	
 	end
 
-	if Viks.automation.AutoRepair then
+	if C.automation.AutoRepair then
 			cost, possible = GetRepairAllCost()
 			if cost>0 then
 				if possible then
 					local c = cost%100
 					local s = math.floor((cost%10000)/100)
 					local g = math.floor(cost/10000)
-						if Viks.automation.AutoRepairG then 
+						if C.automation.AutoRepairG then 
 						RepairAllItems(1)
 					DEFAULT_CHAT_FRAME:AddMessage("Your items have been repaired by Guild Funds for".." |cffffffff"..g.."|cffffd700g|r".." |cffffffff"..s.."|cffc7c7cfs|r".." |cffffffff"..c.."|cffeda55fc|r"..".",255,255,0)
 						else

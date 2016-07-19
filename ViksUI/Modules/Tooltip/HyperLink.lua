@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.chat.enable ~= true or Viks.tooltip.enable ~= true or IsAddOnLoaded("tekKompare") then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.chat.enable ~= true or C.tooltip.enable ~= true or IsAddOnLoaded("tekKompare") then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on tekKompare(by Tekkub)

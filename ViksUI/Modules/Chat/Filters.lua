@@ -1,10 +1,10 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.chat.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.chat.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Systems spam filter
 ----------------------------------------------------------------------------------------
-if Viks.chat.filter == true then
+if C.chat.filter == true then
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_MONSTER_SAY", function() if IsResting() then return true end end)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_MONSTER_YELL", function() if IsResting() then return true end end)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_JOIN", function() return true end)
@@ -43,7 +43,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Players spam filter(by Evl, Elv22 and Affli)
 ----------------------------------------------------------------------------------------
-if Viks.chat.spam == true then
+if C.chat.spam == true then
 	-- Repeat spam filter
 	local lastMessage
 	local function repeatMessageFilter(self, event, text, sender)

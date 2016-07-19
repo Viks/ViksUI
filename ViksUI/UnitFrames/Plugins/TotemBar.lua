@@ -1,7 +1,5 @@
-
-
-local T, Viks, L = unpack(select(2, ...))
-if Viks.unitframes.enable ~= true or Viks.unitframe_class_bar.totem ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.unitframe.enable ~= true or C.unitframe_class_bar.totem ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on oUF_TotemBar(by Soeters)
@@ -120,11 +118,28 @@ local function Event(self,event,...)
 	end
 end
 
+local function Visibility(self, event, unit)
+	local totem = self.TotemBar
+	local spec = GetSpecialization()
+
+	if spec == 2 then
+		totem:Hide()
+		if self.Debuffs then self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 5) end
+	else
+		totem:Show()
+		if self.Debuffs then self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 19) end
+	end
+end
+
 local function Enable(self, unit)
 	local totem = self.TotemBar
 
 	if(totem) then
 		self:RegisterEvent("PLAYER_TOTEM_UPDATE" , Event, true)
+		totem.Visibility = CreateFrame("Frame", nil, totem)
+		totem.Visibility:RegisterEvent("PLAYER_TALENT_UPDATE")
+		totem.Visibility:RegisterEvent("PLAYER_ENTERING_WORLD")
+		totem.Visibility:SetScript("OnEvent", function(frame, event, unit) Visibility(self, event, unit) end)
 		totem.colors = setmetatable(totem.colors or {}, {__index = colors})
 		delay = totem.delay or delay
 		if totem.Destroy then
@@ -159,6 +174,8 @@ local function Disable(self,unit)
 	local totem = self.TotemBar
 	if(totem) then
 		self:UnregisterEvent("PLAYER_TOTEM_UPDATE", Event)
+		totem.Visibility:UnregisterEvent("PLAYER_TALENT_UPDATE")
+		totem.Visibility:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		TotemFrame:Show()
 	end
 end

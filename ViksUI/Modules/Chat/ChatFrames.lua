@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.chat.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.chat.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Style chat frame(by Tukz and p3lim)
@@ -89,7 +89,7 @@ local smileyKeys = {
 	["%;p"] = "Tongue",
 	["%;P"] = "Tongue",
 	["%;%-P"] = "Tongue",
-	["%;%-%)"] = "Wink",
+	--["%;%-%)"] = "Wink",
 	["%;%)"] = "Wink",
 	["%:S"] = "Hmm",
 	["%:%-S"] = "Hmm",
@@ -115,7 +115,7 @@ local function GetSmileyReplacementText( msg )
 		return
 	end
 
-	if not (Viks.chat.smileys or msg:find( '/run' ) or msg:find( '/dump' ) or msg:find( '/script' ) ) then
+	if not (C.chat.smileys or msg:find( '/run' ) or msg:find( '/dump' ) or msg:find( '/script' ) ) then
 		return msg
 	end
 
@@ -251,9 +251,9 @@ local function SetChatStyle(frame)
 	_G[format("ChatFrame%sButtonFrame", id)]:Kill()
 
 	-- Kills off the retarded new circle around the editbox
-	_G[format("ChatFrame%sEditBoxFocusLeft", id)]:Kill()
-	_G[format("ChatFrame%sEditBoxFocusMid", id)]:Kill()
-	_G[format("ChatFrame%sEditBoxFocusRight", id)]:Kill()
+	_G[format("ChatFrame%sEditBoxLeft", id)]:Kill()
+	_G[format("ChatFrame%sEditBoxMid", id)]:Kill()
+	_G[format("ChatFrame%sEditBoxRight", id)]:Kill()
 
 	_G[format("ChatFrame%sTabGlow", id)]:Kill()
 
@@ -277,7 +277,7 @@ local function SetChatStyle(frame)
 	_G[chat.."Tab"]:HookScript("OnClick", function() _G[chat.."EditBox"]:Hide() end)
 
 	-- Create our own texture for edit box
-	if Viks.chat.background == true and Viks.chat.tabs_mouseover ~= true then
+	if C.chat.background == true and C.chat.tabs_mouseover ~= true then
 		local EditBoxBackground = CreateFrame("Frame", "ChatEditBoxBackground", _G[chat.."EditBox"])
 		EditBoxBackground:CreatePanel("Transparent", 1, 1, "LEFT", _G[chat.."EditBox"], "LEFT", 0, 0)
 		EditBoxBackground:ClearAllPoints()
@@ -296,7 +296,7 @@ local function SetChatStyle(frame)
 			if type == "CHANNEL" then
 				local id = GetChannelName(_G[chat.."EditBox"]:GetAttribute("channelTarget"))
 				if id == 0 then
-					colorize(unpack(Viks.media.bordercolor))
+					colorize(unpack(C.media.border_color))
 				else
 					colorize(ChatTypeInfo[type..id].r, ChatTypeInfo[type..id].g, ChatTypeInfo[type..id].b)
 				end
@@ -319,7 +319,7 @@ local function SetChatStyle(frame)
 		CombatLogQuickButtonFrame_CustomProgressBar:ClearAllPoints()
 		CombatLogQuickButtonFrame_CustomProgressBar:SetPoint("TOPLEFT", CombatLogQuickButtonFrame_Custom.backdrop, 2, -2)
 		CombatLogQuickButtonFrame_CustomProgressBar:SetPoint("BOTTOMRIGHT", CombatLogQuickButtonFrame_Custom.backdrop, -2, 2)
-		CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarTexture(Viks.media.texture)
+		CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarTexture(C.media.texture)
 		CombatLogQuickButtonFrameButton1:SetPoint("BOTTOM", 0, 0)
 	end
 
@@ -327,14 +327,17 @@ local function SetChatStyle(frame)
 		origs[_G[chat]] = _G[chat].AddMessage
 		_G[chat].AddMessage = AddMessage
 		-- Custom timestamps color
-		_G.TIMESTAMP_FORMAT_HHMM = T.RGBToHex(unpack(Viks.chat.time_color)).."[%I:%M]|r "
-		_G.TIMESTAMP_FORMAT_HHMMSS = T.RGBToHex(unpack(Viks.chat.time_color)).."[%I:%M:%S]|r "
-		_G.TIMESTAMP_FORMAT_HHMMSS_24HR = T.RGBToHex(unpack(Viks.chat.time_color)).."[%H:%M:%S]|r "
-		_G.TIMESTAMP_FORMAT_HHMMSS_AMPM = T.RGBToHex(unpack(Viks.chat.time_color)).."[%I:%M:%S %p]|r "
-		_G.TIMESTAMP_FORMAT_HHMM_24HR = T.RGBToHex(unpack(Viks.chat.time_color)).."[%H:%M]|r "
-		_G.TIMESTAMP_FORMAT_HHMM_AMPM = T.RGBToHex(unpack(Viks.chat.time_color)).."[%I:%M %p]|r "
+		_G.TIMESTAMP_FORMAT_HHMM = T.RGBToHex(unpack(C.chat.time_color)).."[%I:%M]|r "
+		_G.TIMESTAMP_FORMAT_HHMMSS = T.RGBToHex(unpack(C.chat.time_color)).."[%I:%M:%S]|r "
+		_G.TIMESTAMP_FORMAT_HHMMSS_24HR = T.RGBToHex(unpack(C.chat.time_color)).."[%H:%M:%S]|r "
+		_G.TIMESTAMP_FORMAT_HHMMSS_AMPM = T.RGBToHex(unpack(C.chat.time_color)).."[%I:%M:%S %p]|r "
+		_G.TIMESTAMP_FORMAT_HHMM_24HR = T.RGBToHex(unpack(C.chat.time_color)).."[%H:%M]|r "
+		_G.TIMESTAMP_FORMAT_HHMM_AMPM = T.RGBToHex(unpack(C.chat.time_color)).."[%I:%M %p]|r "
 	end
-
+	if id == 4 then
+		_G[chat.."TabText"]:ClearAllPoints()
+		_G[chat.."TabText"]:SetPoint("CENTER", _G[chat.."Tab"], 0, -4)
+	end
 	frame.skinned = true
 end
 
@@ -347,7 +350,7 @@ local function SetupChat(self)
 
 	-- Remember last channel
 	local var
-	if Viks.chat.sticky == true then
+	if C.chat.sticky == true then
 		var = 1
 	else
 		var = 0
@@ -381,25 +384,27 @@ local function SetupChatPosAndFont(self)
 		end
 
 		-- Font and font style for chat
-		chat:SetFont(Viks.font.chat_font, fontSize, Viks.font.chat_font_style)
-		chat:SetShadowOffset(Viks.font.chat_font_shadow and 1 or 0, Viks.font.chat_font_shadow and -1 or 0)
+		chat:SetFont(C.font.chat_font, fontSize, C.font.chat_font_style)
+		chat:SetShadowOffset(C.font.chat_font_shadow and 1 or 0, C.font.chat_font_shadow and -1 or 0)
 
 		-- Force chat position
 		if i == 1 then
 			chat:ClearAllPoints()
-			chat:SetSize(Viks.chat.width, Viks.chat.height)
-			if Viks.chat.background == true then
-				chat:SetPoint(Viks.position.chat[1], Viks.position.chat[2], Viks.position.chat[3], Viks.position.chat[4], Viks.position.chat[5] + 4)
+			chat:SetSize(C.chat.width, C.chat.height)
+			if C.chat.background == true then
+				chat:SetPoint(C.position.chat[1], C.position.chat[2], C.position.chat[3], C.position.chat[4], C.position.chat[5] + 4)
 			else
-				chat:SetPoint(Viks.position.chat[1], Viks.position.chat[2], Viks.position.chat[3], Viks.position.chat[4], Viks.position.chat[5])
+				chat:SetPoint(C.position.chat[1], C.position.chat[2], C.position.chat[3], C.position.chat[4], C.position.chat[5])
 			end
 			FCF_SavePositionAndDimensions(chat)
 		elseif i == 2 then
-			if Viks.chat.combatlog ~= true then
+			if C.chat.combatlog ~= true then
 				FCF_DockFrame(chat)
 				ChatFrame2Tab:EnableMouse(false)
-				ChatFrame2Tab:SetText("LOG")
+				ChatFrame2Tab:SetText("")
+				ChatFrame2Tab.SetText = T.dummy
 				ChatFrame2Tab:SetWidth(0.001)
+				ChatFrame2Tab.SetWidth = T.dummy
 			end
 		end
 	end
@@ -407,7 +412,7 @@ local function SetupChatPosAndFont(self)
 	-- Reposition battle.net popup over chat #1
 	BNToastFrame:HookScript("OnShow", function(self)
 		self:ClearAllPoints()
-		self:SetPoint(unpack(Viks.position.bn_popup))
+		self:SetPoint(unpack(C.position.bn_popup))
 	end)
 end
 

@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	ChatConfig skin
@@ -111,7 +111,7 @@ local function LoadSkin()
 		f.backdrop:SetPoint("TOPLEFT", 1, 0)
 		f.backdrop:SetPoint("BOTTOMRIGHT", 1, 1)
 
-		f:SetNormalTexture(Viks.media.texture)
+		f:SetNormalTexture(C.media.texture)
 		local nt = f:GetNormalTexture()
 
 		
@@ -176,7 +176,7 @@ local function LoadSkin()
 			bg:SetPoint("BOTTOMRIGHT", 0, 0)
 			bg:SetFrameLevel(swatch:GetFrameLevel() - 1)
 			bg:CreateBorder(true)
-			bg.iborder:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+			bg.iborder:SetBackdropBorderColor(unpack(C.media.border_color))
 
 			local bg2 = CreateFrame("Frame", nil, bg)
 			bg2:SetPoint("TOPLEFT", 1, -1)

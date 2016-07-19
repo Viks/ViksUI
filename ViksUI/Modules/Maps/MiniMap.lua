@@ -1,12 +1,12 @@
 --[[
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.minimap.enable ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.minimap.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Minimap border
 ----------------------------------------------------------------------------------------
 local MinimapAnchor = CreateFrame("Frame", "MinimapAnchor", UIParent)
-MinimapAnchor:CreatePanel("ClassColor", Viks.minimap.size, Viks.minimap.size, unpack(Viks.position.minimap))
+MinimapAnchor:CreatePanel("ClassColor", C.minimap.size, C.minimap.size, unpack(C.position.minimap))
 
 ----------------------------------------------------------------------------------------
 --	Shape, location and scale
@@ -125,7 +125,7 @@ GhostFrame:StripTextures()
 GhostFrame:SetTemplate("Overlay")
 GhostFrame:StyleButton()
 GhostFrame:ClearAllPoints()
-GhostFrame:SetPoint(unpack(Viks.position.ghost))
+GhostFrame:SetPoint(unpack(C.position.ghost))
 GhostFrameContentsFrameIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 GhostFrameContentsFrameIcon:SetSize(34, 34)
 GhostFrameContentsFrame:SetFrameLevel(GhostFrameContentsFrame:GetFrameLevel() + 2)
@@ -144,7 +144,7 @@ Minimap:SetScript("OnMouseWheel", function(self, d)
 end)
 
 -- Hide Game Time
-MinimapAnchor:RegisterEvent("PLAYER_LOGIN")
+MinimapAnchor:RegisterEvent("PLAYER_ENTERING_WORLD")
 MinimapAnchor:RegisterEvent("ADDON_LOADED")
 MinimapAnchor:SetScript("OnEvent", function(self, event, addon)
 	if addon == "Blizzard_TimeManager" then
@@ -212,7 +212,7 @@ local micromenu = {
 			end
 			PVPUIFrame_ShowFrame()
 		else
-			if Viks.error.white == false then
+			if C.error.white == false then
 				UIErrorsFrame:AddMessage(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_PVP_LEVEL), 1, 0.1, 0.1)
 			else
 				print("|cffffff00"..format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_PVP_LEVEL).."|r")
@@ -223,7 +223,7 @@ local micromenu = {
 		if T.level >= SHOW_LFD_LEVEL then
 			PVEFrame_ToggleFrame()
 		else
-			if Viks.error.white == false then
+			if C.error.white == false then
 				UIErrorsFrame:AddMessage(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_LFD_LEVEL), 1, 0.1, 0.1)
 			else
 				print("|cffffff00"..format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_LFD_LEVEL).."|r")
@@ -282,7 +282,7 @@ Minimap:SetScript("OnMouseUp", function(self, button)
 end)
 
 -- Set Square Map Mask
-Minimap:SetMaskTexture(Viks.media.blank)
+Minimap:SetMaskTexture(C.media.blank)
 Minimap:SetArchBlobRingAlpha(0)
 Minimap:SetQuestBlobRingAlpha(0)
 
@@ -292,7 +292,7 @@ function GetMinimapShape() return "SQUARE" end
 ----------------------------------------------------------------------------------------
 --	Hide minimap in combat
 ----------------------------------------------------------------------------------------
-if Viks.minimap.hide_combat == true then
+if C.minimap.hide_combat == true then
 	MinimapAnchor:RegisterEvent("PLAYER_REGEN_ENABLED")
 	MinimapAnchor:RegisterEvent("PLAYER_REGEN_DISABLED")
 	MinimapAnchor:HookScript("OnEvent", function(self, event)
@@ -307,7 +307,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Tracking icon
 ----------------------------------------------------------------------------------------
-if Viks.minimap.tracking_icon then
+if C.minimap.tracking_icon then
 	local trackborder = CreateFrame("Frame", nil, UIParent)
 	trackborder:SetFrameLevel(4)
 	trackborder:SetFrameStrata("BACKGROUND")

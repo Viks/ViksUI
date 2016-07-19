@@ -1,8 +1,8 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 ----------------------------------------------------------------------------------------
 --	Accept invites from guild members or friend list(by ALZA)
 ----------------------------------------------------------------------------------------
-if Viks.automation.accept_invite == true then
+if C.automation.accept_invite == true then
 	local CheckFriend = function(name)
 		for i = 1, GetNumFriends() do
 			if GetFriendInfo(i) == name then
@@ -59,7 +59,7 @@ local autoinvite = CreateFrame("Frame")
 autoinvite:RegisterEvent("CHAT_MSG_WHISPER")
 autoinvite:RegisterEvent("CHAT_MSG_BN_WHISPER")
 autoinvite:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
-	if ((not UnitExists("party1") or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) and arg1:lower():match(Viks.misc.invite_keyword)) and SavedOptionsPerChar.AutoInvite == true then
+	if ((not UnitExists("party1") or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) and arg1:lower():match(C.misc.invite_keyword)) and SavedOptionsPerChar.AutoInvite == true then
 		if event == "CHAT_MSG_WHISPER" then
 			InviteUnit(arg2)
 		elseif event == "CHAT_MSG_BN_WHISPER" then
@@ -75,12 +75,12 @@ SlashCmdList.AUTOINVITE = function(msg)
 		print("|cffffff00"..L_INVITE_DISABLE..".|r")
 	elseif msg == "" then
 		SavedOptionsPerChar.AutoInvite = true
-		print("|cffffff00"..L_INVITE_ENABLE..Viks.misc.invite_keyword..".|r")
-		Viks.misc.invite_keyword = Viks.misc.invite_keyword
+		print("|cffffff00"..L_INVITE_ENABLE..C.misc.invite_keyword..".|r")
+		C.misc.invite_keyword = C.misc.invite_keyword
 	else
 		SavedOptionsPerChar.AutoInvite = true
 		print("|cffffff00"..L_INVITE_ENABLE..msg..".|r")
-		Viks.misc.invite_keyword = msg
+		C.misc.invite_keyword = msg
 	end
 end
 SLASH_AUTOINVITE1 = "/ainv"

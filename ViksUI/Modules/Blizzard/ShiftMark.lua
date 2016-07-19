@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.shift_marking ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.shift_marking ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Mob marking(by ALZA)

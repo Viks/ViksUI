@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if not Viks.misc.Threatbar == true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if not C.misc.Threatbar == true then return end
 local aggroColors = {
 	[1] = {12/255, 151/255,  15/255},
 	[2] = {166/255, 171/255,  26/255},
@@ -13,22 +13,22 @@ ThreatBar:SetPoint("BOTTOMRIGHT", -2, 2)
 ThreatBar:SetFrameStrata("MEDIUM")
 ThreatBar:SetFrameLevel(5)
 
-ThreatBar:SetStatusBarTexture(Viks.media.texture)
+ThreatBar:SetStatusBarTexture(C.media.texture)
 ThreatBar:GetStatusBarTexture():SetHorizTile(false)
-ThreatBar:SetBackdrop({bgFile = Viks.media.texture})
+ThreatBar:SetBackdrop({bgFile = C.media.texture})
 ThreatBar:SetBackdropColor(0, 0, 0, 0)
 ThreatBar:SetMinMaxValues(0, 100)
 
-ThreatBar.text = SetFontString(ThreatBar, Viks.media.font, 10)
+ThreatBar.text = SetFontString(ThreatBar, C.media.normal_font, 10)
 ThreatBar.text:SetPoint("RIGHT", ThreatBar, "RIGHT", -30, 0)
 
-ThreatBar.Title = SetFontString(ThreatBar, Viks.media.font, 10)
+ThreatBar.Title = SetFontString(ThreatBar, C.media.normal_font, 10)
 ThreatBar.Title:SetText("Threat on current target:")
 ThreatBar.Title:SetPoint("LEFT", ThreatBar, "LEFT", 30, 0)
 	  
 ThreatBar.bg = ThreatBar:CreateTexture(nil, 'BORDER')
 ThreatBar.bg:SetAllPoints(ThreatBar)
-ThreatBar.bg:SetTexture(0.1,0.1,0.1)
+ThreatBar.bg:SetColorTexture(0.1,0.1,0.1)
 
 local function OnEvent(self, event, ...)
 	local party = GetNumGroupMembers()

@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Force readycheck warning
@@ -58,7 +58,7 @@ PVPReadyDialog.enterButton:SetPoint("BOTTOM", PVPReadyDialog, "BOTTOM", 0, 25)
 ----------------------------------------------------------------------------------------
 --	Spin camera while afk(by Telroth and Eclipse)
 ----------------------------------------------------------------------------------------
-if Viks.misc.afk_spin_camera == true then
+if C.misc.afk_spin_camera == true then
 local PName = UnitName("player")
 local PLevel = UnitLevel("player")
 local PClass = UnitClass("player")
@@ -114,31 +114,31 @@ ViksUIAFKPanelTopIcon:Show()
 
 ViksUIAFKPanelTop.ViksUIText = ViksUIAFKPanelTop:CreateFontString(nil, "OVERLAY")
 ViksUIAFKPanelTop.ViksUIText:SetPoint("CENTER", ViksUIAFKPanelTop, "CENTER", 0, 0)
-ViksUIAFKPanelTop.ViksUIText:SetFont(Viks["media"].pxfontHeader, 40, "OUTLINE")
+ViksUIAFKPanelTop.ViksUIText:SetFont(C["media"].pxfontHeader, 40, "OUTLINE")
 ViksUIAFKPanelTop.ViksUIText:SetText("|cffc41f3bViksUI Version" .. Version)
 
 ViksUIAFKPanelTop.DateText = ViksUIAFKPanelTop:CreateFontString(nil, "OVERLAY")
 ViksUIAFKPanelTop.DateText:SetPoint("BOTTOMLEFT", ViksUIAFKPanelTop, "BOTTOMRIGHT", -100, 44)
-ViksUIAFKPanelTop.DateText:SetFont(Viks["media"].font, 15, "OUTLINE")
+ViksUIAFKPanelTop.DateText:SetFont(C["media"].normal_font, 15, "OUTLINE")
 
 ViksUIAFKPanelTop.ClockText = ViksUIAFKPanelTop:CreateFontString(nil, "OVERLAY")
 ViksUIAFKPanelTop.ClockText:SetPoint("BOTTOMLEFT", ViksUIAFKPanelTop, "BOTTOMRIGHT", -100, 20)
-ViksUIAFKPanelTop.ClockText:SetFont(Viks["media"].font, 20, "OUTLINE")
+ViksUIAFKPanelTop.ClockText:SetFont(C["media"].normal_font, 20, "OUTLINE")
 
 ViksUIAFKPanelTop.PlayerNameText = ViksUIAFKPanelTop:CreateFontString(nil, "OVERLAY")
 ViksUIAFKPanelTop.PlayerNameText:SetPoint("LEFT", ViksUIAFKPanelTop, "LEFT", 25, 15)
-ViksUIAFKPanelTop.PlayerNameText:SetFont(Viks["media"].font, 28, "OUTLINE")
+ViksUIAFKPanelTop.PlayerNameText:SetFont(C["media"].normal_font, 28, "OUTLINE")
 ViksUIAFKPanelTop.PlayerNameText:SetText(PName)
 ViksUIAFKPanelTop.PlayerNameText:SetTextColor(T.color.r, T.color.g, T.color.b)
 
 ViksUIAFKPanelTop.GuildText = ViksUIAFKPanelTop:CreateFontString(nil, "OVERLAY")
 ViksUIAFKPanelTop.GuildText:SetPoint("LEFT", ViksUIAFKPanelTop, "LEFT", 25, -3)
-ViksUIAFKPanelTop.GuildText:SetFont(Viks["media"].font, 15, "OUTLINE")
+ViksUIAFKPanelTop.GuildText:SetFont(C["media"].normal_font, 15, "OUTLINE")
 ViksUIAFKPanelTop.GuildText:SetText("|cffc41f3b" .. PGuild .. "|r")
 
 ViksUIAFKPanelTop.PlayerInfoText = ViksUIAFKPanelTop:CreateFontString(nil, "OVERLAY")
 ViksUIAFKPanelTop.PlayerInfoText:SetPoint("LEFT", ViksUIAFKPanelTop, "LEFT", 25, -20)
-ViksUIAFKPanelTop.PlayerInfoText:SetFont(Viks["media"].font, 15, "OUTLINE")
+ViksUIAFKPanelTop.PlayerInfoText:SetFont(C["media"].normal_font, 15, "OUTLINE")
 ViksUIAFKPanelTop.PlayerInfoText:SetText(LEVEL .. " " .. PLevel .. " " .. PFaction .. " " .. PClass)
 
 --[[
@@ -201,7 +201,7 @@ local interval = #texts
 local ViksUIAFKScrollFrame = CreateFrame("ScrollingMessageFrame", "ViksUIAFKScrollFrame", ViksUIAFKPanel)
 ViksUIAFKScrollFrame:SetSize(ViksUIAFKPanel:GetWidth(), ViksUIAFKPanel:GetHeight())
 ViksUIAFKScrollFrame:SetPoint("CENTER", ViksUIAFKPanel, "CENTER", 0, 60)
-ViksUIAFKScrollFrame:SetFont(Viks["media"].font, 20, "OUTLINE")
+ViksUIAFKScrollFrame:SetFont(C["media"].normal_font, 20, "OUTLINE")
 ViksUIAFKScrollFrame:SetShadowColor(0, 0, 0, 0)
 ViksUIAFKScrollFrame:SetFading(false)
 ViksUIAFKScrollFrame:SetFadeDuration(0)
@@ -238,10 +238,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Custom Lag Tolerance(by Elv22)
 ----------------------------------------------------------------------------------------
-if Viks.general.custom_lagtolerance == true then
-	InterfaceOptionsCombatPanelMaxSpellStartRecoveryOffset:Hide()
-	InterfaceOptionsCombatPanelReducedLagTolerance:Hide()
-
+if C.general.custom_lagtolerance == true then
 	local customlag = CreateFrame("Frame")
 	local int = 5
 	local _, _, _, lag = GetNetStats()
@@ -279,7 +276,7 @@ end)
 ----------------------------------------------------------------------------------------
 --	Remove Boss Emote spam during BG(ArathiBasin SpamFix by Partha)
 ----------------------------------------------------------------------------------------
-if Viks.misc.hide_bg_spam == true then
+if C.misc.hide_bg_spam == true then
 	local Fixer = CreateFrame("Frame")
 	local RaidBossEmoteFrame, spamDisabled = RaidBossEmoteFrame
 
@@ -379,7 +376,7 @@ filter:SetScript("OnEvent", function(self, event, addon, ...)
 	if addon == "Blizzard_AchievementUI" then
 		if AchievementFrame then
 			old_nocomplete_filter_init()
-			if Viks.skins.blizzard_frames == true then
+			if C.skins.blizzard_frames == true then
 				AchievementFrameFilterDropDown:SetWidth(AchievementFrameFilterDropDown:GetWidth() + 20)
 			end
 			filter:UnregisterEvent("ADDON_LOADED")
@@ -390,7 +387,7 @@ end)
 ----------------------------------------------------------------------------------------
 --	Boss Banner Hider
 ----------------------------------------------------------------------------------------
-if Viks.automation.bannerhide == true then
+if C.automation.bannerhide == true then
 BossBanner.PlayBanner = function()
 end
 end

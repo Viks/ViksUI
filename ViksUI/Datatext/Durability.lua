@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --------------------------------------------------------------------
 -- DURABILITY
 --------------------------------------------------------------------
@@ -16,16 +16,16 @@ localSlots = {
 	[11] = {18, "Ranged", 1000}
 }
 	
-if Viks.datatext.Durability and Viks.datatext.Durability > 0 then
+if C.datatext.Durability and C.datatext.Durability > 0 then
 	local Stat = CreateFrame("Frame")
 	Stat:EnableMouse(true)
 	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
 
 	local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-	Text:SetTextColor(unpack(Viks.media.pxcolor1))
-	Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
-	PP(Viks.datatext.Durability, Text)
+	Text:SetTextColor(unpack(C.media.pxcolor1))
+	Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
+	PP(C.datatext.Durability, Text)
 
 	local Total = 0
 	local current, max

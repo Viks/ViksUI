@@ -1,8 +1,8 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.MMBFbutton then
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.MMBFbutton then
 local _, class = UnitClass("player")
 --local r, g, b = CUSTOM_CLASS_COLORS[class].r, CUSTOM_CLASS_COLORS[class].g, CUSTOM_CLASS_COLORS[class].b
-local r, g, b = unpack(Viks.media.pxcolor1)
+local r, g, b = unpack(C.media.pxcolor1)
 -----------------------------------------------------------------------------
 --MBF TOGGLE
 -----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ function MBFTOGGLE()
 		button:SetPoint("LEFT", CPMinimb2,"LEFT", 4, 2)
 				
 		local buttontext = button:CreateFontString(nil,"BACKGROUND",nil)
-		buttontext:SetFont(Viks.media.pxfont,Viks.media.pxfontsize,"OUTLINE")
+		buttontext:SetFont(C.media.pixel_font,C.media.pixel_font_size,"OUTLINE")
 		buttontext:SetText("MB")
 		buttontext:SetPoint("CENTER", 0, -1)
 		buttontext:SetJustifyH("CENTER")

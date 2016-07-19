@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local addon, ns = ...
 local cfg = ns.cfg
 local lib = ns.lib
@@ -121,15 +121,17 @@ local UnitSpecific = {
 		self:RegisterEvent("UNIT_FACTION", MyPvPUpdate)
 		-- This makes oUF update the information on forced updates.
 		table.insert(self.__elements, MyPvPUpdate)
-	if cfg.CPoints and Viks.unitframe_class_bar.combo_old ~= true then lib.genCPoints(self) end
+	if cfg.CPoints and C.unitframe_class_bar.combo_old ~= true then lib.genCPoints(self) end
 	if cfg.showHarmony then lib.genHarmony(self) end
 	if cfg.showShadowOrbsBar then lib.genShadowOrbsBar(self) end
 	if cfg.showPortrait or cfg.portraitHPbar then lib.gen_portrait(self) end
 	if cfg.showRunebar then lib.genRunes(self) end
 	if cfg.showHolybar then lib.genHolyPower(self) end
 	if cfg.showShardbar then lib.genShards(self) end
-	if cfg.showEclipsebar then lib.addEclipseBar(self) end
-	lib.Vengeance(self)
+	--if cfg.showEclipsebar then lib.addEclipseBar(self) end
+	--lib.addAdditionalPower(self)
+	if cfg.showArcaneChargesbar then lib.addArcaneCharges(self) end
+	--lib.Vengeance(self)
 	--addons
 		
 	end,
@@ -170,7 +172,7 @@ local UnitSpecific = {
 		lib.addQuestIcon(self)
 		lib.createBuffs(self)
 		lib.createDebuffs(self)
-		if cfg.CPoints and Viks.unitframe_class_bar.combo_old == true then lib.genCPoints(self) end
+		if cfg.CPoints and C.unitframe_class_bar.combo_old == true then lib.genCPoints(self) end
 		--lib.createAuras(self)
 		if cfg.showPortrait or cfg.portraitHPbar then lib.gen_portrait(self) end
 
@@ -918,7 +920,7 @@ SlashCmdList.TESTUF = function()
 				v.fff:SetPoint("TOPLEFT", v, -2, 2)
 				v.fff:SetPoint("BOTTOMRIGHT", v, 2, -2)
 			
-				v.fffs = SetFontString(v.fff, Viks.media.font, 10, "OUTLINE")
+				v.fffs = SetFontString(v.fff, C.media.normal_font, 10, "OUTLINE")
 				v.fffs:SetShadowOffset(0, 0)
 				v.fffs:SetAllPoints(v.fff)
 				v.fffs:SetText(v:GetName())

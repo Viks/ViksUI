@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blood_shield_tracker ~= true or T.class ~= "DEATHKNIGHT" then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blood_shield_tracker ~= true or T.class ~= "DEATHKNIGHT" then return end
 
 ----------------------------------------------------------------------------------------
 --	BloodShieldTracker skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event, addon)
 	if not IsAddOnLoaded("BloodShieldTracker") then return end
 
@@ -65,17 +65,17 @@ frame:SetScript("OnEvent", function(self, event, addon)
 		if bar then
 			bar:CreateBackdrop("Default")
 
-			bar.value:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-			bar.value:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+			bar.value:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+			bar.value:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 
 			if bar.stacks then
-				bar.stacks:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-				bar.stacks:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+				bar.stacks:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+				bar.stacks:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 			end
 
 			if bar.time then
-				bar.time:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-				bar.time:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+				bar.time:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+				bar.time:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 			end
 		end
 	end

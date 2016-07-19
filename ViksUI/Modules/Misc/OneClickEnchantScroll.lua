@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.enchantment_scroll ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.enchantment_scroll ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Enchantment scroll on TradeSkill frame(OneClickEnchantScroll by Sara.Festung)
@@ -7,10 +7,9 @@ if Viks.misc.enchantment_scroll ~= true then return end
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, addon)
-	if IsAddOnLoaded("Blizzard_TradeSkillUI") and not IsAddOnLoaded("OneClickEnchantScroll") then
-		local oldfunc = TradeSkillFrame_SetSelection
+	if addon == "Blizzard_TradeSkillUI" and not IsAddOnLoaded("OneClickEnchantScroll") then
 		local button = CreateFrame("Button", "TradeSkillCreateScrollButton", TradeSkillFrame, "MagicButtonTemplate")
-		if Viks.skins.blizzard_frames == true then
+		if C.skins.blizzard_frames == true then
 			button:SkinButton(true)
 			button:SetPoint("TOPRIGHT", TradeSkillCreateButton, "TOPLEFT", -1, 0)
 		else
@@ -21,8 +20,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 			UseItemByName(38682)
 		end)
 
-		function TradeSkillFrame_SetSelection(id)
-			oldfunc(id)
+		hooksecurefunc(TradeSkillDetailsMixin, "RefreshButtons", function(id)
 			local skillName, _, _, _, altVerb = GetTradeSkillInfo(id)
 			if IsTradeSkillGuild() or IsTradeSkillLinked() then
 				button:Hide()
@@ -33,7 +31,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 					creatable = nil
 				end
 				local scrollnum = GetItemCount(38682)
-				TradeSkillCreateScrollButton:SetText(L_MISC_SCROLL.." ("..scrollnum..")")
+				button:SetText(L_MISC_SCROLL.." ("..scrollnum..")")
 				if scrollnum == 0 then
 					creatable = nil
 				end
@@ -44,13 +42,13 @@ frame:SetScript("OnEvent", function(self, event, addon)
 					end
 				end
 				if creatable then
-					TradeSkillCreateScrollButton:Enable()
+					button:Enable()
 				else
-					TradeSkillCreateScrollButton:Disable()
+					button:Disable()
 				end
 			else
 				button:Hide()
 			end
-		end
+		end)
 	end
 end)

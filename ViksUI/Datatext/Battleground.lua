@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
---if Viks.stats.battleground ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+--if C.stats.battleground ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	BGScore(by Elv22, edited by Tukz)
@@ -19,7 +19,7 @@ local SSM = 860
 local classcolor = ("|cff%.2x%.2x%.2x"):format(T.color.r * 255, T.color.g * 255, T.color.b * 255)
 
 local bgframe = CreateFrame("Frame", "InfoBattleGround", UIParent)
-bgframe:CreatePanel("Invisible", 300, Viks.font.stats_font_size, unpack(Viks.position.bg_score))
+bgframe:CreatePanel("Invisible", 300, C.font.stats_font_size, unpack(C.position.bg_score))
 bgframe:EnableMouse(true)
 bgframe:SetScript("OnEnter", function(self)
 	local numScores = GetNumBattlefieldScores()
@@ -84,22 +84,22 @@ local Stat = CreateFrame("Frame")
 Stat:EnableMouse(true)
 
 local Text1 = InfoBattleGround:CreateFontString(nil, "OVERLAY")
-Text1:SetFont(Viks.font.stats_font, Viks.font.stats_font_size, Viks.font.stats_font_style)
-Text1:SetShadowOffset(Viks.font.stats_font_shadow and 1 or 0, Viks.font.stats_font_shadow and -1 or 0)
+Text1:SetFont(C.font.stats_font, C.font.stats_font_size, C.font.stats_font_style)
+Text1:SetShadowOffset(C.font.stats_font_shadow and 1 or 0, C.font.stats_font_shadow and -1 or 0)
 Text1:SetPoint("LEFT", 5, 0)
-Text1:SetHeight(Viks.font.stats_font_size)
+Text1:SetHeight(C.font.stats_font_size)
 
 local Text2 = InfoBattleGround:CreateFontString(nil, "OVERLAY")
-Text2:SetFont(Viks.font.stats_font, Viks.font.stats_font_size, Viks.font.stats_font_style)
-Text2:SetShadowOffset(Viks.font.stats_font_shadow and 1 or 0, Viks.font.stats_font_shadow and -1 or 0)
+Text2:SetFont(C.font.stats_font, C.font.stats_font_size, C.font.stats_font_style)
+Text2:SetShadowOffset(C.font.stats_font_shadow and 1 or 0, C.font.stats_font_shadow and -1 or 0)
 Text2:SetPoint("LEFT", Text1, "RIGHT", 5, 0)
-Text2:SetHeight(Viks.font.stats_font_size)
+Text2:SetHeight(C.font.stats_font_size)
 
 local Text3 = InfoBattleGround:CreateFontString(nil, "OVERLAY")
-Text3:SetFont(Viks.font.stats_font, Viks.font.stats_font_size, Viks.font.stats_font_style)
-Text3:SetShadowOffset(Viks.font.stats_font_shadow and 1 or 0, Viks.font.stats_font_shadow and -1 or 0)
+Text3:SetFont(C.font.stats_font, C.font.stats_font_size, C.font.stats_font_style)
+Text3:SetShadowOffset(C.font.stats_font_shadow and 1 or 0, C.font.stats_font_shadow and -1 or 0)
 Text3:SetPoint("LEFT", Text2, "RIGHT", 5, 0)
-Text3:SetHeight(Viks.font.stats_font_size)
+Text3:SetHeight(C.font.stats_font_size)
 
 local int = 2
 local function Update(self, t)

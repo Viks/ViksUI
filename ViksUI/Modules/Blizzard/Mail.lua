@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 if IsAddOnLoaded("OpenAll") or IsAddOnLoaded("Postal") or IsAddOnLoaded("TradeSkillMaster_Mailing") then return end
 
 ----------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ button2:SetScript("OnEnter", function()
 end)
 button2:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
-if Viks.skins.blizzard_frames == true then
+if C.skins.blizzard_frames == true then
 	OpenAllButton:SkinButton()
 	OpenAllButton2:SkinButton()
 end

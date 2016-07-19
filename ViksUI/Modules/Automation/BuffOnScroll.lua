@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.buff_on_scroll ~= true or T.level ~= MAX_PLAYER_LEVEL then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.automation.buff_on_scroll ~= true or T.level ~= MAX_PLAYER_LEVEL then return end
 
 ----------------------------------------------------------------------------------------
 --	Cast buff on mouse scroll(by Gsuz)
@@ -7,100 +7,58 @@ if Viks.automation.buff_on_scroll ~= true or T.level ~= MAX_PLAYER_LEVEL then re
 local frame = CreateFrame("Frame", "AutomatorFrame")
 
 DEATHKNIGHT1 = {
-	49222,	-- Bone Shield
-	57330,	-- Horn of Winter
 	3714,	-- Path of Frost
 }
 
 DEATHKNIGHT2 = {
-	57330,	-- Horn of Winter
 	3714,	-- Path of Frost
 }
 
 DEATHKNIGHT3 = {
-	57330,	-- Horn of Winter
 	3714,	-- Path of Frost
 }
 
-DRUID1 = {
-	1126,	-- Mark of the Wild
-}
+DRUID1 = {}
 
-DRUID2 = {
-	1126,	-- Mark of the Wild
-}
+DRUID2 = {}
 
-DRUID3 = {
-	1126,	-- Mark of the Wild
-}
+DRUID3 = {}
 
-DRUID4 = {
-	1126,	-- Mark of the Wild
-}
+DRUID4 = {}
 
-HUNTER1 = {
-	--WoD 13165,	-- Aspect of the Hawk
-}
+HUNTER1 = {}
 
-HUNTER2 = {
-	--WoD 13165,	-- Aspect of the Hawk
-}
+HUNTER2 = {}
 
-HUNTER3 = {
-	--WoD 13165,	-- Aspect of the Hawk
-}
+HUNTER3 = {}
 
-MAGE1 = {
-	1459,	-- Arcane Brilliance
-}
+MAGE1 = {}
 
-MAGE2 = {
-	1459,	-- Arcane Brilliance
-}
+MAGE2 = {}
 
-MAGE3 = {
-	1459,	-- Arcane Brilliance
-}
+MAGE3 = {}
 
-MONK1 = {
-	116781,	-- Legacy of the White Tiger
-}
+MONK1 = {}
 
-MONK2 = {
-	115921,	-- Legacy of the Emperor
-}
+MONK2 = {}
 
-MONK3 = {
+MONK3 = {}
 
-	116781,	-- Legacy of the White Tiger
-}
+PALADIN1 = {}
 
-PALADIN1 = {
-	20217,	-- Blessing of Kings
-}
-
-PALADIN2 = {
-	20217,	-- Blessing of Kings
-}
+PALADIN2 = {}
 
 PALADIN3 = {
-	20217,	-- Blessing of Kings
+	203538,	-- Greater Blessing of Kings
+	203528,	-- Greater Blessing of Might
+	203539,	-- Greater Blessing of Wisdom
 }
 
-PRIEST1 = {
-	21562,	-- Power Word: Fortitude
-	--WoD 73413,	-- Inner Will
-}
+PRIEST1 = {}
 
-PRIEST2 = {
-	21562,	-- Power Word: Fortitude
-	--WoD 73413,	-- Inner Will
-}
+PRIEST2 = {}
 
-PRIEST3 = {
-	21562,	-- Power Word: Fortitude
-	--WoD 73413,	-- Inner Will
-}
+PRIEST3 = {}
 
 ROGUE1 = {}
 
@@ -114,29 +72,17 @@ SHAMAN2 = {}
 
 SHAMAN3 = {}
 
-WARLOCK1 = {
-	109773,	-- Dark Intent
-}
+WARLOCK1 = {}
 
-WARLOCK2 = {
-	109773,	-- Dark Intent
-}
+WARLOCK2 = {}
 
-WARLOCK3 = {
-	109773,	-- Dark Intent
-}
+WARLOCK3 = {}
 
-WARRIOR1 = {
-	6673,	-- Battle Shout
-}
+WARRIOR1 = {}
 
-WARRIOR2 = {
-	6673,	-- Battle Shout
-}
+WARRIOR2 = {}
 
-WARRIOR3 = {
-	469,	-- Commanding Shout
-}
+WARRIOR3 = {}
 
 -- Function for waiting through the global cooldown
 local GcTimer = 0
@@ -158,13 +104,13 @@ btn:SetAttribute("unit", "player")
 
 -- Main function for changing keybinding to mousewheel when a buff is needed
 function CheckBuffs()
-	local tree = GetSpecialization() or 1
+	local spec = GetSpecialization() or 1
 	if IsFlying() or IsMounted() or UnitIsDeadOrGhost("Player") or InCombatLockdown() then return end
 	ClearOverrideBindings(btn)
 	btn:SetAttribute("spell", nil)
-	for i, v in pairs(_G[T.class..tree]) do
+	for i, v in pairs(_G[T.class..spec]) do
 		local name = GetSpellInfo(v)
-		if not UnitAura("player", name) then
+		if name and not UnitAura("player", name) then
 			if GetSpellCooldown(name) == 0 then
 				btn:SetAttribute("spell", name)
 				SetOverrideBindingClick(btn, true, "MOUSEWHEELUP", "AutoBuffButton")

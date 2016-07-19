@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.datatext.Arena and Viks.datatext.Arena > 0 then
+local T, C, L, _ = unpack(select(2, ...))
+if C.datatext.Arena and C.datatext.Arena > 0 then
 
 
 	local Stat = CreateFrame("Frame")
@@ -9,14 +9,14 @@ if Viks.datatext.Arena and Viks.datatext.Arena > 0 then
 
 	local Text  = LBottom:CreateFontString(nil, "OVERLAY")
 	--Set font based on where.
-	if Viks.datatext.Arena >= 6 then
-		Text:SetTextColor(unpack(Viks.media.pxcolor1))
-		Text:SetFont(Viks.media.pxfontHeader, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+	if C.datatext.Arena >= 6 then
+		Text:SetTextColor(unpack(C.media.pxcolor1))
+		Text:SetFont(C.media.pxfontHeader, C.media.pxfontHsize, C.media.pxfontHFlag)
 	else
-		Text:SetTextColor(unpack(Viks.media.pxcolor1))
-		Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+		Text:SetTextColor(unpack(C.media.pxcolor1))
+		Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	end
-	PP(Viks.datatext.Arena, Text)
+	PP(C.datatext.Arena, Text)
 	
 	dispConquestPoints = false
 	local conquestPoints = 0
@@ -162,7 +162,7 @@ end
 		Stat:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	end
 	Stat:RegisterEvent("PLAYER_ENTERING_WORLD")
-	Stat:RegisterEvent("PLAYER_LOGIN")
+	Stat:RegisterEvent("PLAYER_ENTERING_WORLD")
 	Stat:RegisterEvent("ARENA_TEAM_UPDATE")
 	Stat:SetScript("OnEvent", OnEvent)
 
@@ -172,7 +172,7 @@ end
 
 
 --[[
-if not Viks.datatext.Arena or Viks.datatext.Arena == 0 then return end
+if not C.datatext.Arena or C.datatext.Arena == 0 then return end
 DataTextTooltipAnchor = function(self)
 	local panel = self:GetParent()
 	local anchor = "ANCHOR_CURSOR"
@@ -198,14 +198,14 @@ Stat:SetFrameLevel(3)
 
 local Text  = LBottom:CreateFontString(nil, "OVERLAY")
 --Set font based on where.
-if Viks.datatext.Arena >= 9 then
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfontHeader, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+if C.datatext.Arena >= 9 then
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pxfontHeader, C.media.pxfontHsize, C.media.pxfontHFlag)
 else
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 end
-PP(Viks.datatext.Arena, Text)
+PP(C.datatext.Arena, Text)
 
 
 

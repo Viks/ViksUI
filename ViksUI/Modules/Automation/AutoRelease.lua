@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.resurrection ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.automation.resurrection ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto release the spirit in battlegrounds

@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --------------------------------------------------------------------
 -- GUILD ROSTER
 --------------------------------------------------------------------
@@ -17,7 +17,7 @@ function ShortValue(v)
 		return v
 	end
 end
-if Viks.datatext.Guild and Viks.datatext.Guild > 0 then
+if C.datatext.Guild and C.datatext.Guild > 0 then
 	
 -- localized references for global functions (about 50% faster)
 local join 			= string.join
@@ -52,14 +52,14 @@ Stat:SetFrameLevel(3)
 
 
 local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-if Viks.datatext.Guild>= 9 then
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfontHeader, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+if C.datatext.Guild>= 9 then
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pxfontHeader, C.media.pxfontHsize, C.media.pxfontHFlag)
 else
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 end
-PP(Viks.datatext.Guild, Text)
+PP(C.datatext.Guild, Text)
 Stat:SetAllPoints(Text)
 Stat:SetParent(Text:GetParent())
 

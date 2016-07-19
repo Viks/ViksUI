@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 --if IsAddOnLoaded("DBM-Core") then return end
 
 ----------------------------------------------------------------------------------------
 --	Queue timer on LFGDungeonReadyDialog
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame", nil, LFGDungeonReadyDialog)
-if Viks.skins.blizzard_frames == true then
+if C.skins.blizzard_frames == true then
 	frame:SetPoint("BOTTOM", LFGDungeonReadyDialog, "BOTTOM", 0, 8)
 	frame:CreateBackdrop("Overlay")
 	frame:SetSize(240, 10)
@@ -19,7 +19,7 @@ else
 end
 
 frame.bar = CreateFrame("StatusBar", nil, frame)
-frame.bar:SetStatusBarTexture(Viks.media.texture)
+frame.bar:SetStatusBarTexture(C.media.texture)
 frame.bar:SetAllPoints()
 frame.bar:SetFrameLevel(LFGDungeonReadyDialog:GetFrameLevel() + 1)
 frame.bar:SetStatusBarColor(1, 0.7, 0)

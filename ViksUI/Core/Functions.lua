@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Number value function
@@ -68,6 +68,7 @@ end
 
 local isCaster = {
 	DEATHKNIGHT = {nil, nil, nil},
+	DEMONHUNTER = {nil, nil},
 	DRUID = {true},					-- Balance
 	HUNTER = {nil, nil, nil},
 	MAGE = {true, true, true},
@@ -155,7 +156,7 @@ function T.SkinScrollBar(frame)
 	if _G[frame:GetName().."Middle"] then
 		_G[frame:GetName().."Middle"]:SetTexture(nil)
 	end
-	
+
 	if _G[frame:GetName().."ScrollUpButton"] and _G[frame:GetName().."ScrollDownButton"] then
 		_G[frame:GetName().."ScrollUpButton"]:StripTextures()
 		if not _G[frame:GetName().."ScrollUpButton"].icon then
@@ -172,7 +173,6 @@ function T.SkinScrollBar(frame)
 		end
 
 		if frame:GetThumbTexture() then
-
 			frame:GetThumbTexture():SetTexture(nil)
 			if not frame.thumbbg then
 				frame.thumbbg = CreateFrame("Frame", nil, frame)
@@ -332,7 +332,7 @@ function T.SkinNextPrevButton(btn, left)
 		if btn:GetPushedTexture() then
 			btn:GetPushedTexture():SetAllPoints(btn:GetNormalTexture())
 		end
-		btn:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+		btn:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
 		btn:GetHighlightTexture():SetAllPoints(btn:GetNormalTexture())
 	end
 end
@@ -344,7 +344,7 @@ function T.SkinRotateButton(btn)
 	btn:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.65, 0.69, 0.29, 0.69, 0.65)
 	btn:GetPushedTexture():SetTexCoord(0.3, 0.29, 0.3, 0.65, 0.69, 0.29, 0.69, 0.65)
 
-	btn:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+	btn:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
 
 	btn:GetNormalTexture():ClearAllPoints()
 	btn:GetNormalTexture():SetPoint("TOPLEFT", 2, -2)
@@ -365,6 +365,10 @@ function T.SkinEditBox(frame, width, height)
 	if frame.Right then frame.Right:Kill() end
 	if frame.Middle then frame.Middle:Kill() end
 
+	if frame.LeftTexture then frame.LeftTexture:Kill() end
+	if frame.RightTexture then frame.RightTexture:Kill() end
+	if frame.MiddleTexture then frame.MiddleTexture:Kill() end
+
 	frame:CreateBackdrop("Overlay")
 
 	if frame:GetName() and (frame:GetName():find("Gold") or frame:GetName():find("Silver") or frame:GetName():find("Copper")) then
@@ -376,6 +380,7 @@ function T.SkinEditBox(frame, width, height)
 			frame.backdrop:SetPoint("BOTTOMRIGHT", -13, 0)
 		end
 	end
+
 	if width then frame:SetWidth(width) end
 	if height then frame:SetHeight(height) end
 end
@@ -414,27 +419,24 @@ function T.SkinCheckBox(frame, default)
 
 	if frame.SetHighlightTexture then
 		local highligh = frame:CreateTexture(nil, nil, self)
-		highligh:SetTexture(1, 1, 1, 0.3)
+		highligh:SetColorTexture(1, 1, 1, 0.3)
 		highligh:SetPoint("TOPLEFT", frame, 6, -6)
 		highligh:SetPoint("BOTTOMRIGHT", frame, -6, 6)
 		frame:SetHighlightTexture(highligh)
 	end
 
 	if frame.SetCheckedTexture then
-		if default then
-			frame:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
-		else
-			local checked = frame:CreateTexture(nil, nil, self)
-			checked:SetTexture(1, 0.82, 0, 0.8)
-			checked:SetPoint("TOPLEFT", frame, 6, -6)
-			checked:SetPoint("BOTTOMRIGHT", frame, -6, 6)
-			frame:SetCheckedTexture(checked)
-		end
+		if default then return end
+		local checked = frame:CreateTexture(nil, nil, self)
+		checked:SetColorTexture(1, 0.82, 0, 0.8)
+		checked:SetPoint("TOPLEFT", frame, 6, -6)
+		checked:SetPoint("BOTTOMRIGHT", frame, -6, 6)
+		frame:SetCheckedTexture(checked)
 	end
 
 	if frame.SetDisabledCheckedTexture then
 		local disabled = frame:CreateTexture(nil, nil, self)
-		disabled:SetTexture(0.6, 0.6, 0.6, 0.75)
+		disabled:SetColorTexture(0.6, 0.6, 0.6, 0.75)
 		disabled:SetPoint("TOPLEFT", frame, 6, -6)
 		disabled:SetPoint("BOTTOMRIGHT", frame, -6, 6)
 		frame:SetDisabledCheckedTexture(disabled)
@@ -458,10 +460,10 @@ function T.SkinCloseButton(f, point, text, pixel)
 	if not text then text = "x" end
 	if not f.text then
 		if pixel then
-			f.text = f:FontString(nil, Viks.media.pxfont, 8)
+			f.text = f:FontString(nil, C.media.pixel_font, 8)
 			f.text:SetPoint("CENTER", 0, 0)
 		else
-			f.text = f:FontString(nil, Viks.media.font, 17)
+			f.text = f:FontString(nil, C.media.normal_font, 17)
 			f.text:SetPoint("CENTER", 0, 1)
 		end
 		f.text:SetText(text)
@@ -507,7 +509,7 @@ end
 local LoadBlizzardSkin = CreateFrame("Frame")
 LoadBlizzardSkin:RegisterEvent("ADDON_LOADED")
 LoadBlizzardSkin:SetScript("OnEvent", function(self, event, addon)
-	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") or not Viks.skins.blizzard_frames then
+	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") or not C.skins.blizzard_frames then
 		self:UnregisterEvent("ADDON_LOADED")
 		return
 	end
@@ -534,7 +536,7 @@ end)
 ----------------------------------------------------------------------------------------
 --	Unit frames functions
 ----------------------------------------------------------------------------------------
-if Viks.unitframes.enable ~= true then return end
+if C.unitframe.enable ~= true then return end
 local _, ns = ...
 local oUF = ns.oUF
 
@@ -545,24 +547,21 @@ T.UpdateAllElements = function(frame)
 end
 
 local SetUpAnimGroup = function(self)
-	self.anim = self:CreateAnimationGroup("Flash")
-	self.anim.fadein = self.anim:CreateAnimation("ALPHA", "FadeIn")
-	self.anim.fadein:SetChange(1)
-	self.anim.fadein:SetOrder(2)
-
-	self.anim.fadeout = self.anim:CreateAnimation("ALPHA", "FadeOut")
-	self.anim.fadeout:SetChange(-1)
-	self.anim.fadeout:SetOrder(1)
+	self.anim = self:CreateAnimationGroup()
+	self.anim:SetLooping("BOUNCE")
+	self.anim.fade = self.anim:CreateAnimation("Alpha")
+	self.anim.fade:SetFromAlpha(1)
+	self.anim.fade:SetToAlpha(0)
+	self.anim.fade:SetDuration(0.6)
+	self.anim.fade:SetSmoothing("IN_OUT")
 end
 
-local Flash = function(self, duration)
+local Flash = function(self)
 	if not self.anim then
 		SetUpAnimGroup(self)
 	end
 
-	if not self.anim:IsPlaying() or duration ~= self.anim.fadein:GetDuration() then
-		self.anim.fadein:SetDuration(duration)
-		self.anim.fadeout:SetDuration(duration)
+	if not self.anim:IsPlaying() then
 		self.anim:Play()
 	end
 end
@@ -576,7 +575,7 @@ end
 T.SetFontString = function(parent, fontName, fontHeight, fontStyle)
 	local fs = parent:CreateFontString(nil, "ARTWORK")
 	fs:SetFont(fontName, fontHeight, fontStyle)
-	fs:SetShadowOffset(Viks.font.unit_frames_font_shadow and 1 or 0, Viks.font.unit_frames_font_shadow and -1 or 0)
+	fs:SetShadowOffset(C.font.unit_frames_font_shadow and 1 or 0, C.font.unit_frames_font_shadow and -1 or 0)
 	return fs
 end
 
@@ -593,7 +592,7 @@ T.PostUpdateHealth = function(health, unit, min, max)
 		end
 	else
 		local r, g, b
-		if (Viks.unitframes.own_color ~= true and Viks.unitframes.enemy_health_color and unit == "target" and UnitIsEnemy(unit, "player") and UnitIsPlayer(unit)) or (Viks.unitframes.own_color ~= true and unit == "target" and not UnitIsPlayer(unit) and UnitIsFriend(unit, "player")) then
+		if (C.unitframe.own_color ~= true and C.unitframe.enemy_health_color and unit == "target" and UnitIsEnemy(unit, "player") and UnitIsPlayer(unit)) or (C.unitframe.own_color ~= true and unit == "target" and not UnitIsPlayer(unit) and UnitIsFriend(unit, "player")) then
 			local c = T.oUF_colors.reaction[UnitReaction(unit, "player")]
 			if c then
 				r, g, b = c[1], c[2], c[3]
@@ -606,8 +605,8 @@ T.PostUpdateHealth = function(health, unit, min, max)
 		if unit == "pet" or unit == "vehicle" then
 			local _, class = UnitClass("player")
 			local r, g, b = unpack(T.oUF_colors.class[class])
-			if Viks.unitframes.own_color == true then
-				health:SetStatusBarColor(unpack(Viks.unitframes.uf_color))
+			if C.unitframe.own_color == true then
+				health:SetStatusBarColor(unpack(C.unitframe.uf_color))
 				health.bg:SetVertexColor(0.1, 0.1, 0.1)
 			else
 				if b then
@@ -619,9 +618,9 @@ T.PostUpdateHealth = function(health, unit, min, max)
 				end
 			end
 		end
-		if Viks.unitframes.bar_color_value == true and not (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then
-			if Viks.unitframes.own_color == true then
-				r, g, b = Viks.unitframes.uf_color[1], Viks.unitframes.uf_color[2], Viks.unitframes.uf_color[3]
+		if C.unitframe.bar_color_value == true and not UnitIsTapDenied(unit) then
+			if C.unitframe.own_color == true then
+				r, g, b = C.unitframe.uf_color[1], C.unitframe.uf_color[2], C.unitframe.uf_color[3]
 			else
 				r, g, b = health:GetStatusBarColor()
 			end
@@ -636,41 +635,41 @@ T.PostUpdateHealth = function(health, unit, min, max)
 		if min ~= max then
 			r, g, b = oUF.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 			if unit == "player" and health:GetAttribute("normalUnit") ~= "pet" then
-				if Viks.unitframes.show_total_value == true then
-					if Viks.unitframes.color_value == true then
+				if C.unitframe.show_total_value == true then
+					if C.unitframe.color_value == true then
 						health.value:SetFormattedText("|cff559655%s|r |cffD7BEA5-|r |cff559655%s|r", T.ShortValue(min), T.ShortValue(max))
 					else
 						health.value:SetFormattedText("|cffffffff%s - %s|r", T.ShortValue(min), T.ShortValue(max))
 					end
 				else
-					if Viks.unitframes.color_value == true then
+					if C.unitframe.color_value == true then
 						health.value:SetFormattedText("|cffAF5050%d|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", min, r * 255, g * 255, b * 255, floor(min / max * 100))
 					else
 						health.value:SetFormattedText("|cffffffff%d - %d%%|r", min, floor(min / max * 100))
 					end
 				end
 			elseif unit == "target" then
-				if Viks.unitframes.show_total_value == true then
-					if Viks.unitframes.color_value == true then
+				if C.unitframe.show_total_value == true then
+					if C.unitframe.color_value == true then
 						health.value:SetFormattedText("|cff559655%s|r |cffD7BEA5-|r |cff559655%s|r", T.ShortValue(min), T.ShortValue(max))
 					else
 						health.value:SetFormattedText("|cffffffff%s - %s|r", T.ShortValue(min), T.ShortValue(max))
 					end
 				else
-					if Viks.unitframes.color_value == true then
+					if C.unitframe.color_value == true then
 						health.value:SetFormattedText("|cff%02x%02x%02x%d%%|r |cffD7BEA5-|r |cffAF5050%s|r", r * 255, g * 255, b * 255, floor(min / max * 100), T.ShortValue(min))
 					else
 						health.value:SetFormattedText("|cffffffff%d%% - %s|r", floor(min / max * 100), T.ShortValue(min))
 					end
 				end
 			elseif unit and unit:find("boss%d") then
-				if Viks.unitframes.color_value == true then
+				if C.unitframe.color_value == true then
 					health.value:SetFormattedText("|cff%02x%02x%02x%d%%|r |cffD7BEA5-|r |cffAF5050%s|r", r * 255, g * 255, b * 255, floor(min / max * 100), T.ShortValue(min))
 				else
 					health.value:SetFormattedText("|cffffffff%d%% - %s|r", floor(min / max * 100), T.ShortValue(min))
 				end
 			else
-				if Viks.unitframes.color_value == true then
+				if C.unitframe.color_value == true then
 					health.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
 				else
 					health.value:SetFormattedText("|cffffffff%d%%|r", floor(min / max * 100))
@@ -678,13 +677,13 @@ T.PostUpdateHealth = function(health, unit, min, max)
 			end
 		else
 			if unit == "player" and unit ~= "pet" then
-				if Viks.unitframes.color_value == true then
+				if C.unitframe.color_value == true then
 					health.value:SetText("|cff559655"..max.."|r")
 				else
 					health.value:SetText("|cffffffff"..max.."|r")
 				end
 			else
-				if Viks.unitframes.color_value == true then
+				if C.unitframe.color_value == true then
 					health.value:SetText("|cff559655"..T.ShortValue(max).."|r")
 				else
 					health.value:SetText("|cffffffff"..T.ShortValue(max).."|r")
@@ -709,7 +708,7 @@ T.PostUpdateRaidHealth = function(health, unit, min, max)
 		end
 	else
 		local r, g, b
-		if not UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and Viks.unitframes.own_color ~= true then
+		if not UnitIsPlayer(unit) and UnitIsFriend(unit, "player") and C.unitframe.own_color ~= true then
 			local c = T.oUF_colors.reaction[5]
 			local r, g, b = c[1], c[2], c[3]
 			health:SetStatusBarColor(r, g, b)
@@ -718,9 +717,9 @@ T.PostUpdateRaidHealth = function(health, unit, min, max)
 				health.bg:SetVertexColor(r * mu, g * mu, b * mu)
 			end
 		end
-		if Viks.unitframes.bar_color_value == true and not (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then
-			if Viks.unitframes.own_color == true then
-				r, g, b = Viks.unitframes.uf_color[1], Viks.unitframes.uf_color[2], Viks.unitframes.uf_color[3]
+		if C.unitframe.bar_color_value == true and not UnitIsTapDenied(unit) then
+			if C.unitframe.own_color == true then
+				r, g, b = C.unitframe.uf_color[1], C.unitframe.uf_color[2], C.unitframe.uf_color[3]
 			else
 				r, g, b = health:GetStatusBarColor()
 			end
@@ -735,20 +734,20 @@ T.PostUpdateRaidHealth = function(health, unit, min, max)
 		if min ~= max then
 			r, g, b = oUF.ColorGradient(min, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 			if self:GetParent():GetName():match("oUF_PartyDPS") then
-				if Viks.unitframes.color_value == true then
+				if C.unitframe.color_value == true then
 					health.value:SetFormattedText("|cffAF5050%s|r |cffD7BEA5-|r |cff%02x%02x%02x%d%%|r", T.ShortValue(min), r * 255, g * 255, b * 255, floor(min / max * 100))
 				else
 					health.value:SetFormattedText("|cffffffff%s - %d%%|r", T.ShortValue(min), floor(min / max * 100))
 				end
 			else
-				if Viks.unitframes.color_value == true then
-					if Viks.raidframes.deficit_health == true then
+				if C.unitframe.color_value == true then
+					if C.raidframes.deficit_health == true then
 						health.value:SetText("|cffffffff".."-"..T.ShortValue(max - min))
 					else
 						health.value:SetFormattedText("|cff%02x%02x%02x%d%%|r", r * 255, g * 255, b * 255, floor(min / max * 100))
 					end
 				else
-					if Viks.raidframes.deficit_health == true then
+					if C.raidframes.deficit_health == true then
 						health.value:SetText("|cffffffff".."-"..T.ShortValue(max - min))
 					else
 						health.value:SetFormattedText("|cffffffff%d%%|r", floor(min / max * 100))
@@ -756,13 +755,13 @@ T.PostUpdateRaidHealth = function(health, unit, min, max)
 				end
 			end
 		else
-			if Viks.unitframes.color_value == true then
+			if C.unitframe.color_value == true then
 				health.value:SetText("|cff559655"..T.ShortValue(max).."|r")
 			else
 				health.value:SetText("|cffffffff"..T.ShortValue(max).."|r")
 			end
 		end
-		if Viks.raidframes.alpha_health == true then
+		if C.raidframes.alpha_health == true then
 			if min / max > 0.95 then
 				health:SetAlpha(0.6)
 				power:SetAlpha(0.6)
@@ -809,54 +808,54 @@ T.PostUpdatePower = function(power, unit, min, max)
 		if min ~= max then
 			if pType == 0 and pToken ~= "POWER_TYPE_DINO_SONIC" then
 				if unit == "target" then
-					if Viks.unitframes.show_total_value == true then
-						if Viks.unitframes.color_value == true then
+					if C.unitframe.show_total_value == true then
+						if C.unitframe.color_value == true then
 							power.value:SetFormattedText("%s |cffD7BEA5-|r %s", T.ShortValue(max - (max - min)), T.ShortValue(max))
 						else
 							power.value:SetFormattedText("|cffffffff%s - %s|r", T.ShortValue(max - (max - min)), T.ShortValue(max))
 						end
 					else
-						if Viks.unitframes.color_value == true then
+						if C.unitframe.color_value == true then
 							power.value:SetFormattedText("%d%% |cffD7BEA5-|r %s", floor(min / max * 100), T.ShortValue(max - (max - min)))
 						else
 							power.value:SetFormattedText("|cffffffff%d%% - %s|r", floor(min / max * 100), T.ShortValue(max - (max - min)))
 						end
 					end
 				elseif (unit == "player" and power:GetAttribute("normalUnit") == "pet") or unit == "pet" then
-					if Viks.unitframes.show_total_value == true then
-						if Viks.unitframes.color_value == true then
+					if C.unitframe.show_total_value == true then
+						if C.unitframe.color_value == true then
 							power.value:SetFormattedText("%s |cffD7BEA5-|r %s", T.ShortValue(max - (max - min)), T.ShortValue(max))
 						else
 							power.value:SetFormattedText("%s |cffffffff-|r %s", T.ShortValue(max - (max - min)), T.ShortValue(max))
 						end
 					else
-						if Viks.unitframes.color_value == true then
+						if C.unitframe.color_value == true then
 							power.value:SetFormattedText("%d%%", floor(min / max * 100))
 						else
 							power.value:SetFormattedText("|cffffffff%d%%|r", floor(min / max * 100))
 						end
 					end
 				elseif unit and (unit:find("arena%d") or unit:find("boss%d")) then
-					if Viks.unitframes.color_value == true then
+					if C.unitframe.color_value == true then
 						power.value:SetFormattedText("|cffD7BEA5%d%% - %s|r", floor(min / max * 100), T.ShortValue(max - (max - min)))
 					else
 						power.value:SetFormattedText("|cffffffff%d%% - %s|r", floor(min / max * 100), T.ShortValue(max - (max - min)))
 					end
 				elseif self:GetParent():GetName():match("oUF_PartyDPS") then
-					if Viks.unitframes.color_value == true then
+					if C.unitframe.color_value == true then
 						power.value:SetFormattedText("%s |cffD7BEA5-|r %d%%", T.ShortValue(max - (max - min)), floor(min / max * 100))
 					else
 						power.value:SetFormattedText("|cffffffff%s - %d%%|r", T.ShortValue(max - (max - min)), floor(min / max * 100))
 					end
 				else
-					if Viks.unitframes.show_total_value == true then
-						if Viks.unitframes.color_value == true then
+					if C.unitframe.show_total_value == true then
+						if C.unitframe.color_value == true then
 							power.value:SetFormattedText("%s |cffD7BEA5-|r %s", T.ShortValue(max - (max - min)), T.ShortValue(max))
 						else
 							power.value:SetFormattedText("|cffffffff%s - %s|r", T.ShortValue(max - (max - min)), T.ShortValue(max))
 						end
 					else
-						if Viks.unitframes.color_value == true then
+						if C.unitframe.color_value == true then
 							power.value:SetFormattedText("%d |cffD7BEA5-|r %d%%", max - (max - min), floor(min / max * 100))
 						else
 							power.value:SetFormattedText("|cffffffff%d - %d%%|r", max - (max - min), floor(min / max * 100))
@@ -864,7 +863,7 @@ T.PostUpdatePower = function(power, unit, min, max)
 					end
 				end
 			else
-				if Viks.unitframes.color_value == true then
+				if C.unitframe.color_value == true then
 					power.value:SetText(max - (max - min))
 				else
 					power.value:SetText("|cffffffff"..max - (max - min).."|r")
@@ -872,13 +871,13 @@ T.PostUpdatePower = function(power, unit, min, max)
 			end
 		else
 			if unit == "pet" or unit == "target" or (unit and unit:find("arena%d")) or (self:GetParent():GetName():match("oUF_PartyDPS")) then
-				if Viks.unitframes.color_value == true then
+				if C.unitframe.color_value == true then
 					power.value:SetText(T.ShortValue(min))
 				else
 					power.value:SetText("|cffffffff"..T.ShortValue(min).."|r")
 				end
 			else
-				if Viks.unitframes.color_value == true then
+				if C.unitframe.color_value == true then
 					power.value:SetText(min)
 				else
 					power.value:SetText("|cffffffff"..min.."|r")
@@ -888,18 +887,21 @@ T.PostUpdatePower = function(power, unit, min, max)
 	end
 end
 
-local UpdateManaLevelDelay = 0
 T.UpdateManaLevel = function(self, elapsed)
-	UpdateManaLevelDelay = UpdateManaLevelDelay + elapsed
-	if UpdateManaLevelDelay < 0.2 or UnitPowerType("player") ~= 0 then return end
-	UpdateManaLevelDelay = 0
+	self.elapsed = (self.elapsed or 0) + elapsed
+	if self.elapsed < 0.2 then return end
+	self.elapsed = 0
 
-	local percMana = UnitMana("player") / UnitManaMax("player") * 100
-
-	if percMana <= 20 and not UnitIsDeadOrGhost("player") then
-		self.ManaLevel:SetText("|cffaf5050"..MANA_LOW.."|r")
-		Flash(self, 0.3)
-	else
+	if UnitPowerType("player") == 0 then
+		local percMana = UnitMana("player") / UnitManaMax("player") * 100
+		if percMana <= 20 and not UnitIsDeadOrGhost("player") then
+			self.ManaLevel:SetText("|cffaf5050"..MANA_LOW.."|r")
+			Flash(self)
+		else
+			self.ManaLevel:SetText()
+			StopFlash(self)
+		end
+	elseif T.class ~= "DRUID" then
 		self.ManaLevel:SetText()
 		StopFlash(self)
 	end
@@ -915,7 +917,7 @@ T.UpdateClassMana = function(self)
 		local percMana = min / max * 100
 		if percMana <= 20 and not UnitIsDeadOrGhost("player") then
 			self.FlashInfo.ManaLevel:SetText("|cffaf5050"..MANA_LOW.."|r")
-			Flash(self.FlashInfo, 0.3)
+			Flash(self.FlashInfo)
 		else
 			self.FlashInfo.ManaLevel:SetText()
 			StopFlash(self.FlashInfo)
@@ -971,44 +973,6 @@ T.UpdatePvPStatus = function(self, elapsed)
 	end
 end
 
-T.UpdateShadowOrb = function(self, event, unit, powerType)
-	if self.unit ~= unit or (powerType and powerType ~= "SHADOW_ORBS") then return end
-	local num = UnitPower(unit, SPELL_POWER_SHADOW_ORBS)
-	local numMax = UnitPowerMax("player", SPELL_POWER_SHADOW_ORBS)
-	local barWidth = self.ShadowOrbsBar:GetWidth()
-	local spacing = select(4, self.ShadowOrbsBar[4]:GetPoint())
-	local lastBar = 0
-
-	if numMax ~= self.ShadowOrbsBar.maxPower then
-		if numMax == 3 then
-			self.ShadowOrbsBar[4]:Hide()
-			self.ShadowOrbsBar[5]:Hide()
-			for i = 1, 3 do
-				if i ~= 3 then
-					self.ShadowOrbsBar[i]:SetWidth(barWidth / 3)
-					lastBar = lastBar + (barWidth / 3 + spacing)
-				else
-					self.ShadowOrbsBar[i]:SetWidth(barWidth - lastBar)
-				end
-			end
-		else
-			self.ShadowOrbsBar[4]:Show()
-			self.ShadowOrbsBar[5]:Show()
-			for i = 1, 5 do
-				self.ShadowOrbsBar[i]:SetWidth(self.ShadowOrbsBar[i].width)
-			end
-		end
-		self.ShadowOrbsBar.maxPower = numMax
-	end
-
-	for i = 1, 5 do
-		if i <= num then
-			self.ShadowOrbsBar[i]:SetAlpha(1)
-		else
-			self.ShadowOrbsBar[i]:SetAlpha(0.2)
-		end
-	end
-end
 T.UpdateHoly = function(self, event, unit, powerType)
 	if self.unit ~= unit or (powerType and powerType ~= "HOLY_POWER") then return end
 	local num = UnitPower(unit, SPELL_POWER_HOLY_POWER)
@@ -1048,46 +1012,14 @@ T.UpdateHoly = function(self, event, unit, powerType)
 	end
 end
 
-T.EclipseDirection = function(self)
-	if GetEclipseDirection() == "sun" then
-		self.Text:SetText("|cff4478BC>>|r")
-	elseif GetEclipseDirection() == "moon" then
-		self.Text:SetText("|cffE5994C<<|r")
-	else
-		self.Text:SetText("")
-	end
-end
-
-T.UpdateEclipse = function(self, login)
-	local eb = self.EclipseBar
-	local txt = self.EclipseBar.Text
-
-	if login then
-		eb:SetScript("OnUpdate", nil)
-	end
-
-	if eb:IsShown() or (T.class == "DRUID" and Viks.unitframe_class_bar.combo == true) then
-		txt:Show()
-		if self.Debuffs then self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 19) end
-	else
-		txt:Hide()
-		if self.Debuffs then self.Debuffs:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 2, 5) end
-	end
-end
-
-T.UpdateReputationColor = function(self, event, unit, bar)
-	local name, id = GetWatchedFactionInfo()
-	bar:SetStatusBarColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b)
-	bar.bg:SetVertexColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b, 0.2)
-end
-
 T.UpdateComboPoint = function(self, event, unit)
+	if powerType and powerType ~= 'COMBO_POINTS' then return end
     if unit == "pet" then return end
 
     local cpoints = self.CPoints
     local cp = (UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle")) and UnitPower("vehicle", 4) or UnitPower("player", 4)
-
-    for i = 1, MAX_COMBO_POINTS do
+	local maxpoints = UnitPowerMax('player', SPELL_POWER_COMBO_POINTS)
+    for i = 1, maxpoints do
         if i <= cp then
             cpoints[i]:SetAlpha(1)
         else
@@ -1095,7 +1027,7 @@ T.UpdateComboPoint = function(self, event, unit)
         end
     end
 
-    if (T.class == "DRUID" and Viks.unitframe_class_bar.comboalways ~= true) then
+    if (T.class == "DRUID" and C.unitframe_class_bar.comboalways ~= true) then
         local CatForm = function(self, event, unit)
             local unit = self.unit or "player"
             local name = UnitBuff(unit, GetSpellInfo(768)) or UnitBuff(unit, GetSpellInfo(171745))
@@ -1110,7 +1042,7 @@ T.UpdateComboPoint = function(self, event, unit)
 
         local CheckForm = CreateFrame("Frame", self:GetName().."_CheckForm", cpoints)
         CheckForm:RegisterEvent("UNIT_AURA")
-        CheckForm:RegisterEvent("PLAYER_LOGIN")
+        CheckForm:RegisterEvent("PLAYER_ENTERING_WORLD")
         CheckForm:RegisterEvent("PLAYER_ENTERING_WORLD")
         CheckForm:SetScript("OnEvent", CatForm)
         CheckForm:SetScript("OnUpdate", CatForm)
@@ -1120,6 +1052,7 @@ T.UpdateComboPoint = function(self, event, unit)
 end
 
 T.UpdateComboPointOld = function(self, event, unit)
+	if powerType and powerType ~= 'COMBO_POINTS' then return end
 	if unit == "pet" then return end
 
 	local cpoints = self.CPoints
@@ -1171,6 +1104,12 @@ T.UpdateComboPointOld = function(self, event, unit)
 	end
 end
 
+T.UpdateReputationColor = function(self, event, unit, bar)
+	local name, id = GetWatchedFactionInfo()
+	bar:SetStatusBarColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b)
+	bar.bg:SetVertexColor(FACTION_BAR_COLORS[id].r, FACTION_BAR_COLORS[id].g, FACTION_BAR_COLORS[id].b, 0.2)
+end
+
 local ticks = {}
 local channelingTicks = T.CastBarTicks
 
@@ -1183,8 +1122,8 @@ local setBarTicks = function(Castbar, ticknum)
 		for k = 1, ticknum do
 			if not ticks[k] then
 				ticks[k] = Castbar:CreateTexture(nil, "OVERLAY")
-				ticks[k]:SetTexture(Viks.media.texture)
-				ticks[k]:SetVertexColor(unpack(Viks.media.bordercolor))
+				ticks[k]:SetTexture(C.media.texture)
+				ticks[k]:SetVertexColor(unpack(C.media.border_color))
 				ticks[k]:SetWidth(1)
 				ticks[k]:SetHeight(Castbar:GetHeight())
 				ticks[k]:SetDrawLayer("OVERLAY", 7)
@@ -1200,7 +1139,7 @@ T.PostCastStart = function(Castbar, unit, name, castid)
 	Castbar.channeling = false
 	if unit == "vehicle" then unit = "player" end
 
-	if unit == "player" and Viks.unitframes.castbar_latency == true and Castbar.Latency then
+	if unit == "player" and C.unitframe.castbar_latency == true and Castbar.Latency then
 		local _, _, _, lag = GetNetStats()
 		local latency = GetTime() - (Castbar.castSent or 0)
 		lag = lag / 1e3 > Castbar.max and Castbar.max or lag / 1e3
@@ -1210,9 +1149,10 @@ T.PostCastStart = function(Castbar, unit, name, castid)
 		Castbar.SafeZone:ClearAllPoints()
 		Castbar.SafeZone:SetPoint("TOPRIGHT")
 		Castbar.SafeZone:SetPoint("BOTTOMRIGHT")
+		Castbar.castSent = nil
 	end
 
-	if unit == "player" and Viks.unitframes.castbar_ticks == true then
+	if unit == "player" and C.unitframe.castbar_ticks == true then
 		setBarTicks(Castbar, 0)
 	end
 
@@ -1237,16 +1177,16 @@ T.PostCastStart = function(Castbar, unit, name, castid)
 		Castbar:SetStatusBarColor(0.8, 0, 0)
 		Castbar.bg:SetVertexColor(0.8, 0, 0, 0.2)
 		Castbar.Overlay:SetBackdropBorderColor(0.8, 0, 0)
-		if Viks.unitframes.castbar_icon == true and (unit == "target" or unit == "focus") then
+		if C.unitframe.castbar_icon == true and (unit == "target" or unit == "focus") then
 			Castbar.Button:SetBackdropBorderColor(0.8, 0, 0)
 		end
 	else
 		if unit == "pet" or unit == "vehicle" then
 			local _, class = UnitClass("player")
 			local r, g, b = unpack(T.oUF_colors.class[class])
-			if Viks.unitframes.own_color == true then
-				Castbar:SetStatusBarColor(unpack(Viks.unitframes.uf_color))
-				Castbar.bg:SetVertexColor(Viks.unitframes.uf_color[1], Viks.unitframes.uf_color[2], Viks.unitframes.uf_color[3], 0.2)
+			if C.unitframe.own_color == true then
+				Castbar:SetStatusBarColor(unpack(C.unitframe.uf_color))
+				Castbar.bg:SetVertexColor(C.unitframe.uf_color[1], C.unitframe.uf_color[2], C.unitframe.uf_color[3], 0.2)
 			else
 				if b then
 					Castbar:SetStatusBarColor(r, g, b)
@@ -1254,17 +1194,17 @@ T.PostCastStart = function(Castbar, unit, name, castid)
 				end
 			end
 		else
-			if Viks.unitframes.own_color == true then
-				Castbar:SetStatusBarColor(unpack(Viks.unitframes.uf_color))
-				Castbar.bg:SetVertexColor(Viks.unitframes.uf_color[1], Viks.unitframes.uf_color[2], Viks.unitframes.uf_color[3], 0.2)
+			if C.unitframe.own_color == true then
+				Castbar:SetStatusBarColor(unpack(C.unitframe.uf_color))
+				Castbar.bg:SetVertexColor(C.unitframe.uf_color[1], C.unitframe.uf_color[2], C.unitframe.uf_color[3], 0.2)
 			else
 				Castbar:SetStatusBarColor(r, g, b)
 				Castbar.bg:SetVertexColor(r, g, b, 0.2)
 			end
 		end
-		Castbar.Overlay:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
-		if Viks.unitframes.castbar_icon == true and (unit == "target" or unit == "focus") then
-			Castbar.Button:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+		Castbar.Overlay:SetBackdropBorderColor(unpack(C.media.border_color))
+		if C.unitframe.castbar_icon == true and (unit == "target" or unit == "focus") then
+			Castbar.Button:SetBackdropBorderColor(unpack(C.media.border_color))
 		end
 	end
 end
@@ -1273,7 +1213,7 @@ T.PostChannelStart = function(Castbar, unit, name)
 	Castbar.channeling = true
 	if unit == "vehicle" then unit = "player" end
 
-	if unit == "player" and Viks.unitframes.castbar_latency == true and Castbar.Latency then
+	if unit == "player" and C.unitframe.castbar_latency == true and Castbar.Latency then
 		local _, _, _, lag = GetNetStats()
 		local latency = GetTime() - (Castbar.castSent or 0)
 		lag = lag / 1e3 > Castbar.max and Castbar.max or lag / 1e3
@@ -1283,9 +1223,10 @@ T.PostChannelStart = function(Castbar, unit, name)
 		Castbar.SafeZone:ClearAllPoints()
 		Castbar.SafeZone:SetPoint("TOPLEFT")
 		Castbar.SafeZone:SetPoint("BOTTOMLEFT")
+		Castbar.castSent = nil
 	end
 
-	if unit == "player" and Viks.unitframes.castbar_ticks == true then
+	if unit == "player" and C.unitframe.castbar_ticks == true then
 		local spell = UnitChannelInfo(unit)
 		Castbar.channelingTicks = channelingTicks[spell] or 0
 		setBarTicks(Castbar, Castbar.channelingTicks)
@@ -1312,16 +1253,16 @@ T.PostChannelStart = function(Castbar, unit, name)
 		Castbar:SetStatusBarColor(0.8, 0, 0)
 		Castbar.bg:SetVertexColor(0.8, 0, 0, 0.2)
 		Castbar.Overlay:SetBackdropBorderColor(0.8, 0, 0)
-		if Viks.unitframes.castbar_icon == true and (unit == "target" or unit == "focus") then
+		if C.unitframe.castbar_icon == true and (unit == "target" or unit == "focus") then
 			Castbar.Button:SetBackdropBorderColor(0.8, 0, 0)
 		end
 	else
 		if unit == "pet" or unit == "vehicle" then
 			local _, class = UnitClass("player")
 			local r, g, b = unpack(T.oUF_colors.class[class])
-			if Viks.unitframes.own_color == true then
-				Castbar:SetStatusBarColor(unpack(Viks.unitframes.uf_color))
-				Castbar.bg:SetVertexColor(Viks.unitframes.uf_color[1], Viks.unitframes.uf_color[2], Viks.unitframes.uf_color[3], 0.2)
+			if C.unitframe.own_color == true then
+				Castbar:SetStatusBarColor(unpack(C.unitframe.uf_color))
+				Castbar.bg:SetVertexColor(C.unitframe.uf_color[1], C.unitframe.uf_color[2], C.unitframe.uf_color[3], 0.2)
 			else
 				if b then
 					Castbar:SetStatusBarColor(r, g, b)
@@ -1329,17 +1270,17 @@ T.PostChannelStart = function(Castbar, unit, name)
 				end
 			end
 		else
-			if Viks.unitframes.own_color == true then
-				Castbar:SetStatusBarColor(unpack(Viks.unitframes.uf_color))
-				Castbar.bg:SetVertexColor(Viks.unitframes.uf_color[1], Viks.unitframes.uf_color[2], Viks.unitframes.uf_color[3], 0.2)
+			if C.unitframe.own_color == true then
+				Castbar:SetStatusBarColor(unpack(C.unitframe.uf_color))
+				Castbar.bg:SetVertexColor(C.unitframe.uf_color[1], C.unitframe.uf_color[2], C.unitframe.uf_color[3], 0.2)
 			else
 				Castbar:SetStatusBarColor(r, g, b)
 				Castbar.bg:SetVertexColor(r, g, b, 0.2)
 			end
 		end
-		Castbar.Overlay:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
-		if Viks.unitframes.castbar_icon == true and (unit == "target" or unit == "focus") then
-			Castbar.Button:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+		Castbar.Overlay:SetBackdropBorderColor(unpack(C.media.border_color))
+		if C.unitframe.castbar_icon == true and (unit == "target" or unit == "focus") then
+			Castbar.Button:SetBackdropBorderColor(unpack(C.media.border_color))
 		end
 	end
 end
@@ -1407,16 +1348,16 @@ end
 
 T.HideAuraFrame = function(self)
 	if self.unit == "player" then
-		if not Viks.aura.player_auras then
+		if not C.aura.player_auras then
 			BuffFrame:UnregisterEvent("UNIT_AURA")
 			BuffFrame:Hide()
 			TemporaryEnchantFrame:Hide()
 			self.Debuffs:Hide()
 		end
-	elseif self.unit == "pet" and not Viks.aura.pet_debuffs or self.unit == "focus" and not Viks.aura.focus_debuffs
-	or self.unit == "focustarget" and not Viks.aura.fot_debuffs or self.unit == "targettarget" and not Viks.aura.tot_debuffs then
+	elseif self.unit == "pet" and not C.aura.pet_debuffs or self.unit == "focus" and not C.aura.focus_debuffs
+	or self.unit == "focustarget" and not C.aura.fot_debuffs or self.unit == "targettarget" and not C.aura.tot_debuffs then
 		self.Debuffs:Hide()
-	elseif self.unit == "target" and not Viks.aura.target_auras then
+	elseif self.unit == "target" and not C.aura.target_auras then
 		self.Auras:Hide()
 	end
 end
@@ -1424,8 +1365,8 @@ end
 T.PostCreateAura = function(element, button)
 	button:SetTemplate("Default")
 
-	button.remaining = T.SetFontString(button, Viks.font.auras_font, Viks.font.auras_font_size, Viks.font.auras_font_style)
-	button.remaining:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+	button.remaining = T.SetFontString(button, C.font.auras_font, C.font.auras_font_size, C.font.auras_font_style)
+	button.remaining:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 	button.remaining:SetPoint("CENTER", button, "CENTER", 1, 1)
 	button.remaining:SetJustifyH("CENTER")
 
@@ -1438,10 +1379,10 @@ T.PostCreateAura = function(element, button)
 
 	button.count:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 1, 0)
 	button.count:SetJustifyH("RIGHT")
-	button.count:SetFont(Viks.font.auras_font, Viks.font.auras_font_size, Viks.font.auras_font_style)
-	button.count:SetShadowOffset(Viks.font.auras_font_shadow and 1 or 0, Viks.font.auras_font_shadow and -1 or 0)
+	button.count:SetFont(C.font.auras_font, C.font.auras_font_size, C.font.auras_font_style)
+	button.count:SetShadowOffset(C.font.auras_font_shadow and 1 or 0, C.font.auras_font_shadow and -1 or 0)
 
-	if Viks.aura.show_spiral == true then
+	if C.aura.show_spiral == true then
 		element.disableCooldown = false
 		button.cd:SetReverse(true)
 		button.cd:SetPoint("TOPLEFT", button, "TOPLEFT", 2, -2)
@@ -1466,14 +1407,14 @@ T.PostUpdateIcon = function(icons, unit, icon, index, offset, filter, isDebuff, 
 
 	if icon.debuff then
 		if not UnitIsFriend("player", unit) and not playerUnits[icon.owner] then
-			if Viks.aura.player_aura_only then
+			if C.aura.player_aura_only then
 				icon:Hide()
 			else
-				icon:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+				icon:SetBackdropBorderColor(unpack(C.media.border_color))
 				icon.icon:SetDesaturated(true)
 			end
 		else
-			if Viks.aura.debuff_color_type == true then
+			if C.aura.debuff_color_type == true then
 				local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
 				icon:SetBackdropBorderColor(color.r, color.g, color.b)
 				icon.icon:SetDesaturated(false)
@@ -1485,12 +1426,12 @@ T.PostUpdateIcon = function(icons, unit, icon, index, offset, filter, isDebuff, 
 		if (isStealable or ((T.class == "MAGE" or T.class == "PRIEST" or T.class == "SHAMAN" or T.class == "HUNTER") and dtype == "Magic")) and not UnitIsFriend("player", unit) then
 			icon:SetBackdropBorderColor(1, 0.85, 0)
 		else
-			icon:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+			icon:SetBackdropBorderColor(unpack(C.media.border_color))
 		end
 		icon.icon:SetDesaturated(false)
 	end
 
-	if duration and duration > 0 and Viks.aura.show_timer == true then
+	if duration and duration > 0 and C.aura.show_timer == true then
 		icon.remaining:Show()
 		icon.timeLeft = expirationTime
 		icon:SetScript("OnUpdate", CreateAuraTimer)
@@ -1510,7 +1451,7 @@ T.UpdateThreat = function(self, event, unit)
 		r, g, b = GetThreatStatusColor(threat)
 		self.backdrop:SetBackdropBorderColor(r, g, b)
 	else
-		self.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+		self.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 	end
 end
 
@@ -1544,7 +1485,7 @@ T.CreateAuraWatch = function(self, unit)
 	auras.icons = {}
 	auras.PostCreateIcon = T.CreateAuraWatchIcon
 
-	if not Viks.aura.show_timer then
+	if not C.aura.show_timer then
 		auras.hideCooldown = true
 	end
 
@@ -1574,14 +1515,14 @@ T.CreateAuraWatch = function(self, unit)
 
 			local tex = icon:CreateTexture(nil, "OVERLAY")
 			tex:SetAllPoints(icon)
-			tex:SetTexture(Viks.media.blank_border)
+			tex:SetTexture(C.media.blank)
 			if spell[3] then
 				tex:SetVertexColor(unpack(spell[3]))
 			else
 				tex:SetVertexColor(0.8, 0.8, 0.8)
 			end
 
-			local count = T.SetFontString(icon, Viks.font.unit_frames_font, Viks.font.unit_frames_font_size, Viks.font.unit_frames_font_style)
+			local count = T.SetFontString(icon, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
 			count:SetPoint("CENTER", unpack(CountOffSets[spell[2]]))
 			icon.count = count
 

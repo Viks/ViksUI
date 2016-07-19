@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Multi ItemRefTooltip
@@ -34,8 +34,8 @@ local CreateTip = function(link)
 	tip:SetScript("OnDragStart", function(self) self:StartMoving() end)
 	tip:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
 	tip:HookScript("OnShow", function(self)
-		self:SetBackdropColor(unpack(Viks.media.overlay_color))
-		self:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+		self:SetBackdropColor(unpack(C.media.overlay_color))
+		self:SetBackdropBorderColor(unpack(C.media.border_color))
 	end)
 
 	local close = CreateFrame("Button", "ItemRefTooltip"..num.."CloseButton", tip)

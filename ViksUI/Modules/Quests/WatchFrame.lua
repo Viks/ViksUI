@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.WatchFrame then
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.WatchFrame then
 ----------------------------------------------------------------------------------------
 --	Move ObjectiveTrackerFrame
 ----------------------------------------------------------------------------------------
@@ -42,12 +42,12 @@ function watchFButton()
 		button:SetPoint("CENTER", CPMinimb1, "CENTER")
 			
 		local buttontext = button:CreateFontString(nil,"OVERLAY",nil)
-		buttontext:SetFont(Viks.media.pxfont,Viks.media.pxfontsize,"OUTLINE")
+		buttontext:SetFont(C.media.pixel_font,C.media.pixel_font_size,"OUTLINE")
 		buttontext:SetText("Watch")
 		buttontext:SetPoint("CENTER", 1, 1)
 		buttontext:SetJustifyH("CENTER")
 		buttontext:SetJustifyV("CENTER")
-		buttontext:SetTextColor(unpack(Viks.media.pxcolor1)) 
+		buttontext:SetTextColor(unpack(C.media.pxcolor1)) 
 		button:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(CPMinimb2, "ANCHOR_BOTTOMLEFT", -4, 16)
 			GameTooltip:AddLine("Left-click to toggle the Watch Frame.")
@@ -95,13 +95,13 @@ hooksecurefunc(QUEST_TRACKER_MODULE, "SetBlockHeader", function(_, block)
 		
 		item.HotKey:ClearAllPoints()
 		item.HotKey:SetPoint("BOTTOMRIGHT", 0, 2)
-		item.HotKey:SetFont(Viks.font.action_bars_font, Viks.font.action_bars_font_size, Viks.font.action_bars_font_style)
-		item.HotKey:SetShadowOffset(Viks.font.action_bars_font_shadow and 1 or 0, Viks.font.action_bars_font_shadow and -1 or 0)
+		item.HotKey:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
+		item.HotKey:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
 
 		item.Count:ClearAllPoints()
 		item.Count:SetPoint("TOPLEFT", 1, -1)
-		item.Count:SetFont(Viks.font.action_bars_font, Viks.font.action_bars_font_size, Viks.font.action_bars_font_style)
-		item.Count:SetShadowOffset(Viks.font.action_bars_font_shadow and 1 or 0, Viks.font.action_bars_font_shadow and -1 or 0)
+		item.Count:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
+		item.Count:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
 
 		item.skinned = true
 	end
@@ -111,7 +111,7 @@ end)
 ----------------------------------------------------------------------------------------
 --	Hide ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
 ----------------------------------------------------------------------------------------
-if Viks.skins.blizzard_frames == true then
+if C.skins.blizzard_frames == true then
 	local button = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
 	button:SetSize(17, 17)
 	button:StripTextures()
@@ -120,12 +120,12 @@ if Viks.skins.blizzard_frames == true then
 	button.minus = button:CreateTexture(nil, "OVERLAY")
 	button.minus:SetSize(5, 1)
 	button.minus:SetPoint("CENTER")
-	button.minus:SetTexture(Viks.media.blank)
+	button.minus:SetTexture(C.media.blank)
 
 	button.plus = button:CreateTexture(nil, "OVERLAY")
 	button.plus:SetSize(1, 5)
 	button.plus:SetPoint("CENTER")
-	button.plus:SetTexture(Viks.media.blank)
+	button.plus:SetTexture(C.media.blank)
 
 	button:HookScript("OnEnter", T.SetModifiedBackdrop)
 	button:HookScript("OnLeave", T.SetOriginalBackdrop)
@@ -155,13 +155,13 @@ hooksecurefunc(BONUS_OBJECTIVE_TRACKER_MODULE, "AddProgressBar", function(self, 
 		bar.BarGlow:Kill()
 		bar.IconBG:Kill()
 		bar:SetSize(200, 20)
-		bar:SetStatusBarTexture(Viks.media.texture)
+		bar:SetStatusBarTexture(C.media.texture)
 		bar:SetTemplate("Transparent")
 		bar:SetBackdropColor(0, 0, 0, 0)
 
 		label:ClearAllPoints()
 		label:SetPoint("CENTER", 0, -1)
-		label:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+		label:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 
 		icon:SetPoint("RIGHT", 24, 0)
 		icon:SetSize(20, 20)

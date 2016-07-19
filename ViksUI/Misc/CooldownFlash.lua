@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.CooldownFlash then
+local T, C, L, _ = unpack(select(2, ...))
+if C.misc.CooldownFlash then
 
 
 pulse_ignored_spells = {
@@ -28,8 +28,8 @@ local function scale(x) return mult*math.floor(x+.5) end
 local DCP = CreateFrame("Frame")
 DCP:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
 
-DCP:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
-DCP:SetBackdropColor(unpack(Viks.media.backdropcolor))
+DCP:SetBackdropBorderColor(unpack(C.media.border_color))
+DCP:SetBackdropColor(unpack(C.media.backdrop_color))
 
 CreateBorder(DCP)
 

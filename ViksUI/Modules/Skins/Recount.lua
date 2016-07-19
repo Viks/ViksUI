@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.recount ~= true or not IsAddOnLoaded("Recount") then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.recount ~= true or not IsAddOnLoaded("Recount") then return end
 
 ----------------------------------------------------------------------------------------
 --	Recount skin
@@ -15,8 +15,8 @@ local function SkinFrame(frame)
 	end
 	if frame == Recount.MainWindow then
 		frame.Title:SetPoint("TOPLEFT", frame, "TOPLEFT", 3, -15)
-		frame.Title:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		frame.Title:SetShadowColor(0, 0, 0, Viks.font.stylization_font_shadow and 1 or 0)
+		frame.Title:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		frame.Title:SetShadowColor(0, 0, 0, C.font.stylization_font_shadow and 1 or 0)
 		frame.CloseButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 3, -9)
 	end
 	frame.bgMain:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT")
@@ -32,7 +32,7 @@ local function SkinButton(frame, text)
 	if frame.SetPushedTexture then frame:SetPushedTexture("") end
 
 	if not frame.text then
-		frame:FontString("text", Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
+		frame:FontString("text", C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
 		frame.text:SetPoint("CENTER")
 		frame.text:SetText(text)
 	end
@@ -44,13 +44,13 @@ end
 -- Override bar textures
 Recount.UpdateBarTextures = function(self)
 	for k, v in pairs(Recount.MainWindow.Rows) do
-		v.StatusBar:SetStatusBarTexture(Viks.media.texture)
+		v.StatusBar:SetStatusBarTexture(C.media.texture)
 		v.StatusBar:GetStatusBarTexture():SetHorizTile(false)
 		v.StatusBar:GetStatusBarTexture():SetVertTile(false)
 
 		v.background = v.StatusBar:CreateTexture("$parentBackground", "BACKGROUND")
 		v.background:SetAllPoints(v.StatusBar)
-		v.background:SetTexture(Viks.media.texture)
+		v.background:SetTexture(C.media.texture)
 		v.background:SetVertexColor(0.15, 0.15, 0.15, 0.75)
 
 		v.overlay = CreateFrame("Frame", nil, v.StatusBar)
@@ -61,11 +61,11 @@ Recount.UpdateBarTextures = function(self)
 
 		v.LeftText:ClearAllPoints()
 		v.LeftText:SetPoint("LEFT", v.StatusBar, "LEFT", 2, 0)
-		v.LeftText:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		v.LeftText:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+		v.LeftText:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		v.LeftText:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 
-		v.RightText:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		v.RightText:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+		v.RightText:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		v.RightText:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	end
 end
 Recount.SetBarTextures = Recount.UpdateBarTextures
@@ -74,7 +74,7 @@ Recount.SetBarTextures = Recount.UpdateBarTextures
 Recount.SetupBar_ = Recount.SetupBar
 Recount.SetupBar = function(self, bar)
 	self:SetupBar_(bar)
-	bar.StatusBar:SetStatusBarTexture(Viks.media.texture)
+	bar.StatusBar:SetStatusBarTexture(C.media.texture)
 end
 
 -- Skin frames when they're created

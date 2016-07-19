@@ -1,10 +1,10 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Skin some ViksUI frames if loaded Aurora
 ----------------------------------------------------------------------------------------
 local AuroraSkin = CreateFrame("Frame")
-AuroraSkin:RegisterEvent("PLAYER_LOGIN")
+AuroraSkin:RegisterEvent("PLAYER_ENTERING_WORLD")
 AuroraSkin:SetScript("OnEvent", function(self, event, addon)
 	if not IsAddOnLoaded("Aurora") then return end
 	local F = unpack(Aurora)

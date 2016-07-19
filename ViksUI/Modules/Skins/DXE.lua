@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.dxe ~= true or not IsAddOnLoaded("DXE") then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.dxe ~= true or not IsAddOnLoaded("DXE") then return end
 
 ----------------------------------------------------------------------------------------
 --	DXE skin
@@ -23,7 +23,7 @@ local function SkinDXEBar(bar)
 	bar:SetTemplate("Transparent")
 	bar.bg:SetTexture(nil)
 	bar.border:Kill()
-	bar.statusbar:SetStatusBarTexture(Viks.media.texture)
+	bar.statusbar:SetStatusBarTexture(C.media.texture)
 	bar.statusbar:ClearAllPoints()
 	bar.statusbar:SetPoint("TOPLEFT", 2, -2)
 	bar.statusbar:SetPoint("BOTTOMRIGHT", -2, 2)
@@ -62,8 +62,8 @@ DXE.CreateWindow_ = DXE.CreateWindow
 DXE.CreateWindow = function(self, name, width, height)
 	local win = self:CreateWindow_(name, width, height)
 	win:SetTemplate("Transparent")
-	win.titletext:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-	win.titletext:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+	win.titletext:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+	win.titletext:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	return win
 end
 
@@ -78,11 +78,11 @@ DXE.LayoutHealthWatchers = function(self)
 		if hw:IsShown() then
 			hw:SetTemplate("Transparent")
 			hw.border:Kill()
-			hw.healthbar:SetStatusBarTexture(Viks.media.texture)
-			hw.title:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-			hw.title:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-			hw.health:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-			hw.health:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+			hw.healthbar:SetStatusBarTexture(C.media.texture)
+			hw.title:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+			hw.title:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+			hw.health:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+			hw.health:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 		end
 	end
 end
@@ -99,8 +99,8 @@ DXE.Alerts.RefreshBars = function(self)
 		bar.SetScale = T.dummy
 		bar.statusbar:SetStatusBarColor(T.color.r, T.color.g, T.color.b)
 		bar.statusbar.SetStatusBarColor = T.dummy
-		bar.text:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		bar.text:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+		bar.text:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		bar.text:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 		SkinDXEBar(bar)
 		i = i + 1
 	end
@@ -163,38 +163,38 @@ function T.UploadDXE()
 	DXEDB["profiles"][T.name.." - "..T.realm]["Globals"]["Font"] = "Hooge"
 	DXEDB["profiles"][T.name.." - "..T.realm]["Globals"]["TimerFont"] = "Hooge"
 
-	DXEDB["profiles"][T.name.." - "..T.realm]["Proximity"]["NameFontSize"] = Viks.font.stylization_font_size
-	DXEDB["profiles"][T.name.." - "..T.realm]["Proximity"]["TimeFontSize"] = Viks.font.stylization_font_size
+	DXEDB["profiles"][T.name.." - "..T.realm]["Proximity"]["NameFontSize"] = C.font.stylization_font_size
+	DXEDB["profiles"][T.name.." - "..T.realm]["Proximity"]["TimeFontSize"] = C.font.stylization_font_size
 
-	DXEDB["profiles"][T.name.." - "..T.realm]["PairProximity"]["TimeFontSize"] = Viks.font.stylization_font_size
-	DXEDB["profiles"][T.name.." - "..T.realm]["PairProximity"]["NameFontSize"] = Viks.font.stylization_font_size
+	DXEDB["profiles"][T.name.." - "..T.realm]["PairProximity"]["TimeFontSize"] = C.font.stylization_font_size
+	DXEDB["profiles"][T.name.." - "..T.realm]["PairProximity"]["NameFontSize"] = C.font.stylization_font_size
 
-	DXEDB["profiles"][T.name.." - "..T.realm]["AlternatePower"]["NameFontSize"] = Viks.font.stylization_font_size
-	DXEDB["profiles"][T.name.." - "..T.realm]["AlternatePower"]["TimeFontSize"] = Viks.font.stylization_font_size
+	DXEDB["profiles"][T.name.." - "..T.realm]["AlternatePower"]["NameFontSize"] = C.font.stylization_font_size
+	DXEDB["profiles"][T.name.." - "..T.realm]["AlternatePower"]["TimeFontSize"] = C.font.stylization_font_size
 
-	DXEDB["profiles"][T.name.." - "..T.realm]["Pane"]["TitleFontSize"] = Viks.font.stylization_font_size
+	DXEDB["profiles"][T.name.." - "..T.realm]["Pane"]["TitleFontSize"] = C.font.stylization_font_size
 	DXEDB["profiles"][T.name.." - "..T.realm]["Pane"]["BarSpacing"] = 3
-	DXEDB["profiles"][T.name.." - "..T.realm]["Pane"]["HealthFontSize"] = Viks.font.stylization_font_size
+	DXEDB["profiles"][T.name.." - "..T.realm]["Pane"]["HealthFontSize"] = C.font.stylization_font_size
 	DXEDB["profiles"][T.name.." - "..T.realm]["Pane"]["NeutralColor"] = {T.color.r, T.color.g, T.color.b}
 	DXEDB["profiles"][T.name.." - "..T.realm]["Pane"]["LostColor"] = {T.color.r, T.color.g, T.color.b}
 
 	DXEDB["profiles"][T.name.." - "..T.realm]["Positions"]["DXEAlertsTopStackAnchor"]["point"] = "BOTTOMLEFT"
 	DXEDB["profiles"][T.name.." - "..T.realm]["Positions"]["DXEAlertsTopStackAnchor"]["relativePoint"] = "BOTTOMLEFT"
 	DXEDB["profiles"][T.name.." - "..T.realm]["Positions"]["DXEAlertsTopStackAnchor"]["xOfs"] = 21
-	if Viks.actionbar.bottombars == 1 then
+	if C.actionbar.bottombars == 1 then
 		DXEDB["profiles"][T.name.." - "..T.realm]["Positions"]["DXEAlertsTopStackAnchor"]["yOfs"] = 157
-	elseif Viks.actionbar.bottombars == 2 then
+	elseif C.actionbar.bottombars == 2 then
 		DXEDB["profiles"][T.name.." - "..T.realm]["Positions"]["DXEAlertsTopStackAnchor"]["yOfs"] = 185
-	elseif Viks.actionbar.bottombars == 3 then
+	elseif C.actionbar.bottombars == 3 then
 		DXEDB["profiles"][T.name.." - "..T.realm]["Positions"]["DXEAlertsTopStackAnchor"]["yOfs"] = 213
 	end
 
 	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["WarningScale"] = 1
 	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["TopScale"] = 1
 	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["CenterScale"] = 1
-	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["BarFontSize"] = Viks.font.stylization_font_size
-	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["TimerDecimalFontSize"] = Viks.font.stylization_font_size
-	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["TimerSecondsFontSize"] = Viks.font.stylization_font_size * 2
+	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["BarFontSize"] = C.font.stylization_font_size
+	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["TimerDecimalFontSize"] = C.font.stylization_font_size
+	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["TimerSecondsFontSize"] = C.font.stylization_font_size * 2
 	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["ScaleTimerWithBarHeight"] = false
 	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["SetIconToBarHeight"] = false
 	DXEDB["namespaces"]["Alerts"]["profiles"][T.name.." - "..T.realm]["IconSize"] = 25
@@ -217,7 +217,7 @@ function T.UploadDXE()
 
 	DXEIconDB["hide"] = true
 
-	DXEDB["profiles"][T.name.." - "..T.realm]["Globals"]["InstalledBars"] = Viks.actionbar.bottombars
+	DXEDB["profiles"][T.name.." - "..T.realm]["Globals"]["InstalledBars"] = C.actionbar.bottombars
 end
 
 StaticPopupDialogs.SETTINGS_DXE = {
@@ -240,22 +240,22 @@ DXE_Skin:SetScript("OnEvent", function(self, event)
 		self = nil
 
 		-- DXE doesn't like the pane timer font to listen for some reason
-		DXE.Pane.timer.left:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		DXE.Pane.timer.left:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		DXE.Pane.timer.right:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size * 1.8, Viks.font.stylization_font_style)
-		DXE.Pane.timer.right:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		DXEArrow1.label:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		DXEArrow1.label:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		DXEArrow2.label:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		DXEArrow2.label:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		DXEArrow3.label:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		DXEArrow3.label:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		DXEArrow1.label2:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		DXEArrow1.label2:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		DXEArrow2.label2:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		DXEArrow2.label2:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		DXEArrow3.label2:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		DXEArrow3.label2:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+		DXE.Pane.timer.left:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		DXE.Pane.timer.left:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		DXE.Pane.timer.right:SetFont(C.font.stylization_font, C.font.stylization_font_size * 1.8, C.font.stylization_font_style)
+		DXE.Pane.timer.right:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		DXEArrow1.label:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		DXEArrow1.label:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		DXEArrow2.label:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		DXEArrow2.label:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		DXEArrow3.label:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		DXEArrow3.label:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		DXEArrow1.label2:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		DXEArrow1.label2:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		DXEArrow2.label2:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		DXEArrow2.label2:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		DXEArrow3.label2:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		DXEArrow3.label2:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 
 		for i = 1, #movers do
 			if _G[movers[i]] then
@@ -263,7 +263,7 @@ DXE_Skin:SetScript("OnEvent", function(self, event)
 			end
 		end
 
-		if DXEDB["profiles"][T.name.." - "..T.realm]["Globals"]["InstalledBars"] ~= Viks.actionbar.bottombars then
+		if DXEDB["profiles"][T.name.." - "..T.realm]["Globals"]["InstalledBars"] ~= C.actionbar.bottombars then
 			StaticPopup_Show("SETTINGS_DXE")
 		end
 	end

@@ -1,6 +1,6 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 --[[
-if Viks.tooltip.enable ~= true or Viks.tooltip.arena_experience ~= true then return end
+if C.tooltip.enable ~= true or C.tooltip.arena_experience ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Arena function(ArenaExp by Fernir)

@@ -1,13 +1,13 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.raidcooldown.enable ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.raidcooldown.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Raid cooldowns(alRaidCD by Allez, msylgj0@NGACN)
 ----------------------------------------------------------------------------------------
 local show = {
-	raid = Viks.raidcooldown.show_inraid,
-	party = Viks.raidcooldown.show_inparty,
-	arena = Viks.raidcooldown.show_inarena,
+	raid = C.raidcooldown.show_inraid,
+	party = C.raidcooldown.show_inparty,
+	arena = C.raidcooldown.show_inarena,
 }
 
 local filter = COMBATLOG_OBJECT_AFFILIATION_RAID + COMBATLOG_OBJECT_AFFILIATION_PARTY + COMBATLOG_OBJECT_AFFILIATION_MINE
@@ -44,8 +44,8 @@ end
 
 local CreateFS = function(frame, fsize, fstyle)
 	local fstring = frame:CreateFontString(nil, "OVERLAY")
-	fstring:SetFont(Viks.font.raid_cooldowns_font, Viks.font.raid_cooldowns_font_size, Viks.font.raid_cooldowns_font_style)
-	fstring:SetShadowOffset(Viks.font.raid_cooldowns_font_shadow and 1 or 0, Viks.font.raid_cooldowns_font_shadow and -1 or 0)
+	fstring:SetFont(C.font.raid_cooldowns_font, C.font.raid_cooldowns_font_size, C.font.raid_cooldowns_font_style)
+	fstring:SetShadowOffset(C.font.raid_cooldowns_font_shadow and 1 or 0, C.font.raid_cooldowns_font_shadow and -1 or 0)
 	return fstring
 end
 
@@ -56,13 +56,13 @@ local UpdatePositions = function()
 		for i = 1, #bars do
 			bars[i]:ClearAllPoints()
 			if i == 1 then
-				if Viks.raidcooldown.upwards == true then
+				if C.raidcooldown.upwards == true then
 					bars[i]:SetPoint("BOTTOMRIGHT", Ressesbars[1], "TOPRIGHT", 0, 13)
 				else
 					bars[i]:SetPoint("TOPRIGHT", Ressesbars[1], "BOTTOMRIGHT", 0, -13)
 				end
 			else
-				if Viks.raidcooldown.upwards == true then
+				if C.raidcooldown.upwards == true then
 					bars[i]:SetPoint("BOTTOMRIGHT", bars[i-1], "TOPRIGHT", 0, 13)
 				else
 					bars[i]:SetPoint("TOPRIGHT", bars[i-1], "BOTTOMRIGHT", 0, -13)
@@ -76,7 +76,7 @@ local UpdatePositions = function()
 			if i == 1 then
 				bars[i]:SetPoint("TOPRIGHT", RaidCDAnchor, "TOPRIGHT", 0, 0)
 			else
-				if Viks.raidcooldown.upwards == true then
+				if C.raidcooldown.upwards == true then
 					bars[i]:SetPoint("BOTTOMRIGHT", bars[i-1], "TOPRIGHT", 0, 13)
 				else
 					bars[i]:SetPoint("TOPRIGHT", bars[i-1], "BOTTOMRIGHT", 0, -13)
@@ -155,29 +155,29 @@ end
 local CreateBar = function()
 	local bar = CreateFrame("Statusbar", nil, UIParent)
 	bar:SetFrameStrata("MEDIUM")
-	if Viks.raidcooldown.show_icon == true then
-		bar:SetSize(Viks.raidcooldown.width, Viks.raidcooldown.height)
+	if C.raidcooldown.show_icon == true then
+		bar:SetSize(C.raidcooldown.width, C.raidcooldown.height)
 	else
-		bar:SetSize(Viks.raidcooldown.width + 28, Viks.raidcooldown.height)
+		bar:SetSize(C.raidcooldown.width + 28, C.raidcooldown.height)
 	end
-	bar:SetStatusBarTexture(Viks.media.texture)
+	bar:SetStatusBarTexture(C.media.texture)
 	bar:SetMinMaxValues(0, 100)
 	bar:CreateBackdrop("Default")
 
 	bar.bg = bar:CreateTexture(nil, "BACKGROUND")
 	bar.bg:SetAllPoints(bar)
-	bar.bg:SetTexture(Viks.media.texture)
+	bar.bg:SetTexture(C.media.texture)
 
 	bar.left = CreateFS(bar)
 	bar.left:SetPoint("LEFT", 2, 0)
 	bar.left:SetJustifyH("LEFT")
-	bar.left:SetSize(Viks.raidcooldown.width - 30, Viks.font.raid_cooldowns_font_size)
+	bar.left:SetSize(C.raidcooldown.width - 30, C.font.raid_cooldowns_font_size)
 
 	bar.right = CreateFS(bar)
 	bar.right:SetPoint("RIGHT", 1, 0)
 	bar.right:SetJustifyH("RIGHT")
 
-	if Viks.raidcooldown.show_icon == true then
+	if C.raidcooldown.show_icon == true then
 		bar.icon = CreateFrame("Button", nil, bar)
 		bar.icon:SetWidth(bar:GetHeight() + 6)
 		bar.icon:SetHeight(bar.icon:GetWidth())
@@ -213,7 +213,7 @@ local StartTimer = function(name, spellId)
 		bar.name = name
 		bar.spell = spell
 		bar.spellId = spellId
-		if Viks.raidcooldown.show_icon == true then
+		if C.raidcooldown.show_icon == true then
 			bar.icon:SetNormalTexture(icon)
 			bar.icon:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		end
@@ -232,7 +232,7 @@ local StartTimer = function(name, spellId)
 		bar:SetScript("OnLeave", OnLeave)
 		bar:SetScript("OnMouseDown", OnMouseDown)
 		tinsert(Ressesbars, bar)
-		if Viks.raidcooldown.expiration == true then
+		if C.raidcooldown.expiration == true then
 			table.sort(Ressesbars, sortByExpiration)
 		end
 	else
@@ -244,7 +244,7 @@ local StartTimer = function(name, spellId)
 		bar.name = name
 		bar.spell = spell
 		bar.spellId = spellId
-		if Viks.raidcooldown.show_icon == true then
+		if C.raidcooldown.show_icon == true then
 			bar.icon:SetNormalTexture(icon)
 			bar.icon:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		end
@@ -263,7 +263,7 @@ local StartTimer = function(name, spellId)
 		bar:SetScript("OnLeave", OnLeave)
 		bar:SetScript("OnMouseDown", OnMouseDown)
 		tinsert(bars, bar)
-		if Viks.raidcooldown.expiration == true then
+		if C.raidcooldown.expiration == true then
 			table.sort(bars, sortByExpiration)
 		end
 	end
@@ -308,7 +308,7 @@ local OnEvent = function(self, event, ...)
 				return
 			end
 			if T.raid_spells[spellId] and show[select(2, IsInInstance())] and IsInGroup() then
-				if (sourceName == T.name and Viks.raidcooldown.show_my == true) or sourceName ~= T.name then
+				if (sourceName == T.name and C.raidcooldown.show_my == true) or sourceName ~= T.name then
 					StartTimer(sourceName, spellId)
 				end
 			end

@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true or Viks.skins.ace3 ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true or C.skins.ace3 ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Ace3 options skin
@@ -117,7 +117,7 @@ AceGUI.RegisterAsWidget = function(self, widget)
 			end
 		end)
 		frame:HookScript("OnLeave", function()
-			frame.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+			frame.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 			if frame.backdrop.overlay then
 				frame.backdrop.overlay:SetVertexColor(0.1, 0.1, 0.1, 1)
 			end
@@ -132,8 +132,8 @@ AceGUI.RegisterAsWidget = function(self, widget)
 		frame:StripTextures()
 		frame:SetTemplate("Overlay")
 		frame:SetHeight(HEIGHT)
-		frame:SetThumbTexture(Viks.media.blank)
-		frame:GetThumbTexture():SetVertexColor(unpack(Viks.media.bordercolor))
+		frame:SetThumbTexture(C.media.blank)
+		frame:GetThumbTexture():SetVertexColor(unpack(C.media.border_color))
 		frame:GetThumbTexture():SetSize(HEIGHT - 2, HEIGHT - 4)
 
 		editbox:SetTemplate("Overlay")

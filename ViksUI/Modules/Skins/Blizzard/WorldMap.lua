@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	WorldMap skin
@@ -28,6 +28,9 @@ local function LoadSkin()
 	WorldMapFrame.BorderFrame.Inset:StripTextures()
 	QuestMapFrame.DetailsFrame:StripTextures()
 	QuestMapFrame.DetailsFrame.RewardsFrame:StripTextures()
+	QuestMapFrame.DetailsFrame.CompleteQuestFrame:StripTextures()
+	QuestMapFrame.DetailsFrame.CompleteQuestFrame.CompleteButton:StripTextures()
+	QuestMapFrame.DetailsFrame.CompleteQuestFrame.CompleteButton:SkinButton()
 	QuestScrollFrame.Contents.StoryHeader.HighlightTexture:Hide()
 	QuestScrollFrame.Contents.StoryHeader.Background:Hide()
 	QuestScrollFrame.Contents.StoryHeader.Shadow:Hide()
@@ -55,15 +58,11 @@ local function LoadSkin()
 	QuestMapDetailsScrollFrame.backdrop:SetPoint("LEFT", WorldMapFrame.backdrop, "RIGHT", 2, 0)
 	T.SkinScrollBar(QuestMapDetailsScrollFrameScrollBar)
 
-	QuestScrollFrame.ViewAll:SkinButton()
-	QuestScrollFrame.ViewAll:ClearAllPoints()
-	QuestScrollFrame.ViewAll:SetPoint("LEFT", WorldMapFrame.Header, "RIGHT", 2, 0)
-	QuestScrollFrame.ViewAll:SetSize(284, 23)
-
 	QuestMapFrame.DetailsFrame.BackButton:SkinButton()
 	QuestMapFrame.DetailsFrame.BackButton:ClearAllPoints()
 	QuestMapFrame.DetailsFrame.BackButton:SetPoint("LEFT", WorldMapFrame.Header, "RIGHT", 2, 0)
 	QuestMapFrame.DetailsFrame.BackButton:SetSize(284, 23)
+
 
 	QuestMapFrame.DetailsFrame.AbandonButton:SkinButton()
 	QuestMapFrame.DetailsFrame.AbandonButton:ClearAllPoints()
@@ -176,12 +175,13 @@ local function LoadSkin()
 	end
 
 	SkinReward(QuestInfoSkillPointFrame)
-	SkinReward(MapQuestInfoRewardsFrame.SpellFrame)
+	--SkinReward(MapQuestInfoRewardsFrame.SpellFrame)
 	SkinReward(MapQuestInfoRewardsFrame.XPFrame)
 	SkinReward(MapQuestInfoRewardsFrame.MoneyFrame)
 	SkinReward(MapQuestInfoRewardsFrame.SkillPointFrame)
+	SkinReward(MapQuestInfoRewardsFrame.HonorFrame)
 
-	SkinRewardSpell(QuestInfoRewardSpell)
+	--SkinRewardSpell(QuestInfoRewardSpell)
 	SkinRewardSpell(QuestInfoSpellObjectiveFrame)
 
 	T.SkinDropDownBox(WorldMapLevelDropDown)

@@ -1,5 +1,5 @@
 --[[
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local _, ns = ...
 local oUF = ns.oUF or oUF
 local foo = {""}

@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.omen ~= true or not IsAddOnLoaded("Omen") then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.omen ~= true or not IsAddOnLoaded("Omen") then return end
 
 ----------------------------------------------------------------------------------------
 --	Omen skin
@@ -10,7 +10,7 @@ local Omen = LibStub("AceAddon-3.0"):GetAddon("Omen")
 Omen.UpdateBarTextureSettings_ = Omen.UpdateBarTextureSettings
 Omen.UpdateBarTextureSettings = function(self)
 	for i, v in ipairs(self.Bars) do
-		v.texture:SetTexture(Viks.media.texture)
+		v.texture:SetTexture(C.media.texture)
 		v:CreateBackdrop("Transparent")
 	end
 end
@@ -20,12 +20,12 @@ Omen.UpdateBarLabelSettings_ = Omen.UpdateBarLabelSettings
 Omen.UpdateBarLabelSettings = function(self)
 	self:UpdateBarLabelSettings_()
 	for i, v in ipairs(self.Bars) do
-		v.Text1:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		v.Text1:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		v.Text2:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		v.Text2:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
-		v.Text3:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-		v.Text3:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+		v.Text1:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		v.Text1:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		v.Text2:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		v.Text2:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
+		v.Text3:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+		v.Text3:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	end
 end
 
@@ -37,8 +37,8 @@ Omen.UpdateTitleBar = function(self)
 	Omen.db.profile.Background.BarInset = 2
 	Omen.db.profile.TitleBar.UseSameBG = true
 	self:UpdateTitleBar_()
-	self.TitleText:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-	self.TitleText:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+	self.TitleText:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+	self.TitleText:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	self.BarList:SetPoint("TOPLEFT", self.Title, "BOTTOMLEFT", 0, -3)
 end
 
@@ -65,7 +65,7 @@ end
 
 -- Option Overrides
 Omen.db.profile.NumBars = 7
-if Viks.skins.minimap_buttons == true then
+if C.skins.minimap_buttons == true then
 	Omen.db.profile.MinimapIcon.hide = false
 else
 	Omen.db.profile.MinimapIcon.hide = true

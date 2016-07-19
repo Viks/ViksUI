@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.announcements.pull_countdown ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.announcements.pull_countdown ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Pull Countdown(by Dridzt)

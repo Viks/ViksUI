@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Based on tekticles(by Tekkub)
@@ -15,8 +15,8 @@ frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, addon)
 	if addon ~= "ViksUI" or addon == "tekticles" then return end
 
-	local NORMAL = Viks.media.font
-	local BLANK = Viks.media.blank_font
+	local NORMAL = C.media.normal_font
+	local BLANK = C.media.blank_font
 
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
 	CHAT_FONT_HEIGHTS = {11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
@@ -29,7 +29,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 	SetFont(AchievementFont_Small, NORMAL, 11, nil, nil, nil, nil, 0, 0, 0, 1, -1)
 	SetFont(InvoiceFont_Med, NORMAL, 13, nil, 0.15, 0.09, 0.04)
 	SetFont(InvoiceFont_Small, NORMAL, 11, nil, 0.15, 0.09, 0.04)
-	SetFont(MailFont_Large, NORMAL, 15, nil, 0, 0, 0, 0, 0, 0, Viks.skins.blizzard_frames and 1, Viks.skins.blizzard_frames and -1)
+	SetFont(MailFont_Large, NORMAL, 15, nil, 0, 0, 0, 0, 0, 0, C.skins.blizzard_frames and 1, C.skins.blizzard_frames and -1)
 	SetFont(NumberFont_Outline_Huge, NORMAL, 30, "THICKOUTLINE", 30)
 	SetFont(NumberFont_Outline_Large, NORMAL, 17, "OUTLINE")
 	SetFont(NumberFont_Outline_Med, NORMAL, 15, "OUTLINE")
@@ -111,7 +111,7 @@ else
 end
 
 if LSM then
-	LSM:Register(LSM.MediaType.FONT, "Calibri", Viks.media.font, LOCALE_MASK)
-	LSM:Register(LSM.MediaType.FONT, "Hooge", Viks.media.pxfont, LOCALE_MASK)
-	LSM:Register(LSM.MediaType.STATUSBAR, "Smooth", Viks.media.texture)
+	LSM:Register(LSM.MediaType.FONT, "Calibri", C.media.normal_font, LOCALE_MASK)
+	LSM:Register(LSM.MediaType.FONT, "Hooge", C.media.pixel_font, LOCALE_MASK)
+	LSM:Register(LSM.MediaType.STATUSBAR, "Smooth", C.media.texture)
 end

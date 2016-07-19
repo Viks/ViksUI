@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if not IsAddOnLoaded("CLCProt") or Viks.skins.clcprot ~= true or T.class ~= "PALADIN" then return end
+local T, C, L, _ = unpack(select(2, ...))
+if not IsAddOnLoaded("CLCProt") or C.skins.clcprot ~= true or T.class ~= "PALADIN" then return end
 
 ----------------------------------------------------------------------------------------
 --	CLCProt skin(by Elv22)

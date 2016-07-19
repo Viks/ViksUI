@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 if T.author ~= true then return end
 
 ----------------------------------------------------------------------------------------
@@ -73,10 +73,10 @@ ChatTypeInfo.BN_WHISPER = {sticky = 1, flashTab = false, flashTabOnGeneral = fal
 SlashCmdList.SWITCHRESO = function()
 	if ({GetScreenResolutions()})[GetCurrentResolution()] == "1366x768" then
 		SetCVar("gxWindow", 1)
-		SetCVar("gxResolution", "1280x600")
+		SetCVar("gxWindowedResolution", "1280x600")
 	else
 		SetCVar("gxWindow", 0)
-		SetCVar("gxResolution", "1366x768")
+		SetCVar("gxWindowedResolution", "1366x768")
 	end
 	RestartGx()
 end

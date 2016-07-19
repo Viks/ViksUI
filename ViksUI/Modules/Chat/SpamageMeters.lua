@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.chat.enable ~= true or Viks.chat.damage_meter_spam ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.chat.enable ~= true or C.chat.damage_meter_spam ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Merge damage meter spam(SpamageMeters by Wrug and Cybey)

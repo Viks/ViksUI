@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Quest skin
@@ -38,7 +38,7 @@ local function LoadSkin()
 		local texture = _G["QuestProgressItem"..i.."IconTexture"]
 
 		if button.NameFrame then button.NameFrame:Hide() end
-		button.Name:SetFont(Viks.media.font, 12)
+		button.Name:SetFont(C.media.normal_font, 12)
 
 		button:CreateBackdrop("Default")
 		button.backdrop:ClearAllPoints()

@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.currency_cap ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.automation.currency_cap ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto popup for currency cap(EnoughPoints by gi2k15)
@@ -45,7 +45,7 @@ frame:RegisterEvent("ADDON_LOADED")
 
 function frame:ADDON_LOADED(event, name)
 	if name == "ViksUI" then
-		self:RegisterEvent("PLAYER_LOGIN")
+		self:RegisterEvent("PLAYER_ENTERING_WORLD")
 		self:RegisterEvent("PLAYER_ENTERING_WORLD")
 		self:RegisterEvent("LFG_UPDATE")
 		self:RegisterEvent("LFG_PROPOSAL_SHOW")

@@ -1,11 +1,12 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local t_unlock = false
+
 AnchorFrames = {}
-UISavedPositions = {}
+SavedPositions = {}
 
 local SetPosition = function(anch)
 	local ap, _, rp, x, y = anch:GetPoint()
-	UISavedPositions[anch:GetName()] = {ap, "UIParent", rp, x, y}
+	SavedPositions[anch:GetName()] = {ap, "UIParent", rp, x, y}
 end
 
 local OnDragStart = function(self)
@@ -68,7 +69,7 @@ function CreateAnchor(f, text, width, height)
 	f:RegisterForDrag(nil)
 
 	f.text = f:CreateFontString(nil, "OVERLAY")
-	f.text:SetFont(Viks["media"].font, 10)
+	f.text:SetFont(C["media"].normal_font, 10)
 	f.text:SetJustifyH("LEFT")
 	f.text:SetShadowColor(0, 0, 0)
 	f.text:SetShadowOffset(1, -1)
@@ -103,7 +104,7 @@ function AnchorsLock()
 end
 
 function AnchorsReset()
-	if(UISavedPositions) then UISavedPositions = nil end
+	if(SavedPositions) then SavedPositions = nil end
 	ReloadUI()
 end
 local grid
@@ -141,9 +142,9 @@ function Grid_Create()
 	for i = 0, boxSize do 
 		local tx = grid:CreateTexture(nil, 'BACKGROUND') 
 		if i == boxSize / 2 then 
-			tx:SetTexture(1, 0, 0, 0.5) 
+			tx:SetColorTexture(1, 0, 0, 0.5) 
 		else 
-			tx:SetTexture(0, 0, 0, 0.5) 
+			tx:SetColorTexture(0, 0, 0, 0.5) 
 		end 
 		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", i*wStep - (size/2), 0) 
 		tx:SetPoint('BOTTOMRIGHT', grid, 'BOTTOMLEFT', i*wStep + (size/2), 0) 
@@ -152,20 +153,20 @@ function Grid_Create()
 	
 	do
 		local tx = grid:CreateTexture(nil, 'BACKGROUND') 
-		tx:SetTexture(1, 0, 0, 0.5)
+		tx:SetColorTexture(1, 0, 0, 0.5)
 		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2) + (size/2))
 		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2 + size/2))
 	end
 	
 	for i = 1, math.floor((height/2)/hStep) do
 		local tx = grid:CreateTexture(nil, 'BACKGROUND') 
-		tx:SetTexture(0, 0, 0, 0.5)
+		tx:SetColorTexture(0, 0, 0, 0.5)
 		
 		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2+i*hStep) + (size/2))
 		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2+i*hStep + size/2))
 		
 		tx = grid:CreateTexture(nil, 'BACKGROUND') 
-		tx:SetTexture(0, 0, 0, 0.5)
+		tx:SetColorTexture(0, 0, 0, 0.5)
 		
 		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2-i*hStep) + (size/2))
 		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2-i*hStep + size/2))
@@ -207,7 +208,7 @@ local RestoreUI = function(self)
 		end)
 		return
 	end
-	for frame_name, SetPoint in pairs(UISavedPositions) do
+	for frame_name, SetPoint in pairs(SavedPositions) do
 		if _G[frame_name] then
 			_G[frame_name]:ClearAllPoints()
 			_G[frame_name]:SetPoint(unpack(SetPoint))
@@ -227,24 +228,24 @@ SlashCmdList["ui"] = SlashCmd;
 SLASH_ui1 = "/ui";
 
 AnchorBuff = CreateFrame("Frame","Move_Buff",UIParent)
-AnchorBuff:SetPoint("TOPRIGHT", UIParent, -(Viks.minimapp.size+7), -(Viks.panels.yoffset+Viks.panels.CPbarsheight+2))
+AnchorBuff:SetPoint("TOPRIGHT", UIParent, -(C.minimapp.size+7), -(C.panels.yoffset+C.panels.CPbarsheight+2))
 CreateAnchor(AnchorBuff, "Move Buff", 300, 70)
 
 AnchorDeBuff = CreateFrame("Frame","Move_DeBuff",UIParent)
-AnchorDeBuff:SetPoint("TOPRIGHT", UIParent, -(Viks.minimapp.size+7), -(Viks.panels.yoffset+Viks.panels.CPbarsheight+Viks.minimapp.size))
+AnchorDeBuff:SetPoint("TOPRIGHT", UIParent, -(C.minimapp.size+7), -(C.panels.yoffset+C.panels.CPbarsheight+C.minimapp.size))
 CreateAnchor(AnchorDeBuff, "Move DeBuff", 300, 70)
 
 AnchorTRBottom = CreateFrame("Frame","Move_Minimap",UIParent)
-AnchorTRBottom:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, -(Viks.panels.yoffset+Viks.panels.CPbarsheight+2))
-CreateAnchor(AnchorTRBottom, "Move Right Text Fields", Viks.minimapp.size, Viks.minimapp.size)
+AnchorTRBottom:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, -(C.panels.yoffset+C.panels.CPbarsheight+2))
+CreateAnchor(AnchorTRBottom, "Move Right Text Fields", C.minimapp.size, C.minimapp.size)
 
 AnchorMinimap = CreateFrame("Frame","Move_Minimap",UIParent)
-AnchorMinimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, -(Viks.panels.yoffset+Viks.panels.CPbarsheight+2))
-CreateAnchor(AnchorMinimap, "Move Minimap", Viks.minimapp.size, Viks.minimapp.size)
+AnchorMinimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, -(C.panels.yoffset+C.panels.CPbarsheight+2))
+CreateAnchor(AnchorMinimap, "Move Minimap", C.minimapp.size, C.minimapp.size)
 
 
 
-if Viks.unitframes.HealFrames then
+if C.unitframe.HealFrames then
 ---Frames
 ---Frames
 Anchorviksplayer = CreateFrame("Frame","Move_player",UIParent)
@@ -284,7 +285,7 @@ Anchorviksfocuscastbar:SetPoint("TOPLEFT", UIParent, "BOTTOM", 579, 450)
 CreateAnchor(Anchorviksfocuscastbar, "Move focuscastbar", 158, 13)
 
 Anchorvikstank = CreateFrame("Frame","Move_tank",UIParent)
-Anchorvikstank:SetPoint("BOTTOM", UIParent, "BOTTOM", -80, 300)
+Anchorvikstank:SetPoint("BOTTOM", UIParent, "BOTTOM", -80, 324)
 CreateAnchor(Anchorvikstank, "Move tank", 80, 18)
 
 Anchorviksboss = CreateFrame("Frame","Move_boss",UIParent)

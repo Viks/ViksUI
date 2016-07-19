@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if not IsAddOnLoaded("CLCRet") or Viks.skins.clcret ~= true or T.class ~= "PALADIN" then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if not IsAddOnLoaded("CLCRet") or C.skins.clcret ~= true or T.class ~= "PALADIN" then return end
 
 ----------------------------------------------------------------------------------------
 --	CLCRet skin(by Elv22)

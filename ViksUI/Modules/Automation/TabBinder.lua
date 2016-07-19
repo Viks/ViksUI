@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.tab_binder ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.automation.tab_binder ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto change Tab key to only target enemy players(RE/TabBinder by Veev/AcidWeb)

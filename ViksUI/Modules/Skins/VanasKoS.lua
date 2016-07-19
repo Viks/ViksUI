@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.vanaskos ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.vanaskos ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	VanasKoS skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event)
 	if not IsAddOnLoaded("VanasKoS") then return end
 
@@ -14,10 +14,10 @@ frame:SetScript("OnEvent", function(self, event)
 	VanasKoS_WarnFrame:SetTemplate("Transparent")
 	VanasKoS_WarnFrame.SetBackdropBorderColor = T.dummy
 
-	VanasKoS_FontKos:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
-	VanasKoS_FontEnemy:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
-	VanasKoS_FontFriendly:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
-	VanasKoS_FontNormal:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+	VanasKoS_FontKos:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
+	VanasKoS_FontEnemy:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
+	VanasKoS_FontFriendly:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
+	VanasKoS_FontNormal:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 
 	VanasKoSFrame:StripTextures(true)
 	VanasKoSFrame:CreateBackdrop("Transparent")

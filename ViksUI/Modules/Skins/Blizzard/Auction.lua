@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	AuctionUI skin
@@ -13,6 +13,11 @@ local function LoadSkin()
 	BrowseScrollFrame:StripTextures()
 	AuctionsScrollFrame:StripTextures()
 	BidScrollFrame:StripTextures()
+
+	T.SkinScrollBar(BrowseFilterScrollFrameScrollBar)
+	T.SkinScrollBar(BrowseScrollFrameScrollBar)
+	T.SkinScrollBar(AuctionsScrollFrameScrollBar)
+	T.SkinScrollBar(BidScrollFrameScrollBar)
 
 	T.SkinDropDownBox(BrowseDropDown)
 	T.SkinDropDownBox(PriceDropDown)
@@ -51,19 +56,13 @@ local function LoadSkin()
 	WowTokenGameTimeTutorialLeftBorder:SetAlpha(0)
 	WowTokenGameTimeTutorialRightBorder:SetAlpha(0)
 
-	do
-		local Token = BrowseWowTokenResults.Token
-		local icon = Token.Icon
-
-		Token.ItemBorder:Hide()
-		Token.IconBorder:Hide()
-
-		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-
-		Token:CreateBackdrop("Default")
-		Token.backdrop:SetPoint("TOPLEFT", Token.IconBorder, -2, 2)
-		Token.backdrop:SetPoint("BOTTOMRIGHT", Token.IconBorder, 2, -2)
-	end
+	local Token = BrowseWowTokenResultsToken
+	Token.ItemBorder:Hide()
+	Token.IconBorder:Hide()
+	Token.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	Token:CreateBackdrop("Default")
+	Token.backdrop:SetPoint("TOPLEFT", Token.IconBorder, -2, 2)
+	Token.backdrop:SetPoint("BOTTOMRIGHT", Token.IconBorder, 2, -2)
 
 	-- Progress Frame
 	AuctionProgressFrame:StripTextures()
@@ -78,20 +77,20 @@ local function LoadSkin()
 	AuctionProgressFrameCancelButton:SetSize(28, 28)
 	AuctionProgressFrameCancelButton:SetPoint("LEFT", AuctionProgressBar, "RIGHT", 8, 0)
 
-	AuctionProgressBarIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	--BETA AuctionProgressBarIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
-	local backdrop = CreateFrame("Frame", nil, AuctionProgressBarIcon:GetParent())
-	backdrop:SetPoint("TOPLEFT", AuctionProgressBarIcon, "TOPLEFT", -2, 2)
-	backdrop:SetPoint("BOTTOMRIGHT", AuctionProgressBarIcon, "BOTTOMRIGHT", 2, -2)
-	backdrop:SetTemplate("Default")
-	AuctionProgressBarIcon:SetParent(backdrop)
+	-- local backdrop = CreateFrame("Frame", nil, AuctionProgressBarIcon:GetParent())
+	-- backdrop:SetPoint("TOPLEFT", AuctionProgressBarIcon, "TOPLEFT", -2, 2)
+	-- backdrop:SetPoint("BOTTOMRIGHT", AuctionProgressBarIcon, "BOTTOMRIGHT", 2, -2)
+	-- backdrop:SetTemplate("Default")
+	-- AuctionProgressBarIcon:SetParent(backdrop)
 
-	AuctionProgressBarText:ClearAllPoints()
-	AuctionProgressBarText:SetPoint("CENTER")
+	-- AuctionProgressBarText:ClearAllPoints()
+	-- AuctionProgressBarText:SetPoint("CENTER")
 
 	AuctionProgressBar:StripTextures()
 	AuctionProgressBar:CreateBackdrop("Default")
-	AuctionProgressBar:SetStatusBarTexture(Viks.media.texture)
+	AuctionProgressBar:SetStatusBarTexture(C.media.texture)
 	AuctionProgressBar:SetStatusBarColor(1, 1, 0)
 
 	T.SkinNextPrevButton(BrowseNextPageButton)
@@ -134,15 +133,15 @@ local function LoadSkin()
 	BrowseResetButton:SetWidth(80)
 
 	AuctionsItemButton:StripTextures()
-	AuctionsItemButton:StyleButton()
+	AuctionsItemButton:StyleButton(true)
 	AuctionsItemButton:SetTemplate("Default")
 
-	AuctionsItemButton:SetScript("OnUpdate", function()
-		if AuctionsItemButton:GetNormalTexture() then
-			AuctionsItemButton:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
-			AuctionsItemButton:GetNormalTexture():ClearAllPoints()
-			AuctionsItemButton:GetNormalTexture():SetPoint("TOPLEFT", 2, -2)
-			AuctionsItemButton:GetNormalTexture():SetPoint("BOTTOMRIGHT", -2, 2)
+	AuctionsItemButton:HookScript("OnEvent", function(self, event, ...)
+		if event == "NEW_AUCTION_UPDATE" and self:GetNormalTexture() then
+			self:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			self:GetNormalTexture():ClearAllPoints()
+			self:GetNormalTexture():SetPoint("TOPLEFT", 2, -2)
+			self:GetNormalTexture():SetPoint("BOTTOMRIGHT", -2, 2)
 		end
 	end)
 
@@ -177,12 +176,9 @@ local function LoadSkin()
 	for i = 1, NUM_FILTERS_TO_DISPLAY do
 		local tab = _G["AuctionFilterButton"..i]
 		tab:StyleButton()
+		_G["AuctionFilterButton"..i.."NormalTexture"]:SetAlpha(0)
+		_G["AuctionFilterButton"..i.."NormalTexture"].SetAlpha = T.dummy
 	end
-
-	hooksecurefunc("FilterButton_SetType", function(button)
-		local tex = button:GetNormalTexture();
-		tex:SetAlpha(0)
-	end)
 
 	local editboxs = {
 		"BrowseName",
@@ -449,7 +445,7 @@ local function LoadSkin()
 	border:SetPoint("TOPLEFT")
 	border:SetPoint("BOTTOMRIGHT")
 	border:SetBackdrop({
-		edgeFile = Viks.media.blank, edgeSize = T.mult,
+		edgeFile = C.media.blank, edgeSize = T.mult,
 		insets = {left = T.mult, right = T.mult, top = T.mult, bottom = T.mult}
 	})
 	border:SetBackdropBorderColor(unpack(C.media.border_color))

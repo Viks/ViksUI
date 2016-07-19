@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.aura.cast_by ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.aura.cast_by ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Tells you who cast a buff or debuff in its tooltip(prButler by Renstrom)

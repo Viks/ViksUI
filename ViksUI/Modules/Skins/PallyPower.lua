@@ -1,16 +1,16 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.pallypower ~= true or T.class ~= "PALADIN" then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.pallypower ~= true or T.class ~= "PALADIN" then return end
 
 ----------------------------------------------------------------------------------------
 --	PallyPower skin(by MrRuben5)
 ----------------------------------------------------------------------------------------
 local PPSkin = CreateFrame("Frame")
-PPSkin:RegisterEvent("PLAYER_LOGIN")
+PPSkin:RegisterEvent("PLAYER_ENTERING_WORLD")
 PPSkin:SetScript("OnEvent", function(self, event, addon)
 	if IsAddOnLoaded("PallyPower") then
 		local _G = _G
 		local _, frame, tex, settings
-		local font = Viks.font.stylization_font
+		local font = C.font.stylization_font
 		local one = 1
 		local two = 2
 		local three = 3
@@ -33,7 +33,7 @@ PPSkin:SetScript("OnEvent", function(self, event, addon)
 
 			for _, frame in pairs(needSkinning) do
 				frame:SetBackdrop({
-					bgFile = Viks.media.blank_border,
+					bgFile = C.media.blank_border,
 					insets = {left = two, right = two, top = two, bottom = two}
 				})
 				if not frame.bg then
@@ -48,8 +48,8 @@ PPSkin:SetScript("OnEvent", function(self, event, addon)
 					local fs = _G[fname..fontstring]
 					if fs then
 						local _, size = fs:GetFont()
-						fs:SetFont(font, Viks.font.stylization_font_size / settings.buffscale, Viks.font.stylization_font_style)
-						fs:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+						fs:SetFont(font, C.font.stylization_font_size / settings.buffscale, C.font.stylization_font_style)
+						fs:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 						if not fname:find("PowerC%d+P%d+$") then
 							if fontstring == "Text" then
 								fs:ClearAllPoints()

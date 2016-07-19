@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Switch theme mouseover button on minimap
@@ -10,47 +10,47 @@ theme:SetSize(19, 19)
 theme:SetAlpha(0)
 
 theme.t = theme:CreateTexture(nil, "OVERLAY")
-theme.t:SetTexture(Viks.media.blank)
-theme.t:SetVertexColor(unpack(Viks.media.bordercolor))
+theme.t:SetTexture(C.media.blank)
+theme.t:SetVertexColor(unpack(C.media.border_color))
 theme.t:SetPoint("TOPLEFT", theme, 2, -2)
 theme.t:SetPoint("BOTTOMRIGHT", theme, -2, 2)
 
 local function ThemeBorderC(r, g, b, a)
-	if not ViksConfigAll then return end
-	if ViksConfigAll[T.realm][T.name] == true then
-		if ViksConfig == nil then ViksConfig = {} end
-		if ViksConfig["media"] == nil then ViksConfig["media"] = {} end
-		ViksConfig["media"]["bordercolor"] = {r, g, b, a}
+	if not GUIConfigAll then return end
+	if GUIConfigAll[T.realm][T.name] == true then
+		if GUIConfig == nil then GUIConfig = {} end
+		if GUIConfig["media"] == nil then GUIConfig["media"] = {} end
+		GUIConfig["media"]["bordercolor"] = {r, g, b, a}
 	else
-		if ViksConfigSettings == nil then ViksConfigSettings = {} end
-		if ViksConfigSettings["media"] == nil then ViksConfigSettings["media"] = {} end
-		ViksConfigSettings["media"]["bordercolor"] = {r, g, b, a}
+		if GUIConfigSettings == nil then GUIConfigSettings = {} end
+		if GUIConfigSettings["media"] == nil then GUIConfigSettings["media"] = {} end
+		GUIConfigSettings["media"]["bordercolor"] = {r, g, b, a}
 	end
 end
 
 local function ThemeBackdropC(r, g, b, a)
-	if not ViksConfigAll then return end
-	if ViksConfigAll[T.realm][T.name] == true then
-		if ViksConfig == nil then ViksConfig = {} end
-		if ViksConfig["media"] == nil then ViksConfig["media"] = {} end
-		ViksConfig["media"]["backdropcolor"] = {r, g, b, a}
+	if not GUIConfigAll then return end
+	if GUIConfigAll[T.realm][T.name] == true then
+		if GUIConfig == nil then GUIConfig = {} end
+		if GUIConfig["media"] == nil then GUIConfig["media"] = {} end
+		GUIConfig["media"]["backdropcolor"] = {r, g, b, a}
 	else
-		if ViksConfigSettings == nil then ViksConfigSettings = {} end
-		if ViksConfigSettings["media"] == nil then ViksConfigSettings["media"] = {} end
-		ViksConfigSettings["media"]["backdropcolor"] = {r, g, b, a}
+		if GUIConfigSettings == nil then GUIConfigSettings = {} end
+		if GUIConfigSettings["media"] == nil then GUIConfigSettings["media"] = {} end
+		GUIConfigSettings["media"]["backdropcolor"] = {r, g, b, a}
 	end
 end
 
 local function ThemeOverlayC(r, g, b, a)
-	if not ViksConfigAll then return end
-	if ViksConfigAll[T.realm][T.name] == true then
-		if ViksConfig == nil then ViksConfig = {} end
-		if ViksConfig["media"] == nil then ViksConfig["media"] = {} end
-		ViksConfig["media"]["overlay_color"] = {r, g, b, a}
+	if not GUIConfigAll then return end
+	if GUIConfigAll[T.realm][T.name] == true then
+		if GUIConfig == nil then GUIConfig = {} end
+		if GUIConfig["media"] == nil then GUIConfig["media"] = {} end
+		GUIConfig["media"]["overlay_color"] = {r, g, b, a}
 	else
-		if ViksConfigSettings == nil then ViksConfigSettings = {} end
-		if ViksConfigSettings["media"] == nil then ViksConfigSettings["media"] = {} end
-		ViksConfigSettings["media"]["overlay_color"] = {r, g, b, a}
+		if GUIConfigSettings == nil then GUIConfigSettings = {} end
+		if GUIConfigSettings["media"] == nil then GUIConfigSettings["media"] = {} end
+		GUIConfigSettings["media"]["overlay_color"] = {r, g, b, a}
 	end
 end
 

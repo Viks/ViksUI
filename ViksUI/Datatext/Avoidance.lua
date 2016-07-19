@@ -1,23 +1,23 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --------------------------------------------------------------------
 -- Player Avoidance
 --------------------------------------------------------------------
 
-if Viks.datatext.Avd and Viks.datatext.Avd > 0 then
+if C.datatext.Avd and C.datatext.Avd > 0 then
 	local Stat = CreateFrame("Frame")
 	Stat:EnableMouse(true)
 	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
 
 	local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-	if Viks.datatext.Avd >= 6 then
-		Text:SetTextColor(unpack(Viks.media.pxcolor1))
-		Text:SetFont(Viks.media.pxfontHeader, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+	if C.datatext.Avd >= 6 then
+		Text:SetTextColor(unpack(C.media.pxcolor1))
+		Text:SetFont(C.media.pxfontHeader, C.media.pxfontHsize, C.media.pxfontHFlag)
 	else
-		Text:SetTextColor(unpack(Viks.media.pxcolor1))
-		Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+		Text:SetTextColor(unpack(C.media.pxcolor1))
+		Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	end
-	PP(Viks.datatext.Avd, Text)
+	PP(C.datatext.Avd, Text)
 	
 	local targetlv
 	local playerlv
@@ -46,7 +46,7 @@ if Viks.datatext.Avd and Viks.datatext.Avd > 0 then
 			block = (GetBlockChance()-leveldifference*.2)
 			MissChance = (basemisschance + 1/(0.0625 + 0.956/(GetCombatRating(CR_DEFENSE_SKILL)/4.91850*0.04)))
 			avoidance = (dodge+parry+block+MissChance)
-			if Viks.datatext.Avd >= 6 then
+			if C.datatext.Avd >= 6 then
 			Text:SetText("|cffFFFFFF"..format("%.2f", avoidance)..qColor2.." Avd")
 			else
 			Text:SetText(qColor..format("%.2f", avoidance)..qColor2.." Avd")
@@ -57,7 +57,7 @@ if Viks.datatext.Avd and Viks.datatext.Avd > 0 then
 			block = (GetBlockChance()+abs(leveldifference*.2))
 			MissChance = (basemisschance + 1/(0.0625 + 0.956/(GetCombatRating(CR_DEFENSE_SKILL)/4.91850*0.04)))
 			avoidance = (dodge+parry+block+MissChance)
-			if Viks.datatext.Avd >= 6 then
+			if C.datatext.Avd >= 6 then
 			Text:SetText("|cffFFFFFF"..format("%.2f", avoidance)..qColor2.." Avd")
 			else
 			Text:SetText(qColor..format("%.2f", avoidance)..qColor2.." Avd")

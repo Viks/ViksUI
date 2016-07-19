@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.archaeology ~= true or IsAddOnLoaded("stArchaeologist") then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.misc.archaeology ~= true or IsAddOnLoaded("stArchaeologist") then return end
 
 ----------------------------------------------------------------------------------------
 --	Archaeology tracker(stArchaeologist by Safturento)
@@ -23,7 +23,7 @@ function stArch:OnLoad(self)
 	stArch["title"]["text"]:SetPoint("CENTER", stArch["title"], "CENTER", 0, 0)
 	stArch["title"]["text"]:SetJustifyH("CENTER")
 	stArch["title"]["text"]:SetJustifyV("CENTER")
-	stArch["title"]["text"]:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+	stArch["title"]["text"]:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	stArch["title"]["text"]:SetText(PROFESSIONS_ARCHAEOLOGY)
 
 	-- Close button
@@ -61,7 +61,7 @@ function stArch:OnLoad(self)
 		end
 
 		-- Bar
-		progressBars[i]["bar"]:SetStatusBarTexture(Viks.media.texture)
+		progressBars[i]["bar"]:SetStatusBarTexture(C.media.texture)
 		progressBars[i]["bar"]:SetPoint("TOPRIGHT", progressBars[i]["border"], "TOPRIGHT", -2, -2)
 		progressBars[i]["bar"]:SetPoint("BOTTOMLEFT", progressBars[i]["border"], "BOTTOMLEFT", 2, 2)
 		progressBars[i]["bar"]:SetStatusBarColor(0.4, 0.4, 0.4)
@@ -93,12 +93,12 @@ function stArch:OnLoad(self)
 		end)
 
 		-- Race Text
-		progressBars[i]["race"]:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+		progressBars[i]["race"]:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 		progressBars[i]["race"]:SetText(RACE)
 		progressBars[i]["race"]:SetPoint("LEFT", progressBars[i]["bar"], "LEFT", 2, 0)
 
 		-- Progress Text
-		progressBars[i]["progress"]:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+		progressBars[i]["progress"]:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 		progressBars[i]["progress"]:SetText("")
 		progressBars[i]["progress"]:SetPoint("RIGHT", progressBars[i]["bar"], "RIGHT", 1, 0)
 	end
@@ -117,7 +117,7 @@ function stArch:OnLoad(self)
 	archSkill["frame"]:SetTemplate("Overlay")
 
 	-- StatusBar
-	archSkill["bar"]:SetStatusBarTexture(Viks.media.texture)
+	archSkill["bar"]:SetStatusBarTexture(C.media.texture)
 	archSkill["bar"]:SetPoint("TOPRIGHT", archSkill["frame"], "TOPRIGHT", -2, -2)
 	archSkill["bar"]:SetPoint("BOTTOMLEFT", archSkill["frame"], "BOTTOMLEFT", 2, 2)
 	archSkill["bar"]:SetStatusBarColor(0, 0.4, 0.8)
@@ -133,7 +133,7 @@ function stArch:OnLoad(self)
 	end)
 
 	-- Text
-	archSkill["text"]:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+	archSkill["text"]:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	archSkill["text"]:SetText("-")
 	archSkill["text"]:SetPoint("CENTER", archSkill["bar"], "CENTER", 0, 0)
 
@@ -160,7 +160,7 @@ function stArch:OnLoad(self)
 
 	-- Solve Toggle Text
 	progressBars["solveToggle"]["text"] = progressBars["solveToggle"]:CreateFontString()
-	progressBars["solveToggle"]["text"]:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+	progressBars["solveToggle"]["text"]:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	progressBars["solveToggle"]["text"]:SetText(">")
 	progressBars["solveToggle"]["text"]:SetPoint("CENTER", progressBars["solveToggle"], "CENTER", 1, 0)
 
@@ -203,7 +203,7 @@ function stArch:OnLoad(self)
 
 		-- Text
 		solveFrame[i]["solve"]["text"] = solveFrame[i]["solve"]:CreateFontString()
-		solveFrame[i]["solve"]["text"]:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+		solveFrame[i]["solve"]["text"]:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 		solveFrame[i]["solve"]["text"]:SetText(SOLVE)
 		solveFrame[i]["solve"]["text"]:SetPoint("CENTER", solveFrame[i]["solve"], "CENTER", 2, 0)
 	end
@@ -371,7 +371,7 @@ function stArch:EnableSolve(index, button)
 	end)
 	button:SetScript("OnLeave", function()
 		button["text"]:SetTextColor(1, 1, 1)
-		button:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+		button:SetBackdropBorderColor(unpack(C.media.border_color))
 	end)
 	button:SetScript("OnClick", function()
 		SetSelectedArtifact(index)
@@ -472,9 +472,9 @@ stArchFrame:RegisterEvent("SKILL_LINES_CHANGED")
 stArchFrame:RegisterEvent("BAG_UPDATE")
 stArchFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-stArchFrame:SetWidth(Viks.minimapp.size)
+stArchFrame:SetWidth(C.minimapp.size)
 stArchFrame:SetHeight(15)
-stArchFrame:SetPoint(unpack(Viks.position.archaeology))
+stArchFrame:SetPoint(unpack(C.position.archaeology))
 stArchFrame:SetTemplate("Transparent")
 stArchFrame:SetFrameLevel(1)
 stArchFrame:SetFrameStrata("HIGH")
@@ -486,10 +486,10 @@ stArchFrame:HookScript("OnMouseDown", function(self, button)
 	if IsShiftKeyDown() then
 		self:StartMoving()
 	elseif IsControlKeyDown() and button == "RightButton" then
-		self:SetPoint(unpack(Viks.position.archaeology))
+		self:SetPoint(unpack(C.position.archaeology))
 		self:StartMoving()
 		self:StopMovingOrSizing()
-		self:SetPoint(unpack(Viks.position.archaeology))
+		self:SetPoint(unpack(C.position.archaeology))
 	end
 end)
 stArchFrame:HookScript("OnMouseUp", function(self)
@@ -520,7 +520,7 @@ end)
 
 local b = CreateFrame("Button", "SwitchArch", UIParent)
 b:SetTemplate("ClassColor")
-if Viks.actionbar.toggle_mode == true then
+if C.actionbar.toggle_mode == true then
 	b:SetPoint("TOPLEFT", Minimap, "BOTTOMRIGHT", 3, -58)
 else
 	b:SetPoint("TOPLEFT", Minimap, "BOTTOMRIGHT", 3, -38)
@@ -537,10 +537,10 @@ b:SetScript("OnClick", function(self)
 			_G["stArchaeologyFrame"]:Show()
 			SavedOptionsPerChar.Archaeology = true
 		end
-		if Viks.minimapp.toggle_menu and _G["TTMenuAddOnBackground"]:IsShown() then
+		if C.minimapp.toggle_menu and _G["TTMenuAddOnBackground"]:IsShown() then
 			_G["TTMenuAddOnBackground"]:Hide()
 		end
-		if Viks.minimapp.toggle_menu and _G["TTMenuBackground"]:IsShown() then
+		if C.minimapp.toggle_menu and _G["TTMenuBackground"]:IsShown() then
 			_G["TTMenuBackground"]:Hide()
 		end
 	end
@@ -569,7 +569,7 @@ f:SetPoint("CENTER", 0, -80)
 f:SetSize(40, 40)
 
 local text = f:CreateFontString(nil, "OVERLAY")
-text:SetFont(Viks.media.pxfont, 16, "OUTLINEMONOCHROME")
+text:SetFont(C.media.pixel_font, 16, "OUTLINEMONOCHROME")
 text:SetPoint("CENTER")
 
 local last = 0

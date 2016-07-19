@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.cancel_bad_buffs ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.automation.cancel_bad_buffs ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto cancel various buffs(by Unknown)

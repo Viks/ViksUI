@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.announcements.bad_gear ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.announcements.bad_gear ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Check bad gear in instance

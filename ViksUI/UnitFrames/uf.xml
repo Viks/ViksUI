@@ -15,8 +15,13 @@
 	<Script file="Plugins\oUF_Smooth.lua"/>
 	<Script file="Plugins\oUF_Trinkets.lua"/>
 	<Script file="Plugins\TotemBar.lua"/>
-	<Script file="Plugins\WarlockSpecBars.lua"/>
+	<Script file="Plugins\oUF_MonkHarmonyBar.lua"/>
+	<Script file="Plugins\oUF_ComboPoints.lua"/>
+	<Script file="Plugins\oUF_HolyPower.lua"/>
+	<Script file="Plugins\oUF_ArcaneCharges.lua"/>
+	<Script file="Plugins\oUF_WarlockSpecBars.lua"/>
 	<Script file="Plugins\oUF_RaidDebuffs.lua"/>
+	<Script file="Plugins\oUF_Stagger.lua"/>
 	<Script file="lib.lua"/>
 	<Script file="core.lua"/>
 </Ui>

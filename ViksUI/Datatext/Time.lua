@@ -1,10 +1,10 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local _, class = UnitClass("player")
 --local r, g, b = CUSTOM_CLASS_COLORS[class].r, CUSTOM_CLASS_COLORS[class].g, CUSTOM_CLASS_COLORS[class].b		--Classcolor // Use Classcolors Addon Values. 
-local r, g, b = unpack(Viks.media.pxcolor1)
+local r, g, b = unpack(C.media.pxcolor1)
 
-pxfont = Viks.media.pxfont 			-- main font in Viks UI
-pxfontsize = Viks.media.pxfontsize
+pxfont = C.media.pixel_font 			-- main font in Viks UI
+pxfontsize = C.media.pixel_font_size
 
 DataTextTooltipAnchor = function(self)
 	local panel = self:GetParent()
@@ -16,7 +16,7 @@ end
 --------------------------------------------------------------------
 -- TIME
 --------------------------------------------------------------------
-if Viks.datatext.Wowtime == true then
+if C.datatext.Wowtime == true then
 	local Stat = CreateFrame("Frame")
 	Stat:EnableMouse(true)
 	Stat:SetFrameStrata("BACKGROUND")
@@ -33,11 +33,11 @@ if Viks.datatext.Wowtime == true then
 		local pendingCalendarInvites = CalendarGetNumPendingInvites()
 		int = int - t
 		if int < 0 then
-			if Viks.datatext.Localtime == true then
+			if C.datatext.Localtime == true then
 				Hr24 = tonumber(date("%H"))
 				Hr = tonumber(date("%I"))
 				Min = date("%M")
-				if Viks.datatext.Time24 == true then
+				if C.datatext.Time24 == true then
 					if pendingCalendarInvites > 0 then
 					Text:SetText("|cffFF0000"..Hr24..":"..Min)
 				else
@@ -61,7 +61,7 @@ if Viks.datatext.Wowtime == true then
 		else
 			local Hr, Min = GetGameTime()
 			if Min<10 then Min = "0"..Min end
-			if Viks.datatext.Time24 == true then
+			if C.datatext.Time24 == true then
 				if pendingCalendarInvites > 0 then			
 					Text:SetText("|cffFF0000"..Hr..":"..Min.." |cffffffff|r")
 				else
@@ -130,10 +130,10 @@ if Viks.datatext.Wowtime == true then
 		GameTooltip:AddDoubleLine( "Seals this week" .. ": ", c)
 	end
 	
-		if Viks.datatext.Localtime == true then
+		if C.datatext.Localtime == true then
 			local Hr, Min = GetGameTime()
 			if Min<10 then Min = "0"..Min end
-			if Viks.datatext.Time24 == true then         
+			if C.datatext.Time24 == true then         
 				GameTooltip:AddDoubleLine("Server Time: ",Hr .. ":" .. Min);
 			else             
 				if Hr>=12 then
@@ -149,7 +149,7 @@ if Viks.datatext.Wowtime == true then
 			Hr24 = tonumber(date("%H"))
 			Hr = tonumber(date("%I"))
 			Min = date("%M")
-			if Viks.datatext.time24 == true then
+			if C.datatext.time24 == true then
 				GameTooltip:AddDoubleLine("Local Time: ",Hr24 .. ":" .. Min);
 			else
 				if Hr24>=12 then

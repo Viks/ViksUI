@@ -44,7 +44,7 @@ local tagStrings = {
 		end
 	end]],
 
-	["leaderlong"]  = [[function(u)
+	["leaderlong"] = [[function(u)
 		if(UnitIsGroupLeader(u)) then
 			return 'Leader'
 		end
@@ -53,10 +53,8 @@ local tagStrings = {
 	["level"] = [[function(u)
 		local l = UnitLevel(u)
 		if(UnitIsWildBattlePet(u) or UnitIsBattlePetCompanion(u)) then
-			l = UnitBattlePetLevel(u)
-		end
-
-		if(l > 0) then
+			return UnitBattlePetLevel(u)
+		elseif(l > 0) then
 			return l
 		else
 			return '??'
@@ -263,15 +261,6 @@ local tagStrings = {
 		end
 	end]],
 
-	['pereclipse'] = [[function(u)
-		local m = UnitPowerMax('player', SPELL_POWER_ECLIPSE)
-		if(m == 0) then
-			return 0
-		else
-			return math.abs(UnitPower('player', SPELL_POWER_ECLIPSE)/m*100)
-		end
-	end]],
-
 	['curmana'] = [[function(unit)
 		return UnitPower(unit, SPELL_POWER_MANA)
 	end]],
@@ -307,6 +296,7 @@ local tagStrings = {
 			return num
 		end
 	end]],
+
 	['affix'] = [[function(u)
 		local c = UnitClassification(u)
 		if(c == 'minus') then
@@ -376,7 +366,7 @@ local tagEvents = {
 	["smartlevel"]			= "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED",
 	["threat"]				= "UNIT_THREAT_SITUATION_UPDATE",
 	["threatcolor"]			= "UNIT_THREAT_SITUATION_UPDATE",
-	['cpoints']				= 'UNIT_COMBO_POINTS PLAYER_TARGET_CHANGED',
+	['cpoints']				= 'UNIT_POWER PLAYER_TARGET_CHANGED',
 	['affix']				= 'UNIT_CLASSIFICATION_CHANGED',
 	['plus']				= 'UNIT_CLASSIFICATION_CHANGED',
 	['rare']				= 'UNIT_CLASSIFICATION_CHANGED',
@@ -389,7 +379,6 @@ local tagEvents = {
 	["perpp"]				= 'UNIT_MAXPOWER UNIT_POWER',
 	["offline"]				= "UNIT_HEALTH UNIT_CONNECTION",
 	["status"]				= "UNIT_HEALTH PLAYER_UPDATE_RESTING UNIT_CONNECTION",
-	["pereclipse"]			= 'UNIT_POWER',
 	['curmana']				= 'UNIT_POWER UNIT_MAXPOWER',
 	['maxmana']				= 'UNIT_POWER UNIT_MAXPOWER',
 	['soulshards']			= 'UNIT_POWER',
@@ -406,8 +395,6 @@ local unitlessEvents = {
 	PARTY_LEADER_CHANGED = true,
 
 	GROUP_ROSTER_UPDATE = true,
-
-	UNIT_COMBO_POINTS = true
 }
 
 local events = {}

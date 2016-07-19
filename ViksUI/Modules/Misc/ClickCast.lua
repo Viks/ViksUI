@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.click_cast ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.misc.click_cast ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Simple click2cast spell binder(sBinder by Fernir)
@@ -88,7 +88,7 @@ SpellBinder.makeSpellsList = function(self, scroll, delete)
 			bf.tex:SetSize(22, 22)
 			bf.tex:SetPoint("LEFT")
 			bf.tex:SetTexture(spell.texture)
-			if IsAddOnLoaded("Aurora") or Viks.skins.blizzard_frames == true then
+			if IsAddOnLoaded("Aurora") or C.skins.blizzard_frames == true then
 				bf.tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 			end
 
@@ -155,7 +155,7 @@ SpellBinder.makeFramesList = function(self)
 	for frame, value in pairs(ClickCastFrames) do
 		local v
 		if frame and type(frame) == "table" then v = frame:GetName() end
-		if Viks.misc.click_cast_filter ~= true then
+		if C.misc.click_cast_filter ~= true then
 			if v then DB.frames[frame] = DB.frames[frame] or true end
 		else
 			if v ~= "oUF_Target" and v ~= "oUF_Player" then DB.frames[frame] = DB.frames[frame] or true end
@@ -306,11 +306,11 @@ end
 
 SpellBinder:RegisterEvent("GROUP_ROSTER_UPDATE")
 SpellBinder:RegisterEvent("PLAYER_ENTERING_WORLD")
-SpellBinder:RegisterEvent("PLAYER_LOGIN")
+SpellBinder:RegisterEvent("PLAYER_ENTERING_WORLD")
 SpellBinder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 SpellBinder:RegisterEvent("ZONE_CHANGED")
 SpellBinder:SetScript("OnEvent", function(self, event, ...)
-	if event == "PLAYER_LOGIN" then
+	if event == "PLAYER_ENTERING_WORLD" then
 		SavedBindings = _G.SavedBindings or {}
 		SavedBindings[UnitName("player")] = _G.SavedBindings[UnitName("player")] or {}
 		DB = SavedBindings[UnitName("player")]
@@ -334,7 +334,7 @@ SpellBinder:SetScript("OnEvent", function(self, event, ...)
 			SpellBinder.spellbuttons[i] = button
 		end
 
-		self:UnregisterEvent("PLAYER_LOGIN")
+		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	elseif event == "PLAYER_ENTERING_WORLD" or event == "GROUP_ROSTER_UPDATE" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_NEW_AREA" then
 		SpellBinder.UpdateAll()
 	end
@@ -349,15 +349,15 @@ if IsAddOnLoaded("Aurora") then
 	SpellBinder.OpenButton:SetNormalTexture("Interface\\ICONS\\Achievement_Guild_Doctorisin")
 	SpellBinder.OpenButton:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
-	SpellBinder.OpenButton:SetCheckedTexture(Viks.media.checked)
-	SpellBinder.OpenButton:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+	SpellBinder.OpenButton:SetCheckedTexture(C.media.checked)
+	SpellBinder.OpenButton:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
 	SpellBinder.OpenButton:GetHighlightTexture():SetAllPoints(SpellBinder.OpenButton:GetNormalTexture())
 
 	F.CreateBG(SpellBinder.OpenButton)
 	F.CreateBD(SpellBinder)
 	F.ReskinClose(SpellBinderCloseButton)
 	F.ReskinScroll(SpellBinderScrollFrameSpellListScrollBar)
-elseif Viks.skins.blizzard_frames == true then
+elseif C.skins.blizzard_frames == true then
 	SpellBinder:StripTextures()
 	SpellBinderInset:StripTextures()
 

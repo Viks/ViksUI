@@ -1,8 +1,8 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if not Viks.misc.markbar == true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if not C.misc.markbar == true then return end
 
 -- Config
-font = Viks.media.pxfont           
+font = C.media.pixel_font           
 fontsize = 8                    		
 buttonwidth = 15    		
 buttonheight = 15  
@@ -14,12 +14,14 @@ CreateAnchor(AnchorMarkBar, "Move Mark Bar", buttonwidth * 4 + 15, 28)
 local anchor = {}
 anchor = {"BOTTOMRIGHT", AnchorMarkBar}
 
+
 -- Create main frame
 local MarkBarBG = CreateFrame("Frame", "MarkBarBackground", oUF_PetBattleFrameHider)
 MarkBarBG:CreatePanel("Transparent", buttonwidth * 4 + 15, 90, "BOTTOM", AnchorMarkBar,0,22)
 MarkBarBG:SetFrameLevel(0)
 MarkBarBG:SetFrameStrata("HIGH")
 MarkBarBG:Hide()
+
 
 --Change border when mouse is inside the button
 local function ButtonEnter(self)
@@ -29,7 +31,7 @@ end
  
 --Change border back to normal when mouse leaves button
 local function ButtonLeave(self)
-	self:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+	self:SetBackdropBorderColor(unpack(C.media.border_color))
 end
 
 -- Mark Button BG and icons
@@ -89,7 +91,11 @@ local function CreateMarkerButton(name, point, relativeto, point2, x, y)
     local f = CreateFrame("Button", name, MarkBarBG, "SecureActionButtonTemplate")
     f:SetPoint(point, relativeto, point2, x, y)
 	f:SetSize(13, 13)
+
+
 	f:SetTemplate("Transparent")
+
+
     f:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
     f:SetAttribute("type", "macro")
 end
@@ -99,30 +105,35 @@ CreateMarkerButton("BlueFlare", "BOTTOMLEFT", MarkBarBG, "BOTTOMLEFT", 3, 19)
 BlueFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button3
+
 ]])
 BlueFlare:SetBackdropColor(0, 0, 1)
 CreateMarkerButton("GreenFlare", "BOTTOMLEFT", BlueFlare, "BOTTOMRIGHT", 3, 0)
 GreenFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button5
+
 ]])
 GreenFlare:SetBackdropColor(0, 1, 0)
 CreateMarkerButton("PurpleFlare", "BOTTOMLEFT", GreenFlare, "BOTTOMRIGHT", 3, 0)
 PurpleFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button6
+
 ]])
 PurpleFlare:SetBackdropColor(1, 0, 1)
 CreateMarkerButton("RedFlare", "BOTTOMLEFT", PurpleFlare, "BOTTOMRIGHT", 3, 0)
 RedFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button2
+
 ]])
 RedFlare:SetBackdropColor(1, 0, 0)
 CreateMarkerButton("YellowFlare", "BOTTOMLEFT", MarkBarBG, "BOTTOMLEFT", 3, 3)
 YellowFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button8
+
 ]])
 YellowFlare:SetBackdropColor(1, 1, 0)
 
@@ -151,6 +162,7 @@ CreateMarkerButton("ClearFlare", "BOTTOMLEFT", GreyFlare, "BOTTOMRIGHT", 2, 0)
 ClearFlare:SetAttribute("macrotext", [[
 /click CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 /click DropDownList1Button9
+
 ]])
 ClearFlare:SetSize(6, 30)
 ClearFlare:SetBackdropColor(.075, .075, .075)
@@ -233,5 +245,7 @@ LeadershipCheck:SetScript("OnEvent", function(self, event)
 	else
 		ToggleButton:Hide()
 		MarkBarBackground:Hide()
+
+
 	end
 end)

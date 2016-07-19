@@ -1,19 +1,19 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.enemycooldown.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.enemycooldown.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Enemy cooldowns(alEnemyCD by Allez)
 ----------------------------------------------------------------------------------------
 local show = {
-	none = Viks.enemycooldown.show_always,
-	pvp = Viks.enemycooldown.show_inpvp,
-	arena = Viks.enemycooldown.show_inarena,
+	none = C.enemycooldown.show_always,
+	pvp = C.enemycooldown.show_inpvp,
+	arena = C.enemycooldown.show_inarena,
 }
-local direction = Viks.enemycooldown.direction
+local direction = C.enemycooldown.direction
 local icons = {}
 local band = bit.band
-local pos = Viks.position.enemy_cooldown
-local limit = (Viks.actionbar.buttonsize * 12)/Viks.enemycooldown.size
+local pos = C.position.enemy_cooldown
+local limit = (C.actionbar.buttonsize * 12)/C.enemycooldown.size
 
 
 local AnchorEnemyCD = CreateFrame("Frame", "Move_EnemyCD", UIParent)
@@ -82,7 +82,7 @@ end
 
 local CreateIcon = function()
 	local icon = CreateFrame("Frame", nil, UIParent)
-	icon:SetSize(Viks.enemycooldown.size, Viks.enemycooldown.size)
+	icon:SetSize(C.enemycooldown.size, C.enemycooldown.size)
 	icon:SetTemplate("Default")
 	icon.Cooldown = CreateFrame("Cooldown", nil, icon, "CooldownFrameTemplate")
 	icon.Cooldown:SetPoint("TOPLEFT", 2, -2)
@@ -110,7 +110,7 @@ local StartTimer = function(name, sID)
 	icon:SetScript("OnUpdate", IconUpdate)
 	icon:SetScript("OnEnter", OnEnter)
 	icon:SetScript("OnLeave", GameTooltip_Hide)
-	CooldownFrame_SetTimer(icon.Cooldown, GetTime(), T.enemy_spells[sID], 1)
+	CooldownFrame_Set(icon.Cooldown, GetTime(), T.enemy_spells[sID], 1)
 	tinsert(icons, icon)
 	table.sort(icons, sortByExpiration)
 	UpdatePositions()

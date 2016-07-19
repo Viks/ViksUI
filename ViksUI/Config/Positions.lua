@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(ViksUI)
-if Viks.Filger.filger and Viks.unitframes.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.Filger.filger and C.unitframe.enable ~= true then return end
 
 -- P_BUFF_ICON
 AnchorP_PROC_ICON = CreateFrame("Frame","Move_P_PROC_ICON",UIParent)
@@ -14,7 +14,7 @@ AnchorT_SPECIAL_P_BUFF_ICON = CreateFrame("Frame","Move_SPECIAL_P_BUFF_ICON",UIP
 AnchorT_SPECIAL_P_BUFF_ICON:SetPoint("RIGHT", UIParent, "CENTER", -158, -4)
 CreateAnchor(AnchorT_SPECIAL_P_BUFF_ICON, "Move SPECIAL_P_BUFF_ICON", 36, 36)
 
-if Viks.Filger.filgertbar then
+if C.Filger.filgertbar then
 AnchorT_BAR = CreateFrame("Frame","Move_T_BAR",UIParent)
 AnchorT_BAR:SetPoint("LEFT", UIParent, "CENTER", 450, -114)
 CreateAnchor(AnchorT_BAR, "Move T_BAR", 36, 36)
@@ -28,13 +28,13 @@ AnchorFDEBUFF_BAR = CreateFrame("Frame","Move_FDEBUFF_BAR",UIParent)
 AnchorFDEBUFF_BAR:SetPoint("BOTTOM", UIParent, "BOTTOM", 290, 380)
 CreateAnchor(AnchorFDEBUFF_BAR, "Move FDEBUFF_BAR", 200, 24)
 
-if Viks.Filger.filgerCD then
+if C.Filger.filgerCD then
 Anchor_CD = CreateFrame("Frame","Move_CD",UIParent)
 Anchor_CD:SetPoint("LEFT", UIParent, "LEFT", 500, -180)
 CreateAnchor(Anchor_CD, "Move CD", 36, 36)
 end
 
-if Viks.Filger.filgerpvecc then
+if C.Filger.filgerpvecc then
 Anchor_PVEPVPCD = CreateFrame("Frame","Move_PVEPVPCD",UIParent)
 Anchor_PVEPVPCD:SetPoint("LEFT", UIParent, "CENTER", 158, 38)
 CreateAnchor(Anchor_PVEPVPCD, "Move PVEPVPCD", 36, 36)
@@ -48,7 +48,7 @@ Anchor_PVEDEBUFF = CreateFrame("Frame","Move_PVEDEBUFF",UIParent)
 Anchor_PVEDEBUFF:SetPoint("RIGHT", UIParent, "CENTER", -158, 134)
 CreateAnchor(Anchor_PVEDEBUFF, "Move PVEDEBUFF", 60, 60)
 
-Viks["filger_position"] = {
+C["filger_position"] = {
 	player_buff_icon = {"RIGHT", AnchorBUFF_ICON},	-- "P_BUFF_ICON"
 	player_proc_icon = {"RIGHT", AnchorP_PROC_ICON},	-- "P_PROC_ICON"
 	special_proc_icon = {"RIGHT", AnchorT_SPECIAL_P_BUFF_ICON},	-- "SPECIAL_P_BUFF_ICON"

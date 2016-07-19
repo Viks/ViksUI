@@ -1,17 +1,17 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.nameplate.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.nameplate.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on rNamePlates(by zork, editor Tukz)
 ----------------------------------------------------------------------------------------
 local Plates = CreateFrame("Frame", nil, WorldFrame)
-local goodR, goodG, goodB = unpack(Viks.nameplate.good_color)
-local badR, badG, badB = unpack(Viks.nameplate.bad_color)
-local transitionR, transitionG, transitionB = unpack(Viks.nameplate.near_color)
+local goodR, goodG, goodB = unpack(C.nameplate.good_color)
+local badR, badG, badB = unpack(C.nameplate.bad_color)
+local transitionR, transitionG, transitionB = unpack(C.nameplate.near_color)
 
 local NamePlates = CreateFrame("Frame", nil, UIParent)
 NamePlates:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
-if Viks.nameplate.track_auras == true then
+if C.nameplate.track_auras == true then
 	NamePlates:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 end
 
@@ -23,7 +23,7 @@ exClass.MAGE = true
 exClass.ROGUE = true
 exClass.WARLOCK = true
 exClass.WARRIOR = true
-if Viks.nameplate.healer_icon == true then
+if C.nameplate.healer_icon == true then
 	local t = CreateFrame("Frame")
 	t.factions = {
 		["Horde"] = 1,
@@ -102,60 +102,60 @@ local function CreateVirtualFrame(frame, point)
 	frame.backdrop:SetDrawLayer("BORDER", -8)
 	frame.backdrop:SetPoint("TOPLEFT", point, "TOPLEFT", -T.noscalemult * 3, T.noscalemult * 3)
 	frame.backdrop:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", T.noscalemult * 3, -T.noscalemult * 3)
-	frame.backdrop:SetTexture(unpack(Viks.media.backdropcolor))
+	frame.backdrop:SetColorTexture(unpack(C.media.backdrop_color))
 
 	frame.bordertop = frame:CreateTexture(nil, "BORDER")
 	frame.bordertop:SetPoint("TOPLEFT", point, "TOPLEFT", -T.noscalemult * 2, T.noscalemult * 2)
 	frame.bordertop:SetPoint("TOPRIGHT", point, "TOPRIGHT", T.noscalemult * 2, T.noscalemult * 2)
 	frame.bordertop:SetHeight(T.noscalemult)
-	frame.bordertop:SetTexture(unpack(Viks.media.bordercolor))
+	frame.bordertop:SetColorTexture(unpack(C.media.border_color))
 	frame.bordertop:SetDrawLayer("BORDER", -7)
 
 	frame.borderbottom = frame:CreateTexture(nil, "BORDER")
 	frame.borderbottom:SetPoint("BOTTOMLEFT", point, "BOTTOMLEFT", -T.noscalemult * 2, -T.noscalemult * 2)
 	frame.borderbottom:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", T.noscalemult * 2, -T.noscalemult * 2)
 	frame.borderbottom:SetHeight(T.noscalemult)
-	frame.borderbottom:SetTexture(unpack(Viks.media.bordercolor))
+	frame.borderbottom:SetColorTexture(unpack(C.media.border_color))
 	frame.borderbottom:SetDrawLayer("BORDER", -7)
 
 	frame.borderleft = frame:CreateTexture(nil, "BORDER")
 	frame.borderleft:SetPoint("TOPLEFT", point, "TOPLEFT", -T.noscalemult * 2, T.noscalemult * 2)
 	frame.borderleft:SetPoint("BOTTOMLEFT", point, "BOTTOMLEFT", T.noscalemult * 2, -T.noscalemult * 2)
 	frame.borderleft:SetWidth(T.noscalemult)
-	frame.borderleft:SetTexture(unpack(Viks.media.bordercolor))
+	frame.borderleft:SetColorTexture(unpack(C.media.border_color))
 	frame.borderleft:SetDrawLayer("BORDER", -7)
 
 	frame.borderright = frame:CreateTexture(nil, "BORDER")
 	frame.borderright:SetPoint("TOPRIGHT", point, "TOPRIGHT", T.noscalemult * 2, T.noscalemult * 2)
 	frame.borderright:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", -T.noscalemult * 2, -T.noscalemult * 2)
 	frame.borderright:SetWidth(T.noscalemult)
-	frame.borderright:SetTexture(unpack(Viks.media.bordercolor))
+	frame.borderright:SetColorTexture(unpack(C.media.border_color))
 	frame.borderright:SetDrawLayer("BORDER", -7)
 end
 
 local function SetVirtualBorder(frame, r, g, b)
-	frame.bordertop:SetTexture(r, g, b)
-	frame.borderbottom:SetTexture(r, g, b)
-	frame.borderleft:SetTexture(r, g, b)
-	frame.borderright:SetTexture(r, g, b)
+	frame.bordertop:SetColorTexture(r, g, b)
+	frame.borderbottom:SetColorTexture(r, g, b)
+	frame.borderleft:SetColorTexture(r, g, b)
+	frame.borderright:SetColorTexture(r, g, b)
 end
 
 function Plates:CreateAuraIcon(self)
 	local button = CreateFrame("Frame", nil, self.Health)
-	button:SetWidth(Viks.nameplate.auras_size)
-	button:SetHeight(Viks.nameplate.auras_size)
+	button:SetWidth(C.nameplate.auras_size)
+	button:SetHeight(C.nameplate.auras_size)
 
 	button.bg = button:CreateTexture(nil, "BACKGROUND")
-	button.bg:SetTexture(unpack(Viks.media.backdropcolor))
+	button.bg:SetColorTexture(unpack(C.media.backdrop_color))
 	button.bg:SetAllPoints(button)
 
 	button.bord = button:CreateTexture(nil, "BORDER")
-	button.bord:SetTexture(unpack(Viks.media.bordercolor))
+	button.bord:SetColorTexture(unpack(C.media.border_color))
 	button.bord:SetPoint("TOPLEFT", button, "TOPLEFT", T.noscalemult, -T.noscalemult)
 	button.bord:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -T.noscalemult, T.noscalemult)
 
 	button.bg2 = button:CreateTexture(nil, "ARTWORK")
-	button.bg2:SetTexture(unpack(Viks.media.backdropcolor))
+	button.bg2:SetColorTexture(unpack(C.media.backdrop_color))
 	button.bg2:SetPoint("TOPLEFT", button, "TOPLEFT", T.noscalemult * 2, -T.noscalemult * 2)
 	button.bg2:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -T.noscalemult * 2, T.noscalemult * 2)
 
@@ -169,8 +169,8 @@ function Plates:CreateAuraIcon(self)
 	button.cd:SetReverse(true)
 
 	button.count = button:CreateFontString(nil, "OVERLAY")
-	button.count:SetFont(Viks.font.nameplates_font, Viks.font.nameplates_font_size * T.noscalemult, Viks.font.nameplates_font_style)
-	button.count:SetShadowOffset(Viks.font.nameplates_font_shadow and 1 or 0, Viks.font.nameplates_font_shadow and -1 or 0)
+	button.count:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * T.noscalemult, C.font.nameplates_font_style)
+	button.count:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
 	button.count:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 0)
 
 	return button
@@ -194,8 +194,8 @@ local function UpdateAuraIcon(button, unit, index, filter)
 			self:SetScript("OnUpdate", nil)
 			return
 		end
-		button.cd.timer.text:SetFont(Viks.font.nameplates_font, Viks.font.nameplates_font_size * T.noscalemult, Viks.font.nameplates_font_style)
-		button.cd.timer.text:SetShadowOffset(Viks.font.nameplates_font_shadow and 1 or 0, Viks.font.nameplates_font_shadow and -1 or 0)
+		button.cd.timer.text:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * T.noscalemult, C.font.nameplates_font_style)
+		button.cd.timer.text:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
 	end)
 	button:Show()
 end
@@ -204,10 +204,10 @@ function Plates:OnAura(unit)
 	if not self:IsShown() then
 		return
 	end
-	if not Viks.nameplate.track_auras or not self.NewPlate.icons or not self.NewPlate.unit then return end
+	if not C.nameplate.track_auras or not self.NewPlate.icons or not self.NewPlate.unit then return end
 	local i = 1
 	for index = 1, 40 do
-		if i > Viks.nameplate.width / Viks.nameplate.auras_size then return end
+		if i > C.nameplate.width / C.nameplate.auras_size then return end
 		local match
 		local name, _, _, _, _, duration, _, caster, _, _ = UnitAura(unit, index, "HARMFUL")
 
@@ -217,7 +217,7 @@ function Plates:OnAura(unit)
 			if not self.NewPlate.icons[i] then self.NewPlate.icons[i] = Plates:CreateAuraIcon(self.NewPlate) end
 			local icon = self.NewPlate.icons[i]
 			if i == 1 then icon:SetPoint("RIGHT", self.NewPlate.icons, "RIGHT") end
-			if i ~= 1 and i <= Viks.nameplate.width / Viks.nameplate.auras_size then icon:SetPoint("RIGHT", self.NewPlate.icons[i-1], "LEFT", -2, 0) end
+			if i ~= 1 and i <= C.nameplate.width / C.nameplate.auras_size then icon:SetPoint("RIGHT", self.NewPlate.icons[i-1], "LEFT", -2, 0) end
 			i = i + 1
 			UpdateAuraIcon(icon, unit, index, "HARMFUL")
 		end
@@ -241,7 +241,7 @@ function Plates:GetColor()
 		if RAID_CLASS_COLORS[class].r == Red and RAID_CLASS_COLORS[class].g == Green and RAID_CLASS_COLORS[class].b == AltBlue then
 			self.isClass = true
 			self.isFriendly = false
-			if Viks.nameplate.class_icons == true then
+			if C.nameplate.class_icons == true then
 				texcoord = CLASS_BUTTONS[class]
 				self.NewPlate.class.Glow:Show()
 				self.NewPlate.class:SetTexCoord(texcoord[1], texcoord[2], texcoord[3], texcoord[4])
@@ -273,7 +273,7 @@ function Plates:GetColor()
 		self.isFriendly = false
 	end
 
-	if Viks.nameplate.class_icons == true then
+	if C.nameplate.class_icons == true then
 		if self.isClass == true then
 			self.NewPlate.class.Glow:Show()
 		else
@@ -293,10 +293,10 @@ function Plates:UpdateCastBar()
 
 	if Shield:IsShown() then
 		self.NewPlate.CastBar:SetStatusBarColor(0.78, 0.25, 0.25)
-		self.NewPlate.CastBar.Background:SetTexture(0.78, 0.25, 0.25, 0.2)
+		self.NewPlate.CastBar.Background:SetColorTexture(0.78, 0.25, 0.25, 0.2)
 	else
 		self.NewPlate.CastBar:SetStatusBarColor(Red, Blue, Green)
-		self.NewPlate.CastBar.Background:SetTexture(0.75, 0.75, 0.25, 0.2)
+		self.NewPlate.CastBar.Background:SetColorTexture(0.75, 0.75, 0.25, 0.2)
 	end
 
 	self.NewPlate.CastBar:SetMinMaxValues(Minimum, Maximum)
@@ -311,7 +311,7 @@ end
 
 function Plates:CastOnShow()
 	self.NewPlate.CastBar.Icon:SetTexture(self.ArtContainer.CastBarSpellIcon:GetTexture())
-	if Viks.nameplate.show_castbar_name == true then
+	if C.nameplate.show_castbar_name == true then
 		self.NewPlate.CastBar.Name:SetText(self.ArtContainer.CastBarText:GetText())
 	end
 	self.NewPlate.CastBar:Show()
@@ -367,7 +367,7 @@ function Plates:OnShow()
 		Level = Level.."+"
 	end
 
-	if Viks.nameplate.name_abbrev == true and Viks.nameplate.track_auras ~= true then
+	if C.nameplate.name_abbrev == true and C.nameplate.track_auras ~= true then
 		self.NewPlate.Name:SetText(Abbrev(Name))
 	else
 		self.NewPlate.Name:SetText(Name)
@@ -379,13 +379,13 @@ function Plates:OnShow()
 		self.NewPlate.level:SetText(Level)
 	end
 
-	if Viks.nameplate.class_icons == true and self.isClass == true then
+	if C.nameplate.class_icons == true and self.isClass == true then
 		self.NewPlate.level:SetPoint("RIGHT", self.NewPlate.Name, "LEFT", -2, 0)
 	else
 		self.NewPlate.level:SetPoint("RIGHT", self.NewPlate.Health, "LEFT", -2, 0)
 	end
 
-	if Viks.nameplate.healer_icon == true then
+	if C.nameplate.healer_icon == true then
 		local name = self.NewPlate.Name:GetText()
 		name = gsub(name, "%s*"..((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")).."$", "")
 		name = gsub(name, "%s*"..((_G.INTERACTIVE_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")).."$", "")
@@ -427,11 +427,11 @@ function Plates:UpdateHealthColor()
 	local Red, Green, Blue = Plates.GetColor(self)
 
 	self.NewPlate.Health:SetStatusBarColor(Red, Green, Blue)
-	self.NewPlate.Health.Background:SetTexture(Red, Green, Blue, 0.2)
+	self.NewPlate.Health.Background:SetColorTexture(Red, Green, Blue, 0.2)
 	self.NewPlate.Name:SetTextColor(Red, Green, Blue)
 
 	if self.isClass or self.isTapped then return end
-	if Viks.nameplate.enhance_threat ~= true then
+	if C.nameplate.enhance_threat ~= true then
 		if self.ArtContainer.AggroWarningTexture:IsShown() then
 			local _, val = self.ArtContainer.AggroWarningTexture:GetVertexColor()
 			if val > 0.7 then
@@ -440,7 +440,7 @@ function Plates:UpdateHealthColor()
 				SetVirtualBorder(self.NewPlate.Health, badR, badG, badB)
 			end
 		else
-			SetVirtualBorder(self.NewPlate.Health, unpack(Viks.media.border_color))
+			SetVirtualBorder(self.NewPlate.Health, unpack(C.media.border_color))
 		end
 	else
 		if not self.ArtContainer.AggroWarningTexture:IsShown() then
@@ -448,10 +448,10 @@ function Plates:UpdateHealthColor()
 				-- No Threat
 				if T.Role == "Tank" then
 					self.NewPlate.Health:SetStatusBarColor(badR, badG, badB)
-					self.NewPlate.Health.Background:SetTexture(badR, badG, badB, 0.2)
+					self.NewPlate.Health.Background:SetColorTexture(badR, badG, badB, 0.2)
 				else
 					self.NewPlate.Health:SetStatusBarColor(goodR, goodG, goodB)
-					self.NewPlate.Health.Background:SetTexture(goodR, goodG, goodB, 0.2)
+					self.NewPlate.Health.Background:SetColorTexture(goodR, goodG, goodB, 0.2)
 				end
 			end
 		else
@@ -460,15 +460,15 @@ function Plates:UpdateHealthColor()
 				-- Have Threat
 				if T.Role == "Tank" then
 					self.NewPlate.Health:SetStatusBarColor(goodR, goodG, goodB)
-					self.NewPlate.Health.Background:SetTexture(goodR, goodG, goodB, 0.2)
+					self.NewPlate.Health.Background:SetColorTexture(goodR, goodG, goodB, 0.2)
 				else
 					self.NewPlate.Health:SetStatusBarColor(badR, badG, badB)
-					self.NewPlate.Health.Background:SetTexture(badR, badG, badB, 0.2)
+					self.NewPlate.Health.Background:SetColorTexture(badR, badG, badB, 0.2)
 				end
 			else
 				-- Losing/Gaining Threat
 				self.NewPlate.Health:SetStatusBarColor(transitionR, transitionG, transitionB)
-				self.NewPlate.Health.Background:SetTexture(transitionR, transitionG, transitionB, 0.2)
+				self.NewPlate.Health.Background:SetColorTexture(transitionR, transitionG, transitionB, 0.2)
 			end
 		end
 	end
@@ -479,7 +479,7 @@ function Plates:UpdateHealthText()
 	local CurrentHP = self.ArtContainer.HealthBar:GetValue()
 	local Percent = (CurrentHP / MaxHP) * 100
 
-	if Viks.nameplate.health_value == true then
+	if C.nameplate.health_value == true then
 		-- self.NewPlate.Health.Text:SetText(T.ShortValue(CurrentHP).." / "..T.ShortValue(MaxHP))
 		self.NewPlate.Health.Text:SetFormattedText("%d%%", Percent)
 	end
@@ -490,21 +490,21 @@ function Plates:UpdateHealthText()
 		elseif Percent < 20 then
 			SetVirtualBorder(self.NewPlate.Health, 1, 0, 0)
 		else
-			SetVirtualBorder(self.NewPlate.Health, unpack(Viks.media.bordercolor))
+			SetVirtualBorder(self.NewPlate.Health, unpack(C.media.border_color))
 		end
-	elseif (self.isClass ~= true and self.isFriendly ~= true) and Viks.nameplate.enhance_threat == true then
-		SetVirtualBorder(self.NewPlate.Health, unpack(Viks.media.bordercolor))
+	elseif (self.isClass ~= true and self.isFriendly ~= true) and C.nameplate.enhance_threat == true then
+		SetVirtualBorder(self.NewPlate.Health, unpack(C.media.border_color))
 	end
 
 	if GetUnitName("target") and self.NewPlate:GetAlpha() == 1 then
-		self.NewPlate.Health:SetSize((Viks.nameplate.width + Viks.nameplate.ad_width) * T.noscalemult, (Viks.nameplate.height + Viks.nameplate.ad_height) * T.noscalemult)
-		self.NewPlate.CastBar:SetPoint("BOTTOMLEFT", self.NewPlate.Health, "BOTTOMLEFT", 0, -8-((Viks.nameplate.height + Viks.nameplate.ad_height) * T.noscalemult))
-		self.NewPlate.CastBar.Icon:SetSize(((Viks.nameplate.height + Viks.nameplate.ad_height) * 2 * T.noscalemult) + 8, ((Viks.nameplate.height + Viks.nameplate.ad_height) * 2 * T.noscalemult) + 8)
+		self.NewPlate.Health:SetSize((C.nameplate.width + C.nameplate.ad_width) * T.noscalemult, (C.nameplate.height + C.nameplate.ad_height) * T.noscalemult)
+		self.NewPlate.CastBar:SetPoint("BOTTOMLEFT", self.NewPlate.Health, "BOTTOMLEFT", 0, -8-((C.nameplate.height + C.nameplate.ad_height) * T.noscalemult))
+		self.NewPlate.CastBar.Icon:SetSize(((C.nameplate.height + C.nameplate.ad_height) * 2 * T.noscalemult) + 8, ((C.nameplate.height + C.nameplate.ad_height) * 2 * T.noscalemult) + 8)
 		self.NewPlate.Health:SetFrameLevel(1)
 	else
-		self.NewPlate.Health:SetSize(Viks.nameplate.width * T.noscalemult, Viks.nameplate.height * T.noscalemult)
-		self.NewPlate.CastBar:SetPoint("BOTTOMLEFT", self.NewPlate.Health, "BOTTOMLEFT", 0, -8-(Viks.nameplate.height * T.noscalemult))
-		self.NewPlate.CastBar.Icon:SetSize((Viks.nameplate.height * 2 * T.noscalemult) + 8, (Viks.nameplate.height * 2 * T.noscalemult) + 8)
+		self.NewPlate.Health:SetSize(C.nameplate.width * T.noscalemult, C.nameplate.height * T.noscalemult)
+		self.NewPlate.CastBar:SetPoint("BOTTOMLEFT", self.NewPlate.Health, "BOTTOMLEFT", 0, -8-(C.nameplate.height * T.noscalemult))
+		self.NewPlate.CastBar.Icon:SetSize((C.nameplate.height * 2 * T.noscalemult) + 8, (C.nameplate.height * 2 * T.noscalemult) + 8)
 		self.NewPlate.Health:SetFrameLevel(0)
 	end
 
@@ -542,46 +542,46 @@ end
 function Plates:Skin(obj)
 	local Plate = obj
 
-	local HealthBar = Plate.ArtContainer.HealthBar
-	local Border = Plate.ArtContainer.Border
-	local Highlight = Plate.ArtContainer.Highlight
-	local LevelText = Plate.ArtContainer.LevelText
-	local RaidTargetIcon = Plate.ArtContainer.RaidTargetIcon
-	local Elite = Plate.ArtContainer.EliteIcon
-	local Threat = Plate.ArtContainer.AggroWarningTexture
-	local Boss = Plate.ArtContainer.HighLevelIcon
-	local CastBar = Plate.ArtContainer.CastBar
-	local CastBarBorder = Plate.ArtContainer.CastBarBorder
-	local CastBarSpellIcon = Plate.ArtContainer.CastBarSpellIcon
-	local CastBarFrameShield = Plate.ArtContainer.CastBarFrameShield
-	local CastBarText = Plate.ArtContainer.CastBarText
-	local CastBarTextBG = Plate.ArtContainer.CastBarTextBG
+	local HealthBar = self.healthBar
+	local Border = 
+	local Highlight = self.selectionHighlight
+	local LevelText = 
+	local RaidTargetIcon = 
+	local Elite = 
+	local Threat = self.aggroHighlight
+	local Boss = 
+	local CastBar = self.castBar
+	local CastBarBorder = 
+	local CastBarSpellIcon = self.castBar.Icon
+	local CastBarFrameShield = self.castBar.BorderShield
+	local CastBarText = 
+	local CastBarTextBG = 
 
-	local Name = Plate.NameContainer.NameText
+	local Name = self.name
 
 	self.Container[Plate] = CreateFrame("Frame", nil, self)
 
 	local NewPlate = self.Container[Plate]
-	NewPlate:SetSize(Viks.nameplate.width * T.noscalemult, (Viks.nameplate.height * T.noscalemult) * 2 + 8)
+	NewPlate:SetSize(C.nameplate.width * T.noscalemult, (C.nameplate.height * T.noscalemult) * 2 + 8)
 	NewPlate:SetFrameStrata("BACKGROUND")
 	NewPlate:SetFrameLevel(0)
 
 	NewPlate.Health = CreateFrame("StatusBar", nil, NewPlate)
 	NewPlate.Health:SetFrameStrata("BACKGROUND")
 	NewPlate.Health:SetFrameLevel(1)
-	NewPlate.Health:SetSize(Viks.nameplate.width * T.noscalemult, Viks.nameplate.height * T.noscalemult)
-	NewPlate.Health:SetStatusBarTexture(Viks.media.texture)
+	NewPlate.Health:SetSize(C.nameplate.width * T.noscalemult, C.nameplate.height * T.noscalemult)
+	NewPlate.Health:SetStatusBarTexture(C.media.texture)
 	NewPlate.Health:SetPoint("BOTTOM", 0, 0)
 	CreateVirtualFrame(NewPlate.Health)
 
 	NewPlate.Health.Background = NewPlate.Health:CreateTexture(nil, "BORDER")
-	NewPlate.Health.Background:SetTexture(Viks.media.texture)
+	NewPlate.Health.Background:SetTexture(C.media.texture)
 	NewPlate.Health.Background:SetAllPoints()
 
-	if Viks.nameplate.health_value == true then
+	if C.nameplate.health_value == true then
 		NewPlate.Health.Text = NewPlate.Health:CreateFontString(nil, "OVERLAY")
-		NewPlate.Health.Text:SetFont(Viks.font.nameplates_font, Viks.font.nameplates_font_size * T.noscalemult, Viks.font.nameplates_font_style)
-		NewPlate.Health.Text:SetShadowOffset(Viks.font.nameplates_font_shadow and 1 or 0, Viks.font.nameplates_font_shadow and -1 or 0)
+		NewPlate.Health.Text:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * T.noscalemult, C.font.nameplates_font_style)
+		NewPlate.Health.Text:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
 		NewPlate.Health.Text:SetPoint( "RIGHT", NewPlate.Health, "RIGHT", 0, 0)
 		NewPlate.Health.Text:SetTextColor(1, 1, 1)
 	end
@@ -589,26 +589,26 @@ function Plates:Skin(obj)
 	NewPlate.Name = NewPlate.Health:CreateFontString(nil, "OVERLAY")
 	NewPlate.Name:SetPoint("BOTTOMLEFT", NewPlate.Health, "TOPLEFT", -3, 4)
 	NewPlate.Name:SetPoint("BOTTOMRIGHT", NewPlate.Health, "TOPRIGHT", 3, 4)
-	NewPlate.Name:SetFont(Viks.font.nameplates_font, Viks.font.nameplates_font_size * T.noscalemult, Viks.font.nameplates_font_style)
-	NewPlate.Name:SetShadowOffset(Viks.font.nameplates_font_shadow and 1 or 0, Viks.font.nameplates_font_shadow and -1 or 0)
+	NewPlate.Name:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * T.noscalemult, C.font.nameplates_font_style)
+	NewPlate.Name:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
 
 	NewPlate.level = NewPlate.Health:CreateFontString(nil, "OVERLAY")
-	NewPlate.level:SetFont(Viks.font.nameplates_font, Viks.font.nameplates_font_size * T.noscalemult, Viks.font.nameplates_font_style)
-	NewPlate.level:SetShadowOffset(Viks.font.nameplates_font_shadow and 1 or 0, Viks.font.nameplates_font_shadow and -1 or 0)
+	NewPlate.level:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * T.noscalemult, C.font.nameplates_font_style)
+	NewPlate.level:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
 	NewPlate.level:SetTextColor(1, 1, 1)
 	NewPlate.level:SetPoint("RIGHT", NewPlate.Health, "LEFT", -2, 0)
 
 	NewPlate.CastBar = CreateFrame("StatusBar", nil, NewPlate.Health)
 	NewPlate.CastBar:SetFrameStrata("BACKGROUND")
 	NewPlate.CastBar:SetFrameLevel(1)
-	NewPlate.CastBar:SetStatusBarTexture(Viks.media.texture)
+	NewPlate.CastBar:SetStatusBarTexture(C.media.texture)
 	NewPlate.CastBar:SetPoint("TOPRIGHT", NewPlate.Health, "BOTTOMRIGHT", 0, -8)
-	NewPlate.CastBar:SetPoint("BOTTOMLEFT", NewPlate.Health, "BOTTOMLEFT", 0, -8-(Viks.nameplate.height * T.noscalemult))
+	NewPlate.CastBar:SetPoint("BOTTOMLEFT", NewPlate.Health, "BOTTOMLEFT", 0, -8-(C.nameplate.height * T.noscalemult))
 	NewPlate.CastBar:Hide()
 	CreateVirtualFrame(NewPlate.CastBar)
 
 	NewPlate.CastBar.Background = NewPlate.CastBar:CreateTexture(nil, "BORDER")
-	NewPlate.CastBar.Background:SetTexture(0.75, 0.75, 0.25, 0.2)
+	NewPlate.CastBar.Background:SetColorTexture(0.75, 0.75, 0.25, 0.2)
 	NewPlate.CastBar.Background:SetAllPoints()
 
 	NewPlate.hiddenFrame = CreateFrame("Frame", nil, NewPlate)
@@ -616,46 +616,46 @@ function Plates:Skin(obj)
 	CastBarSpellIcon:SetParent(NewPlate.hiddenFrame)
 	NewPlate.CastBar.Icon = NewPlate.CastBar:CreateTexture(nil, "OVERLAY")
 	NewPlate.CastBar.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	NewPlate.CastBar.Icon:SetSize((Viks.nameplate.height * 2 * T.noscalemult) + 8, (Viks.nameplate.height * 2 * T.noscalemult) + 8)
+	NewPlate.CastBar.Icon:SetSize((C.nameplate.height * 2 * T.noscalemult) + 8, (C.nameplate.height * 2 * T.noscalemult) + 8)
 	NewPlate.CastBar.Icon:SetPoint("TOPLEFT", NewPlate.Health, "TOPRIGHT", 8, 0)
 	CreateVirtualFrame(NewPlate.CastBar, NewPlate.CastBar.Icon)
 
 	NewPlate.CastBar.Time = NewPlate.CastBar:CreateFontString(nil, "ARTWORK")
 	NewPlate.CastBar.Time:SetPoint("RIGHT", NewPlate.CastBar, "RIGHT", 3, 0)
-	NewPlate.CastBar.Time:SetFont(Viks.font.nameplates_font, Viks.font.nameplates_font_size * T.noscalemult, Viks.font.nameplates_font_style)
-	NewPlate.CastBar.Time:SetShadowOffset(Viks.font.nameplates_font_shadow and 1 or 0, Viks.font.nameplates_font_shadow and -1 or 0)
+	NewPlate.CastBar.Time:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * T.noscalemult, C.font.nameplates_font_style)
+	NewPlate.CastBar.Time:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
 	NewPlate.CastBar.Time:SetTextColor(1, 1, 1)
 
-	if Viks.nameplate.show_castbar_name == true then
+	if C.nameplate.show_castbar_name == true then
 		NewPlate.CastBar.Name = NewPlate.CastBar:CreateFontString(nil, "OVERLAY")
 		NewPlate.CastBar.Name:SetPoint("LEFT", NewPlate.CastBar, "LEFT", 3, 0)
 		NewPlate.CastBar.Name:SetPoint("RIGHT", NewPlate.CastBar.Time, "LEFT", -1, 0)
-		NewPlate.CastBar.Name:SetFont(Viks.font.nameplates_font, Viks.font.nameplates_font_size * T.noscalemult, Viks.font.nameplates_font_style)
-		NewPlate.CastBar.Name:SetShadowOffset(Viks.font.nameplates_font_shadow and 1 or 0, Viks.font.nameplates_font_shadow and -1 or 0)
+		NewPlate.CastBar.Name:SetFont(C.font.nameplates_font, C.font.nameplates_font_size * T.noscalemult, C.font.nameplates_font_style)
+		NewPlate.CastBar.Name:SetShadowOffset(C.font.nameplates_font_shadow and 1 or 0, C.font.nameplates_font_shadow and -1 or 0)
 		NewPlate.CastBar.Name:SetTextColor(1, 1, 1)
-		NewPlate.CastBar.Name:SetHeight(Viks.font.nameplates_font_size)
+		NewPlate.CastBar.Name:SetHeight(C.font.nameplates_font_size)
 		NewPlate.CastBar.Name:SetJustifyH("LEFT")
 	end
 
 	RaidTargetIcon:ClearAllPoints()
-	RaidTargetIcon:SetPoint("BOTTOM", NewPlate.Health, "TOP", 0, Viks.nameplate.track_auras == true and 38 or 16)
-	RaidTargetIcon:SetSize((Viks.nameplate.height * 2 * T.noscalemult) + 8, (Viks.nameplate.height * 2 * T.noscalemult) + 8)
+	RaidTargetIcon:SetPoint("BOTTOM", NewPlate.Health, "TOP", 0, C.nameplate.track_auras == true and 38 or 16)
+	RaidTargetIcon:SetSize((C.nameplate.height * 2 * T.noscalemult) + 8, (C.nameplate.height * 2 * T.noscalemult) + 8)
 
-	if Viks.nameplate.track_auras == true then
+	if C.nameplate.track_auras == true then
 		if not NewPlate.icons then
 			NewPlate.icons = CreateFrame("Frame", nil, NewPlate.Health)
-			NewPlate.icons:SetPoint("BOTTOMRIGHT", NewPlate.Health, "TOPRIGHT", 0, Viks.font.nameplates_font_size + 7)
-			NewPlate.icons:SetWidth(20 + Viks.nameplate.width)
-			NewPlate.icons:SetHeight(Viks.nameplate.auras_size)
+			NewPlate.icons:SetPoint("BOTTOMRIGHT", NewPlate.Health, "TOPRIGHT", 0, C.font.nameplates_font_size + 7)
+			NewPlate.icons:SetWidth(20 + C.nameplate.width)
+			NewPlate.icons:SetHeight(C.nameplate.auras_size)
 			NewPlate.icons:SetFrameLevel(NewPlate.Health:GetFrameLevel() + 2)
 		end
 	end
 
-	if Viks.nameplate.class_icons == true then
+	if C.nameplate.class_icons == true then
 		NewPlate.class = NewPlate.Health:CreateTexture(nil, "OVERLAY")
 		NewPlate.class:SetPoint("TOPRIGHT", NewPlate.Health, "TOPLEFT", -8, T.noscalemult * 2)
 		NewPlate.class:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
-		NewPlate.class:SetSize((Viks.nameplate.height * 2 * T.noscalemult) + 11, (Viks.nameplate.height * 2 * T.noscalemult) + 11)
+		NewPlate.class:SetSize((C.nameplate.height * 2 * T.noscalemult) + 11, (C.nameplate.height * 2 * T.noscalemult) + 11)
 
 		NewPlate.class.Glow = CreateFrame("Frame", nil, NewPlate.Health)
 		NewPlate.class.Glow:SetTemplate("Transparent")
@@ -665,11 +665,11 @@ function Plates:Skin(obj)
 		NewPlate.class.Glow:Hide()
 	end
 
-	if Viks.nameplate.healer_icon == true then
+	if C.nameplate.healer_icon == true then
 		NewPlate.HPHeal = NewPlate.Health:CreateFontString(nil, "OVERLAY")
-		NewPlate.HPHeal:SetFont(Viks.font.nameplates_font, 32, Viks.font.nameplates_font_style)
+		NewPlate.HPHeal:SetFont(C.font.nameplates_font, 32, C.font.nameplates_font_style)
 		NewPlate.HPHeal:SetText("|cFFD53333+|r")
-		if Viks.nameplate.track_auras == true then
+		if C.nameplate.track_auras == true then
 			NewPlate.HPHeal:SetPoint("BOTTOM", NewPlate.Name, "TOP", 0, 13)
 		else
 			NewPlate.HPHeal:SetPoint("BOTTOM", NewPlate.Name, "TOP", 0, 0)
@@ -728,8 +728,8 @@ function Plates:OnUpdate(elapsed)
 end
 
 function Plates:Enable()
-	SetCVar("bloatnameplates", 0)
-	SetCVar("bloatthreat", 0)
+	--SetCVar("bloatnameplates", 0)
+	--SetCVar("bloatthreat", 0)
 
 	self:SetAllPoints()
 	self.Container = {}
@@ -765,7 +765,7 @@ function NamePlates:COMBAT_LOG_EVENT_UNFILTERED(_, event, ...)
 end
 
 -- Only show nameplates when in combat
-if Viks.nameplate.combat == true then
+if C.nameplate.combat == true then
 	NamePlates:RegisterEvent("PLAYER_REGEN_ENABLED")
 	NamePlates:RegisterEvent("PLAYER_REGEN_DISABLED")
 
@@ -780,14 +780,14 @@ end
 
 NamePlates:RegisterEvent("PLAYER_ENTERING_WORLD")
 function NamePlates:PLAYER_ENTERING_WORLD()
-	if Viks.nameplate.combat == true then
+	if C.nameplate.combat == true then
 		if InCombatLockdown() then
 			SetCVar("nameplateShowEnemies", 1)
 		else
 			SetCVar("nameplateShowEnemies", 0)
 		end
 	end
-	if Viks.nameplate.enhance_threat == true then
+	if C.nameplate.enhance_threat == true then
 		SetCVar("threatWarning", 3)
 	end
 end

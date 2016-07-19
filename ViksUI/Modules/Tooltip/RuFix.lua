@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Clean ruRU tooltip(snt_rufix by Don Kaban, edited by ALZA)

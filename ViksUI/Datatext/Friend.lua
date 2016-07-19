@@ -1,16 +1,16 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 -- convert datatext color from rgb decimal to hex 
-local dr, dg, db = unpack(Viks.datatext.color)
+local dr, dg, db = unpack(C.datatext.color)
 panelcolor = ("|cff%.2x%.2x%.2x"):format(dr * 255, dg * 255, db * 255)
 -- class color
-local r, g, b = unpack(Viks.datatext.color)
+local r, g, b = unpack(C.datatext.color)
 qColor = ("|cff%.2x%.2x%.2x"):format(r * 255, g * 255, b * 255)
 
 --------------------------------------------------------------------
 -- FRIEND
 --------------------------------------------------------------------
 
-if Viks.datatext.Friends and Viks.datatext.Friends > 0 then
+if C.datatext.Friends and C.datatext.Friends > 0 then
 
 	-- create a popup
 StaticPopupDialogs.SET_BN_BROADCAST = {
@@ -62,14 +62,14 @@ local totalOnline, BNTotalOnline = 0, 0
 
 
 local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-if Viks.datatext.Friends >= 9 then
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfontHeader, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+if C.datatext.Friends >= 9 then
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pxfontHeader, C.media.pxfontHsize, C.media.pxfontHFlag)
 else
-Text:SetTextColor(unpack(Viks.media.pxcolor1))
-Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+Text:SetTextColor(unpack(C.media.pxcolor1))
+Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 end
-	PP(Viks.datatext.Friends, Text)
+	PP(C.datatext.Friends, Text)
 local menuFrame = CreateFrame("Frame", "FriendRightClickMenu", UIParent, "UIDropDownMenuTemplate")
 local menuList = {
 	{ text = OPTIONS_MENU, isTitle = true, notCheckable=true},

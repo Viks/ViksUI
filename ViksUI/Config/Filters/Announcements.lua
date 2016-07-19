@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	The best way to add or delete spell is to go at www.wowhead.com, search for a spell.
 --	Example: Misdirection -> http://www.wowhead.com/spell=34477
 --	Take the number ID at the end of the URL, and add it to the list
 ----------------------------------------------------------------------------------------
-if Viks.announcements.spells == true then
+if C.announcements.spells == true then
 	T.AnnounceSpells = {
 		34477,	-- Misdirection
 		19801,	-- Tranquilizing Shot
@@ -18,14 +18,14 @@ if Viks.announcements.spells == true then
 	}
 end
 
-if Viks.announcements.toys == true then
+if C.announcements.toys == true then
 	T.AnnounceToys = {
 		[61031] = true,		-- Toy Train Set
 		[49844] = true,		-- Direbrew's Remote
 	}
 end
 
-if Viks.announcements.feasts == true then
+if C.announcements.feasts == true then
 	T.AnnounceBots = {
 		[22700] = true,		-- Field Repair Bot 74A
 		[44389] = true,		-- Field Repair Bot 110G
@@ -36,7 +36,7 @@ if Viks.announcements.feasts == true then
 	}
 end
 
-if Viks.announcements.portals == true then
+if C.announcements.portals == true then
 	T.AnnouncePortals = {
 		-- Alliance
 		[10059] = true,		-- Stormwind
@@ -65,7 +65,7 @@ if Viks.announcements.portals == true then
 end
 
 
-if Viks.announcements.bad_gear == true then
+if C.announcements.bad_gear == true then
 	T.AnnounceBadGear = {
 		-- Head
 		[1] = {

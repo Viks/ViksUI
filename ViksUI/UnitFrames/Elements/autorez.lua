@@ -54,7 +54,7 @@ end
 
 local Enable = function(self)
     local _, class = UnitClass("player")
-    if not class or not Viks["raidframes"].autorez then return end
+    if not class or not C["raidframes"].autorez then return end
 
     if classList[class] and not IsAddOnLoaded("Clique") then
         self:SetAttribute("*type3", "macro")
@@ -63,7 +63,7 @@ local Enable = function(self)
 end
 
 local Disable = function(self)
-    if Viks["raidframes"].autorez then return end
+    if C["raidframes"].autorez then return end
 
     self:SetAttribute("*type3", nil)
 end

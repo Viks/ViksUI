@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.mage_nuggets ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.mage_nuggets ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	MageNuggets skin /run ShowConfigFrames()
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event)
 	if not IsAddOnLoaded("MageNuggets") then return end
 
@@ -282,8 +282,8 @@ frame:SetScript("OnEvent", function(self, event)
 	for i = 1, getn(texts) do
 		local text = _G[texts[i]]
 		if text then
-			text:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-			text:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+			text:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+			text:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 		end
 	end
 
@@ -314,7 +314,7 @@ frame:SetScript("OnEvent", function(self, event)
 	for i = 1, getn(bars) do
 		local bar = _G[bars[i]]
 		if bar then
-			bar:SetStatusBarTexture(Viks.media.texture)
+			bar:SetStatusBarTexture(C.media.texture)
 		end
 	end
 
@@ -491,8 +491,8 @@ frame:SetScript("OnEvent", function(self, event)
 			region:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		end
 		if region:GetObjectType() == "FontString" then
-			region:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size, Viks.font.stylization_font_style)
-			region:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+			region:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
+			region:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 		end
 	end
 
@@ -520,8 +520,8 @@ frame:SetScript("OnEvent", function(self, event)
 	MageNugIgnite_FrameTexture:SetPoint("TOPLEFT", 2, -2)
 	MageNugIgnite_FrameTexture:SetPoint("BOTTOMRIGHT", -2, 2)
 
-	MageNugIgnite_FrameText:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size * 2, Viks.font.stylization_font_style)
-	MageNugIgnite_FrameText:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+	MageNugIgnite_FrameText:SetFont(C.font.stylization_font, C.font.stylization_font_size * 2, C.font.stylization_font_style)
+	MageNugIgnite_FrameText:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	MageNugIgnite_FrameText:ClearAllPoints()
 	MageNugIgnite_FrameText:SetPoint("CENTER", MageNugIgnite_Frame, "CENTER", 0, 0)
 
@@ -532,8 +532,8 @@ frame:SetScript("OnEvent", function(self, event)
 	MageNugLB_FrameTextureBorder:SetTexture()
 	MageNugLB_FrameTextureTitle:SetTexture()
 
-	MageNugLB_Frame_Text:SetFont(Viks.font.stylization_font, Viks.font.stylization_font_size * 2, Viks.font.stylization_font_style)
-	MageNugLB_Frame_Text:SetShadowOffset(Viks.font.stylization_font_shadow and 1 or 0, Viks.font.stylization_font_shadow and -1 or 0)
+	MageNugLB_Frame_Text:SetFont(C.font.stylization_font, C.font.stylization_font_size * 2, C.font.stylization_font_style)
+	MageNugLB_Frame_Text:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	MageNugLB_Frame_Text:ClearAllPoints()
 	MageNugLB_Frame_Text:SetPoint("CENTER", MageNugLB_Frame, "CENTER", 0, 0)
 
@@ -672,10 +672,10 @@ frame:SetScript("OnEvent", function(self, event)
 	MageNugAlliFrameClose:SkinButton()
 	MageNugAlliFrameShowOptions:SkinButton()
 
-	MageNugAlliFrameText:SetFont(Viks.media.font, 13)
-	MageNugAlliFrameText2:SetFont(Viks.media.font, 13)
-	MageNugHordeFrameText:SetFont(Viks.media.font, 13)
-	MageNugHordeFrameText2:SetFont(Viks.media.font, 13)
+	MageNugAlliFrameText:SetFont(C.media.normal_font, 13)
+	MageNugAlliFrameText2:SetFont(C.media.normal_font, 13)
+	MageNugHordeFrameText:SetFont(C.media.normal_font, 13)
+	MageNugHordeFrameText2:SetFont(C.media.normal_font, 13)
 
 	local portals = {
 		"MageNugAlliFramePortDal",

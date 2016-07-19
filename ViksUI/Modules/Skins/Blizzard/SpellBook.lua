@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	SpellBook skin
@@ -57,7 +57,7 @@ local function LoadSkin()
 			end
 
 			if _G["SpellButton"..i.."Highlight"] then
-				_G["SpellButton"..i.."Highlight"]:SetTexture(1, 1, 1, 0.3)
+				_G["SpellButton"..i.."Highlight"]:SetColorTexture(1, 1, 1, 0.3)
 				_G["SpellButton"..i.."Highlight"]:ClearAllPoints()
 				_G["SpellButton"..i.."Highlight"]:SetAllPoints(icon)
 			end
@@ -169,7 +169,7 @@ local function LoadSkin()
 			rank:SetTextColor(1, 1, 1)
 		end
 
-		button:GetCheckedTexture():SetTexture(0, 1, 0, 0.3)
+		button:GetCheckedTexture():SetColorTexture(0, 1, 0, 0.3)
 		button:GetCheckedTexture():SetPoint("TOPLEFT", button, 4, -4)
 		button:GetCheckedTexture():SetPoint("BOTTOMRIGHT", button, -4, 4)
 
@@ -194,7 +194,7 @@ local function LoadSkin()
 	hooksecurefunc("UpdateProfessionButton", function(self)
 		for _, button in pairs(professionbuttons) do
 			local button = _G[button]
-			button:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+			button:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
 			button:GetHighlightTexture():SetPoint("TOPLEFT", button, 4, -4)
 			button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", button, -4, 4)
 		end
@@ -212,7 +212,7 @@ local function LoadSkin()
 	for _, statusbar in pairs(professionstatusbars) do
 		local statusbar = _G[statusbar]
 		statusbar:StripTextures()
-		statusbar:SetStatusBarTexture(Viks.media.texture)
+		statusbar:SetStatusBarTexture(C.media.texture)
 		statusbar:SetStatusBarColor(0, 0.8, 0)
 		statusbar:CreateBackdrop("Overlay")
 
@@ -253,7 +253,7 @@ local function LoadSkin()
 		end
 	end
 
-	hooksecurefunc("SpellBook_UpdateCoreAbilitiesTab", function()
+	--[[hooksecurefunc("SpellBook_UpdateCoreAbilitiesTab", function()
 		for i = 1, #SpellBookCoreAbilitiesFrame.Abilities do
 			local button = SpellBookCoreAbilitiesFrame.Abilities[i]
 			if button and button.isSkinned ~= true then
@@ -270,7 +270,7 @@ local function LoadSkin()
 				if button.highlightTexture then
 					hooksecurefunc(button.highlightTexture, "SetTexture", function(self, texOrR, G, B)
 						if texOrR == "Interface\\Buttons\\ButtonHilight-Square" then
-							button.highlightTexture:SetTexture(1, 1, 1, 0.3)
+							button.highlightTexture:SetColorTexture(1, 1, 1, 0.3)
 						end
 					end)
 				end
@@ -292,6 +292,7 @@ local function LoadSkin()
 		end
 		SkinCoreTabs()
 	end)
+	]]--
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

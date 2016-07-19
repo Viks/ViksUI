@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 if T.class ~= "MAGE" or T.level < 17 then return end
 
 ----------------------------------------------------------------------------------------
@@ -16,6 +16,7 @@ local spells = (UnitFactionGroup("player") == "Horde") and {
 	[9] = {120145,120146},	-- Ancient Dalaran
 	[10] = {132627,132626},	-- Vale of Eternal Blossoms
 	[11] = {176242,176244},	-- Warspear
+	[12] = {193759, 193759}, -- Hall of Guardian (Orderhall)
 } or { -- Alliance
 	[1] = {3561,10059},		-- Stormwind
 	[2] = {3562,11416},		-- Ironforge
@@ -28,10 +29,11 @@ local spells = (UnitFactionGroup("player") == "Horde") and {
 	[9] = {120145,120146},	-- Ancient Dalaran
 	[10] = {132621,132620},	-- Vale of Eternal Blossoms
 	[11] = {176248,176246},	-- Stormshield
+	[12] = {193759, 193759}, -- Hall of Guardian (Orderhall)
 }
 
 local frame = CreateFrame("Frame", "TeleportMenu", UIParent)
-frame:CreatePanel("Invisible", Viks.minimapp.size, (#spells) * 20 + 4, "BOTTOMLEFT", RChatTab, "TOPLEFT", -2, 3)
+frame:CreatePanel("Invisible", C.minimapp.size, (#spells) * 20 + 4, "BOTTOMLEFT", RChatTab, "TOPLEFT", -2, 3)
 frame:RegisterEvent("UNIT_SPELLCAST_START")
 frame:SetScript("OnEvent", function(self)
 	if self:IsShown() then
@@ -45,13 +47,17 @@ for i, spell in pairs(spells) do
 	local teleport = GetSpellInfo(spell[1])
 
 	local b = CreateFrame("Button", nil, frame, "SecureActionButtonTemplate")
-	b:CreatePanel("Transparent", Viks.minimapp.size, 20, "BOTTOMLEFT", frame, "BOTTOMLEFT", 0, ((i - 1) * 21))
+	b:CreatePanel("Transparent", C.minimapp.size, 20, "BOTTOMLEFT", frame, "BOTTOMLEFT", 0, ((i - 1) * 21))
 	b:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
 	b:SetFrameStrata("HIGH")
 
 	local l = b:CreateFontString("TeleportMenuName"..i, "OVERLAY")
-	l:SetFont(Viks.media.pxfont, Viks.media.fontsize, Viks.media.pxfontFlag)
-	l:SetText(string.sub(teleport, string.find(teleport, ":") + 1))
+	l:SetFont(C.media.pixel_font, C.media.fontsize, C.media.pixel_font_style)
+	if i == 9 then
+		l:SetText(L_ZONE_ANCIENTDALARAN)
+	else
+		l:SetText(string.sub(teleport, string.find(teleport, ":") + 1))
+	end
 	b:SetFontString(l)
 
 	b:RegisterForClicks("LeftButtonDown", "RightButtonDown")
@@ -62,7 +68,7 @@ for i, spell in pairs(spells) do
 end
 
 local learnSpell = CreateFrame("Frame")
-learnSpell:RegisterEvent("PLAYER_LOGIN")
+learnSpell:RegisterEvent("PLAYER_ENTERING_WORLD")
 learnSpell:RegisterEvent("LEARNED_SPELL_IN_TAB")
 learnSpell:SetScript("OnEvent", function()
 	for i, spell in pairs(spells) do
@@ -93,10 +99,10 @@ button:SetScript("OnClick", function(self)
 		else
 			_G["TeleportMenu"]:Show()
 		end
-		if Viks.minimapp.toggle_menu and _G["TTMenuAddOnBackground"]:IsShown() then
+		if C.minimapp.toggle_menu and _G["TTMenuAddOnBackground"]:IsShown() then
 			_G["TTMenuAddOnBackground"]:Hide()
 		end
-		if Viks.minimapp.toggle_menu and _G["TTMenuBackground"]:IsShown() then
+		if C.minimapp.toggle_menu and _G["TTMenuBackground"]:IsShown() then
 			_G["TTMenuBackground"]:Hide()
 		end
 	end

@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.open_items ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.automation.open_items ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto opening of items in bag (kAutoOpen by Kellett)

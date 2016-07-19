@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 --[[
 ----------------------------------------------------------------------------------------
 --	Movement function(by Allez)
@@ -77,7 +77,7 @@ local CreateMover = function(frame)
 	mover.frame = frame
 
 	mover.name = mover:CreateFontString(nil, "OVERLAY")
-	mover.name:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+	mover.name:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	mover.name:SetPoint("CENTER")
 	mover.name:SetTextColor(1, 1, 1)
 	mover.name:SetText(frame:GetName())

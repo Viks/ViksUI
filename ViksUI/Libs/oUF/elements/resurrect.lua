@@ -32,10 +32,8 @@
 local parent, ns = ...
 local oUF = ns.oUF
 
-local Path
-local Update = function(self, event, unit)
-	if(self.unit ~= unit) then return end
-
+local Update = function(self, event)
+	if not self.unit then return; end
 	local resurrect = self.ResurrectIcon
 	if(resurrect.PreUpdate) then
 		resurrect:PreUpdate()
@@ -44,10 +42,8 @@ local Update = function(self, event, unit)
 	local incomingResurrect = UnitHasIncomingResurrection(self.unit)
 	if(incomingResurrect) then
 		resurrect:Show()
-		self:RegisterEvent('UNIT_HEALTH', Path)
 	else
 		resurrect:Hide()
-		self:UnregisterEvent('UNIT_HEALTH', Path)
 	end
 
 	if(resurrect.PostUpdate) then
@@ -55,7 +51,7 @@ local Update = function(self, event, unit)
 	end
 end
 
-Path = function(self, ...)
+local Path = function(self, ...)
 	return (self.ResurrectIcon.Override or Update) (self, ...)
 end
 

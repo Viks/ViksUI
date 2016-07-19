@@ -1,6 +1,8 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.misc.item_level ~= true then return end
-
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.misc.item_level ~= true then return end
+local LibItemUpgrade = LibStub('LibItemUpgradeInfo-1.0')
+local time = 3
+local iEqAvg, iAvg
 ----------------------------------------------------------------------------------------
 --	Item level on slot buttons in Character/InspectFrame(by Tukz)
 ----------------------------------------------------------------------------------------
@@ -18,41 +20,6 @@ local upgrades = {
 	["477"] = 4, ["478"] = 8, ["480"] = 8, ["492"] = 4, ["493"] = 8, ["495"] = 4,
 	["496"] = 8, ["497"] = 12, ["498"] = 16, ["504"] = 12, ["505"] = 16, ["506"] = 20,
 	["507"] = 24, ["530"] = 5, ["531"] = 10
-}
-
-local function BOALevel(level, id)
-	if level > 97 then
-		if id == 133585 or id == 133595 or id == 133596 or id == 133597 or id == 133598 then
-			level = 715
-		else
-			level = 605 - (100 - level) * 5
-		end
-	elseif level > 90 then
-		level = 590 - (97 - level) * 10
-	elseif level > 85 then
-		level = 463 - (90 - level) * 19.75
-	elseif level > 80 then
-		level = 333 - (85 - level) * 13.5
-	elseif level > 67 then
-		level = 187 - (80 - level) * 4
-	elseif level > 57 then
-		level = 105 - (67 - level) * 2.9
-	elseif level > 5 then
-		level = level + 5
-	else
-		level = 10
-	end
-
-	return floor(level + 0.5)
-end
-
-local timewarped = {
-	[615] = 660, -- Dungeon drops
-	[692] = 675, -- Timewarped badge vendors
-}
-
-local timewarped_warforged = {
-	[656] = 675, -- Dungeon drops
 }
 
 local function CreateButtonsText(frame)
@@ -77,14 +44,11 @@ local function UpdateButtonsText(frame)
 		local id = GetInventorySlotInfo(slot)
 		local text = _G[frame..slot].t
 		local item
-		local ulvl
 
 		if frame == "Inspect" then
 			item = GetInventoryItemLink("target", id)
-			ulvl = UnitLevel("target")
 		else
 			item = GetInventoryItemLink("player", id)
-			ulvl = UnitLevel("player")
 		end
 
 		if slot == "ShirtSlot" or slot == "TabardSlot" then
@@ -92,32 +56,26 @@ local function UpdateButtonsText(frame)
 		elseif item then
 			local itemDurability, itemMaxDurability = GetInventoryItemDurability(id)
 			local oldilevel = text:GetText()
-			local _, _, quality, ilevel = GetItemInfo(item)
-			local warped = select(15, strsplit(":", item))
-			local warforged = select(16, strsplit(":", item))
-			ilevel = timewarped[tonumber(warped)] or ilevel
-			ilevel = timewarped_warforged[tonumber(warforged)] or ilevel
+			local ilevel = select(4, GetItemInfo(item))
+			local heirloom = select(3, GetItemInfo(item))
 			local upgrade = item:match(":(%d+)\124h%[")
-			if upgrades[upgrade] == nil then upgrades[upgrade] = 0 end
-			
+			local itemlevel = LibItemUpgrade:GetUpgradedItemLevel(item) or nil or 0
+
 			if ilevel then
 				if ilevel ~= oldilevel then
-					if quality == 7 and ilevel == 1 then
-						local id = tonumber(strmatch(item, "item:(%d+)"))
-						text:SetText("|cFFFFFF00"..BOALevel(ulvl, id))
-					elseif ilevel == 1 then
+					if heirloom == 7 then
 						text:SetText("")
 					else
 						if frame ~= "Inspect" then
 							local itemDurability, itemMaxDurability = GetInventoryItemDurability(id)
 							local ilevelcolor, duracolor
 							iEqAvg, iAvg = GetAverageItemLevel()
-							if ilevel + upgrades[upgrade] <= (floor(iEqAvg) - 10) then 
-								ilevelcolor = "|cFFFFFF00"
-							elseif ilevel + upgrades[upgrade] >= (floor(iEqAvg) + 10) then
-								ilevelcolor = "|cFFFF8000"
+							if ilevel <= (floor(iEqAvg) - 10) then 
+								ilevelcolor = "|cFFFF0000"
+							elseif ilevel >= (floor(iEqAvg) + 10) then
+								ilevelcolor = "|cFF00FF00"
 							else
-								ilevelcolor = "|cFF0070DD"
+								ilevelcolor = "|cFFFFFFFF"
 							end
 							if itemDurability then
 								local itemDurabilityPercentage = (itemDurability / itemMaxDurability) * 100
@@ -128,12 +86,12 @@ local function UpdateButtonsText(frame)
 								elseif itemDurabilityPercentage == 0 then
 									duracolor = "|cFFFF0000"
 								end
-								text:SetText(ilevelcolor..ilevel + upgrades[upgrade].."\n"..duracolor..T.Round(itemDurabilityPercentage).."%|r")
-							else					
-								text:SetText(ilevelcolor..ilevel + upgrades[upgrade])
+								text:SetText(ilevelcolor..itemlevel.."\n"..duracolor..T.Round(itemDurabilityPercentage).."%|r")
+							else
+								text:SetText(ilevelcolor..itemlevel)
 							end
 						else
-							text:SetText(ilevel + upgrades[upgrade])
+							text:SetText(itemlevel)
 						end
 					end
 				end
@@ -150,15 +108,25 @@ local OnEvent = CreateFrame("Frame")
 OnEvent:RegisterEvent("PLAYER_LOGIN")
 OnEvent:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 OnEvent:SetScript("OnEvent", function(self, event)
-	if event == "PLAYER_LOGIN" then
+	if event == "PLAYER_LOGIN"  then
 		CreateButtonsText("Character")
 		UpdateButtonsText("Character")
 		self:UnregisterEvent("PLAYER_LOGIN")
-		CharacterFrame:HookScript("OnShow", function(self) UpdateButtonsText("Character") end)
-	elseif event == "PLAYER_EQUIPMENT_CHANGED" then
-		UpdateButtonsText("Character")
-	else
+	elseif event == "PLAYER_TARGET_CHANGED" or event == "INSPECT_READY"  then
 		UpdateButtonsText("Inspect")
+	else
+		UpdateButtonsText("Character")
+	end
+end)
+
+OnEvent:SetScript("OnUpdate", function(self, elapsed)
+	time = time + elapsed
+	if time >= 3 then
+		if InspectFrame and InspectFrame:IsShown() then
+			UpdateButtonsText("Inspect")
+		else
+			UpdateButtonsText("Character")
+		end
 	end
 end)
 
@@ -167,8 +135,9 @@ OnLoad:RegisterEvent("ADDON_LOADED")
 OnLoad:SetScript("OnEvent", function(self, event, addon)
 	if addon == "Blizzard_InspectUI" then
 		CreateButtonsText("Inspect")
-		InspectFrame:HookScript("OnShow", function(self) UpdateButtonsText("Inspect") end)
-		OnEvent:RegisterEvent("UNIT_INVENTORY_CHANGED")
+		InspectFrame:HookScript("OnShow", function(self)
+			UpdateButtonsText("Inspect")
+		end)
 		OnEvent:RegisterEvent("PLAYER_TARGET_CHANGED")
 		OnEvent:RegisterEvent("INSPECT_READY")
 		self:UnregisterEvent("ADDON_LOADED")

@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	BlackMarket skin
@@ -55,7 +55,7 @@ local function LoadSkin()
 				button.Item.IconTexture:SetPoint("TOPLEFT", 2, -2)
 				button.Item.IconTexture:SetPoint("BOTTOMRIGHT", -2, 2)
 
-				button:SetHighlightTexture(Viks.media.texture)
+				button:SetHighlightTexture(C.media.texture)
 				button:GetHighlightTexture():SetVertexColor(0.243, 0.570, 1, 0.2)
 
 				button.skinned = true

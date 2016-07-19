@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.map.fog_of_war ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.map.fog_of_war ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Fog of war on World Map(module from LeatrixPlus by Leatrix)
@@ -118,6 +118,15 @@ local zones = {
 	["SpiresOfArak"] = {"BloodbladeRedoubt:209:154:334:210", "BloodmaneValley:229:246:410:350", "CenterRavenNest:188:190:444:255", "Clutchpop:217:224:533:382", "EastMushrooms:182:244:649:155", "EmptyGarrison:190:187:282:261", "HowlingCrag:382:274:459:0", "NwCorner:314:304:102:0", "SethekkHollow:238:295:520:127", "Skettis:371:174:289:0", "SoloSpireNorth:196:284:429:84", "SoloSpireSouth:169:178:374:276", "Southport:197:179:310:328", "Veilakraz:252:230:281:83", "Veilzekk:198:232:521:268", "VentureCove:226:193:465:475", "WrithingMire:229:213:197:198",},
 	["Talador"] = {"Aruuna:389:234:597:178", "Auchindoun:309:262:338:356", "CenterIsles:252:280:546:228", "CourtOfSouls:307:229:150:264", "FortWrynn:292:235:567:42", "GordalFortress:423:290:548:378", "Gulrok:278:270:165:364", "Northgate:398:149:571:0", "OrunaiCoast:279:267:427:0", "SeEntrance:308:276:685:298", "Shattrath:406:367:173:22", "Telmor:497:157:207:511", "TombOfLights:326:212:352:271", "Tuurem:225:224:472:148", "Zangarra:287:277:713:35",},
 	["TanaanJungle"] = {"DarkPortal:333:437:637:136", "DraeneiSW:174:208:81:367", "Fangrila:343:264:429:392", "FelForge:223:183:392:187", "HellfireCitadel:327:241:254:262", "IronFront:209:245:0:264", "IronHarbor:189:294:303:62", "Kiljaeden:365:276:392:23", "Kranak:338:254:54:94", "LionsWatch:270:208:465:313", "Marshlands:246:218:296:383", "Shanaar:248:314:170:354", "Volmar:238:229:501:171", "Zethgol:274:251:118:194",},
+
+	-- Legion
+	["Azsuna"] = {"Faronaar:330:265:166:202", "Felblaze:239:303:594:0", "Greenway:247:184:450:95", "IsleOfTheWatchers:321:267:281:401", "Llothienhighlands:351:245:219:69", "LostOrchard:315:185:257:0", "Narthalas:272:192:441:173", "OceanusCove:206:266:396:244", "RuinedSanctum:220:288:523:233",	"TempleLights:181:243:481:340",	"Zarkhenar:288:195:477:0",},
+	["AszunaDungeonExterior"] = {"EyeOfAzshara:848:668:39:0"},
+	["BrokenShore"] = {"BrokenShoreSouth:482:359:224:275", "TheBlackCity:478:328:257:95", "TheLostTemple:337:289:613:126", "TombOfSargeras:414:281:373:0",},
+	["Highmountain"] = {"BloodHuntHighlands:297:250:307:75", "Feltotem:256:326:172:31", "FrostHoofWatch:186:213:391:408", "IronhornEnclave:288:258:452:410", "NightWatchersPerch:344:295:0:244", "PineRockBasin:217:148:323:249", "Riverbend:214:308:314:360", "RockawayShallows:207:302:469:45", "ShipwreckCove:283:170:331:0", "Skyhorn:311:229:357:179", "StonehoofWatch:341:328:494:236", "Sylvanfalls:445:326:0:342", "Thundertotem:244:199:332:302", "TrueshotLodge:172:204:249:236",},
+	["Stormheim"] = {"AggrammarsVault:199:185:361:210", "BlackbeakOverlook:297:210:154:129", "Dreadwake:215:247:457:412", "Dreyrgrot:132:145:689:266", "Greywatch:173:163:648:339", "HallsOfValor:252:280:585:372",	"Haustvald:200:174:612:187", "Hrydshal:631:315:0:353", "MawOfNashal:509:251:17:0", "Morheim:150:180:741:313", "Nastrondir:241:194:345:95", "QatchmansRock:135:162:623:81",	"Runewood:194:214:592:226", "ShieldsRest:289:172:689:0", "SkoldAshil:177:169:506:345", "StormsReach:180:160:510:118", "TalonRest:291:208:316:282",	"TideskornHarbor:205:199:479:183", "Valdisdall:186:158:522:288", "WeepingBluffs:386:314:56:185",},
+	["Suramar"] = {"Ambervale:222:311:132:179", "CrimsonThicket:327:381:492:0", "Falanaar:248:317:23:136", "FelsoulHold:289:363:183:305", "GrandPromenade:355:291:344:285", "Jandvik:419:538:583:0", "MoonguardStronghold:480:245:58:0", "MoonwhisperGulch:428:316:201:0", "RuinsOfEluneeth:221:224:264:226", "SuramarCity:470:337:390:331", "Telanor:387:372:327:0",},
+	["Valsharah"] = {"Andutalah:241:240:587:250", "BlackrookHold:250:253:262:175", "BradensBrook:311:244:259:275", "DreamGrove:294:364:283:0",	"GloamingReef:239:301:136:274",	"GroveOfCenarius:171:150:457:351", "Lorlathil:177:156:467:413",	"MoonclawVale:254:281:549:380",	"Shalanir:326:360:419:0", "Smolderhide:341:188:324:480", "TempleOfElune:216:219:459:240", "Thastalah:218:168:342:416",},
 }
 
 -- Initialise counters
@@ -130,7 +139,7 @@ local MapTex = {}
 -- Create checkbox
 local frame = CreateFrame("CheckButton", nil, WorldMapTitleButton, "OptionsCheckButtonTemplate")
 frame:SetSize(23, 23)
-if Viks.skins.blizzard_frames == true then
+if C.skins.blizzard_frames == true then
 	frame:SetPoint("LEFT", WorldMapTitleButton, "LEFT", 0, 0)
 	T.SkinCheckBox(frame)
 else

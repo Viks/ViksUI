@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on aTooltip(by ALZA)
@@ -26,7 +26,7 @@ local tooltips = {
 }
 
 local backdrop = {
-	bgFile = Viks.media.blank, edgeFile = Viks.media.blank, edgeSize = T.mult,
+	bgFile = C.media.blank, edgeFile = C.media.blank, edgeSize = T.mult,
 	insets = {left = -T.mult, right = -T.mult, top = -T.mult, bottom = -T.mult}
 }
 
@@ -40,8 +40,8 @@ for _, tt in pairs(tooltips) do
 		bg:SetTemplate("Transparent")
 
 		tt.GetBackdrop = function() return backdrop end
-		tt.GetBackdropColor = function() return unpack(Viks.media.overlay_color) end
-		tt.GetBackdropBorderColor = function() return unpack(Viks.media.bordercolor) end
+		tt.GetBackdropColor = function() return unpack(C.media.overlay_color) end
+		tt.GetBackdropBorderColor = function() return unpack(C.media.border_color) end
 	end
 end
 
@@ -55,17 +55,17 @@ anchor:SetAlpha(0)
 AnchorTooltips = CreateFrame("Frame","Move_Tooltip",UIParent)
 AnchorTooltips:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 2, -20)
 CreateAnchor(AnchorTooltips, "Move tooltips", 120, 80)
-if Viks.tooltip.topleft then anchor:SetPoint("TOPLEFT", AnchorTooltips) end
-if Viks.tooltip.topright then anchor:SetPoint("TOPRIGHT", AnchorTooltips) end
-if Viks.tooltip.bottomleft then anchor:SetPoint("BOTTOMLEFT", AnchorTooltips) end
-if Viks.tooltip.bottomright then anchor:SetPoint("BOTTOMRIGHT", AnchorTooltips) end
+if C.tooltip.topleft then anchor:SetPoint("TOPLEFT", AnchorTooltips) end
+if C.tooltip.topright then anchor:SetPoint("TOPRIGHT", AnchorTooltips) end
+if C.tooltip.bottomleft then anchor:SetPoint("BOTTOMLEFT", AnchorTooltips) end
+if C.tooltip.bottomright then anchor:SetPoint("BOTTOMRIGHT", AnchorTooltips) end
 
 anchor:SetTemplate("Default")
 --frame1px(anchor)
 --CreateShadow(anchor)
 anchor:SetBackdropBorderColor(1, 0, 0, 1)
 anchor:SetMovable(true)
-anchor.text = SetFontString(anchor, Viks.media.font, 10)
+anchor.text = SetFontString(anchor, C.media.normal_font, 10)
 anchor.text:SetPoint("CENTER")
 anchor.text:SetText("Move Tooltip")
 
@@ -73,7 +73,7 @@ anchor.text:SetText("Move Tooltip")
 PVP_ENABLED = ""
 
 -- Statusbar
-GameTooltipStatusBar:SetStatusBarTexture(Viks.media.texture)
+GameTooltipStatusBar:SetStatusBarTexture(C.media.texture)
 GameTooltipStatusBar:SetHeight(4)
 GameTooltipStatusBar:ClearAllPoints()
 GameTooltipStatusBar:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", 2, 6)
@@ -127,13 +127,15 @@ function GameTooltip_UnitColor(unit)
 
 	if UnitIsPlayer(unit) then
 		local _, class = UnitClass(unit)
+		local UnitIsTapDenied = UnitIsTapDenied
+		local UnitIsTapDeniedByPlayer = UnitIsTapDeniedByPlayer
 		local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
 		if color then
 			r, g, b = color.r, color.g, color.b
 		else
 			r, g, b = 1, 1, 1
 		end
-	elseif UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) and not UnitIsTappedByAllThreatList(unit) or UnitIsDead(unit) then
+	elseif UnitIsTapDenied(unit) then
 		r, g, b = 0.6, 0.6, 0.6
 	else
 		local reaction = T.oUF_colors.reaction[UnitReaction(unit, "player")]
@@ -148,21 +150,21 @@ function GameTooltip_UnitColor(unit)
 end
 
 local function GameTooltipDefault(tooltip, parent)
-	if Viks.tooltip.cursor == true then
+	if C.tooltip.cursor == true then
 		tooltip:SetOwner(parent, "ANCHOR_CURSOR_RIGHT", 20, 20)
 	else
 		tooltip:SetOwner(parent, "ANCHOR_NONE")
 		tooltip:ClearAllPoints()
-		if Viks.tooltip.topleft then
+		if C.tooltip.topleft then
 			tooltip:ClearAllPoints()
 			tooltip:SetPoint("TOPLEFT",TooltipAnchor, "TOPLEFT", 0, -3)				
-		elseif Viks.tooltip.topright then
+		elseif C.tooltip.topright then
 			tooltip:ClearAllPoints()
 			tooltip:SetPoint("BOTTOMRIGHT", TooltipAnchor)		
-		elseif Viks.tooltip.bottomleft then
+		elseif C.tooltip.bottomleft then
 			tooltip:ClearAllPoints()
 			tooltip:SetPoint("BOTTOMLEFT", TooltipAnchor, "BOTTOMLEFT", 0,00)		
-		elseif Viks.tooltip.bottomright then
+		elseif C.tooltip.bottomright then
 			tooltip:ClearAllPoints()
 			tooltip:SetPoint("BOTTOMRIGHT", TooltipAnchor, "TOPRIGHT", -1, -70)
 		end
@@ -171,7 +173,7 @@ local function GameTooltipDefault(tooltip, parent)
 end
 hooksecurefunc("GameTooltip_SetDefaultAnchor", GameTooltipDefault)
 
-if Viks.tooltip.shift_modifer == true then
+if C.tooltip.shift_modifer == true then
 	local ShiftShow = function()
 		if IsShiftKeyDown() then
 			GameTooltip:Show()
@@ -193,9 +195,9 @@ if Viks.tooltip.shift_modifer == true then
 	sh:RegisterEvent("MODIFIER_STATE_CHANGED")
 	sh:SetScript("OnEvent", EventShow)
 else
-	if Viks.tooltip.cursor == true then
+	if C.tooltip.cursor == true then
 		hooksecurefunc("GameTooltip_SetDefaultAnchor", function(self, parent)
-			if InCombatLockdown() and Viks.tooltip.hide_combat and not IsShiftKeyDown() then
+			if InCombatLockdown() and C.tooltip.hide_combat and not IsShiftKeyDown() then
 				self:Hide()
 			else
 				self:SetOwner(parent, "ANCHOR_CURSOR_RIGHT", 20, 20)
@@ -203,19 +205,19 @@ else
 		end)
 	else
 		hooksecurefunc("GameTooltip_SetDefaultAnchor", function(self)
-			if InCombatLockdown() and Viks.tooltip.hide_combat and not IsShiftKeyDown() then
+			if InCombatLockdown() and C.tooltip.hide_combat and not IsShiftKeyDown() then
 				self:Hide()
 			else
-			if Viks.tooltip.topleft then
+			if C.tooltip.topleft then
 			self:ClearAllPoints()
 			self:SetPoint("TOPLEFT",TooltipAnchor, "TOPLEFT", 0, 0)				
-			elseif Viks.tooltip.topright then
+			elseif C.tooltip.topright then
 			self:ClearAllPoints()
 			self:SetPoint("TOPRIGHT", TooltipAnchor, "TOPRIGHT", 0, 0)		
-			elseif Viks.tooltip.bottomleft then
+			elseif C.tooltip.bottomleft then
 			self:ClearAllPoints()
 			self:SetPoint("BOTTOMLEFT", TooltipAnchor, "BOTTOMLEFT", 0, 0)		
-			elseif Viks.tooltip.bottomright then
+			elseif C.tooltip.bottomright then
 			self:ClearAllPoints()
 			self:SetPoint("BOTTOMRIGHT", TooltipAnchor, "BOTTOMRIGHT", 0, 0)
 			end
@@ -225,7 +227,7 @@ else
 	end
 end
 
-if Viks.tooltip.health_value == true then
+if C.tooltip.health_value == true then
 	GameTooltipStatusBar:SetScript("OnValueChanged", function(self, value)
 		if not value then return end
 		local min, max = self:GetMinMaxValues()
@@ -275,12 +277,12 @@ local OnTooltipSetUnit = function(self)
 	elseif classification == "elite" then classification = "+"
 	else classification = "" end
 
-	if UnitPVPName(unit) and Viks.tooltip.title then
+	if UnitPVPName(unit) and C.tooltip.title then
 		name = UnitPVPName(unit)
 	end
 	
 	_G["GameTooltipTextLeft1"]:SetText(name)
-	if realm and realm ~= "" and Viks.tooltip.realm then
+	if realm and realm ~= "" and C.tooltip.realm then
 		self:AddLine(FRIENDS_LIST_REALM.."|cffffffff"..realm.."|r")
 	end
 
@@ -333,7 +335,7 @@ local OnTooltipSetUnit = function(self)
 		end
 	end
 
-	if Viks.tooltip.target == true and UnitExists(unit.."target") then
+	if C.tooltip.target == true and UnitExists(unit.."target") then
 		local r, g, b = GameTooltip_UnitColor(unit.."target")
 		local text = ""
 
@@ -352,14 +354,14 @@ local OnTooltipSetUnit = function(self)
 		self:AddLine(text, r, g, b)
 	end
 
-	if Viks.tooltip.raid_icon == true then
+	if C.tooltip.raid_icon == true then
 		local raidIndex = GetRaidTargetIndex(unit)
 		if raidIndex then
 			ricon:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_"..raidIndex)
 		end
 	end
 
-	if Viks.tooltip.who_targetting == true then
+	if C.tooltip.who_targetting == true then
 		token = unit AddTargetedBy()
 	end
 end
@@ -369,7 +371,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
 ----------------------------------------------------------------------------------------
 --	Adds guild rank to tooltips(GuildRank by Meurtcriss)
 ----------------------------------------------------------------------------------------
-if Viks.tooltip.rank == true then
+if C.tooltip.rank == true then
 	GameTooltip:HookScript("OnTooltipSetUnit", function(self, ...)
 		-- Get the unit
 		local _, unit = self:GetUnit()
@@ -392,7 +394,7 @@ end
 ----------------------------------------------------------------------------------------
 --	Hide tooltips in combat for action bars, pet bar and stance bar
 ----------------------------------------------------------------------------------------
-if Viks.tooltip.hidebuttons == true then
+if C.tooltip.hidebuttons == true then
 	local CombatHideActionButtonsTooltip = function(self)
 		if not IsShiftKeyDown() then
 			self:Hide()

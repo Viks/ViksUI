@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	ArchaeologyUI skin
@@ -14,11 +14,11 @@ local function LoadSkin()
 	T.SkinDropDownBox(ArchaeologyFrameRaceFilter, 125)
 
 	ArchaeologyFrameRankBar:StripTextures()
-	ArchaeologyFrameRankBar:SetStatusBarTexture(Viks.media.texture)
+	ArchaeologyFrameRankBar:SetStatusBarTexture(C.media.texture)
 	ArchaeologyFrameRankBar:CreateBackdrop("Overlay")
 
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:StripTextures()
-	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarTexture(Viks.media.texture)
+	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarTexture(C.media.texture)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarColor(0.7, 0.2, 0)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:CreateBackdrop("Overlay")
 
@@ -105,13 +105,13 @@ local function LoadSkin()
 	frame.BarBackground:Hide()
 	frame.BarBorderAndOverlay:Hide()
 
-	frame.BarTitle:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+	frame.BarTitle:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 	frame.BarTitle:SetPoint("CENTER", 0, 13)
 
 	bar:SetWidth(150)
 	frame.Flash:SetWidth(172)
 
-	bar:SetStatusBarTexture(Viks.media.texture)
+	bar:SetStatusBarTexture(C.media.texture)
 	bar:SetStatusBarColor(T.color.r, T.color.g, T.color.b)
 
 	bar:CreateBackdrop()

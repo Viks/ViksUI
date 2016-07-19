@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Skin AltPowerBar(by Tukz)
@@ -39,7 +39,7 @@ PlayerPowerBarAlt:UnregisterEvent("PLAYER_ENTERING_WORLD")
 -- AltPowerBar
 local bar = CreateFrame("Frame", "UIAltPowerBar", UIParent)
 bar:SetSize(221, 25)
-bar:SetPoint(unpack(Viks.position.alt_power_bar))
+bar:SetPoint(unpack(C.position.alt_power_bar))
 bar:SetTemplate("Default")
 
 -- Make moveable
@@ -52,7 +52,7 @@ bar:SetScript("OnMouseDown", function(self, button)
 		bar:ClearAllPoints()
 		bar:StartMoving()
 	elseif IsControlKeyDown() and button == "RightButton" then
-		bar:SetPoint(unpack(Viks.position.alt_power_bar))
+		bar:SetPoint(unpack(C.position.alt_power_bar))
 	end
 end)
 bar:SetScript("OnMouseUp", function()
@@ -89,17 +89,17 @@ bar:SetScript("OnLeave", GameTooltip_Hide)
 -- StatusBar
 local status = CreateFrame("StatusBar", "UIAltPowerBarStatus", bar)
 status:SetFrameLevel(bar:GetFrameLevel() + 1)
-status:SetStatusBarTexture(Viks.media.texture)
+status:SetStatusBarTexture(C.media.texture)
 status:SetMinMaxValues(0, 100)
 status:SetPoint("TOPLEFT", bar, "TOPLEFT", 2, -2)
 status:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", -2, 2)
 
 status.bg = status:CreateTexture(nil, "BACKGROUND")
 status.bg:SetAllPoints(status)
-status.bg:SetTexture(Viks.media.texture)
+status.bg:SetTexture(C.media.texture)
 
 status.text = status:CreateFontString(nil, "OVERLAY")
-status.text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+status.text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 status.text:SetPoint("CENTER", bar, "CENTER", 0, 0)
 
 -- Update Function

@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.announcements.says_thanks ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.announcements.says_thanks ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Says thanks for some spells(SaySapped by Bitbyte, modified by m2jest1c)

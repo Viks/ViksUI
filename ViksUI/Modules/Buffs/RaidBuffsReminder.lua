@@ -1,5 +1,6 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.reminder.raid_buffs_enable ~= true then return end
+--[[
+local T, C, L, _ = unpack(select(2, ...))
+if C.reminder.raid_buffs_enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Raid buffs on player(by Elv22)
@@ -44,7 +45,7 @@ local function CheckElixir(unit)
 	end
 
 	if guardianelixir == true and battleelixir == true then
-		FlaskFrame:SetAlpha(Viks.reminder.raid_buffs_alpha)
+		FlaskFrame:SetAlpha(C.reminder.raid_buffs_alpha)
 		flask = true
 		return
 	else
@@ -73,7 +74,7 @@ local function OnAuraChange(self, event, arg1, unit)
 
 			end
 			if UnitAura("player", name) then
-				FlaskFrame:SetAlpha(Viks.reminder.raid_buffs_alpha)
+				FlaskFrame:SetAlpha(C.reminder.raid_buffs_alpha)
 				flask = true
 				break
 			else
@@ -89,7 +90,7 @@ local function OnAuraChange(self, event, arg1, unit)
 				FoodFrame.t:SetTexture(icon)
 			end
 			if UnitAura("player", name) then
-				FoodFrame:SetAlpha(Viks.reminder.raid_buffs_alpha)
+				FoodFrame:SetAlpha(C.reminder.raid_buffs_alpha)
 				food = true
 				break
 			else
@@ -105,7 +106,7 @@ local function OnAuraChange(self, event, arg1, unit)
 			StatFrame.t:SetTexture(icon)
 		end
 		if UnitAura("player", name) then
-			StatFrame:SetAlpha(Viks.reminder.raid_buffs_alpha)
+			StatFrame:SetAlpha(C.reminder.raid_buffs_alpha)
 			stat = true
 			break
 		else
@@ -120,7 +121,7 @@ local function OnAuraChange(self, event, arg1, unit)
 			StaminaFrame.t:SetTexture(icon)
 		end
 		if UnitAura("player", name) then
-			StaminaFrame:SetAlpha(Viks.reminder.raid_buffs_alpha)
+			StaminaFrame:SetAlpha(C.reminder.raid_buffs_alpha)
 			stamina = true
 			break
 		else
@@ -135,7 +136,7 @@ local function OnAuraChange(self, event, arg1, unit)
 			Spell5Frame.t:SetTexture(icon)
 		end
 		if UnitAura("player", name) then
-			Spell5Frame:SetAlpha(Viks.reminder.raid_buffs_alpha)
+			Spell5Frame:SetAlpha(C.reminder.raid_buffs_alpha)
 			spell5 = true
 			break
 		else
@@ -150,7 +151,7 @@ local function OnAuraChange(self, event, arg1, unit)
 			Spell6Frame.t:SetTexture(icon)
 		end
 		if UnitAura("player", name) then
-			Spell6Frame:SetAlpha(Viks.reminder.raid_buffs_alpha)
+			Spell6Frame:SetAlpha(C.reminder.raid_buffs_alpha)
 			spell6 = true
 			break
 		else
@@ -160,7 +161,7 @@ local function OnAuraChange(self, event, arg1, unit)
 	end
 
 	local _, instanceType = IsInInstance()
-	if (not IsInGroup() or instanceType ~= "raid") and Viks.reminder.raid_buffs_always == false then
+	if (not IsInGroup() or instanceType ~= "raid") and C.reminder.raid_buffs_always == false then
 		RaidBuffReminder:SetAlpha(0)
 		visible = false
 	elseif flask == true and food == true and stat == true and stamina == true and spell5 == true and spell6 == true then
@@ -183,11 +184,11 @@ end
 -- Create Anchor
 RaidBuffsAnchor = CreateFrame("Frame","Move_RaidBuffsAnchor",UIParent)
 RaidBuffsAnchor:SetPoint("TOPLEFT", CPMinimb2, "BOTTOMLEFT", 0, -3)
-CreateAnchor(RaidBuffsAnchor, "Move Raid Buff Reminder", Viks.reminder.raid_buffs_size * 6.6, Viks.reminder.raid_buffs_size + 2)
+CreateAnchor(RaidBuffsAnchor, "Move Raid Buff Reminder", C.reminder.raid_buffs_size * 6.6, C.reminder.raid_buffs_size + 2)
 
 -- Create Main bar
 local raidbuff_reminder = CreateFrame("Frame", "RaidBuffReminder", UIParent)
-raidbuff_reminder:CreatePanel("Invisible", (Viks.reminder.raid_buffs_size * 6) + 15, Viks.reminder.raid_buffs_size + 4, "TOPLEFT", RaidBuffsAnchor, "TOPLEFT", 0, 4)
+raidbuff_reminder:CreatePanel("Invisible", (C.reminder.raid_buffs_size * 6) + 15, C.reminder.raid_buffs_size + 4, "TOPLEFT", RaidBuffsAnchor, "TOPLEFT", 0, 4)
 raidbuff_reminder:RegisterEvent("UNIT_AURA")
 raidbuff_reminder:RegisterEvent("PLAYER_ENTERING_WORLD")
 raidbuff_reminder:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
@@ -198,9 +199,9 @@ raidbuff_reminder:SetScript("OnEvent", OnAuraChange)
 local function CreateButton(name, relativeTo, firstbutton)
 	local button = CreateFrame("Frame", name, RaidBuffReminder)
 	if firstbutton == true then
-		button:CreatePanel("Default", Viks.reminder.raid_buffs_size, Viks.reminder.raid_buffs_size, "BOTTOMLEFT", relativeTo, "BOTTOMLEFT", 0, 0)
+		button:CreatePanel("Default", C.reminder.raid_buffs_size, C.reminder.raid_buffs_size, "BOTTOMLEFT", relativeTo, "BOTTOMLEFT", 0, 0)
 	else
-		button:CreatePanel("Default", Viks.reminder.raid_buffs_size, Viks.reminder.raid_buffs_size, "LEFT", relativeTo, "RIGHT", 3, 0)
+		button:CreatePanel("Default", C.reminder.raid_buffs_size, C.reminder.raid_buffs_size, "LEFT", relativeTo, "RIGHT", 3, 0)
 	end
 	button:SetFrameLevel(RaidBuffReminder:GetFrameLevel() + 2)
 
@@ -449,7 +450,7 @@ local function CreateBuffArea(bufftype, relativeTo, column)
 	end
 	bigButton.text = bigButton:CreateFontString(nil, "OVERLAY")
 	bigButton.text:SetPoint("TOPLEFT", bigButton, "TOPRIGHT", 3, -1)
-	bigButton.text:SetFont(Viks.media.font, 13)
+	bigButton.text:SetFont(C.media.normal_font, 13)
 	bigButton.text:SetText(LabelType(bufftype))
 	bigButton:EnableMouse(true)
 	bigButton:SetScript("OnEnter", SetupTooltip)
@@ -480,3 +481,4 @@ local function ToggleBuffTracker()
 	end
 end
 raidbuff_reminder:SetScript("OnMouseDown", ToggleBuffTracker)
+--]]

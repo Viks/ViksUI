@@ -1,11 +1,12 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
+
 ----------------------------------------------------------------------------------------
 --	Collections skin
 ----------------------------------------------------------------------------------------
 local LoadTootlipSkin = CreateFrame("Frame")
 LoadTootlipSkin:RegisterEvent("ADDON_LOADED")
 LoadTootlipSkin:SetScript("OnEvent", function(self, event, addon)
-	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") or not Viks.tooltip.enable then
+	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") or not C.tooltip.enable then
 		self:UnregisterEvent("ADDON_LOADED")
 		return
 	end
@@ -26,14 +27,14 @@ LoadTootlipSkin:SetScript("OnEvent", function(self, event, addon)
 	end
 end)
 
-if Viks.skins.blizzard_frames ~= true then return end
+if C.skins.blizzard_frames ~= true then return end
 local function LoadSkin()
 	CollectionsJournal:StripTextures()
 	CollectionsJournal:SetTemplate("Transparent")
 	CollectionsJournal:Hide()
 	CollectionsJournalPortrait:SetAlpha(0)
 
-	for i = 1, 4 do
+	for i = 1, 5 do
 		T.SkinTab(_G["CollectionsJournalTab"..i])
 	end
 
@@ -91,7 +92,7 @@ local function LoadSkin()
 			button.DragButton.backdrop:SetPoint("TOPLEFT", -1, 1)
 			button.DragButton.backdrop:SetPoint("BOTTOMRIGHT", 1, -1)
 			button.DragButton:StyleButton(nil, 1)
-			button.DragButton.ActiveTexture:SetTexture(0, 1, 0, 0.3)
+			button.DragButton.ActiveTexture:SetColorTexture(0, 1, 0, 0.3)
 			button.DragButton.ActiveTexture:SetPoint("TOPLEFT", 1, -1)
 			button.DragButton.ActiveTexture:SetPoint("BOTTOMRIGHT", -1, 1)
 
@@ -118,8 +119,8 @@ local function LoadSkin()
 				button.DragButton.backdrop:SetBackdropBorderColor(1, 1, 0)
 			else
 				button.name:SetTextColor(1, 1, 1)
-				button.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
-				button.DragButton.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+				button.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
+				button.DragButton.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 			end
 		end
 	end
@@ -183,7 +184,7 @@ local function LoadSkin()
 			button.dragButton.backdrop:SetPoint("TOPLEFT", -1, 1)
 			button.dragButton.backdrop:SetPoint("BOTTOMRIGHT", 1, -1)
 			button.dragButton:StyleButton(nil, 1)
-			button.dragButton.ActiveTexture:SetTexture(0, 1, 0, 0.3)
+			button.dragButton.ActiveTexture:SetColorTexture(0, 1, 0, 0.3)
 			button.dragButton.ActiveTexture:SetPoint("TOPLEFT", 1, -1)
 			button.dragButton.ActiveTexture:SetPoint("BOTTOMRIGHT", -1, 1)
 			button.dragButton.favorite:SetParent(button.dragButton.backdrop)
@@ -226,7 +227,7 @@ local function LoadSkin()
 							button.dragButton.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 						else
 							button.name:SetTextColor(1, 1, 1)
-							button.dragButton.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+							button.dragButton.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 						end
 					else
 						button.name:SetTextColor(0.5, 0.5, 0.5)
@@ -236,8 +237,8 @@ local function LoadSkin()
 						button.backdrop:SetBackdropBorderColor(1, 1, 0)
 						button.dragButton.backdrop:SetBackdropBorderColor(1, 1, 0)
 					else
-						button.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
-						button.dragButton.backdrop:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+						button.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
+						button.dragButton.backdrop:SetBackdropBorderColor(unpack(C.media.border_color))
 					end
 				end
 			end
@@ -288,6 +289,7 @@ local function LoadSkin()
 
 			button.BlackCover:SetPoint("TOPLEFT", 2, -2)
 			button.BlackCover:SetPoint("BOTTOMRIGHT", -2, 2)
+
 			button.FlyoutArrow:SetTexture("Interface\\Buttons\\ActionBarFlyoutButton")
 
 			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -311,11 +313,11 @@ local function LoadSkin()
 
 		_G["PetJournalLoadoutPet"..i.."HealthFrame"].healthBar:StripTextures()
 		_G["PetJournalLoadoutPet"..i.."HealthFrame"].healthBar:CreateBackdrop("Overlay")
-		_G["PetJournalLoadoutPet"..i.."HealthFrame"].healthBar:SetStatusBarTexture(Viks.media.texture)
+		_G["PetJournalLoadoutPet"..i.."HealthFrame"].healthBar:SetStatusBarTexture(C.media.texture)
 
 		_G["PetJournalLoadoutPet"..i.."XPBar"]:StripTextures()
 		_G["PetJournalLoadoutPet"..i.."XPBar"]:CreateBackdrop("Overlay")
-		_G["PetJournalLoadoutPet"..i.."XPBar"]:SetStatusBarTexture(Viks.media.texture)
+		_G["PetJournalLoadoutPet"..i.."XPBar"]:SetStatusBarTexture(C.media.texture)
 		_G["PetJournalLoadoutPet"..i.."XPBar"]:SetFrameLevel(_G["PetJournalLoadoutPet"..i.."XPBar"]:GetFrameLevel() + 2)
 	end
 
@@ -372,11 +374,11 @@ local function LoadSkin()
 
 	PetJournalPetCardHealthFrame.healthBar:StripTextures()
 	PetJournalPetCardHealthFrame.healthBar:CreateBackdrop("Overlay")
-	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(Viks.media.texture)
+	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(C.media.texture)
 
 	PetJournalPetCardXPBar:StripTextures()
 	PetJournalPetCardXPBar:CreateBackdrop("Overlay")
-	PetJournalPetCardXPBar:SetStatusBarTexture(Viks.media.texture)
+	PetJournalPetCardXPBar:SetStatusBarTexture(C.media.texture)
 	PetJournalPetCardXPBar:SetPoint("BOTTOM", PetJournalPetCard.backdrop, "BOTTOM", 0, 6)
 	PetJournalPetCardXPBar:SetFrameLevel(PetJournalPetCardXPBar:GetFrameLevel() + 2)
 
@@ -388,9 +390,8 @@ local function LoadSkin()
 	ToyBoxFilterButton:SetPoint("TOPLEFT", ToyBox.searchBox, "TOPRIGHT", 5, 2)
 	ToyBox.progressBar:StripTextures()
 	ToyBox.progressBar:CreateBackdrop("Overlay")
-	ToyBox.progressBar:SetStatusBarTexture(Viks.media.texture)
+	ToyBox.progressBar:SetStatusBarTexture(C.media.texture)
 	ToyBox.progressBar:SetFrameLevel(ToyBox.progressBar:GetFrameLevel() + 2)
-
 
 	for i = 1, 18 do
 		ToyBox.iconsFrame["spellButton"..i].slotFrameCollected:SetTexture("")
@@ -419,7 +420,7 @@ local function LoadSkin()
 			self.TextColor = {r, g, b}
 			self:SetBackdropBorderColor(r, g, b)
 		else
-			self:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+			self:SetBackdropBorderColor(unpack(C.media.border_color))
 			self.TextColor = {0.6, 0.6, 0.6}
 		end
 	end)
@@ -432,7 +433,7 @@ local function LoadSkin()
 	HeirloomsJournalFilterButton:SetPoint("TOPLEFT", HeirloomsJournal.SearchBox, "TOPRIGHT", 5, 2)
 	HeirloomsJournal.progressBar:StripTextures()
 	HeirloomsJournal.progressBar:CreateBackdrop("Overlay")
-	HeirloomsJournal.progressBar:SetStatusBarTexture(Viks.media.texture)
+	HeirloomsJournal.progressBar:SetStatusBarTexture(C.media.texture)
 	HeirloomsJournal.progressBar:SetFrameLevel(HeirloomsJournal.progressBar:GetFrameLevel() + 2)
 	T.SkinDropDownBox(HeirloomsJournalClassDropDown)
 
@@ -482,6 +483,56 @@ local function LoadSkin()
 			button.name:SetTextColor(0.6, 0.6, 0.6)
 		end
 	end)
+
+	-- Wardrobe
+	WardrobeFrame:StripTextures()
+	WardrobeFrame:SetTemplate("Transparent")
+	T.SkinCloseButton(WardrobeFrameCloseButton)
+	T.SkinDropDownBox(WardrobeOutfitDropDown)
+	WardrobeOutfitDropDown:SetSize(221, 34)
+	WardrobeOutfitDropDown.SaveButton:SkinButton()
+	WardrobeOutfitDropDown.SaveButton:SetPoint("TOPLEFT", WardrobeOutfitDropDown, "TOPRIGHT", -2, -2)
+	WardrobeTransmogFrame:StripTextures()
+	WardrobeTransmogFrame.Inset:StripTextures()
+	WardrobeTransmogFrame.SpecButton:SkinButton()
+	WardrobeTransmogFrame.ApplyButton:SkinButton()
+	WardrobeTransmogFrame.SpecButton:SetPoint("RIGHT", WardrobeTransmogFrame.ApplyButton, "LEFT", -2, 0)
+	WardrobeTransmogFrame.Model.ClearAllPendingButton:SkinButton()
+
+	local slots = {"HeadButton", "ShoulderButton", "ChestButton", "ShirtButton", "TabardButton", "WaistButton", "LegsButton", "FeetButton",
+	"WristButton", "HandsButton", "BackButton", "MainHandButton", "SecondaryHandButton"}
+
+	for i = 1, #slots do
+		local slot = WardrobeTransmogFrame.Model[slots[i]]
+		local icon = slot.Icon
+		local border = slot.Border
+
+		if slot then
+			border:Kill()
+
+			slot:StyleButton()
+			slot:SetFrameLevel(slot:GetFrameLevel() + 2)
+			slot:CreateBackdrop("Default")
+			slot.backdrop:SetAllPoints()
+
+			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			icon:ClearAllPoints()
+			icon:SetPoint("TOPLEFT", 2, -2)
+			icon:SetPoint("BOTTOMRIGHT", -2, 2)
+		end
+	end
+
+	WardrobeCollectionFrame.ModelsFrame:StripTextures()
+	WardrobeCollectionFrame.progressBar:StripTextures()
+	WardrobeCollectionFrame.progressBar:CreateBackdrop("Overlay")
+	WardrobeCollectionFrame.progressBar:SetStatusBarTexture(C.media.texture)
+	WardrobeCollectionFrame.progressBar:SetFrameLevel(WardrobeCollectionFrame.progressBar:GetFrameLevel() + 2)
+	T.SkinEditBox(WardrobeCollectionFrameSearchBox, nil, 18)
+	WardrobeCollectionFrame.FilterButton:SkinButton()
+	WardrobeCollectionFrame.FilterButton:SetPoint("TOPLEFT", WardrobeCollectionFrameSearchBox, "TOPRIGHT", 5, 2)
+	T.SkinDropDownBox(WardrobeCollectionFrameWeaponDropDown)
+	T.SkinNextPrevButton(WardrobeCollectionFrame.NavigationFrame.PrevPageButton, true)
+	T.SkinNextPrevButton(WardrobeCollectionFrame.NavigationFrame.NextPageButton)
 end
 
 T.SkinFuncs["Blizzard_Collections"] = LoadSkin

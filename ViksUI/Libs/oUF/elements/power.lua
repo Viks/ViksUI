@@ -18,6 +18,10 @@
 
  Options
 
+ .displayAltPower   - Use this to let the widget display alternate power if the
+                      unit has one. If no alternate power the display will fall
+                      back to primary power.
+
  The following options are listed by priority. The first check that returns
  true decides the color of the bar.
 
@@ -25,6 +29,8 @@
                       isn't tapped by the player.
  .colorDisconnected - Use `self.colors.disconnected` to color the bar if the
                       unit is offline.
+ .altPowerColor     - A table containing the RGB values to use for a fixed
+                      color if the alt power bar is being displayed instead
  .colorPower        - Use `self.colors.power[token]` to color the bar based on
                       the unit's power type. This method will fall-back to
                       `:GetAlternativeColor()` if it can't find a color matching
@@ -37,7 +43,7 @@
                       unit class. `class` is defined by the second return of
                       [UnitClass](http://wowprogramming.com/docs/api/UnitClass).
  .colorClassNPC     - Use `self.colors.class[class]` to color the bar if the
-                      unit is a NPViks.
+                      unit is a NPC.
  .colorClassPet     - Use `self.colors.class[class]` to color the bar if the
                       unit is player controlled, but not a player.
  .colorReaction     - Use `self.colors.reaction[reaction]` to color the bar
@@ -65,7 +71,7 @@
    -- Add a background
    local Background = Power:CreateTexture(nil, 'BACKGROUND')
    Background:SetAllPoints(Power)
-   Background:SetTexture(1, 1, 1, .5)
+   Background:SetColorTexture(1, 1, 1, .5)
    
    -- Options
    Power.frequentUpdates = true
@@ -92,6 +98,7 @@
 local parent, ns = ...
 local oUF = ns.oUF
 
+local updateFrequentUpdates
 oUF.colors.power = {}
 for power, color in next, PowerBarColor do
 	if (type(power) == "string") then
@@ -110,42 +117,53 @@ oUF.colors.power[7] = oUF.colors.power["SOUL_SHARDS"]
 oUF.colors.power[8] = oUF.colors.power["ECLIPSE"]
 oUF.colors.power[9] = oUF.colors.power["HOLY_POWER"]
 
-local GetDisplayPower = function(power, unit)
-	local _, _, _, _, _, _, showOnRaid = UnitAlternatePowerInfo(unit)
-	if(power.displayAltPower and showOnRaid) then
-		return ALTERNATE_POWER_INDEX
-	else
-		return (UnitPowerType(unit))
+local GetDisplayPower = function(unit)
+	if not unit then return; end
+	local _, min, _, _, _, _, showOnRaid = UnitAlternatePowerInfo(unit)
+	if(showOnRaid) then
+		return ALTERNATE_POWER_INDEX, min
 	end
 end
 
 local Update = function(self, event, unit)
-	if(self.unit ~= unit) then return end
+	if(self.unit ~= unit) or not unit then return end
 	local power = self.Power
 
 	if(power.PreUpdate) then power:PreUpdate(unit) end
 
-	local displayType = GetDisplayPower(power, unit)
-	local min, max = UnitPower(unit, displayType), UnitPowerMax(unit, displayType)
+	local displayType, min
+	if power.displayAltPower then
+		displayType, min = GetDisplayPower(unit)
+	end
+	local cur, max = UnitPower(unit, displayType), UnitPowerMax(unit, displayType)
 	local disconnected = not UnitIsConnected(unit)
-	power:SetMinMaxValues(0, max)
+	if max == 0 then
+		max = 1
+	end
+	power:SetMinMaxValues(min or 0, max)
 
 	if(disconnected) then
 		power:SetValue(max)
 	else
-		power:SetValue(min)
+		power:SetValue(cur)
 	end
 
 	power.disconnected = disconnected
+	if power.frequentUpdates ~= power.__frequentUpdates then
+		power.__frequentUpdates = power.frequentUpdates
+		updateFrequentUpdates(self)
+	end
 
 	local r, g, b, t
-	if(power.colorTapping and UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then
+if(power.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
 		t = self.colors.tapped
-	elseif(power.colorDisconnected and not UnitIsConnected(unit)) then
+	elseif(power.colorDisconnected and disconnected) then
 		t = self.colors.disconnected
+	elseif(displayType == ALTERNATE_POWER_INDEX and power.altPowerColor) then
+		t = power.altPowerColor
 	elseif(power.colorPower) then
 		local ptype, ptoken, altR, altG, altB = UnitPowerType(unit)
-
+		
 		t = self.colors.power[ptoken]
 		if(not t) then
 			if(power.GetAlternativeColor) then
@@ -164,7 +182,8 @@ local Update = function(self, event, unit)
 	elseif(power.colorReaction and UnitReaction(unit, 'player')) then
 		t = self.colors.reaction[UnitReaction(unit, "player")]
 	elseif(power.colorSmooth) then
-		r, g, b = self.ColorGradient(min, max, unpack(power.smoothGradient or self.colors.smooth))
+		local adjust = 0 - (min or 0)
+		r, g, b = self.ColorGradient(cur + adjust, max + adjust, unpack(power.smoothGradient or self.colors.smooth))
 	end
 
 	if(t) then
@@ -182,7 +201,7 @@ local Update = function(self, event, unit)
 	end
 
 	if(power.PostUpdate) then
-		return power:PostUpdate(unit, min, max)
+		return power:PostUpdate(unit, cur, max, min)
 	end
 end
 
@@ -194,17 +213,31 @@ local ForceUpdate = function(element)
 	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
+function updateFrequentUpdates(self)
+	local power = self.Power
+	if power.frequentUpdates and not self:IsEventRegistered('UNIT_POWER_FREQUENT') then
+		self:RegisterEvent('UNIT_POWER_FREQUENT', Path)
+
+		if self:IsEventRegistered('UNIT_POWER') then
+			self:UnregisterEvent('UNIT_POWER', Path)
+		end
+	elseif not self:IsEventRegistered('UNIT_POWER') then
+		self:RegisterEvent('UNIT_POWER', Path)
+
+		if self:IsEventRegistered('UNIT_POWER_FREQUENT') then
+			self:UnregisterEvent('UNIT_POWER_FREQUENT', Path)
+		end		
+	end
+end
+
 local Enable = function(self, unit)
 	local power = self.Power
 	if(power) then
 		power.__owner = self
 		power.ForceUpdate = ForceUpdate
 
-		if(power.frequentUpdates and (unit == 'player' or unit == 'pet')) then
-			self:RegisterEvent('UNIT_POWER_FREQUENT', Path)
-		else
-			self:RegisterEvent('UNIT_POWER', Path)
-		end
+		power.__frequentUpdates = power.frequentUpdates
+		updateFrequentUpdates(self)
 
 		self:RegisterEvent('UNIT_POWER_BAR_SHOW', Path)
 		self:RegisterEvent('UNIT_POWER_BAR_HIDE', Path)

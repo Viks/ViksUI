@@ -1,4 +1,4 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	ALT+Click to buy a stack
@@ -89,7 +89,7 @@ frame:RegisterEvent("MERCHANT_CLOSED")
 
 local button = CreateFrame("Button", "GroceryListFrame", MerchantFrame, "UIPanelButtonTemplate")
 button:SetText(L_MISC_GROCERY_BUY)
-if Viks.skins.blizzard_frames == true then
+if C.skins.blizzard_frames == true then
 	button:SetSize(button:GetTextWidth() + 15, 18)
 	button:SetPoint("TOPRIGHT", MerchantFrameCloseButton, "TOPLEFT", -3, 0)
 	button:SkinButton()

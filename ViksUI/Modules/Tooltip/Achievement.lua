@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true or Viks.tooltip.achievements ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true or C.tooltip.achievements ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Your achievement status in tooltip(Enhanced Achievements by Syzgyn)

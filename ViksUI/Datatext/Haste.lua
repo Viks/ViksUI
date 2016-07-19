@@ -1,17 +1,17 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --------------------------------------------------------------------
 -- player Haste
 --------------------------------------------------------------------
 
-if Viks.datatext.Haste and Viks.datatext.Haste > 0 then
+if C.datatext.Haste and C.datatext.Haste > 0 then
 	local Stat = CreateFrame("Frame")
 	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
 
 	local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-	Text:SetTextColor(unpack(Viks.media.pxcolor1))
-	Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
-	PP(Viks.datatext.Haste, Text)
+	Text:SetTextColor(unpack(C.media.pxcolor1))
+	Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
+	PP(C.datatext.Haste, Text)
 
 	local int = 1
 

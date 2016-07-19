@@ -1,21 +1,20 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local csf = CreateFrame("Frame")
 csf:SetScript("OnEvent", function()
-SetCVar("cameraDistanceMax", 50)
-SetCVar("cameraDistanceMaxFactor", 3.4)
-SetCVar("consolidateBuffs", 0)
+--SetCVar("cameraDistanceMax", 50)
+--SetCVar("cameraDistanceMaxFactor", 3.4)
 SetCVar("ShowClassColorInNameplate", 1)
-SetCVar("consolidateBuffs",0) 
+--SetCVar("consolidateBuffs",0) 
 SetCVar("buffDurations",1)
 
 end)
-csf:RegisterEvent("PLAYER_LOGIN")
+csf:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 ----------------------------------------------------------------------------------------
 -- Launcher
 ----------------------------------------------------------------------------------------
 local function positionsetup()
-	ViksDataPerChar = {}
+	SavedOptionsPerChar = {}
 end
 
 local ViksOnLogon = CreateFrame("Frame")
@@ -23,13 +22,13 @@ ViksOnLogon:RegisterEvent("PLAYER_ENTERING_WORLD")
 ViksOnLogon:SetScript("OnEvent", function(self, event)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	
-	if (ViksData == nil) then ViksData = {} end
-	if (ViksDataPerChar == nil) then ViksDataPerChar = {} end
+	if (SavedStats == nil) then SavedStats = {} end
+	if (SavedOptionsPerChar == nil) then SavedOptionsPerChar = {} end
 	
-		SetCVar("useUiScale", 1)
-		if Viks.general.UiScale > 1 then Viks.general.UiScale = 1 end
-		if Viks.general.UiScale < 0.64 then Viks.general.UiScale = 0.64 end
-		SetCVar("uiScale", Viks.general.UiScale)
+		SetCVar("useuiscale", 1)
+		if C.general.uiscale > 1 then C.general.uiscale = 1 end
+		if C.general.uiscale < 0.64 then C.general.uiscale = 0.64 end
+		SetCVar("uiscale", C.general.uiscale)
 	
 	print("Welcome to |cFF00A2FFViks UI|r")
 	print(" ")

@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 ----------------------------------------------------------------------------------------
 --	Floors scroll
 ----------------------------------------------------------------------------------------
@@ -17,23 +17,23 @@ end)
 ----------------------------------------------------------------------------------------
 --	Font replacement
 ----------------------------------------------------------------------------------------
-WorldMapFrameAreaLabel:SetFont(Viks.media.font, 30)
+WorldMapFrameAreaLabel:SetFont(C.media.normal_font, 30)
 WorldMapFrameAreaLabel:SetShadowOffset(2, -2)
 WorldMapFrameAreaLabel:SetTextColor(0.9, 0.83, 0.64)
 
-WorldMapFrameAreaPetLevels:SetFont(Viks.media.font, 30)
+WorldMapFrameAreaPetLevels:SetFont(C.media.normal_font, 30)
 WorldMapFrameAreaPetLevels:SetShadowOffset(2, -2)
 
-WorldMapFrameAreaDescription:SetFont(Viks.media.font, 30)
+WorldMapFrameAreaDescription:SetFont(C.media.normal_font, 30)
 WorldMapFrameAreaDescription:SetShadowOffset(2, -2)
 
-MapQuestInfoRewardsFrame.XPFrame.Name:SetFont(Viks.media.font, 13)
+MapQuestInfoRewardsFrame.XPFrame.Name:SetFont(C.media.normal_font, 13)
 ----------------------------------------------------------------------------------------
 --	Change position
 ----------------------------------------------------------------------------------------
 hooksecurefunc("WorldMap_ToggleSizeDown", function()
 	WorldMapFrame:ClearAllPoints()
-	WorldMapFrame:SetPoint(unpack(Viks.position.map))
+	WorldMapFrame:SetPoint(unpack(C.position.map))
 end)
 
 ----------------------------------------------------------------------------------------

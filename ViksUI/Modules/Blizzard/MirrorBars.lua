@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.unitframes.Castbars ~= true or Viks.unitframes.enable ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.unitframe.Castbars ~= true or C.unitframe.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Based on oMirrorBars(by Haste)
@@ -59,7 +59,7 @@ do
 
 		local bg = frame:CreateTexture(nil, "BACKGROUND")
 		bg:SetAllPoints(frame)
-		bg:SetTexture(Viks.media.texture)
+		bg:SetTexture(C.media.texture)
 		bg:SetVertexColor(r * 0.3, g * 0.3, b * 0.3)
 
 		local border = CreateFrame("Frame", nil, frame)
@@ -69,7 +69,7 @@ do
 		border:SetFrameLevel(0)
 
 		local text = frame:CreateFontString(nil, "OVERLAY")
-		text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
+		text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 		text:SetJustifyH("CENTER")
 		text:SetShadowOffset(0, 0)
 		text:SetTextColor(1, 1, 1)
@@ -81,7 +81,7 @@ do
 
 		frame:SetSize(281, 16)
 
-		frame:SetStatusBarTexture(Viks.media.texture)
+		frame:SetStatusBarTexture(C.media.texture)
 		frame:SetStatusBarColor(r, g, b)
 
 		frame.type = type

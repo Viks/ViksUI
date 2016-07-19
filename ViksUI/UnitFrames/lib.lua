@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 -----------------------------
 -- INIT
 -----------------------------
@@ -28,7 +28,6 @@ local T, Viks, L, _ = unpack(select(2, ...))
 	local pcolor = oUF.colors.power[pType] or {.3,.45,.65} 
 	oUF.colors.runes = {{196/255, 30/255, 58/255};{173/255, 217/255, 25/255};{35/255, 127/255, 255/255};{178/255, 53/255, 240/255};}
 
-
 T.oUF_colors = setmetatable({
 	tapped = {0.6, 0.6, 0.6},
 	disconnected = {0.84, 0.75, 0.65},
@@ -38,6 +37,7 @@ T.oUF_colors = setmetatable({
 		["FOCUS"] = {0.71, 0.43, 0.27},
 		["ENERGY"] = {0.65, 0.63, 0.35},
 		["RUNES"] = {0.55, 0.57, 0.61},
+		["FURY"] = {1, 0, 1},
 		["RUNIC_POWER"] = {0, 0.82, 1},
 		["AMMOSLOT"] = {0.8, 0.6, 0},
 		["FUEL"] = {0, 0.55, 0.5},
@@ -327,7 +327,7 @@ do
 			end
 		end
 	end
-			
+	
 	ComboDisplay = function(self, event, unit)
 		if(unit == 'pet') then return end
 		
@@ -438,6 +438,7 @@ lib.gen_hpbar = function(f)
 	else
 	s:SetFrameLevel(5)
 	end
+
 	if cfg.HealFrames then
 	s:SetHeight(retVal(f,32,18,25,22))
 	else
@@ -474,7 +475,7 @@ lib.gen_hpbar = function(f)
     local b = s:CreateTexture(nil, "BACKGROUND")
     b:SetTexture(cfg.statusbar_texture)
     b:SetAllPoints(s)
-	b:SetVertexColor(unpack(Viks.unitframes.HealthBarBackGround))
+	b:SetVertexColor(unpack(C.unitframe.HealthBarBackGround))
 	f.Health = s
 end
 
@@ -531,7 +532,7 @@ lib.gen_hpstrings = function(f)
 	else
 		name:SetPoint("RIGHT", hpval, "LEFT", -2, 0)
 	end
-	if Viks.unitframes.HealthcolorClass then
+	if C.unitframe.HealthcolorClass then
 	--name:SetFont(cfg.font, fontsize1, "OUTLINE")
 	--hpval:SetFont(cfg.font, fontsize2, "OUTLINE")
 		if f.mystyle == "player" then
@@ -726,6 +727,7 @@ lib.gen_textbar = function(f)
 		frame1px2_2(h)
 	end
 	if f.mystyle == "raid" then
+
 	if cfg.HealFrames then
 	end	
 	end
@@ -1016,6 +1018,7 @@ lib.gen_castbar = function(f)
 	if f.mystyle == "player" then
 		s:SetHeight(cfg.unit_size.CastbarPlayer.h)
 		s:SetWidth(cfg.unit_size.Player.w+33)
+
 		if cfg.HealFrames then
 				s:SetPoint("BOTTOM", Anchorviksplayercastbar)
 			else
@@ -1024,6 +1027,7 @@ lib.gen_castbar = function(f)
 	elseif f.mystyle == "target" then
 		s:SetHeight(cfg.unit_size.CastbarTarget.h)
 		s:SetWidth(cfg.unit_size.Target.w+33)
+
 		if cfg.HealFrames then
 				s:SetPoint("BOTTOM", Anchorvikstargetcastbar)
 			else
@@ -1032,6 +1036,7 @@ lib.gen_castbar = function(f)
 	elseif f.mystyle == "oUF_Arena" then
 		s:SetHeight(cfg.unit_size.CastbarArena.h)
 		s:SetWidth(cfg.unit_size.Arena.w+33)
+
 		if cfg.HealFrames then
 			s:SetPoint("BOTTOMRIGHT",f,"BOTTOMRIGHT",0,-31)
 		else
@@ -1040,6 +1045,7 @@ lib.gen_castbar = function(f)
 	elseif f.mystyle == "party" then
 		s:SetPoint("CENTER",UIParent,"CENTER",10,100)
 	elseif f.mystyle == "focus" then
+
 		if cfg.HealFrames then
 			s:SetPoint("BOTTOM", Anchorviksfocuscastbar)
 			else
@@ -1090,8 +1096,9 @@ lib.gen_castbar = function(f)
 	--Helper 2 For Icon
 	local h2 = CreateFrame("Frame", nil, s)
 	h2:SetFrameLevel(0)
-	h2:SetPoint("TOPLEFT",i,"TOPLEFT",-5,5)
-	h2:SetPoint("BOTTOMRIGHT",i,"BOTTOMRIGHT",5,-5)
+	h2:SetPoint("TOPLEFT",i,"TOPLEFT", 1, -1)
+	h2:SetPoint("BOTTOMRIGHT",i,"BOTTOMRIGHT", -1, 1)
+	h2:CreateBackdrop("Default")
 
 	if f.mystyle == "player" then
 		--Latency (Only for Player Unit)
@@ -1529,103 +1536,22 @@ end
 --Class Related stuff
 ------------------------------
 
--- BOOMKIN Eclipse Bar
-local eclipseBarBuff = function(self, unit)
-	if self.hasSolarEclipse then
-		self.eBarBG:SetBackdropBorderColor(1,1,.5,.7)
-	elseif self.hasLunarEclipse then
-		self.eBarBG:SetBackdropBorderColor(.2,.2,1,.7)
-	else
-		self.eBarBG:SetBackdropBorderColor(0,0,0,1)
-	end
-end
-
-lib.addEclipseBar = function(self)
-	if playerClass ~= "DRUID" then return end
-	-- Eclipse bar
-	if Viks.unitframe_class_bar.eclipse == true then
-	self.EclipseBar = CreateFrame("Frame", self:GetName().."_EclipseBar", self)
-	self.EclipseBar:CreateBackdrop("Default")
-	self.EclipseBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
-	self.EclipseBar:SetSize((self:GetWidth()-2), 7)
-
-	self.EclipseBar.LunarBar = CreateFrame("StatusBar", self:GetName().."_EclipseBar", self.EclipseBar)
-	self.EclipseBar.LunarBar:SetPoint("LEFT", self.EclipseBar, "LEFT", 0, 0)
-	self.EclipseBar.LunarBar:SetSize(self.EclipseBar:GetWidth(), self.EclipseBar:GetHeight())
-	self.EclipseBar.LunarBar:SetStatusBarTexture(Viks.media.texture)
-	self.EclipseBar.LunarBar:SetStatusBarColor(0.80, 0.80, 0.20)
-
-	self.EclipseBar.SolarBar = CreateFrame("StatusBar", self:GetName().."_EclipseBar", self.EclipseBar)
-	self.EclipseBar.SolarBar:SetPoint("LEFT", self.EclipseBar.LunarBar:GetStatusBarTexture(), "RIGHT", 0, 0)
-	self.EclipseBar.SolarBar:SetSize(self.EclipseBar:GetWidth(), self.EclipseBar:GetHeight())
-	self.EclipseBar.SolarBar:SetStatusBarTexture(Viks.media.texture)
-	self.EclipseBar.SolarBar:SetStatusBarColor(0.30, 0.30, 0.80)
-
-	self.EclipseBar.Text = T.SetFontString(self.EclipseBar.SolarBar, Viks.font.unit_frames_font, Viks.font.unit_frames_font_size, Viks.font.unit_frames_font_style)
-	self.EclipseBar.Text:SetPoint("CENTER", self.EclipseBar, "CENTER", -6, 0)
-
-	self.EclipseBar.Pers = T.SetFontString(self.EclipseBar.SolarBar, Viks.font.unit_frames_font, Viks.font.unit_frames_font_size, Viks.font.unit_frames_font_style)
-	self.EclipseBar.Pers:SetPoint("LEFT", self.EclipseBar.Text, "RIGHT", 2, 0)
-	self:Tag(self.EclipseBar.Pers, "[pereclipse]%")
-
-	self.EclipseBar:SetScript("OnShow", function() T.UpdateEclipse(self, false) end)
-	self.EclipseBar:SetScript("OnUpdate", function() T.UpdateEclipse(self, true) end)
-	self.EclipseBar:SetScript("OnHide", function() T.UpdateEclipse(self, false) end)
-	self.EclipseBar.PostUpdatePower = T.EclipseDirection
-	end
-	-- Mushroom bar
-	if Viks.unitframe_class_bar.totem == true then
-		self.TotemBar = CreateFrame("Frame", self:GetName().."_TotemBar", self)
-		self.TotemBar:SetFrameLevel(self.Health:GetFrameLevel() + 2)
-		self.TotemBar:CreateBorder(false, true)
-		self.TotemBar:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 1,1)
-		self.TotemBar:SetSize(108, 7)
-		self.TotemBar.Destroy = true
-
-		for i = 1, 1 do
-			self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_TotemBar", self.TotemBar)
-			self.TotemBar[i]:SetSize(108 / 3, 7)
-			if i == 1 then
-				self.TotemBar[i]:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMLEFT", 1,1)
-			else
-				self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", 0, 0)
-			end
-			self.TotemBar[i]:SetStatusBarTexture(Viks.media.texture)
-			self.TotemBar[i]:SetMinMaxValues(0, 1)
-
-			self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
-			self.TotemBar[i].bg:SetAllPoints()
-			self.TotemBar[i].bg:SetTexture(Viks.media.texture)
-			self.TotemBar[i].bg.multiplier = 0.2
-		end
-	end
-	
-end
-
 --WARLOCK
 lib.genShards = function(self)
     if playerClass ~= "WARLOCK" then return end
- 
     local ShardsFrame = CreateFrame("Frame", self:GetName().."_WarlockSpecBar", self)
 	ShardsFrame:CreateBackdrop("Default")
     ShardsFrame:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1,7)
     ShardsFrame:SetHeight(7)
     ShardsFrame:SetWidth(self:GetWidth()-2)
     ShardsFrame:SetFrameLevel(4)
-    -- Tukz color scheme again
-    local Colors = {  
-    [1] = {109/255, 51/255, 188/255, 1},
-    [2] = {139/255, 51/255, 188/255, 1},
-    [3] = {179/255, 51/255, 188/255, 1},
-    [4] = {209/255, 51/255, 188/255, 1},
-    }
-    local totalShards = 4 
+
+    local totalShards = 5 
         for i= 1, totalShards do
             local Shards = CreateFrame("StatusBar", self:GetName().."WarlockSpecBar"..i, ShardsFrame)
-            Shards:SetSize((ShardsFrame:GetWidth())/totalShards, 7)
+            Shards:SetSize(((ShardsFrame:GetWidth())/totalShards)-0.5, 7)
             Shards:SetStatusBarTexture(cfg.statusbar_texture)
             Shards:SetFrameLevel(4)
-			Shards:SetStatusBarColor(unpack(Colors[i]))
             local h = CreateFrame("Frame", nil, Shards)
             h:SetFrameLevel(1)
             h:SetPoint("TOPLEFT",-5,5)
@@ -1643,6 +1569,63 @@ lib.genShards = function(self)
     self.WarlockSpecBars = ShardsFrame
 end
 
+-- Arcane Charges (Arcane Mage)
+lib.addArcaneCharges = function(self)
+	if T.class == "MAGE" then
+		-- Arcane Charge bar
+		if C.unitframe_class_bar.arcane == true then
+			self.ArcaneCharge = CreateFrame("Frame", self:GetName().."ArcaneCharge", self)
+			self.ArcaneCharge:CreateBackdrop("Default")
+			self.ArcaneCharge:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1,7)
+			self.ArcaneCharge:SetHeight(7)
+			self.ArcaneCharge:SetWidth(self.Health:GetWidth()-2)
+
+			for i = 1, 4 do
+				self.ArcaneCharge[i] = CreateFrame("StatusBar", self:GetName().."ArcaneCharge"..i, self.ArcaneCharge)
+				self.ArcaneCharge[i]:SetSize(((self.Health:GetWidth()-2)/4)-0.5, 7)
+				if i == 1 then
+					self.ArcaneCharge[i]:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
+				else
+					self.ArcaneCharge[i]:SetPoint("TOPLEFT", self.ArcaneCharge[i-1], "TOPRIGHT", 1, 0)
+				end
+				self.ArcaneCharge[i]:SetStatusBarTexture(C.media.texture)
+				self.ArcaneCharge[i]:SetStatusBarColor(0.4, 0.8, 1)
+
+				self.ArcaneCharge[i].bg = self.ArcaneCharge[i]:CreateTexture(nil, "BORDER")
+				self.ArcaneCharge[i].bg:SetAllPoints()
+				self.ArcaneCharge[i].bg:SetTexture(C.media.texture)
+				self.ArcaneCharge[i].bg:SetVertexColor(0.4, 0.8, 1, 0.2)
+			end
+		end
+
+		-- Rune of Power bar
+		if C.unitframe_class_bar.totem == true then
+			self.TotemBar = CreateFrame("Frame", self:GetName().."_TotemBar", self)
+			self.TotemBar:SetFrameLevel(self.Health:GetFrameLevel() + 2)
+			self.TotemBar:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+			self.TotemBar:SetSize(108, 7)
+			self.TotemBar.Destroy = true
+
+			for i = 1, 2 do
+				self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_TotemBar", self.TotemBar)
+				self.TotemBar[i]:SetSize(108 / 2, 7)
+				if i == 1 then
+					self.TotemBar[i]:SetPoint("BOTTOM", self.Health, "BOTTOM", 0, 1)
+				else
+					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", 0, 0)
+				end
+				self.TotemBar[i]:SetStatusBarTexture(C.media.texture)
+				self.TotemBar[i]:SetMinMaxValues(0, 1)
+				self.TotemBar[i]:CreateBorder(false, true)
+
+				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
+				self.TotemBar[i].bg:SetAllPoints()
+				self.TotemBar[i].bg:SetTexture(C.media.texture)
+				self.TotemBar[i].bg.multiplier = 0.2
+			end
+		end
+	end
+end
 
 -- Paladins, HolyPowerbar
 lib.genHolyPower = function(self)
@@ -1660,17 +1643,16 @@ lib.genHolyPower = function(self)
 				else
 					self.HolyPower[i]:SetPoint("TOPLEFT", self.HolyPower[i-1], "TOPRIGHT", 1, 0)
 				end
-				self.HolyPower[i]:SetStatusBarTexture(Viks.media.texture)
+				self.HolyPower[i]:SetStatusBarTexture(C.media.texture)
 				self.HolyPower[i]:SetStatusBarColor(0.89, 0.88, 0.1)
 
 				self.HolyPower[i].bg = self.HolyPower[i]:CreateTexture(nil, "BORDER")
 				self.HolyPower[i].bg:SetAllPoints()
-				self.HolyPower[i].bg:SetTexture(Viks.media.texture)
+				self.HolyPower[i].bg:SetTexture(C.media.texture)
 				self.HolyPower[i].bg:SetVertexColor(0.89, 0.88, 0.1, 0.2)
 
 				self.HolyPower[i].width = self.HolyPower[i]:GetWidth()
 			end
-
 			self.HolyPower.Override = T.UpdateHoly
 end
 
@@ -1691,6 +1673,7 @@ lib.genRunes = function(self)
 			runes[i]:SetPoint("LEFT", runes[i-1], "RIGHT", 1, 0)
 		end
 		runes[i]:SetStatusBarTexture(cfg.statusbar_texture)
+		runes[i]:SetStatusBarColor(0.69, 0.31, 0.31)
 		runes[i]:GetStatusBarTexture():SetHorizTile(false)
 	end
 				
@@ -1705,7 +1688,7 @@ end
 
 -- Combo Points
 lib.genCPoints = function(self)
-if Viks.unitframe_class_bar.combo == true and Viks.unitframe_class_bar.combo_old ~= true and T.class == "ROGUE" or T.class == "DRUID" then
+if C.unitframe_class_bar.combo == true and C.unitframe_class_bar.combo_old ~= true and T.class == "ROGUE" or T.class == "DRUID" then
 	self.CPoints = CreateFrame("Frame", self:GetName().."_ComboBar", self)
 	self.CPoints:CreateBackdrop("Default")
 	self.CPoints:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
@@ -1713,48 +1696,69 @@ if Viks.unitframe_class_bar.combo == true and Viks.unitframe_class_bar.combo_old
 	self.CPoints:SetHeight(7)
 	self.CPoints:SetWidth(self:GetWidth()-3)
 
-	for i = 1, 5 do
+	for i = 1, 8 do
 		self.CPoints[i] = CreateFrame("StatusBar", self:GetName().."ComboBar"..i, self.CPoints)
-		self.CPoints[i]:SetSize((self.CPoints:GetWidth()-4) / 5, 7)
+		self.CPoints[i]:SetHeight(7)
+		self.CPoints[i]:SetStatusBarTexture(C.media.texture)
 		if i == 1 then
-			self.CPoints[i]:SetPoint("LEFT", self.CPoints, 0.5, 0)
+			self.CPoints[i]:SetPoint("LEFT", self.CPoints, "LEFT", 0.5, 0)
+			self.CPoints[i]:SetWidth((self:GetWidth()-3) / 8)
+			
+			self.CPoints[i].Anticipation = self.CPoints[i]:GetWidth()
+			self.CPoints[i].Deeper = (self:GetWidth()-3) / 6
+			self.CPoints[i].None = (self:GetWidth()-3) / 5
 		else
-			self.CPoints[i]:SetPoint("LEFT", self.CPoints[i-1], "RIGHT", 1, 0)
+			self.CPoints[i]:SetPoint("LEFT", self.CPoints[i - 1], "RIGHT", 1, 0)
+			self.CPoints[i]:SetWidth((self:GetWidth()-3) / 8 - 1)
+			
+			self.CPoints[i].Anticipation = self.CPoints[i]:GetWidth()
+			self.CPoints[i].Deeper = (self:GetWidth()-3) / 6 - 1
+			self.CPoints[i].None = (self:GetWidth()-3) / 5 - 1
 		end
-		self.CPoints[i]:SetStatusBarTexture(Viks.media.texture)
+		self.CPoints[i].bg = self.CPoints[i]:CreateTexture(nil, "ARTWORK")
 	end
-
-	self.CPoints[1]:SetStatusBarColor(0.9, 0.1, 0.1)
-	self.CPoints[2]:SetStatusBarColor(0.9, 0.1, 0.1)
-	self.CPoints[3]:SetStatusBarColor(0.9, 0.9, 0.1)
-	self.CPoints[4]:SetStatusBarColor(0.9, 0.9, 0.1)
-	self.CPoints[5]:SetStatusBarColor(0.1, 0.9, 0.1)
-
 	self.CPoints.Override = T.UpdateComboPoint
-		
-	if T.class == "ROGUE" then
-		self.Anticipation = CreateFrame("Frame", self:GetName().."_Anticipation", self)
-		self.Anticipation:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
-		self.Anticipation:SetSize((self.CPoints:GetWidth()-2), 3)
-		
-		for i = 1, 5 do
-			self.Anticipation[i] = CreateFrame("StatusBar", self:GetName().."_Anticipation"..i, self.Anticipation)
-			self.Anticipation[i]:SetSize((self.CPoints:GetWidth()-2) / 5, 3)
-			if i == 1 then
-				self.Anticipation[i]:SetPoint("LEFT", self.Anticipation)
-			else
-				self.Anticipation[i]:SetPoint("LEFT", self.Anticipation[i-1], "RIGHT", 1, 0)
-			end
-			self.Anticipation[i]:SetStatusBarTexture(Viks.media.texture)
-			self.Anticipation[i]:SetStatusBarColor(0, 0, 0, 1)
-		end
-	end
+
 end
 
 end
+--[[
+lib.addAdditionalPower = function(self)
+	if playerClass ~= "PRIEST" then return end
+	local AdditionalPower = CreateFrame("StatusBar", "AdditionalPowerBar", self.Health)
+	AdditionalPower:SetHeight(3)
+	AdditionalPower:SetWidth(self.Health:GetWidth())
+	AdditionalPower:SetPoint("TOP", self.Health, "BOTTOM", 0, 2)
+	AdditionalPower:SetFrameLevel(10)
+	AdditionalPower:SetStatusBarTexture(cfg.statusbar_texture)
+	AdditionalPower:SetStatusBarColor(.117, .55, 1)
+	
+	AdditionalPower.bg = AdditionalPower:CreateTexture(nil, "BORDER")
+	AdditionalPower.bg:SetTexture(cfg.statusbar_texture)
+	AdditionalPower.bg:SetVertexColor(.05, .15, .4)
+	AdditionalPower.bg:SetPoint("TOPLEFT", AdditionalPower, "TOPLEFT", 0, 0)
+	AdditionalPower.bg:SetPoint("BOTTOMRIGHT", AdditionalPower, "BOTTOMRIGHT", 0, 0)
+
+	local h = CreateFrame("Frame", nil, AdditionalPower)
+	--h:SetFrameLevel(0)
+	--h:SetPoint("TOPLEFT", -4, 4)
+	--h:SetPoint("BOTTOMRIGHT", 4, -4)	
+	--frame11px_1(h)
+	h:SetBackdropBorderColor(unpack(cfg.bordercolor))
+	h:SetPoint("TOPLEFT", -2, 2)
+	h:SetPoint("BOTTOMRIGHT", 2, -2)
+	h:SetFrameLevel(AdditionalPower:GetFrameLevel() - 1)
+	
+	--lib.createBackdrop(h, 0)
+
+	self.DruidMana = AdditionalPower
+	self.DruidMana.bg = AdditionalPower.bg
+end
+--]]
 
 lib.genHarmony = function(self)
 	if playerClass ~= "MONK" then return end
+	-- Chi bar
 	self.HarmonyBar = CreateFrame("Frame", self:GetName().."_HarmonyBar", self)
 	self.HarmonyBar:CreateBackdrop("Default")
 	self.HarmonyBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
@@ -1768,13 +1772,52 @@ lib.genHarmony = function(self)
 		else
 			self.HarmonyBar[i]:SetPoint("TOPLEFT", self.HarmonyBar[i-1], "TOPRIGHT", 1, 0)
 		end
-		self.HarmonyBar[i]:SetStatusBarTexture(Viks.media.texture)
+		self.HarmonyBar[i]:SetStatusBarTexture(C.media.texture)
 		self.HarmonyBar[i]:SetStatusBarColor(0.33, 0.63, 0.33)
 
 		self.HarmonyBar[i].bg = self.HarmonyBar[i]:CreateTexture(nil, "BORDER")
 		self.HarmonyBar[i].bg:SetAllPoints()
-		self.HarmonyBar[i].bg:SetTexture(Viks.media.texture)
+		self.HarmonyBar[i].bg:SetTexture(C.media.texture)
 		self.HarmonyBar[i].bg:SetVertexColor(0.33, 0.63, 0.33, 0.2)
+	end
+	-- Statue bar
+	if C.unitframe_class_bar.totem == true then
+		self.TotemBar = CreateFrame("Frame", self:GetName().."_TotemBar", self)
+		self.TotemBar:SetFrameLevel(self.Health:GetFrameLevel() + 2)
+		self.TotemBar:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 0)
+		self.TotemBar:SetSize(53, 7)
+		self.TotemBar.Destroy = true
+
+		for i = 1, 1 do
+			self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_TotemBar", self.TotemBar)
+			self.TotemBar[i]:SetSize(53, 7)
+			self.TotemBar[i]:SetPoint("BOTTOM", self.Health, "BOTTOM", 0, 1)
+			self.TotemBar[i]:SetStatusBarTexture(C.media.texture)
+			self.TotemBar[i]:SetMinMaxValues(0, 1)
+			self.TotemBar[i]:CreateBorder(false, true)
+
+			self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
+			self.TotemBar[i].bg:SetAllPoints()
+			self.TotemBar[i].bg:SetTexture(C.media.texture)
+			self.TotemBar[i].bg.multiplier = 0.2
+		end
+	end
+
+	-- Stagger bar
+	if C.unitframe_class_bar.stagger == true then
+		self.Stagger = CreateFrame("StatusBar", self:GetName().."_Stagger", self)
+		self.Stagger:CreateBackdrop("Default")
+		self.Stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
+		self.Stagger:SetSize((self:GetWidth()-2), 7)
+		self.Stagger:SetStatusBarTexture(C.media.texture)
+
+		self.Stagger.bg = self.Stagger:CreateTexture(nil, "BORDER")
+		self.Stagger.bg:SetAllPoints()
+		self.Stagger.bg:SetTexture(C.media.texture)
+		self.Stagger.bg.multiplier = 0.2
+
+		self.Stagger.Text = T.SetFontString(self.Stagger, C.font.unit_frames_font, C.font.unit_frames_font_size, C.font.unit_frames_font_style)
+		self.Stagger.Text:SetPoint("CENTER", self.Stagger, "CENTER", 0, 0)
 	end
 end
 
@@ -1794,12 +1837,12 @@ lib.genShadowOrbsBar = function(self)
 				else
 					self.ShadowOrbsBar[i]:SetPoint("TOPLEFT", self.ShadowOrbsBar[i-1], "TOPRIGHT", 1, 0)
 				end
-				self.ShadowOrbsBar[i]:SetStatusBarTexture(Viks.media.texture)
+				self.ShadowOrbsBar[i]:SetStatusBarTexture(C.media.texture)
 				self.ShadowOrbsBar[i]:SetStatusBarColor(0.70, 0.32, 0.75)
 
 				self.ShadowOrbsBar[i].bg = self.ShadowOrbsBar[i]:CreateTexture(nil, "BORDER")
 				self.ShadowOrbsBar[i].bg:SetAllPoints()
-				self.ShadowOrbsBar[i].bg:SetTexture(Viks.media.texture)
+				self.ShadowOrbsBar[i].bg:SetTexture(C.media.texture)
 				self.ShadowOrbsBar[i].bg:SetVertexColor(0.70, 0.32, 0.75, 0.2)
 				
 				self.ShadowOrbsBar[i].width = self.ShadowOrbsBar[i]:GetWidth()
@@ -1852,7 +1895,7 @@ end
 
 lib.TotemBars = function(self)
 -- Totem bar
-if Viks.unitframe_class_bar.totem == true and T.class == "SHAMAN" then
+if C.unitframe_class_bar.totem == true and T.class == "SHAMAN" then
 	self.TotemBar = CreateFrame("Frame", self:GetName().."_TotemBar", self)
 	self.TotemBar:CreateBackdrop("Default")
 	self.TotemBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 7)
@@ -1873,45 +1916,16 @@ if Viks.unitframe_class_bar.totem == true and T.class == "SHAMAN" then
 			if i == 3 then fixpos = i-1 end
 			self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[fixpos-1], "TOPRIGHT", 1, 0)
 		end
-		self.TotemBar[i]:SetStatusBarTexture(Viks.media.texture)
+		self.TotemBar[i]:SetStatusBarTexture(C.media.texture)
 		self.TotemBar[i]:SetMinMaxValues(0, 1)
 
 		self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
 		self.TotemBar[i].bg:SetAllPoints()
-		self.TotemBar[i].bg:SetTexture(Viks.media.texture)
+		self.TotemBar[i].bg:SetTexture(C.media.texture)
 		self.TotemBar[i].bg.multiplier = 0.2
 	end
 end
 end
-
--- Vengeance bar
-lib.Vengeance = function(self)
-		self.VengeanceBar = CreateFrame("Frame", self:GetName().."_VengeanceBar", self)
-		self.VengeanceBar:CreateBackdrop("Default")
-		if (playerClass == "PALADIN" and Viks.unitframe_class_bar.holy == true)
-		or (playerClass == "DEATHKNIGHT" and Viks.unitframe_class_bar.rune == true)
-		or (playerClass == "MONK" and Viks.unitframe_class_bar.chi == true) then
-			self.VengeanceBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 21)
-		else
-			self.VengeanceBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 1, 7)
-		end
-		self.VengeanceBar:SetSize(self:GetWidth()-2, 7)
-
-		self.VengeanceBar.Bar = CreateFrame("StatusBar", self:GetName().."_VengeanceBar", self.VengeanceBar)
-		self.VengeanceBar.Bar:SetPoint("LEFT", self.VengeanceBar, "LEFT", 0, 0)
-		self.VengeanceBar.Bar:SetSize(self.VengeanceBar:GetWidth()-2, 7)
-		self.VengeanceBar.Bar:SetStatusBarTexture(Viks.media.texture)
-		self.VengeanceBar.Bar:SetStatusBarColor(T.color.r, T.color.g, T.color.b)
-
-		self.VengeanceBar.bg = self.VengeanceBar.Bar:CreateTexture(nil, "BORDER")
-		self.VengeanceBar.bg:SetAllPoints()
-		self.VengeanceBar.bg:SetTexture(Viks.media.texture)
-		self.VengeanceBar.bg:SetVertexColor(T.color.r, T.color.g, T.color.b, 0.2)
-
-		self.VengeanceBar.Text = T.SetFontString(self.VengeanceBar.Bar, Viks.font.unit_frames_font, Viks.font.unit_frames_font_size, Viks.font.unit_frames_font_style)
-		self.VengeanceBar.Text:SetPoint("CENTER", self.VengeanceBar.Bar, "CENTER", 0, 0)
-end
-
 
 lib.Experience = function(self)
 	if cfg.Experiencebar then 
@@ -2054,16 +2068,16 @@ lib.createAuraWatch = function(self, unit)
 		auras.PostCreateIcon = AWPostCreateIcon
 		-- Set any other AuraWatch settings
 		auras.icons = {}
-		for i, sid in pairs(spellIDs[playerClass]) do
-			local icon = CreateFrame("Frame", self:GetName().."tagetaura", self)
-			icon.spellID = sid
+		--for i, sid in pairs(spellIDs[playerClass]) do
+			--local icon = CreateFrame("Frame", self:GetName().."tagetaura", self)
+			--icon.spellID = sid
 			-- set the dimensions and positions
-			icon:SetWidth(12)
-			icon:SetHeight(12)
-			icon:SetFrameLevel(5)
-			icon:SetPoint("TOPRIGHT", self, "TOPLEFT", 9 * i, 1)
-			auras.icons[sid] = icon
-		end
+			--icon:SetWidth(12)
+			--icon:SetHeight(12)
+			--icon:SetFrameLevel(5)
+			--icon:SetPoint("TOPRIGHT", self, "TOPLEFT", 9 * i, 1)
+			--auras.icons[sid] = icon
+		--end
 		self.AuraWatch = auras
 	end
 end
@@ -2110,10 +2124,18 @@ if cfg.ShowIncHeals then
 		ohpb:SetWidth(self:GetWidth())
 		ohpb:SetStatusBarTexture(cfg.statusbar_texture)
 		ohpb:SetStatusBarColor(0, 1, 0, 0.25)
+		local ahpb = CreateFrame('StatusBar', nil, self.Health)
+		ahpb:SetPoint('TOPLEFT', mhpb:GetStatusBarTexture(), 'TOPRIGHT', 0, 0)
+		ahpb:SetPoint('BOTTOMLEFT', mhpb:GetStatusBarTexture(), 'BOTTOMRIGHT', 0, 0)
+		ahpb:SetWidth(self:GetWidth())
+		ahpb:SetStatusBarTexture(cfg.statusbar_texture)
+		ahpb:SetStatusBarColor(1, 1, 0, 0.2)
 		self.HealPrediction = {
 			myBar = mhpb,
 			otherBar = ohpb,
+			absorbBar = ahpb,
 			maxOverflow = 1.1,
+			frequentUpdates = true
 		}
 	end
 end

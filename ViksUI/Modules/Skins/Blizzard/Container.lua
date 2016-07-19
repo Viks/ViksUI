@@ -1,11 +1,11 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Bank/Container skin
 ----------------------------------------------------------------------------------------
 local function LoadSkin()
-	if Viks.bag.enable == true or (IsAddOnLoaded("AdiBags") or IsAddOnLoaded("ArkInventory") or IsAddOnLoaded("cargBags_Nivaya") or IsAddOnLoaded("cargBags") or IsAddOnLoaded("Bagnon") or IsAddOnLoaded("Combuctor")) then return end
+	if C.bag.enable == true or (IsAddOnLoaded("AdiBags") or IsAddOnLoaded("ArkInventory") or IsAddOnLoaded("cargBags_Nivaya") or IsAddOnLoaded("cargBags") or IsAddOnLoaded("Bagnon") or IsAddOnLoaded("Combuctor")) then return end
 
 	-- Container Frame
 	BagItemSearchBox:StripTextures(true)
@@ -133,7 +133,7 @@ local function LoadSkin()
 		icon:SetPoint("BOTTOMRIGHT", -2, 2)
 
 		if highlight and not highlight.skinned then
-			highlight:SetTexture(1, 1, 1, 0.3)
+			highlight:SetColorTexture(1, 1, 1, 0.3)
 			highlight.SetTexture = T.dummy
 			highlight:ClearAllPoints()
 			highlight:SetPoint("TOPLEFT", 2, -2)
@@ -187,7 +187,7 @@ local function LoadSkin()
 			if _G[name.."Item"..i.."IconQuestTexture"]:IsShown() then
 				item:SetBackdropBorderColor(1, 1, 0)
 			else
-				item:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+				item:SetBackdropBorderColor(unpack(C.media.border_color))
 			end
 		end
 	end)
@@ -196,7 +196,7 @@ local function LoadSkin()
 		if not frame.isBag and frame.IconQuestTexture:IsShown() then
 			frame:SetBackdropBorderColor(1, 1, 0)
 		else
-			frame:SetBackdropBorderColor(unpack(Viks.media.bordercolor))
+			frame:SetBackdropBorderColor(unpack(C.media.border_color))
 		end
 	end)
 

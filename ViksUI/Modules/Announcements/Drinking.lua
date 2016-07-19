@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.announcements.drinking ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.announcements.drinking ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Announce enemy drinking in arena(by Duffed)

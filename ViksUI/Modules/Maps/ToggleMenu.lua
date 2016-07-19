@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.minimapp.enable ~= true or Viks.minimapp.toggle_menu ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.minimapp.enable ~= true or C.minimapp.toggle_menu ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Toggle menu(by Hydra, Foof, Gorlasch and HyPeRnIcS)
 ----------------------------------------------------------------------------------------
 -- Override prefix method to collapse addons
-Viks["toggleprefix"] = {
+C["toggleprefix"] = {
 	["DBM"]			= "DBM-Core",
 	["ViksUI"]		= "ViksUI",
 	["Auc-"]		= "Auc-Advanced",
@@ -18,7 +18,7 @@ Viks["toggleprefix"] = {
 }
 
 -- Define buttons in main menu and corresponding functions
-Viks["togglemainmenu"] = {
+C["togglemainmenu"] = {
 	{
 		["text"] = CLOSE,
 		["function"] = function()
@@ -53,22 +53,22 @@ Viks["togglemainmenu"] = {
 	{
 		["text"] = "Test UI",
 		["function"] = function()
-			if Viks.raidcooldown.enable == true then
+			if C.raidcooldown.enable == true then
 				SlashCmdList.RaidCD()
 			end
-			if Viks.enemycooldown.enable == true then
+			if C.enemycooldown.enable == true then
 				SlashCmdList.EnemyCD()
 			end
-			if Viks.pulsecooldown.enable == true then
+			if C.pulsecooldown.enable == true then
 				SlashCmdList.PulseCD()
 			end
-			if Viks.unitframes.enable == true then
+			if C.unitframe.enable == true then
 				SlashCmdList.TEST_UF()
 			end
-			if Viks.announcements.pull_countdown == true then
+			if C.announcements.pull_countdown == true then
 				SlashCmdList.PULLCOUNTDOWN()
 			end
-			if Viks.loot.rolllootframe == true then
+			if C.loot.rolllootframe == true then
 				SlashCmdList.TESTROLL()
 			end
 			SlashCmdList.DBMTEST()
@@ -80,7 +80,7 @@ Viks["togglemainmenu"] = {
 }
 
 -- Definde toggle functions
-Viks["toggleaddons"] = {
+C["toggleaddons"] = {
 	-- Damage Meters
 	["alDamageMeter"] = function()
 		ToggleFrame(alDamageMeterFrame)
@@ -171,7 +171,7 @@ Viks["toggleaddons"] = {
 
 -- Button size
 local function buttonwidth(num)
-	return num * (Viks.minimapp.size - 6)
+	return num * (C.minimapp.size - 6)
 end
 local function buttonheight(num)
 	return num * 20
@@ -190,7 +190,7 @@ local defaultframelevel = 0
 local function updateTextures(button, checkable)
 	if checkable then
 		local texture = button:CreateTexture(nil, nil, self)
-		texture:SetTexture(1, 1, 1, 0.3)
+		texture:SetColorTexture(1, 1, 1, 0.3)
 		texture:SetPoint("TOPLEFT", button, 2, -2)
 		texture:SetPoint("BOTTOMRIGHT", button, -2, 2)
 		button:SetCheckedTexture(texture)
@@ -247,7 +247,7 @@ local function addMainMenuButtons(menuItems, menuName, menuBackground)
 		end
 	end
 
-	for index, value in ipairs(Viks.togglemainmenu) do
+	for index, value in ipairs(C.togglemainmenu) do
 		if value.text then
 			menuItems[index] = CreateFrame("Button", menuName..index, menuBackground)
 			menuItems[index]:CreatePanel("Overlay", buttonwidth(1), buttonheight(1), "BOTTOM", menuBackground, "BOTTOM", 0, buttonspacing(1))
@@ -263,7 +263,7 @@ local function addMainMenuButtons(menuItems, menuName, menuBackground)
 			menuItems[index]:SetScript("OnClick", function() value["function"]() end)
 
 			Text = menuItems[index]:CreateFontString(nil, "OVERLAY")
-			Text:SetFont(Viks.media.pxfont, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+			Text:SetFont(C.media.pixel_font, C.media.pxfontHsize, C.media.pxfontHFlag)
 			Text:SetPoint("CENTER", menuItems[index], 0, 0)
 			Text:SetText(value.text)
 
@@ -304,7 +304,7 @@ end)
 OpenMenuBG:HookScript("OnLeave", function(self) self:FadeOut() end)
 
 Text = OpenMenuBG:CreateFontString(nil, "OVERLAY")
-Text:SetFont(Viks.media.pxfont, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+Text:SetFont(C.media.pixel_font, C.media.pxfontHsize, C.media.pxfontHFlag)
 Text:SetPoint("CENTER", OpenMenuBG, 0, 0)
 Text:SetText("+ + +")
 Text:SetTextColor(0.3, 0.3, 0.9)
@@ -319,7 +319,7 @@ expandbutton:SetFrameStrata("HIGH")
 updateTextures(expandbutton)
 
 Text = expandbutton:CreateFontString(nil, "OVERLAY")
-Text:SetFont(Viks.media.pxfont, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+Text:SetFont(C.media.pixel_font, C.media.pxfontHsize, C.media.pxfontHFlag)
 Text:SetPoint("CENTER", expandbutton, 0, 0)
 Text:SetText("+ + +")
 Text:SetTextColor(0.3, 0.3, 0.9)
@@ -340,7 +340,7 @@ if not addonInfo then
 		end
 		-- Check special addon list first
 		local addonFound = false
-		for key, value in pairs(Viks["toggleprefix"]) do
+		for key, value in pairs(C["toggleprefix"]) do
 			if strsub(name, 0, strlen(key)) == key then
 				addonFound = true
 				if name == value then
@@ -387,9 +387,9 @@ end
 
 local function addonFrameToggle(self, i)
 	local name = GetAddOnInfo(i)
-	if Viks.toggleaddons[name] then
+	if C.toggleaddons[name] then
 		if IsAddOnLoaded(i) then
-			Viks.toggleaddons[name]()
+			C.toggleaddons[name]()
 		end
 	end
 end
@@ -401,7 +401,7 @@ local function refreshAddOnMenu()
 	for i = 1, GetNumAddOns() do
 		local name = GetAddOnInfo(i)
 		if addonInfo[i].is_main or (addonInfo[i].parent == i) or not addonInfo[addonInfo[i].parent].collapsed then
-			if not addonToggleOnly or (Viks.toggleaddons[name] and IsAddOnLoaded(i)) then
+			if not addonToggleOnly or (C.toggleaddons[name] and IsAddOnLoaded(i)) then
 				menusize = menusize + 1
 			end
 		end
@@ -416,7 +416,7 @@ local function refreshAddOnMenu()
 		local name = GetAddOnInfo(i)
 		addonmenuitems[j]:Hide()
 		if addonInfo[i].is_main or addonInfo[i].parent == i or not addonInfo[addonInfo[i].parent].collapsed then
-			if (not addonToggleOnly or (Viks.toggleaddons[name] and IsAddOnLoaded(i))) then
+			if (not addonToggleOnly or (C.toggleaddons[name] and IsAddOnLoaded(i))) then
 				addonmenuitems[j]:ClearAllPoints()
 				if menusize % menuheight == 0 then
 					addonmenuitems[j]:SetPoint("BOTTOMRIGHT", addonmenuitems[lastMenuEntryID], "BOTTOMLEFT", buttonspacing(-1), (buttonheight(-menuheight + 1) + buttonspacing(-menuheight + 1)))
@@ -477,7 +477,7 @@ for i = 1, GetNumAddOns() do
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 		GameTooltip:AddLine(L_TOGGLE_ADDON..name)
 		GameTooltip:AddLine("|cffffffff"..L_TOGGLE_RCLICK..name.."\n"..L_TOGGLE_RELOAD)
-		if Viks.toggleaddons[name] then
+		if C.toggleaddons[name] then
 			if IsAddOnLoaded(i) then
 				GameTooltip:AddLine("|cffffffff"..L_TOGGLE_LCLICK..name)
 			end
@@ -488,11 +488,11 @@ for i = 1, GetNumAddOns() do
 		GameTooltip:Hide()
 	end)
 	Text = addonmenuitems[j]:CreateFontString(nil, "OVERLAY")
-	Text:SetFont(Viks.media.pxfont, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+	Text:SetFont(C.media.pixel_font, C.media.pxfontHsize, C.media.pxfontHFlag)
 	Text:SetPoint("CENTER", addonmenuitems[j], 1, 0)
 	Text:SetText(select(2, GetAddOnInfo(i)))
 	Text:SetWidth(buttonwidth(1) - buttonspacing(1))
-	Text:SetHeight(Viks.media.pxfontHsize)
+	Text:SetHeight(C.media.pxfontHsize)
 	if addonInfo[i].is_main then
 		local expandAddonButton = CreateFrame("Button", "AddonMenuExpand"..j, addonmenuitems[j])
 		expandAddonButton:CreatePanel("Overlay", buttonheight(1) - 4, buttonheight(1) - 4, "TOPLEFT", addonmenuitems[j], "TOPLEFT", 2, -2)
@@ -516,7 +516,7 @@ for i = 1, GetNumAddOns() do
 		end)
 
 		Text = expandAddonButton:CreateFontString(nil, "OVERLAY")
-		Text:SetFont(Viks.media.pxfont, Viks.media.pxfontHsize, Viks.media.pxfontHFlag)
+		Text:SetFont(C.media.pixel_font, C.media.pxfontHsize, C.media.pxfontHFlag)
 		Text:SetPoint("CENTER", expandAddonButton, 2, 0)
 		Text:SetText("+")
 		Text:SetTextColor(0.3, 0.3, 0.9)

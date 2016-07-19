@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 local addon, ns = ...
 local _, ns = ...
 local cfg = ns.cfg
@@ -197,7 +197,7 @@ oUF.Tags.Methods['color'] = function(u, r)
 	
 	if UnitIsDead(u) or UnitIsGhost(u) or not UnitIsConnected(u) then
 		return "|cffA0A0A0"
-	elseif (UnitIsTapped(u) and not UnitIsTappedByPlayer(u)) then
+	elseif UnitIsTapDenied(u) then
 		return hex(oUF.colors.tapped)
 	elseif (UnitIsPlayer(u)) then
 		return hex(oUF.colors.class[class])
@@ -329,7 +329,7 @@ oUF.Tags.Methods['drk:color'] = function(u, r)
 	
 	if UnitIsDead(u) or UnitIsGhost(u) or not UnitIsConnected(u) then
 		return "|cffA0A0A0"
-	elseif (UnitIsTapped(u) and not UnitIsTappedByPlayer(u)) then
+	elseif (UnitIsTapDenied(u) and not UnitPlayerControlled(u)) then
 		return hex(oUF.colors.tapped)
 	elseif (UnitIsPlayer(u)) then
 		return hex(oUF.colors.class[class])
@@ -347,10 +347,10 @@ oUF.Tags.Methods['drk:color2'] = function(u, r)
 	
 	if UnitIsDead(u) or UnitIsGhost(u) or not UnitIsConnected(u) then
 		return "|cffA0A0A0"
-	elseif (UnitIsTapped(u) and not UnitIsTappedByPlayer(u)) then
+	elseif (UnitIsTapDenied(u) and not UnitPlayerControlled(u)) then
 		return hex(oUF.colors.tapped)
 	elseif (UnitIsPlayer(u)) then
-		return hex(unpack(Viks.media.oUFfontcolor))
+		return hex(unpack(C.media.oUFfontcolor))
 	elseif reaction then
 		return hex(oUF.colors.reaction[reaction])
 	else
@@ -387,6 +387,7 @@ oUF.Indicators = {
 	["BR"] = ""
 }
 if (class == "DRUID") then
+--[[
 	spells = {
 		["Mark of the Wild"] = GetSpellInfo(1126)
 	}
@@ -397,8 +398,9 @@ if (class == "DRUID") then
 	end
 	oUF.Tags.Events["MotW"] = "UNIT_AURA"
 	oUF.Indicators["TR"] = "[MotW]"
-	
+	]]--
 elseif (class == "DEATHKNIGHT") then
+--[[
 	spells = {
 		["Horn of Winter"] = GetSpellInfo(57330)
 	}
@@ -409,10 +411,11 @@ elseif (class == "DEATHKNIGHT") then
 	end
 	oUF.Tags.Events["HoW"] = "UNIT_AURA"
 	oUF.Indicators["TR"] = "[HoW]"
+	]]--
 elseif (class == "HUNTER") then
 	spells = {}
 elseif (class == "MAGE") then
-	spells = {
+	--[[spells = {
 		["Arcane Brilliance"] = GetSpellInfo(1459),
 		["Dalaran Brilliance"] = GetSpellInfo(61316)
 	}
@@ -425,8 +428,9 @@ elseif (class == "MAGE") then
 	oUF.Tags.Events["FM"] = "UNIT_AURA"
 	
 	oUF.Indicators["TR"] = "[FM]"
+	]]--
 elseif (class == "PALADIN") then
-	spells = {
+	--[[spells = {
 		["Beacon of Light"] = GetSpellInfo(53563),
 		["Blessing of Kings"] = GetSpellInfo(20217),
 		["Blessing of Might"] = GetSpellInfo(19740)
@@ -456,8 +460,9 @@ elseif (class == "PALADIN") then
 	oUF.Tags.Events["Blessing"] = "UNIT_AURA"
 	
 	oUF.Indicators["TR"] = "[sBoL][BoL][Blessing]"
-	
+	]]--
 elseif (class == "PRIEST") then
+--[[
 	spells = {
 		["Power Word: Fortitude"] = GetSpellInfo(21562)
 	}
@@ -474,12 +479,13 @@ elseif (class == "PRIEST") then
 	end
 	oUF.Tags.Events["SP"] = "UNIT_AURA"
 	oUF.Indicators["TR"] = "[PW:F]"
-
+--]]
 elseif (class == "ROGUE") then
 	spells = {}
 elseif (class == "SHAMAN") then
 	spells = {}
 elseif (class == "MONK") then
+--[[
 	spells = {
 			["Legacy of the Emperor"] = GetSpellInfo(115921)
 	}
@@ -490,9 +496,9 @@ elseif (class == "MONK") then
 	end
 	oUF.Tags.Events["LE"] = "UNIT_AURA"
 	oUF.Indicators["TR"] = "[LE]"
-
+--]]
 elseif (class == "WARLOCK") then
-	spells = {
+	--[[spells = {
 			["Dark Intent"] = GetSpellInfo(109773)
 	}
 	oUF.Tags.Methods["DI"] = function(unit)
@@ -502,8 +508,9 @@ elseif (class == "WARLOCK") then
 	end
 	oUF.Tags.Events["DI"] = "UNIT_AURA"
 	oUF.Indicators["TR"] = "[DI]"
-
+]]--
 elseif (class == "WARRIOR") then
+--[[
 	spells = {
 		["Battle Shout"] = GetSpellInfo(6673),
 		["Commanding Shout"] = GetSpellInfo(469),
@@ -522,6 +529,7 @@ elseif (class == "WARRIOR") then
 	end
 	oUF.Tags.Events["CS"] = "UNIT_AURA"
 	oUF.Indicators["TR"] = "[BS][CS]"
+]]--
 end
 -- Level
 oUF.Tags.Methods["drk:level"] = function(unit)
@@ -700,8 +708,8 @@ oUF.Tags.Events['freebgrid:pws'] = "UNIT_AURA"
 oUF.Tags.Methods['freebgrid:ws'] = function(u) if UnitDebuff(u, GetSpellInfo(6788)) then return "|cffFF9900"..x.."|r" end end
 oUF.Tags.Events['freebgrid:ws'] = "UNIT_AURA"
 
-oUF.Tags.Methods['freebgrid:fw'] = function(u) if UnitAura(u, GetSpellInfo(6346)) then return "|cff8B4513"..x.."|r" end end
-oUF.Tags.Events['freebgrid:fw'] = "UNIT_AURA"
+--oUF.Tags.Methods['freebgrid:fw'] = function(u) if UnitAura(u, GetSpellInfo(6346)) then return "|cff8B4513"..x.."|r" end end
+--oUF.Tags.Events['freebgrid:fw'] = "UNIT_AURA"
 
 oUF.Tags.Methods['freebgrid:fort'] = function(u) if not(UnitAura(u, GetSpellInfo(21562)) or UnitAura(u, GetSpellInfo(469)) or UnitAura(u, GetSpellInfo(109773))) then return "|cff00A1DE"..x.."|r" end end
 oUF.Tags.Events['freebgrid:fort'] = "UNIT_AURA"
@@ -932,7 +940,7 @@ ns.classIndicators={
 else
 ----------------------------------------------------------------------------------------
 local GetTime = GetTime
-
+--[[
 local EARTH_SHIELD = GetSpellInfo(974)
 oUF.Tags.Events["Shaman:EarthShield"] = 'UNIT_AURA'
 oUF.Tags.Methods["Shaman:EarthShield"] = function(unit)
@@ -949,6 +957,7 @@ oUF.Tags.Methods["Shaman:EarthShield"] = function(unit)
 		end
 	end
 end
+]]--
 
 local RIPTIDE = GetSpellInfo(61295)
 oUF.Tags.Events["Shaman:Riptide"] = 'UNIT_AURA'
@@ -1144,7 +1153,7 @@ oUF.Tags.Methods["Warrior:Safeguard"] = function(unit)
 		return format("|cff33cc00%.0f|r ", expirationTime - GetTime())
 	end
 end
-
+--[[
 local DEATH_BARRIER = GetSpellInfo(115635)
 oUF.Tags.Events["DK:DeathBarrier"] = 'UNIT_AURA'
 oUF.Tags.Methods["DK:DeathBarrier"] = function(unit)
@@ -1153,5 +1162,5 @@ oUF.Tags.Methods["DK:DeathBarrier"] = function(unit)
 		return format("|cffffcc00%.0f|r ", expirationTime - GetTime())
 	end
 end
-
+--]]
 end

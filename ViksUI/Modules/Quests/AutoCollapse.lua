@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.automation.auto_collapse ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.automation.auto_collapse ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Auto collapse ObjectiveTrackerFrame in instance

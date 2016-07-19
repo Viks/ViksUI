@@ -1,42 +1,44 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	First Time Launch and On Login file
 ----------------------------------------------------------------------------------------
 
+
 local function InstallUI()
 	-- Don't need to set CVar multiple time
-	SetCVar("alternateResourceText", 1)
+	--SetCVar("alternateResourceText", 1)
 	SetCVar("statusTextDisplay", "BOTH")
 	SetCVar("screenshotQuality", 8)
-	SetCVar("cameraDistanceMax", 50)
+	SetCVar("cameraDistanceMaxFactor", 2)
 	SetCVar("showTutorials", 0)
 	SetCVar("gameTip", "0")
 	SetCVar("UberTooltips", 1)
 	SetCVar("chatMouseScroll", 1)
 	SetCVar("removeChatDelay", 1)
-	--SetCVar("chatStyle", "im")
+	SetCVar("chatStyle", "im")
 	SetCVar("WholeChatWindowClickable", 0)
 	SetCVar("WhisperMode", "inline")
-	SetCVar("BnWhisperMode", "inline")
+	--SetCVar("BnWhisperMode", "inline")
 	SetCVar("colorblindMode", 0)
 	SetCVar("lootUnderMouse", 0)
 	SetCVar("autoLootDefault", 1)
 	SetCVar("RotateMinimap", 0)
-	SetCVar("ConsolidateBuffs", 0)
 	SetCVar("autoQuestProgress", 1)
-	SetCVar("scriptErrors", 0)
+	SetCVar("scriptErrors", 1)
 	SetCVar("taintLog", 0)
 	SetCVar("buffDurations", 1)
-	SetCVar("enableCombatText", 1)
+	--SetCVar("enableCombatText", 1)
 	SetCVar("autoOpenLootHistory", 0)
 	SetCVar("lossOfControl", 0)
 	SetCVar("threatWarning", 3)
 	SetCVar('SpamFilter', 0)
+	SetCVar("ShowClassColorInNameplate", 1)
+	SetCVar("nameplateShowSelf", 0)
 
 	-- Setting chat frames
-	if Viks.chat.enable == true and not (IsAddOnLoaded("Prat-3.0") or IsAddOnLoaded("Chatter")) then
-	FCF_ResetChatWindows()
+	if C.chat.enable == true and not (IsAddOnLoaded("Prat-3.0") or IsAddOnLoaded("Chatter")) then
+	--FCF_ResetChatWindows()
 	FCF_SetLocked(ChatFrame1, 1)
 	FCF_DockFrame(ChatFrame2)
 	FCF_SetLocked(ChatFrame2, 1)
@@ -191,11 +193,16 @@ local function InstallUI()
 	SavedOptionsPerChar.SplitBars = true
 	SavedOptionsPerChar.LootFrame = true
 	SavedOptionsPerChar.DamageMeter = false
-	SavedOptionsPerChar.RightBars = Viks.actionbar.rightbars
-	SavedOptionsPerChar.BottomBars = Viks.actionbar.bottombars
+	SavedOptionsPerChar.RightBars = C.actionbar.rightbars
+	SavedOptionsPerChar.BottomBars = C.actionbar.bottombars
 ----------------------------------------------------------------------------------------
 --	Few Addons Settings
 ----------------------------------------------------------------------------------------
+
+
+
+
+
 
 
 
@@ -459,15 +466,17 @@ MBFDB = {
 				"MMHolder", -- [58]
 				"LeftMiniPanel", -- [59]
 				"RightMiniPanel", -- [60]
-				"ElvConfigToggle", -- [61]
-				"ElvUI_ConsolidatedBuffs", -- [62]
 			},
 			["padding"] = 3,
 		},
 	},
 }
 
-	ReloadUI()
+	if SavedOptionsPerChar.RaidLayout ~= "UNKNOWN" then
+		ReloadUI()
+	else
+		StaticPopup_Show("SWITCH_RAID")
+	end
 end
 
 local function DisableUI()
@@ -484,7 +493,8 @@ StaticPopupDialogs.INSTALL_UI = {
 	button1 = ACCEPT,
 	button2 = CANCEL,
 	OnAccept = InstallUI,
-	OnCancel = function() SavedOptionsPerChar.Install = false end,
+	OnCancel = function() SavedOptionsPerChar.Install = false
+	if SavedOptionsPerChar.RaidLayout == "UNKNOWN" then StaticPopup_Show("SWITCH_RAID") end end,
 	timeout = 0,
 	whileDead = 1,
 	hideOnEscape = false,
@@ -544,8 +554,10 @@ StaticPopupDialogs.SWITCH_RAID = {
 	text = L_POPUP_SWITCH_RAID,
 	button1 = DAMAGER,
 	button2 = HEALER,
-	OnAccept = function() ViksConfig.unitframes.HealFrames = false ReloadUI() end,
-	OnCancel = function() ViksConfig.unitframes.HealFrames = true ReloadUI() end,
+	--button3 = "Blizzard",
+	OnAccept = function() GUIConfig.unitframes.HealFrames = false GUIConfigSettings.unitframes.HealFrames = false SavedOptionsPerChar.RaidLayout = "DPS" ReloadUI() end,
+	OnCancel = function() GUIConfig.unitframes.HealFrames = true GUIConfigSettings.unitframes.HealFrames = true SavedOptionsPerChar.RaidLayout = "HEAL" ReloadUI() end,
+	--OnAlt = function() SavedOptionsPerChar.RaidLayout = "NONE" ReloadUI() end,
 	timeout = 0,
 	whileDead = 1,
 	hideOnEscape = false,
@@ -567,54 +579,65 @@ SlashCmdList.SKADA = function() StaticPopup_Show("SKADAINST_UI") end
 --	On logon function
 ----------------------------------------------------------------------------------------
 local OnLogon = CreateFrame("Frame")
-OnLogon:RegisterEvent("PLAYER_ENTERING_WORLD")
+OnLogon:RegisterEvent("PLAYER_LOGIN")
 OnLogon:SetScript("OnEvent", function(self, event)
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	self:UnregisterEvent("PLAYER_LOGIN")
 
 	-- Create empty CVar if they doesn't exist
 	if SavedOptions == nil then SavedOptions = {} end
 	if SavedPositions == nil then SavedPositions = {} end
 	if SavedAddonProfiles == nil then SavedAddonProfiles = {} end
 	if SavedOptionsPerChar == nil then SavedOptionsPerChar = {} end
-	if ViksConfig.unitframes.HealFrames == nil then ViksConfig.unitframes.HealFrames = "UNKNOWN" end
+	if SavedOptionsPerChar.RaidLayout == nil then SavedOptionsPerChar.RaidLayout = "UNKNOWN" end
+	if GUIConfig == nil then GUIConfig = {} end
+	if GUIConfigSettings == nil then GUIConfigSettings = {} end
+	if GUIConfig.unitframes == nil then GUIConfig.unitframes = {} end
+	if GUIConfigSettings.unitframes == nil then GUIConfigSettings.unitframes = {} end
+	if GUIConfig.unitframes.HealFrames == nil then GUIConfig.unitframes.HealFrames = {} end
+	if GUIConfigSettings.unitframes.HealFrames == nil then GUIConfigSettings.unitframes.HealFrames = {} end
+	if GUIConfig.unitframes.HealFrames == nil then GUIConfig.unitframes.HealFrames = "UNKNOWN" end
+	if GUIConfigSettings.unitframes.HealFrames == nil then GUIConfigSettings.unitframes.HealFrames = "UNKNOWN" end
 	if SavedOptionsPerChar.FogOfWar == nil then SavedOptionsPerChar.FogOfWar = false end
 	if SavedOptionsPerChar.AutoInvite == nil then SavedOptionsPerChar.AutoInvite = false end
 	if SavedOptionsPerChar.Archaeology == nil then SavedOptionsPerChar.Archaeology = false end
 	if SavedOptionsPerChar.BarsLocked == nil then SavedOptionsPerChar.BarsLocked = false end
 	if SavedOptionsPerChar.SplitBars == nil then SavedOptionsPerChar.SplitBars = true end
-	if SavedOptionsPerChar.RightBars == nil then SavedOptionsPerChar.RightBars = Viks.actionbar.rightbars end
-	if SavedOptionsPerChar.BottomBars == nil then SavedOptionsPerChar.BottomBars = Viks.actionbar.bottombars end
+	if SavedOptionsPerChar.RightBars == nil then SavedOptionsPerChar.RightBars = C.actionbar.rightbars end
+	if SavedOptionsPerChar.BottomBars == nil then SavedOptionsPerChar.BottomBars = C.actionbar.bottombars end
 
 	if T.getscreenwidth < 1024 and GetCVar("gxMonitor") == "0" then
-		SetCVar("useUiScale", 0)
+		SetCVar("useuiscale", 0)
 		StaticPopup_Show("DISABLE_UI")
 	else
-		SetCVar("useUiScale", 1)
-		if Viks.general.UiScale > 1.28 then Viks.general.UiScale = 1.28 end
-		if Viks.general.UiScale < 0.64 then Viks.general.UiScale = 0.64 end
+		SetCVar("useuiscale", 1)
+		if C.general.uiscale > 1.28 then C.general.uiscale = 1.28 end
+		if C.general.uiscale < 0.64 then C.general.uiscale = 0.64 end
 
-		-- Set our UiScale
-		SetCVar("UiScale", Viks.general.UiScale)
+		-- Set our uiscale
+		SetCVar("uiscale", C.general.uiscale)
 
 		-- Hack for 4K and WQHD Resolution
-		local customScale = min(2, max(0.32, 768 / string.match(GetCVar("gxResolution"), "%d+x(%d+)")))
-		if Viks.general.AutoScale == true and customScale < 0.64 then
+		local monitorIndex = (tonumber(GetCVar('gxMonitor')) or 0) + 1
+		local resolution = select(GetCurrentResolution(monitorIndex), GetScreenResolutions(monitorIndex))
+		local customScale = min(2, max(0.32, 768 / string.match(resolution, "%d+x(%d+)")))
+		if C.general.auto_scale == true and customScale < 0.64 then
 			UIParent:SetScale(customScale)
 		elseif customScale < 0.64 then
-			UIParent:SetScale(Viks.general.UiScale)
+			UIParent:SetScale(C.general.uiscale)
 		end
+
 		-- Install default if we never ran ViksUI on this character
 		if not SavedOptionsPerChar.Install then
 			StaticPopup_Show("INSTALL_UI")
 		end
 	end
 
-	if SavedOptionsPerChar.RaidLayout == "UNKNOWN" then
+	if SavedOptionsPerChar.RaidLayout == "UNKNOWN" and SavedOptionsPerChar.Install then
 		StaticPopup_Show("SWITCH_RAID")
 	end
 
 	-- Welcome message
-	if Viks.general.welcome_message == true then
+	if C.general.welcome_message == true then
 		print("|cffffff00".."Welcome to ViksUI "..T.version.." "..T.client..", "..T.name)
 		print("|cffffff00".."Type /config to config interface".." |cffffff00".."for more informations.")
 	end

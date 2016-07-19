@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.minimap_buttons ~= true or Viks.minimapp.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.minimap_buttons ~= true or C.minimapp.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Skin addons icons on minimap
@@ -51,10 +51,10 @@ local function SkinButton(f)
 end
 
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 frame:SetScript("OnEvent", function(self, event)
-	if event == "PLAYER_LOGIN" then
+	if event == "PLAYER_ENTERING_WORLD" then
 		for i = 1, Minimap:GetNumChildren() do
 			SkinButton(select(i, Minimap:GetChildren()))
 		end

@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.combattext.enable ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.combattext.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Combat Text(xCT by Affli)
@@ -14,7 +14,7 @@ local ct = {
 
 -- Do not edit below unless you know what you are doing
 local numf
-if Viks.combattext.damage or Viks.combattext.healing then
+if C.combattext.damage or C.combattext.healing then
 	numf = 4
 else
 	numf = 3
@@ -34,7 +34,7 @@ end
 local function LimitLines()
 	for i = 1, #ct.frames do
 		f = ct.frames[i]
-		f:SetMaxLines(f:GetHeight() / Viks.font.combat_text_font_size)
+		f:SetMaxLines(f:GetHeight() / C.font.combat_text_font_size)
 	end
 end
 
@@ -64,28 +64,28 @@ local function OnEvent(self, event, subevent, ...)
 			return
 		else
 			if subevent == "DAMAGE" then
-				if Viks.combattext.short_numbers == true then
+				if C.combattext.short_numbers == true then
 					arg2 = T.ShortValue(arg2)
 				end
 				xCT1:AddMessage("-"..arg2, 0.75, 0.1, 0.1)
 			elseif subevent == "DAMAGE_CRIT" then
-				if Viks.combattext.short_numbers == true then
+				if C.combattext.short_numbers == true then
 					arg2 = T.ShortValue(arg2)
 				end
-				xCT1:AddMessage("|cffFF0000"..Viks.combattext.crit_prefix.."|r".."-"..arg2.."|cffFF0000"..Viks.combattext.crit_postfix.."|r", 1, 0.1, 0.1)
+				xCT1:AddMessage("|cffFF0000"..C.combattext.crit_prefix.."|r".."-"..arg2.."|cffFF0000"..C.combattext.crit_postfix.."|r", 1, 0.1, 0.1)
 			elseif subevent == "SPELL_DAMAGE" then
-				if Viks.combattext.short_numbers == true then
+				if C.combattext.short_numbers == true then
 					arg2 = T.ShortValue(arg2)
 				end
 				xCT1:AddMessage("-"..arg2, 0.75, 0.3, 0.85)
 			elseif subevent == "SPELL_DAMAGE_CRIT" then
-				if Viks.combattext.short_numbers == true then
+				if C.combattext.short_numbers == true then
 					arg2 = T.ShortValue(arg2)
 				end
-				xCT1:AddMessage("|cffFF0000"..Viks.combattext.crit_prefix.."|r".."-"..arg2.."|cffFF0000"..Viks.combattext.crit_postfix.."|r", 1, 0.3, 0.5)
+				xCT1:AddMessage("|cffFF0000"..C.combattext.crit_prefix.."|r".."-"..arg2.."|cffFF0000"..C.combattext.crit_postfix.."|r", 1, 0.3, 0.5)
 			elseif subevent == "HEAL" then
-				if arg3 >= Viks.combattext.heal_treshold then
-					if Viks.combattext.short_numbers == true then
+				if arg3 >= C.combattext.heal_treshold then
+					if C.combattext.short_numbers == true then
 						arg3 = T.ShortValue(arg3)
 					end
 					if arg2 then
@@ -97,8 +97,8 @@ local function OnEvent(self, event, subevent, ...)
 					end
 				end
 			elseif subevent == "HEAL_CRIT" then
-				if arg3 >= Viks.combattext.heal_treshold then
-					if Viks.combattext.short_numbers == true then
+				if arg3 >= C.combattext.heal_treshold then
+					if C.combattext.short_numbers == true then
 						arg3 = T.ShortValue(arg3)
 					end
 					if arg2 then
@@ -110,15 +110,15 @@ local function OnEvent(self, event, subevent, ...)
 					end
 				end
 			elseif subevent == "PERIODIC_HEAL" then
-				if arg3 >= Viks.combattext.heal_treshold then
-					if Viks.combattext.short_numbers == true then
+				if arg3 >= C.combattext.heal_treshold then
+					if C.combattext.short_numbers == true then
 						arg3 = T.ShortValue(arg3)
 					end
 					xCT2:AddMessage("+"..arg3, 0.1, 0.5, 0.1)
 				end
 			elseif subevent == "ABSORB_ADDED" and GetCVar("CombatHealingAbsorbSelf") == "1" then
-				if arg3 >= Viks.combattext.heal_treshold then
-					if Viks.combattext.short_numbers == true then
+				if arg3 >= C.combattext.heal_treshold then
+					if C.combattext.short_numbers == true then
 						arg3 = T.ShortValue(arg3)
 					end
 					if arg2 then
@@ -161,7 +161,7 @@ local function OnEvent(self, event, subevent, ...)
 				xCT1:AddMessage(REFLECT, 0.5, 0.5, 0.5)
 			elseif subevent == "RESIST" then
 				if arg3 then
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						arg2 = T.ShortValue(arg2)
 						arg3 = T.ShortValue(arg3)
 					end
@@ -175,7 +175,7 @@ local function OnEvent(self, event, subevent, ...)
 				end
 			elseif subevent == "BLOCK" then
 				if arg3 then
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						arg2 = T.ShortValue(arg2)
 						arg3 = T.ShortValue(arg3)
 					end
@@ -189,7 +189,7 @@ local function OnEvent(self, event, subevent, ...)
 				end
 			elseif subevent == "ABSORB" then
 				if arg3 then
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						arg2 = T.ShortValue(arg2)
 						arg3 = T.ShortValue(arg3)
 					end
@@ -203,7 +203,7 @@ local function OnEvent(self, event, subevent, ...)
 				end
 			elseif subevent == "SPELL_RESIST" then
 				if arg3 then
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						arg2 = T.ShortValue(arg2)
 						arg3 = T.ShortValue(arg3)
 					end
@@ -217,7 +217,7 @@ local function OnEvent(self, event, subevent, ...)
 				end
 			elseif subevent == "SPELL_BLOCK" then
 				if arg3 then
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						arg2 = T.ShortValue(arg2)
 						arg3 = T.ShortValue(arg3)
 					end
@@ -231,7 +231,7 @@ local function OnEvent(self, event, subevent, ...)
 				end
 			elseif subevent == "SPELL_ABSORB" then
 				if arg3 then
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						arg2 = T.ShortValue(arg2)
 						arg3 = T.ShortValue(arg3)
 					end
@@ -327,6 +327,7 @@ local function OnEvent(self, event, subevent, ...)
 				xCT3:AddMessage(format(COMBAT_TEXT_COMBO_POINTS, cp), r, g, b)
 			end
 		end
+		--[[ Beta
 	elseif event == "RUNE_POWER_UPDATE" then
 		local arg1 = subevent
 		if GetRuneCooldown(arg1) ~= 0 then return end
@@ -344,26 +345,27 @@ local function OnEvent(self, event, subevent, ...)
 		if rune then
 			xCT3:AddMessage("+"..msg, r, g, b)
 		end
+		--]]
 	elseif event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITING_VEHICLE" then
 		if arg1 == "player" then
 			SetUnit()
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		SetUnit()
-		if Viks.combattext.scrollable then
+		if C.combattext.scrollable then
 			SetScroll()
 		else
 			LimitLines()
 		end
-		if Viks.combattext.damage or Viks.combattext.healing then
+		if C.combattext.damage or C.combattext.healing then
 			ct.pguid = UnitGUID("player")
 		end
 	end
 end
 
 -- Change damage font
-if Viks.combattext.damage_style then
-	DAMAGE_TEXT_FONT = Viks.font.combat_text_font
+if C.combattext.damage_style then
+	DAMAGE_TEXT_FONT = C.font.combat_text_font
 end
 
 -- Frames
@@ -371,11 +373,11 @@ ct.locked = true
 ct.frames = {}
 for i = 1, numf do
 	local f = CreateFrame("ScrollingMessageFrame", "xCT"..i, UIParent)
-	f:SetFont(Viks.font.combat_text_font, Viks.font.combat_text_font_size, Viks.font.combat_text_font_style)
-	f:SetShadowColor(0, 0, 0, Viks.font.combat_text_font_shadow and 1 or 0)
-	f:SetShadowOffset(Viks.font.combat_text_font_shadow and 1 or 0, Viks.font.combat_text_font_shadow and -1 or 0)
-	f:SetTimeVisible(Viks.combattext.time_visible)
-	f:SetMaxLines(Viks.combattext.max_lines)
+	f:SetFont(C.font.combat_text_font, C.font.combat_text_font_size, C.font.combat_text_font_style)
+	f:SetShadowColor(0, 0, 0, C.font.combat_text_font_shadow and 1 or 0)
+	f:SetShadowOffset(C.font.combat_text_font_shadow and 1 or 0, C.font.combat_text_font_shadow and -1 or 0)
+	f:SetTimeVisible(C.combattext.time_visible)
+	f:SetMaxLines(C.combattext.max_lines)
 	f:SetSpacing(1)
 	f:SetWidth(128)
 	f:SetHeight(112)
@@ -385,18 +387,18 @@ for i = 1, numf do
 	f:SetMinResize(128, 128)
 	f:SetMaxResize(768, 768)
 	f:SetClampedToScreen(true)
-	f:SetClampRectInsets(0, 0, Viks.font.combat_text_font_size, 0)
-	f:SetInsertMode(Viks.combattext.direction or "bottom")
+	f:SetClampRectInsets(0, 0, C.font.combat_text_font_size, 0)
+	f:SetInsertMode(C.combattext.direction or "bottom")
 	if i == 1 then
 		f:SetJustifyH(ct.justify_1)
-		if Viks.unitframes.enable == true and _G.oUF_Player then
+		if C.unitframe.enable == true and _G.oUF_Player then
 			f:SetPoint("BOTTOMLEFT", "oUF_Player", "TOPLEFT", -3, 60)
 		else
 			f:SetPoint("CENTER", -192, -32)
 		end
 	elseif i == 2 then
 		f:SetJustifyH(ct.justify_2)
-		if Viks.unitframes.enable == true and _G.oUF_Player then
+		if C.unitframe.enable == true and _G.oUF_Player then
 			f:SetPoint("BOTTOMRIGHT", "oUF_Player", "TOPRIGHT", 5, 60)
 		else
 			f:SetPoint("CENTER", 192, -32)
@@ -408,21 +410,21 @@ for i = 1, numf do
 	else
 		f:SetJustifyH(ct.justify_4)
 		f:SetWidth(200)
-		if Viks.combattext.icons then
+		if C.combattext.icons then
 			f:SetHeight(150)
 		end
-		if Viks.unitframes.enable == true and _G.oUF_Target then
+		if C.unitframe.enable == true and _G.oUF_Target then
 			f:SetPoint("BOTTOMRIGHT", "oUF_Target", "TOPRIGHT", 2, 278)
 		else
 			f:SetPoint("CENTER", 330, 205)
 		end
 		local a, _, c = f:GetFont()
-		if Viks.font.combat_text_font_size == "auto" then
-			if Viks.combattext.icons then
-				f:SetFont(a, Viks.combattext.icon_size / 2, c)
+		if C.font.combat_text_font_size == "auto" then
+			if C.combattext.icons then
+				f:SetFont(a, C.combattext.icon_size / 2, c)
 			end
-		elseif type(Viks.font.combat_text_font_size) == "number" then
-			f:SetFont(a, Viks.font.combat_text_font_size, c)
+		elseif type(C.font.combat_text_font_size) == "number" then
+			f:SetFont(a, C.font.combat_text_font_size, c)
 		end
 	end
 	ct.frames[i] = f
@@ -436,7 +438,7 @@ xCT:RegisterEvent("UNIT_MANA")
 xCT:RegisterEvent("PLAYER_REGEN_DISABLED")
 xCT:RegisterEvent("PLAYER_REGEN_ENABLED")
 xCT:RegisterEvent("UNIT_COMBO_POINTS")
-if Viks.combattext.dk_runes and T.class == "DEATHKNIGHT" then
+if C.combattext.dk_runes and T.class == "DEATHKNIGHT" then
 	xCT:RegisterEvent("RUNE_POWER_UPDATE")
 end
 xCT:RegisterEvent("UNIT_ENTERED_VEHICLE")
@@ -471,7 +473,7 @@ local StartConfigmode = function()
 			f:SetBackdropBorderColor(1, 0, 0, 1)
 
 			f.fs = f:CreateFontString(nil, "OVERLAY")
-			f.fs:SetFont(Viks.font.combat_text_font, Viks.font.combat_text_font_size, Viks.font.combat_text_font_style)
+			f.fs:SetFont(C.font.combat_text_font, C.font.combat_text_font_size, C.font.combat_text_font_style)
 			f.fs:SetPoint("BOTTOM", f, "TOP", 0, 0)
 			if i == 1 then
 				f.fs:SetText(DAMAGE)
@@ -491,14 +493,14 @@ local StartConfigmode = function()
 			f.t:SetPoint("TOPLEFT", f, "TOPLEFT", 1, -1)
 			f.t:SetPoint("TOPRIGHT", f, "TOPRIGHT", -1, -19)
 			f.t:SetHeight(20)
-			f.t:SetTexture(0.5, 0.5, 0.5)
+			f.t:SetColorTexture(0.5, 0.5, 0.5)
 			f.t:SetAlpha(0.3)
 
 			f.d = f:CreateTexture("ARTWORK")
 			f.d:SetHeight(16)
 			f.d:SetWidth(16)
 			f.d:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -1, 1)
-			f.d:SetTexture(0.5, 0.5, 0.5)
+			f.d:SetColorTexture(0.5, 0.5, 0.5)
 			f.d:SetAlpha(0.3)
 
 			f.tr = f:CreateTitleRegion()
@@ -509,9 +511,9 @@ local StartConfigmode = function()
 			f:EnableMouse(true)
 			f:RegisterForDrag("LeftButton")
 			f:SetScript("OnDragStart", f.StartSizing)
-			if not Viks.combattext.scrollable then
+			if not C.combattext.scrollable then
 				f:SetScript("OnSizeChanged", function(self)
-					self:SetMaxLines(self:GetHeight() / Viks.font.combat_text_font_size)
+					self:SetMaxLines(self:GetHeight() / C.font.combat_text_font_size)
 					self:Clear()
 				end)
 			end
@@ -553,7 +555,7 @@ local function StartTestMode()
 
 	local TimeSinceLastUpdate = 0
 	local UpdateInterval
-	if Viks.combattext.damage_color then
+	if C.combattext.damage_color then
 		ct.dmindex = {}
 		ct.dmindex[1] = 1
 		ct.dmindex[2] = 2
@@ -580,19 +582,19 @@ local function StartTestMode()
 					local icon
 					local color = {}
 					msg = random(40000)
-					if Viks.combattext.icons then
+					if C.combattext.icons then
 						_, _, icon = GetSpellInfo(msg)
 					end
 					if icon then
-						msg = msg.." \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
-						if Viks.combattext.damage_color then
+						msg = msg.." \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+						if C.combattext.damage_color then
 							color = ct.dmgcolor[ct.dmindex[random(#ct.dmindex)]]
 						else
 							color = {1, 1, 0}
 						end
-					elseif Viks.combattext.damage_color and not Viks.combattext.icons then
+					elseif C.combattext.damage_color and not C.combattext.icons then
 						color = ct.dmgcolor[ct.dmindex[random(#ct.dmindex)]]
-					elseif not Viks.combattext.damage_color then
+					elseif not C.combattext.damage_color then
 						color = {1, 1, random(0, 1)}
 					end
 					ct.frames[i]:AddMessage(msg, unpack(color))
@@ -609,7 +611,7 @@ local function EndTestMode()
 		ct.frames[i]:SetScript("OnUpdate", nil)
 		ct.frames[i]:Clear()
 	end
-	if Viks.combattext.damage_color then
+	if C.combattext.damage_color then
 		ct.dmindex = nil
 	end
 	ct.testmode = false
@@ -663,8 +665,8 @@ SLASH_XCT2 = "/чсе"
 
 -- Spam merger
 local SQ
-if Viks.combattext.merge_aoe_spam then
-	if Viks.combattext.damage or Viks.combattext.healing then
+if C.combattext.merge_aoe_spam then
+	if C.combattext.damage or C.combattext.healing then
 		local pairs = pairs
 		SQ = {}
 		for k, v in pairs(T.aoespam) do
@@ -695,7 +697,7 @@ if Viks.combattext.merge_aoe_spam then
 						else
 							count = ""
 						end
-						if Viks.combattext.short_numbers == true then
+						if C.combattext.short_numbers == true then
 							SQ[k]["queue"] = T.ShortValue(SQ[k]["queue"])
 						end
 						xCT4:AddMessage(SQ[k]["queue"]..count..SQ[k]["msg"], unpack(SQ[k]["color"]))
@@ -709,7 +711,7 @@ if Viks.combattext.merge_aoe_spam then
 end
 
 -- Damage
-if Viks.combattext.damage then
+if C.combattext.damage then
 	local unpack, select, time = unpack, select, time
 	local gflags = bit.bor(COMBATLOG_OBJECT_AFFILIATION_MINE,
  		COMBATLOG_OBJECT_REACTION_FRIENDLY,
@@ -717,7 +719,7 @@ if Viks.combattext.damage then
  		COMBATLOG_OBJECT_TYPE_GUARDIAN
  	)
 	local xCTd = CreateFrame("Frame")
-	if Viks.combattext.damage_color then
+	if C.combattext.damage_color then
 		ct.dmgcolor = {}
 		ct.dmgcolor[1] = {1, 1, 0}		-- Physical
 		ct.dmgcolor[2] = {1, 0.9, 0.5}	-- Holy
@@ -727,34 +729,34 @@ if Viks.combattext.damage then
 		ct.dmgcolor[32] = {0.5, 0.5, 1}	-- Shadow
 		ct.dmgcolor[64] = {1, 0.5, 1}	-- Arcane
 	end
-	if Viks.combattext.icons then
-		ct.blank = "Interface\\AddOns\\ViksUI\\Media\\Textures\\Blank.tga"
+	if C.combattext.icons then
+		ct.blank = "Interface\\AddOns\\ViksUI\\Media\\Textures\\Blank"
 	end
 	local misstypes = {ABSORB = ABSORB, BLOCK = BLOCK, DEFLECT = DEFLECT, DODGE = DODGE, EVADE = EVADE, IMMUNE = IMMUNE, MISS = MISS, MISFIRE = MISS, PARRY = PARRY, REFLECT = REFLECT, RESIST = RESIST}
 	local dmg = function(self, event, ...)
 		local msg, icon
 		local eventType, _, sourceGUID, _, sourceFlags, _, destGUID = select(2, ...)
-		if (sourceGUID == ct.pguid and destGUID ~= ct.pguid) or (sourceGUID == UnitGUID("pet") and Viks.combattext.pet_damage) or (sourceFlags == gflags) then
+		if (sourceGUID == ct.pguid and destGUID ~= ct.pguid) or (sourceGUID == UnitGUID("pet") and C.combattext.pet_damage) or (sourceFlags == gflags) then
 			if eventType == "SWING_DAMAGE" then
 				local amount, _, _, _, _, _, critical = select(12, ...)
-				if amount >= Viks.combattext.treshold then
+				if amount >= C.combattext.treshold then
 					local rawamount = amount
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						amount = T.ShortValue(amount)
 					end
 					if critical then
-						amount = "|cffFF0000"..Viks.combattext.crit_prefix.."|r"..amount.."|cffFF0000"..Viks.combattext.crit_postfix.."|r"
+						amount = "|cffFF0000"..C.combattext.crit_prefix.."|r"..amount.."|cffFF0000"..C.combattext.crit_postfix.."|r"
 					end
-					if Viks.combattext.icons then
+					if C.combattext.icons then
 						if (sourceGUID == UnitGUID("pet")) or (sourceFlags == gflags) then
 							icon = PET_ATTACK_TEXTURE
 						else
 							icon = GetSpellTexture(6603)
 						end
-						msg = " \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+						msg = " \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 					end
 					local color = {1, 1, 1}
-					if Viks.combattext.merge_aoe_spam and Viks.combattext.merge_melee then
+					if C.combattext.merge_aoe_spam and C.combattext.merge_melee then
 						local spellId = 6603
 						SQ[spellId]["locked"] = true
 						SQ[spellId]["queue"] = ct.SpamQueue(spellId, rawamount)
@@ -771,35 +773,35 @@ if Viks.combattext.damage then
 				end
 			elseif eventType == "RANGE_DAMAGE" then
 				local spellId, _, _, amount, _, _, _, _, _, critical = select(12, ...)
-				if amount >= Viks.combattext.treshold then
+				if amount >= C.combattext.treshold then
 					msg = amount
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						msg = T.ShortValue(msg)
 					end
 					if critical then
-						msg = "|cffFF0000"..Viks.combattext.crit_prefix.."|r"..msg.."|cffFF0000"..Viks.combattext.crit_postfix.."|r"
+						msg = "|cffFF0000"..C.combattext.crit_prefix.."|r"..msg.."|cffFF0000"..C.combattext.crit_postfix.."|r"
 					end
-					if Viks.combattext.icons then
+					if C.combattext.icons then
 						icon = GetSpellTexture(spellId)
-						msg = msg.." \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+						msg = msg.." \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 					end
 					xCT4:AddMessage(msg)
 				end
-			elseif eventType == "SPELL_DAMAGE" or (eventType == "SPELL_PERIODIC_DAMAGE" and Viks.combattext.dot_damage) then
+			elseif eventType == "SPELL_DAMAGE" or (eventType == "SPELL_PERIODIC_DAMAGE" and C.combattext.dot_damage) then
 				local spellId, _, spellSchool, amount, _, _, _, _, _, critical = select(12, ...)
-				if amount >= Viks.combattext.treshold then
+				if amount >= C.combattext.treshold then
 					local color = {}
 					local rawamount = amount
-					if Viks.combattext.short_numbers == true then
+					if C.combattext.short_numbers == true then
 						amount = T.ShortValue(amount)
 					end
 					if critical then
-						amount = "|cffFF0000"..Viks.combattext.crit_prefix.."|r"..amount.."|cffFF0000"..Viks.combattext.crit_postfix.."|r"
+						amount = "|cffFF0000"..C.combattext.crit_prefix.."|r"..amount.."|cffFF0000"..C.combattext.crit_postfix.."|r"
 					end
-					if Viks.combattext.icons then
+					if C.combattext.icons then
 						icon = GetSpellTexture(spellId)
 					end
-					if Viks.combattext.damage_color then
+					if C.combattext.damage_color then
 						if ct.dmgcolor[spellSchool] then
 							color = ct.dmgcolor[spellSchool]
 						else
@@ -809,13 +811,13 @@ if Viks.combattext.damage then
 						color = {1, 1, 0}
 					end
 					if icon then
-						msg = " \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
-					elseif Viks.combattext.icons then
-						msg = " \124T"..ct.blank..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+						msg = " \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+					elseif C.combattext.icons then
+						msg = " \124T"..ct.blank..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 					else
 						msg = ""
 					end
-					if Viks.combattext.merge_aoe_spam then
+					if C.combattext.merge_aoe_spam then
 						spellId = T.merge[spellId] or spellId
 						if T.aoespam[spellId] then
 							SQ[spellId]["locked"] = true
@@ -834,13 +836,13 @@ if Viks.combattext.damage then
 				end
 			elseif eventType == "SWING_MISSED" then
 				local missType = select(12, ...)
-				if Viks.combattext.icons then
+				if C.combattext.icons then
 					if sourceGUID == UnitGUID("pet") or sourceFlags == gflags then
 						icon = PET_ATTACK_TEXTURE
 					else
 						icon = GetSpellTexture(6603)
 					end
-					missType = misstypes[missType].." \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+					missType = misstypes[missType].." \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 				else
 					missType = misstypes[missType]
 				end
@@ -848,23 +850,23 @@ if Viks.combattext.damage then
 			elseif eventType == "SPELL_MISSED" or eventType == "RANGE_MISSED" then
 				local spellId, _, _, missType = select(12, ...)
 				if missType == "IMMUNE" and spellId == 118895 then return end
-				if Viks.combattext.icons then
+				if C.combattext.icons then
 					icon = GetSpellTexture(spellId)
-					missType = misstypes[missType].." \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+					missType = misstypes[missType].." \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 				else
 					missType = misstypes[missType]
 				end 
 				xCT4:AddMessage(missType)
-			elseif eventType == "SPELL_DISPEL" and Viks.combattext.dispel then
+			elseif eventType == "SPELL_DISPEL" and C.combattext.dispel then
 				local id, effect, _, etype = select(15, ...)
 				local color
-				if Viks.combattext.icons then
+				if C.combattext.icons then
 					icon = GetSpellTexture(id)
 				end
 				if icon then
-					msg = " \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
-				elseif Viks.combattext.icons then
-					msg = " \124T"..ct.blank..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+					msg = " \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+				elseif C.combattext.icons then
+					msg = " \124T"..ct.blank..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 				else
 					msg = ""
 				end
@@ -874,35 +876,35 @@ if Viks.combattext.damage then
 					color = {1, 0, 0.5}
 				end
 				xCT3:AddMessage(ACTION_SPELL_DISPEL..": "..effect..msg, unpack(color))
-			elseif eventType == "SPELL_STOLEN" and Viks.combattext.dispel then
+			elseif eventType == "SPELL_STOLEN" and C.combattext.dispel then
 				local id, effect = select(15, ...)
 				local color = {1, 0.5, 0}
-				if Viks.combattext.icons then
+				if C.combattext.icons then
 					icon = GetSpellTexture(id)
 				end
 				if icon then
-					msg = " \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
-				elseif Viks.combattext.icons then
-					msg = " \124T"..ct.blank..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+					msg = " \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+				elseif C.combattext.icons then
+					msg = " \124T"..ct.blank..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 				else
 					msg = ""
 				end
 				xCT3:AddMessage(ACTION_SPELL_STOLEN..": "..effect..msg, unpack(color))
-			elseif eventType == "SPELL_INTERRUPT" and Viks.combattext.interrupt then
+			elseif eventType == "SPELL_INTERRUPT" and C.combattext.interrupt then
 				local id, effect = select(15, ...)
 				local color = {1, 0.5, 0}
-				if Viks.combattext.icons then
+				if C.combattext.icons then
 					icon = GetSpellTexture(id)
 				end
 				if icon then
-					msg = " \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
-				elseif Viks.combattext.icons then
-					msg = " \124T"..ct.blank..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+					msg = " \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+				elseif C.combattext.icons then
+					msg = " \124T"..ct.blank..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 				else
 					msg = ""
 				end
 				xCT3:AddMessage(ACTION_SPELL_INTERRUPT..": "..effect..msg, unpack(color))
-			elseif eventType == "PARTY_KILL" and Viks.combattext.killingblow then
+			elseif eventType == "PARTY_KILL" and C.combattext.killingblow then
 				local destGUID, tname = select(8, ...)
 				local classIndex = select(2, GetPlayerInfoByGUID(destGUID))
 				local color = classIndex and RAID_CLASS_COLORS[classIndex] or {r = 0.2, g = 1, b = 0.2}
@@ -916,54 +918,54 @@ if Viks.combattext.damage then
 end
 
 -- Healing
-if Viks.combattext.healing then
+if C.combattext.healing then
 	local unpack, select, time = unpack, select, time
 	local xCTh = CreateFrame("Frame")
-	if Viks.combattext.icons then
-		ct.blank = "Interface\\AddOns\\ViksUI\\Media\\Textures\\Blank.tga"
+	if C.combattext.icons then
+		ct.blank = "Interface\\AddOns\\ViksUI\\Media\\Textures\\Blank"
 	end
 	local heal = function(self, event, ...)
 		local msg, icon
 		local eventType, _, sourceGUID, _, sourceFlags = select(2, ...)
 		if sourceGUID == ct.pguid or sourceFlags == gflags then
-			if eventType == "SPELL_HEAL" or (eventType == "SPELL_PERIODIC_HEAL" and Viks.combattext.show_hots) then
-				if Viks.combattext.healing then
+			if eventType == "SPELL_HEAL" or (eventType == "SPELL_PERIODIC_HEAL" and C.combattext.show_hots) then
+				if C.combattext.healing then
 					local spellId, _, _, amount, overhealing, _, critical = select(12, ...)
 					if T.healfilter[spellId] then
 						return
 					end
-					if amount >= Viks.combattext.heal_treshold then
+					if amount >= C.combattext.heal_treshold then
 						local color = {}
 						local rawamount = amount
-						if Viks.combattext.show_overhealing and abs(overhealing) > 0 then
-							if Viks.combattext.short_numbers == true then
+						if C.combattext.show_overhealing and abs(overhealing) > 0 then
+							if C.combattext.short_numbers == true then
 								amount = T.ShortValue(math.floor(amount-overhealing)).." ["..T.ShortValue(floor(overhealing)).."]"
 							else
 								amount = math.floor(amount-overhealing).." ["..floor(overhealing).."]"
 							end
 						else
-							if Viks.combattext.short_numbers == true then
+							if C.combattext.short_numbers == true then
 								amount = T.ShortValue(amount)
 							end
 						end
 
 						if critical then
-							amount = "|cffFF0000"..Viks.combattext.crit_prefix.."|r"..amount.."|cffFF0000"..Viks.combattext.crit_postfix.."|r"
+							amount = "|cffFF0000"..C.combattext.crit_prefix.."|r"..amount.."|cffFF0000"..C.combattext.crit_postfix.."|r"
 							color = {0.1, 1, 0.1}
 						else
 							color = {0.1, 0.65, 0.1}
 						end
-						if Viks.combattext.icons then
+						if C.combattext.icons then
 							icon = GetSpellTexture(spellId)
 						else
 							msg = ""
 						end
 						if icon then
-							msg = " \124T"..icon..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
-						elseif Viks.combattext.icons then
-							msg=" \124T"..ct.blank..":"..Viks.combattext.icon_size..":"..Viks.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+							msg = " \124T"..icon..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
+						elseif C.combattext.icons then
+							msg=" \124T"..ct.blank..":"..C.combattext.icon_size..":"..C.combattext.icon_size..":0:0:64:64:5:59:5:59\124t"
 						end
-						if Viks.combattext.merge_aoe_spam then
+						if C.combattext.merge_aoe_spam then
 							spellId = T.merge[spellId] or spellId
 							if T.aoespam[spellId] then
 								SQ[spellId]["locked"] = true

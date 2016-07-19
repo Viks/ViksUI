@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true or Viks.tooltip.item_transmogrify ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true or C.tooltip.item_transmogrify ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Displays items can not be transmogrified(Will It Mog by Nathanyel)
@@ -38,7 +38,7 @@ local WIMtooltip = function(tooltip)
 	local _, _, quality, _, _, itemType, subType, _, slot = GetItemInfo(itemID)
 	-- No weapon or armor, or misc 'weapon', or invalid slot
 	if not itemType or not (itemType == ARMOR or itemType == ENCHSLOT_WEAPON) or (subType == MISCELLANEOUS and (itemType == ENCHSLOT_WEAPON or slot == "INVTYPE_CLOAK")) or not locs[slot] then return end
-	local canBeChanged, noChangeReason, canBeSource, noSourceReason = GetItemTransmogrifyInfo(itemID)
+	local canBeChanged, noChangeReason, canBeSource, noSourceReason = C_Transmog.GetItemInfo(itemID)
 
 	if rndench and rndench ~= "0" and noSourceReason == "NO_STATS" then
 		canBeChanged = true

@@ -1,5 +1,6 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.announcements.lightwell ~= true or T.class ~= "PRIEST" then return end
+﻿--[[
+local T, C, L, _ = unpack(select(2, ...))
+if C.announcements.lightwell ~= true or T.class ~= "PRIEST" then return end
 
 ----------------------------------------------------------------------------------------
 --	Announce your Lightwell(Light Well Prout by Rahanprout)
@@ -44,3 +45,4 @@ function isGlyphed()
 	end
 	return 15
 end
+--]]

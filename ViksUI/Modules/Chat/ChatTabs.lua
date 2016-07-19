@@ -1,11 +1,11 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.chat.enable ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.chat.enable ~= true then return end
 
 
 ----------------------------------------------------------------------------------------
 --	Based on Fane(by Haste)
 ----------------------------------------------------------------------------------------
-if Viks.chat.tabs_mouseover == true then
+if C.chat.tabs_mouseover == true then
 	CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
 	CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 	CHAT_FRAME_TAB_ALERTING_NOMOUSE_ALPHA = 1
@@ -19,8 +19,8 @@ local Fane = CreateFrame("Frame")
 local updateFS = function(self, inc, ...)
 	local fstring = self:GetFontString()
 
-	fstring:SetFont(Viks.font.chat_tabs_font, Viks.font.chat_tabs_font_size, Viks.font.chat_tabs_font_style)
-	fstring:SetShadowOffset(Viks.font.chat_tabs_font_shadow and 1 or 0, Viks.font.chat_tabs_font_shadow and -1 or 0)
+	fstring:SetFont(C.font.chat_tabs_font, C.font.chat_tabs_font_size, C.font.chat_tabs_font_style)
+	fstring:SetShadowOffset(C.font.chat_tabs_font_shadow and 1 or 0, C.font.chat_tabs_font_shadow and -1 or 0)
 	if (...) then
 		fstring:SetTextColor(...)
 	end
@@ -28,7 +28,7 @@ end
 
 local OnEnter = function(self)
 	local emphasis = _G["ChatFrame"..self:GetID().."TabFlash"]:IsShown()
-	updateFS(self, emphasis, unpack(Viks.media.pxcolor1))
+	updateFS(self, emphasis, unpack(C.media.pxcolor1))
 end
 
 local OnLeave = function(self)
@@ -37,11 +37,11 @@ local OnLeave = function(self)
 	local emphasis = _G["ChatFrame"..id.."TabFlash"]:IsShown()
 
 	if _G["ChatFrame"..id] == SELECTED_CHAT_FRAME then
-		r, g, b = unpack(Viks.media.pxcolor1)
+		r, g, b = unpack(C.media.pxcolor1)
 	elseif emphasis then
 		r, g, b = 1, 0, 0
 	else
-		r, g, b = unpack(Viks.media.pxcolor2)
+		r, g, b = unpack(C.media.pxcolor2)
 	end
 
 	updateFS(self, emphasis, r, g, b)
@@ -63,9 +63,10 @@ local faneifyTab = function(frame, sel)
 	local i = frame:GetID()
 
 	if not frame.Fane then
-		frame:HookScript("OnEnter", OnEnter)
+
+	frame:HookScript("OnEnter", OnEnter)
 		frame:HookScript("OnLeave", OnLeave)
-		if Viks.chat.tabs_mouseover ~= true then
+		if C.chat.tabs_mouseover ~= true then
 			frame:SetAlpha(1)
 
 			if i ~= 2 then
@@ -88,9 +89,9 @@ local faneifyTab = function(frame, sel)
 
 	-- We can't trust sel
 	if i == SELECTED_CHAT_FRAME:GetID() then
-		updateFS(frame, nil, unpack(Viks.media.pxcolor1))
+		updateFS(frame, nil, unpack(C.media.pxcolor1))
 	else
-		updateFS(frame, nil, unpack(Viks.media.pxcolor1))
+		updateFS(frame, nil, unpack(C.media.pxcolor1))
 	end
 end
 

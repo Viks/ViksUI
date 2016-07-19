@@ -1,5 +1,5 @@
-local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.blizzard_frames ~= true then return end
+local T, C, L, _ = unpack(select(2, ...))
+if C.skins.blizzard_frames ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	GuildUI skin
@@ -97,7 +97,7 @@ local function LoadSkin()
 	T.SkinScrollBar(GuildPerksContainerScrollBar)
 
 	GuildFactionBar:StripTextures()
-	GuildFactionBar.progress:SetTexture(Viks.media.texture)
+	GuildFactionBar.progress:SetTexture(C.media.texture)
 	GuildFactionBar:CreateBackdrop("Overlay")
 	GuildFactionBar.backdrop:SetPoint("TOPLEFT", GuildFactionBar.progress, "TOPLEFT", -2, 2)
 	GuildFactionBar.backdrop:SetPoint("BOTTOMRIGHT", GuildFactionBar, "BOTTOMRIGHT", 0, 0)

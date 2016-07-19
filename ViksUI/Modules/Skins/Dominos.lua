@@ -1,11 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.skins.dominos ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.skins.dominos ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Dominos skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event, addon)
 	if not IsAddOnLoaded("Dominos") then return end
 
@@ -32,22 +32,22 @@ frame:SetScript("OnEvent", function(self, event, addon)
 		if count then
 			count:ClearAllPoints()
 			count:SetPoint("BOTTOMRIGHT", 0, 2)
-			count:SetFont(Viks.font.action_bars_font, Viks.font.action_bars_font_size, Viks.font.action_bars_font_style)
-			count:SetShadowOffset(Viks.font.action_bars_font_shadow and 1 or 0, Viks.font.action_bars_font_shadow and -1 or 0)
+			count:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
+			count:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
 		end
 
 		if btname then
 			btname:ClearAllPoints()
 			btname:SetPoint("BOTTOM", 0, 0)
-			btname:SetFont(Viks.font.action_bars_font, Viks.font.action_bars_font_size, Viks.font.action_bars_font_style)
-			btname:SetShadowOffset(Viks.font.action_bars_font_shadow and 1 or 0, Viks.font.action_bars_font_shadow and -1 or 0)
+			btname:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
+			btname:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
 		end
 
 		if hotkey then
 			hotkey:ClearAllPoints()
 			hotkey:SetPoint("TOPRIGHT", 0, 0)
-			hotkey:SetFont(Viks.font.action_bars_font, Viks.font.action_bars_font_size, Viks.font.action_bars_font_style)
-			hotkey:SetShadowOffset(Viks.font.action_bars_font_shadow and 1 or 0, Viks.font.action_bars_font_shadow and -1 or 0)
+			hotkey:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
+			hotkey:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
 			hotkey:SetWidth(button:GetWidth() - 1)
 		end
 
@@ -76,7 +76,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 		button:SetNormalTexture("")
 
 		if flash then
-			flash:SetTexture(0.8, 0.8, 0.8, 0.5)
+			flash:SetColorTexture(0.8, 0.8, 0.8, 0.5)
 			flash:SetPoint("TOPLEFT", button, 2, -2)
 			flash:SetPoint("BOTTOMRIGHT", button, -2, 2)
 		end
@@ -84,8 +84,8 @@ frame:SetScript("OnEvent", function(self, event, addon)
 		if hotkey then
 			hotkey:ClearAllPoints()
 			hotkey:SetPoint("TOPRIGHT", 0, 0)
-			hotkey:SetFont(Viks.font.action_bars_font, Viks.font.action_bars_font_size, Viks.font.action_bars_font_style)
-			hotkey:SetShadowOffset(Viks.font.action_bars_font_shadow and 1 or 0, Viks.font.action_bars_font_shadow and -1 or 0)
+			hotkey:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
+			hotkey:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
 			hotkey:SetWidth(button:GetWidth() - 1)
 		end
 

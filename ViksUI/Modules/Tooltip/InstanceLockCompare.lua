@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true or Viks.tooltip.instance_lock ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true or C.tooltip.instance_lock ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Your instance lock status in tooltip(Instance Lock Compare by Dridzt)

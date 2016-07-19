@@ -1,18 +1,18 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 --------------------------------------------------------------------
 -- GOLD
 --------------------------------------------------------------------
 
-if not Viks.datatext.Gold or Viks.datatext.Gold == 0 then return end
+if not C.datatext.Gold or C.datatext.Gold == 0 then return end
 	local Stat = CreateFrame("Frame")
 	Stat:EnableMouse(true)
 	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
 
 	local Text  = LBottom:CreateFontString(nil, "OVERLAY")
-	Text:SetTextColor(unpack(Viks.media.pxcolor1))
-	Text:SetFont(Viks.media.pxfont, Viks.media.pxfontsize, Viks.media.pxfontFlag)
-	PP(Viks.datatext.Gold, Text)
+	Text:SetTextColor(unpack(C.media.pxcolor1))
+	Text:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
+	PP(C.datatext.Gold, Text)
 
 	local Profit	= 0
 	local Spent		= 0
@@ -79,10 +79,10 @@ end
 
 		local realm = GetRealmName();
 		local name  = UnitName("player");				
-		if (ViksData == nil) then ViksData = {}; end
-		if (ViksData.gold == nil) then ViksData.gold = {}; end
-		if (ViksData.gold[realm]==nil) then ViksData.gold[realm]={}; end
-		ViksData.gold[realm][name] = GetMoney();
+		if (SavedStats == nil) then SavedStats = {}; end
+		if (SavedStats.gold == nil) then SavedStats.gold = {}; end
+		if (SavedStats.gold[realm]==nil) then SavedStats.gold[realm]={}; end
+		SavedStats.gold[realm][name] = GetMoney();
 		OldMoney = NewMoney
 end
 
@@ -118,7 +118,7 @@ Stat:SetScript("OnEnter", function(self)
 	local totalGold = 0
 	GameTooltip:AddLine("Character: ")
 
-	local thisRealmList = ViksData.gold[myPlayerRealm]
+	local thisRealmList = SavedStats.gold[myPlayerRealm]
 	for k, v in pairs(thisRealmList) do
 		GameTooltip:AddDoubleLine(k, FormatTooltipMoney(v), 1, 1, 1, 1, 1, 1)
 		totalGold = totalGold + v
@@ -128,7 +128,7 @@ Stat:SetScript("OnEnter", function(self)
 	GameTooltip:AddLine("Server: ")
 	GameTooltip:AddDoubleLine("Total: ", FormatTooltipMoney(totalGold), 1, 1, 1, 1, 1, 1)
 
-	if archaeology and Viks.datatext.CurrArchaeology then
+	if archaeology and C.datatext.CurrArchaeology then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(PROFESSIONS_ARCHAEOLOGY .. ": ")
 		Currency(398)
@@ -151,14 +151,14 @@ Stat:SetScript("OnEnter", function(self)
 		Currency(676)
 	end
 
-	if cooking and Viks.datatext.CurrCooking then
+	if cooking and C.datatext.CurrCooking then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(PROFESSIONS_COOKING .. ": ")
 		Currency(81)
 		Currency(402)
 	end
 
-	if Viks.datatext.CurrProfessions then
+	if C.datatext.CurrProfessions then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("Profession Token")
 		Currency(910) --Secret of Draenor Alchemy
@@ -169,7 +169,7 @@ Stat:SetScript("OnEnter", function(self)
 
 	end
 
-	if Viks.datatext.CurrRaid then
+	if C.datatext.CurrRaid then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("Raid")
 		Currency(1191, false, true) --Valor
@@ -182,7 +182,7 @@ Stat:SetScript("OnEnter", function(self)
 		--Currency(614) --Mote of Darkness
 	end
 
-	if Viks.datatext.CurrPvP then
+	if C.datatext.CurrPvP then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(PVP_FLAG)
 		Currency(390, true) --Conquest Points
@@ -190,7 +190,7 @@ Stat:SetScript("OnEnter", function(self)
 		--Currency(391) --Tol Barad Commendation
 	end
 
-	if Viks.datatext.CurrMiscellaneous then
+	if C.datatext.CurrMiscellaneous then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(MISCELLANEOUS)
 		--Currency(241) --Champion's Seal
@@ -222,9 +222,9 @@ local function RESETGOLD()
 	local myPlayerRealm = T.realm
 	local myPlayerName  = UnitName("player")
 
-	ViksData.gold = {}
-	ViksData.gold[myPlayerRealm] = {}
-	ViksData.gold[myPlayerRealm][myPlayerName] = GetMoney()
+	SavedStats.gold = {}
+	SavedStats.gold[myPlayerRealm] = {}
+	SavedStats.gold[myPlayerRealm][myPlayerName] = GetMoney()
 end
 SLASH_RESETGOLD1 = "/resetgold"
 SlashCmdList["RESETGOLD"] = RESETGOLD
@@ -234,9 +234,9 @@ Stat:SetScript("OnMouseDown", function(self, btn)
 		local myPlayerRealm = T.realm
 		local myPlayerName  = UnitName("player")
 	
-		ViksData.gold = {}
-		ViksData.gold[myPlayerRealm] = {}
-		ViksData.gold[myPlayerRealm][myPlayerName] = GetMoney()
+		SavedStats.gold = {}
+		SavedStats.gold[myPlayerRealm] = {}
+		SavedStats.gold[myPlayerRealm][myPlayerName] = GetMoney()
 	elseif btn == "LeftButton" then
 		ToggleAllBags()
 	else

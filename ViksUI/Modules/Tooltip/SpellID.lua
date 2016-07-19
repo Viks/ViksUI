@@ -1,5 +1,5 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
-if Viks.tooltip.enable ~= true or Viks.tooltip.spell_id ~= true then return end
+﻿local T, C, L, _ = unpack(select(2, ...))
+if C.tooltip.enable ~= true or C.tooltip.spell_id ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Spell/Item IDs(idTip by Silverwind)
@@ -30,20 +30,16 @@ hooksecurefunc(GameTooltip, "SetUnitAura", function(self, ...)
 	if id then addLine(self, id) end
 	if debuginfo == true and id and IsModifierKeyDown() then print(UnitAura(...)..": "..id) end
 end)
+
 hooksecurefunc("SetItemRef", function(link, ...)
 	local id = tonumber(link:match("spell:(%d+)"))
 	if id then addLine(ItemRefTooltip, id) end
 end)
 
-hooksecurefunc(GameTooltip, "SetGlyph", function(self, ...)
-	local id = select(4, GetGlyphSocketInfo(...))
-	if id then addLine(self, id) end
-end)
-
 local function attachItemTooltip(self)
 	local link = select(2, self:GetItem())
 	if not link then return end
-	local id = select(3, strfind(link, "^|%x+|Hitem:(%-?%d+):(%d+):(%d+):(%d+):(%d+):(%d+):(%-?%d+):(%-?%d+)"))
+	local id = link:match("item:(%d+):")
 	if id then addLine(self, id, true) end
 end
 

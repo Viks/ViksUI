@@ -1,8 +1,11 @@
-﻿local T, Viks, L, _ = unpack(select(2, ...))
+﻿local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Pixel perfect script of custom ui Scale
 ----------------------------------------------------------------------------------------
+local monitorIndex = (tonumber(GetCVar('gxMonitor')) or 0) + 1
+local resolution = select(GetCurrentResolution(monitorIndex), GetScreenResolutions(monitorIndex))
+
 T.UIScale = function()
 	if T.getscreenwidth <= 1440 then
 		T.low_resolution = true
@@ -10,37 +13,37 @@ T.UIScale = function()
 		T.low_resolution = false
 	end
 
-	if Viks.general.AutoScale == true then
-		Viks.general.UiScale = min(2, max(0.64, 768 / string.match(GetCVar("gxResolution"), "%d+x(%d+)")))
+	if C.general.auto_scale == true then
+		C.general.uiscale = min(2, max(0.64, 768 / string.match(resolution, "%d+x(%d+)")))
 	end
 end
 T.UIScale()
 
-local mult = 768 / string.match(GetCVar("gxResolution"), "%d+x(%d+)") / Viks.general.UiScale
+local mult = 768 / string.match(resolution, "%d+x(%d+)") / C.general.uiscale
 local Scale = function(x)
 	return mult * math.floor(x / mult + 0.5)
 end
 
 T.Scale = function(x) return Scale(x) end
 T.mult = mult
-T.noscalemult = T.mult * Viks.general.UiScale
+T.noscalemult = T.mult * C.general.uiscale
 
 ----------------------------------------------------------------------------------------
 --	Pixel perfect fonts function
 ----------------------------------------------------------------------------------------
 if T.getscreenheight <= 1200 then return end
-Viks.media.pxfontsize = Viks.media.pxfontsize * mult
-Viks.font.chat_tabs_font_size = Viks.font.chat_tabs_font_size * mult
-Viks.font.action_bars_font_size = Viks.font.action_bars_font_size * mult
-Viks.font.threat_meter_font_size = Viks.font.threat_meter_font_size * mult
-Viks.font.raid_cooldowns_font_size = Viks.font.raid_cooldowns_font_size * mult
-Viks.font.unit_frames_font_size = Viks.font.unit_frames_font_size * mult
-Viks.font.auras_font_size = Viks.font.auras_font_size * mult
-Viks.font.filger_font_size = Viks.font.filger_font_size * mult
-Viks.font.bags_font_size = Viks.font.bags_font_size * mult
-Viks.font.loot_font_size = Viks.font.loot_font_size * mult
-Viks.font.combat_text_font_size = Viks.font.combat_text_font_size * mult
+C.media.pixel_font_size = C.media.pixel_font_size * mult
+C.font.chat_tabs_font_size = C.font.chat_tabs_font_size * mult
+C.font.action_bars_font_size = C.font.action_bars_font_size * mult
+C.font.threat_meter_font_size = C.font.threat_meter_font_size * mult
+C.font.raid_cooldowns_font_size = C.font.raid_cooldowns_font_size * mult
+C.font.unit_frames_font_size = C.font.unit_frames_font_size * mult
+C.font.auras_font_size = C.font.auras_font_size * mult
+C.font.filger_font_size = C.font.filger_font_size * mult
+C.font.bags_font_size = C.font.bags_font_size * mult
+C.font.loot_font_size = C.font.loot_font_size * mult
+C.font.combat_text_font_size = C.font.combat_text_font_size * mult
 
-Viks.font.stats_font_size = Viks.font.stats_font_size * mult
-Viks.font.stylization_font_size = Viks.font.stylization_font_size * mult
-Viks.font.cooldown_timers_font_size = Viks.font.cooldown_timers_font_size * mult
+C.font.stats_font_size = C.font.stats_font_size * mult
+C.font.stylization_font_size = C.font.stylization_font_size * mult
+C.font.cooldown_timers_font_size = C.font.cooldown_timers_font_size * mult

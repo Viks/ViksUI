@@ -1,4 +1,4 @@
-local T, Viks, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 
 ----------------------------------------------------------------------------------------
 --	Based on LitePanels(by Katae)
@@ -62,13 +62,13 @@ end
 
 ----------------------------------------------------------------------------------------
 -- API: lpanels:ApplyLayout("n:Character r:Realm c:Class", "layout1", "layout2")
---  » arg1 - Profile string: May be set to any combination of n:ame, r:ealm, c:lass,
+--	» arg1 - Profile string: May be set to any combination of n:ame, r:ealm, c:lass,
 --		separated by a single space. If nil, applies the specified layouts to all
 --		characters. Additionally, a dash may be applied to front of the
 --		condition (-n:ame -r:ealm -c:lass) to make the layout NOT load on the specified
 --		value. The profile string is *not* CASE-sensitive.
 --	» arg2,... - Layout names created by CreateLayout() to apply to this profile. No set
---      limit to how many layouts can be applied per profile.
+--		limit to how many layouts can be applied per profile.
 function lpanels:MatchProf(profile, AND)
 	local apply = false
 	for a, str in gmatch(profile, "(%-?[nrc]):([^%s]+)") do
@@ -175,13 +175,13 @@ function lpanels:MakePanel(f)
 			end
 
 			-- Texts font
-			if t.font and not strmatch(t.font, "[/\\]") then t.font = Viks.font.stats_font end
-			local flags = Viks.font.stats_font_style
+			if t.font and not strmatch(t.font, "[/\\]") then t.font = C.font.stats_font end
+			local flags = C.font.stats_font_style
 			if t.mono then flags = (flags and flags..", " or "").."MONOCHROME" end
 			text:SetFont(t.font or d.text.font, t.size or d.text.size, flags)
 			if not text:GetFont() then -- handle invalid font error
 				text:SetFont(d.text.font, t.size or d.text.size, flags)
-				print("|cffffffffLite|cff66C6FFPanels  |cffff5555Font invalid:", strmatch(t.font, "([^/\\]+)$"))
+				print("|cffffffffLite|cff66C6FFPanels |cffff5555Font invalid:", strmatch(t.font, "([^/\\]+)$"))
 			end
 
 			-- Texts string
