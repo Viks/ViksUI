@@ -10,7 +10,7 @@ local function SetRole()
 		if spec == nil then
 			UnitSetRole("player", "No Role")
 		elseif spec ~= nil then
-			if GetNumGroupMembers() > 0 then
+			if GetNumGroupMembers() > 1 then
 				local role = GetSpecializationRole(spec)
 				if UnitGroupRolesAssigned("player") ~= role then
 					UnitSetRole("player", role)
@@ -23,9 +23,6 @@ end
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_TALENT_UPDATE")
 frame:RegisterEvent("GROUP_ROSTER_UPDATE")
-
-
 frame:SetScript("OnEvent", SetRole)
-
 
 RolePollPopup:UnregisterEvent("ROLE_POLL_BEGIN")
