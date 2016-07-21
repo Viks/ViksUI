@@ -115,7 +115,7 @@ end
 ]]--------------------------------------------------------------------------------------
 if C.reminder.solo_buffs_enable == true then
 	T.ReminderSelfBuffs = {
-		PALADIN = {
+		--[[PALADIN = {
 			[1] = {	-- Greater Blessing of Kings
 				["spells"] = {
 					203538,	-- Greater Blessing of Kings
@@ -143,7 +143,7 @@ if C.reminder.solo_buffs_enable == true then
 				["instance"] = true,
 				["pvp"] = true,
 			},
-		},
+		},]]--
 		ROGUE = {
 			[1] = {	-- Lethal Poisons group
 				["spells"] = {
