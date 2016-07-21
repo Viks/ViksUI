@@ -1597,33 +1597,6 @@ lib.addArcaneCharges = function(self)
 				self.ArcaneCharge[i].bg:SetVertexColor(0.4, 0.8, 1, 0.2)
 			end
 		end
-
-		-- Rune of Power bar
-		if C.unitframe_class_bar.totem == true then
-			self.TotemBar = CreateFrame("Frame", self:GetName().."_TotemBar", self)
-			self.TotemBar:SetFrameLevel(self.Health:GetFrameLevel() + 2)
-			self.TotemBar:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
-			self.TotemBar:SetSize(108, 7)
-			self.TotemBar.Destroy = true
-
-			for i = 1, 2 do
-				self.TotemBar[i] = CreateFrame("StatusBar", self:GetName().."_TotemBar", self.TotemBar)
-				self.TotemBar[i]:SetSize(108 / 2, 7)
-				if i == 1 then
-					self.TotemBar[i]:SetPoint("BOTTOM", self.Health, "BOTTOM", 0, 1)
-				else
-					self.TotemBar[i]:SetPoint("TOPLEFT", self.TotemBar[i-1], "TOPRIGHT", 0, 0)
-				end
-				self.TotemBar[i]:SetStatusBarTexture(C.media.texture)
-				self.TotemBar[i]:SetMinMaxValues(0, 1)
-				self.TotemBar[i]:CreateBorder(false, true)
-
-				self.TotemBar[i].bg = self.TotemBar[i]:CreateTexture(nil, "BORDER")
-				self.TotemBar[i].bg:SetAllPoints()
-				self.TotemBar[i].bg:SetTexture(C.media.texture)
-				self.TotemBar[i].bg.multiplier = 0.2
-			end
-		end
 	end
 end
 
