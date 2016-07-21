@@ -5,7 +5,7 @@ local T, C, L, _ = unpack(select(2, ...))
 -- Default Size Values
 ----------------------------------------------------------------------------------------
 --//Using uiscale and Tw to calculate width on some panels
-local uiscale = min(2, max(.64, 768/string.match(({GetScreenResolutions()})[GetCurrentResolution()], "%d+x(%d+)")))
+local uiscale = min(2, max(.64, 768 / string.match(T.resolution, "%d+x(%d+)")))
 local Tw = WorldFrame:GetWidth()
 
 
