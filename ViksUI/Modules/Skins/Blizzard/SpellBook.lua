@@ -40,7 +40,7 @@ local function LoadSkin()
 	SpellBookFrameTutorialButton:SetPoint("TOPLEFT", SpellBookFrame, "TOPLEFT", -5, 10)
 
 	-- Skin SpellButtons
-	local function SpellButtons(self, first)
+	local function SpellButtons(_, first)
 		for i = 1, SPELLS_PER_PAGE do
 			local button = _G["SpellButton"..i]
 			local icon = _G["SpellButton"..i.."IconTexture"]
@@ -73,7 +73,7 @@ local function LoadSkin()
 				end
 			end
 
-			local r, g, b = _G["SpellButton"..i.."SpellName"]:GetTextColor()
+			local r = _G["SpellButton"..i.."SpellName"]:GetTextColor()
 
 			if r < 0.8 then
 				_G["SpellButton"..i.."SpellName"]:SetTextColor(0.6, 0.6, 0.6)
@@ -98,28 +98,25 @@ local function LoadSkin()
 			tab:GetNormalTexture():SetPoint("BOTTOMRIGHT", -2, 2)
 			tab:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
-			tab:CreateBackdrop("Default")
-			tab.backdrop:SetAllPoints()
+			tab:SetTemplate("Default")
 			tab:StyleButton(true)
 
-			local point, relatedTo, point2, x, y = tab:GetPoint()
+			local point, relatedTo, point2 = tab:GetPoint()
 			tab:SetPoint(point, relatedTo, point2, 16, -1)
 		end
 	end
 
-	local function SkinSkillLine()
+	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", function()
 		for i = 1, MAX_SKILLLINE_TABS do
 			local tab = _G["SpellBookSkillLineTab"..i]
-			local _, _, _, _, isGuild = GetSpellTabInfo(i)
-			if isGuild then
+			if tab:GetNormalTexture() then
 				tab:GetNormalTexture():ClearAllPoints()
 				tab:GetNormalTexture():SetPoint("TOPLEFT", 2, -2)
 				tab:GetNormalTexture():SetPoint("BOTTOMRIGHT", -2, 2)
 				tab:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 			end
 		end
-	end
-	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", SkinSkillLine)
+	end)
 
 	SpellBookFrame:CreateBackdrop("Transparent")
 	SpellBookFrame.backdrop:SetPoint("TOPLEFT", 5, -1)
@@ -138,9 +135,7 @@ local function LoadSkin()
 		"SecondaryProfession2SpellButtonLeft",
 		"SecondaryProfession2SpellButtonRight",
 		"SecondaryProfession3SpellButtonLeft",
-		"SecondaryProfession3SpellButtonRight",
-		"SecondaryProfession4SpellButtonLeft",
-		"SecondaryProfession4SpellButtonRight"
+		"SecondaryProfession3SpellButtonRight"
 	}
 
 	local professionheaders = {
@@ -148,8 +143,7 @@ local function LoadSkin()
 		"PrimaryProfession2",
 		"SecondaryProfession1",
 		"SecondaryProfession2",
-		"SecondaryProfession3",
-		"SecondaryProfession4"
+		"SecondaryProfession3"
 	}
 
 	for _, header in pairs(professionheaders) do
@@ -175,7 +169,7 @@ local function LoadSkin()
 
 		button.cooldown:SetPoint("TOPLEFT", button, 4, -4)
 		button.cooldown:SetPoint("BOTTOMRIGHT", button, -4, 4)
-		
+
 		if icon then
 			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 			icon:ClearAllPoints()
@@ -191,7 +185,7 @@ local function LoadSkin()
 		end
 	end
 
-	hooksecurefunc("UpdateProfessionButton", function(self)
+	hooksecurefunc("UpdateProfessionButton", function()
 		for _, button in pairs(professionbuttons) do
 			local button = _G[button]
 			button:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
@@ -205,8 +199,7 @@ local function LoadSkin()
 		"PrimaryProfession2StatusBar",
 		"SecondaryProfession1StatusBar",
 		"SecondaryProfession2StatusBar",
-		"SecondaryProfession3StatusBar",
-		"SecondaryProfession4StatusBar"
+		"SecondaryProfession3StatusBar"
 	}
 
 	for _, statusbar in pairs(professionstatusbars) do
@@ -226,73 +219,6 @@ local function LoadSkin()
 	end
 	_G["SpellBookFrameTabButton1"]:ClearAllPoints()
 	_G["SpellBookFrameTabButton1"]:SetPoint("TOPLEFT", _G["SpellBookFrame"], "BOTTOMLEFT", -5, 1)
-
-	-- Core Ability Tab
-	local function SkinCoreTabs()
-		for i = 1, 4 do
-			local tab = SpellBookCoreAbilitiesFrame.SpecTabs[i]
-			if tab and tab.isSkinned ~= true then
-
-				tab:GetRegions():Hide()
-				tab:GetNormalTexture():ClearAllPoints()
-				tab:GetNormalTexture():SetPoint("TOPLEFT", 2, -2)
-				tab:GetNormalTexture():SetPoint("BOTTOMRIGHT", -2, 2)
-				tab:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
-
-				tab:CreateBackdrop("Default")
-				tab.backdrop:SetAllPoints()
-
-				tab:StyleButton(true)
-
-				if i == 1 then
-					tab:SetPoint("TOPLEFT", SpellBookFrame.backdrop, "TOPRIGHT", 1, 0)
-				end
-
-				tab.isSkinned = true
-			end
-		end
-	end
-
-	--[[hooksecurefunc("SpellBook_UpdateCoreAbilitiesTab", function()
-		for i = 1, #SpellBookCoreAbilitiesFrame.Abilities do
-			local button = SpellBookCoreAbilitiesFrame.Abilities[i]
-			if button and button.isSkinned ~= true then
-				button:SetTemplate("Default")
-
-				button.EmptySlot:SetAlpha(0)
-				button.ActiveTexture:SetAlpha(0)
-				button.FutureTexture:SetAlpha(0)
-
-				button.iconTexture:SetPoint("TOPLEFT", 2, -2)
-				button.iconTexture:SetPoint("BOTTOMRIGHT", -2, 2)
-				button.iconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-
-				if button.highlightTexture then
-					hooksecurefunc(button.highlightTexture, "SetTexture", function(self, texOrR, G, B)
-						if texOrR == "Interface\\Buttons\\ButtonHilight-Square" then
-							button.highlightTexture:SetColorTexture(1, 1, 1, 0.3)
-						end
-					end)
-				end
-
-				if button.FutureTexture:IsShown() then
-					button.iconTexture:SetDesaturated(true)
-					button.Name:SetTextColor(0.6, 0.6, 0.6)
-					button.InfoText:SetTextColor(0.6, 0.6, 0.6)
-				else
-					button.Name:SetTextColor(1, 0.82, 0)
-					button.InfoText:SetTextColor(0.8, 0.8, 0.8)
-				end
-				button.Name:SetShadowOffset(1, -1)
-				button.InfoText:SetShadowOffset(1, -1)
-
-				button:StyleButton()
-				button.isSkinned = true
-			end
-		end
-		SkinCoreTabs()
-	end)
-	]]--
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

@@ -22,7 +22,7 @@ hooksecurefunc(mrp, "CreateOptionsPanel", function()
 	T.SkinDropDownBox(MyRolePlayOptionsPanel_WeightUnit)
 end)
 
-local function reskinHeader(c, field)
+local function reskinHeader(_, field)
 	for i = 1, field:GetNumChildren() do
 		local f = select(i, field:GetChildren())
 		if not f.reskinned then
@@ -92,5 +92,4 @@ hooksecurefunc(mrp, "CreateEditFrames", function()
 	MyRolePlayCharacterFrame_NewProfileButton:SetSize(21, 21)
 	MyRolePlayCharacterFrame_NewProfileButton:ClearAllPoints()
 	MyRolePlayCharacterFrame_NewProfileButton:SetPoint("LEFT", MyRolePlayCharacterFrame_ProfileComboBox.backdrop, "RIGHT", 1, 0)
-
 end)

@@ -9,6 +9,7 @@ local origs = {}
 local function Strip(info, name)
 	return string.format("|Hplayer:%s|h[%s]|h", info, name:gsub("%-[^|]+", ""))
 end
+
 -- Function to rename channel and other stuff
 local AddMessage = function(self, text, ...)
 	if type(text) == "string" then
@@ -17,131 +18,120 @@ local AddMessage = function(self, text, ...)
 	end
 	return origs[self](self, text, ...)
 end
-SetCVar("chatStyle", "im")
+
 local format = string.format
 local gsub = string.gsub
 local sub = string.sub
 local find = string.find
 local len = string.len
 
+-- Enable nicknames classcolor
+SetCVar("chatClassColorOverride", 0)
 
 local smileyPack = {
-	['exclamation'] = [[Interface\AddOns\ViksUI\Media\smileys\!.blp]], -- ["%:!"] = "exclamation",
 	['Angry'] = [[Interface\AddOns\ViksUI\Media\smileys\angry.blp]],
 	['BrokenHeart'] = [[Interface\AddOns\ViksUI\Media\smileys\brokenheart.blp]],
-	['Cool'] = [[Interface\AddOns\ViksUI\Media\smileys\cool.blp]], --- ["%B|"] = "Cool",
-	['EEK'] = [[Interface\AddOns\ViksUI\Media\smileys\eek.blp]], --- ["%:eek"] = "EEK",
-	['Embarrassment'] = [[Interface\AddOns\ViksUI\Media\smileys\embarrassment.blp]], --- ["%:$"] = "Embarrassment",
-	['Gasp'] = [[Interface\AddOns\ViksUI\Media\smileys\gasp.blp]], --- ["%:o"] = "Gasp",
-	['Glasses'] = [[Interface\AddOns\ViksUI\Media\smileys\glasses.blp]], --- ["%B)"] = "Glasses",
-	['Grin'] = [[Interface\AddOns\ViksUI\Media\smileys\grin.blp]],
-	['Grumpy'] = [[Interface\AddOns\ViksUI\Media\smileys\grumpy.blp]], --- ["%>:("] = "Grumpy",
-	--['Kiss'] = [[Interface\AddOns\ViksUI\Media\smileys\kiss.blp]], --- ["%:*"] = "Kiss",
-	['Like'] = [[Interface\AddOns\ViksUI\Media\smileys\like.blp]], --- ["%(y)"] = "Like",
-	--['LOL'] = [[Interface\AddOns\ViksUI\Media\smileys\lol.blp]], --- ["%lol"] = "LOL",
-	--['ROFL'] = [[Interface\AddOns\ViksUI\Media\smileys\rofl.blp]], --- ["%rofl"] = "ROFL",
+	['Cool'] = [[Interface\AddOns\ViksUI\Media\smileys\cool.blp]],
+	['Gasp'] = [[Interface\AddOns\ViksUI\Media\smileys\gasp.blp]],
+	['Grin'] = [[Interface\AddOns\ViksUI\Media\smileys\grin2.blp]],
+	['Kiss'] = [[Interface\AddOns\ViksUI\Media\smileys\kiss.blp]],
+	['Like'] = [[Interface\AddOns\ViksUI\Media\smileys\like.blp]],
 	['Hmm'] = [[Interface\AddOns\ViksUI\Media\smileys\unsure.blp]],
 	['MiddleFinger'] = [[Interface\AddOns\ViksUI\Media\smileys\MiddleFinger.blp]],
 	['Sad'] = [[Interface\AddOns\ViksUI\Media\smileys\sad.blp]],
-	['Surprise'] = [[Interface\AddOns\ViksUI\Media\smileys\Surprise.blp]],
+	['Surprise'] = [[Interface\AddOns\ViksUI\Media\smileys\surprise.blp]],
 	['Tongue'] = [[Interface\AddOns\ViksUI\Media\smileys\tongue.blp]],
 	['Cry'] = [[Interface\AddOns\ViksUI\Media\smileys\cry.blp]],
 	['Wink'] = [[Interface\AddOns\ViksUI\Media\smileys\wink.blp]],
 	['Happy'] = [[Interface\AddOns\ViksUI\Media\smileys\happy.blp]],
 	['Heart'] = [[Interface\AddOns\ViksUI\Media\smileys\heart.blp]],
+	['Facepalm'] = [[Interface\AddOns\ViksUI\Media\smileys\Facepalm.blp]],
+	['Kappa'] = [[Interface\AddOns\ViksUI\Media\smileys\Kappa.blp]],
+	['Murloc'] = [[Interface\AddOns\ViksUI\Media\smileys\Murloc.blp]],
+	['Poop'] = [[Interface\AddOns\ViksUI\Media\smileys\Poop.blp]],
+	['Rage'] = [[Interface\AddOns\ViksUI\Media\smileys\Rage.blp]],
+	['SadKitty'] = [[Interface\AddOns\ViksUI\Media\smileys\SadKitty.blp]],
+	['Scream'] = [[Interface\AddOns\ViksUI\Media\smileys\Scream.blp]],
+	['ZZZ'] = [[Interface\AddOns\ViksUI\Media\smileys\ZZZ.blp]],
 }
 
 local smileyKeys = {
-	--["%:!"] = "exclamation",
-	--["%:%eek"] = "EEK",
-	--["%:%$"] = "Embarrassment",
-	--["%B)"] = "Glasses",
-	--["%>%:%("] = "Grumpy",
-	--["%:%*"] = "Kiss",
-	--["%:y"] = "Like",
-	--["%:lol"] = "LOL",
-	--["%:rofl"] = "ROFL",
+	["%:%*"] = "Kiss",
+	["%:%B"] = "Cool",
+	["%(%y%)"] = "Like",
 	["%:%-%@"] = "Angry",
 	["%:%@"] = "Angry",
 	["%:%-%)"] = "Happy",
 	["%:%)"] = "Happy",
-	["%:D"] = "Grin",
-	["%:%-D"] = "Grin",
-	["%;%-D"] = "Grin",
-	["%;D"] = "Grin",
-	["%=D"] = "Grin",
+	--["%:D"] = "Grin",
+	--["%:%-D"] = "Grin",
+	--["%;%-D"] = "Grin",
+	--["%;D"] = "Grin",
+	--["%=D"] = "Grin",
 	["xD"] = "Grin",
 	["XD"] = "Grin",
 	["%:%-%("] = "Sad",
 	["%:%("] = "Sad",
-	["%:o"] = "Gasp",
+	["%:%o"] = "Gasp",
 	["%:%-o"] = "Surprise",
 	["%:%-O"] = "Surprise",
 	["%:O"] = "Gasp",
 	["%:%-0"] = "Surprise",
 	["%:P"] = "Tongue",
-	["%:%-P"] = "Tongue",
 	["%:p"] = "Tongue",
-	["%:%-p"] = "Tongue",
-	["%=P"] = "Tongue",
-	["%=p"] = "Tongue",
-	["%;%-p"] = "Tongue",
 	["%;p"] = "Tongue",
 	["%;P"] = "Tongue",
-	["%;%-P"] = "Tongue",
-	--["%;%-%)"] = "Wink",
-	["%;%)"] = "Wink",
-	["%:S"] = "Hmm",
-	["%:%-S"] = "Hmm",
-	["%:%,%("] = "Cry",
-	["%:%,%-%("] = "Cry",
-	["%:%'%("] = "Cry",
-	["%:%'%-%("] = "Cry",
+	--["%;%)"] = "Wink",
+	--["%:S"] = "Hmm",
+	--["%:%-S"] = "Hmm",
+	["%;%("] = "Cry",
 	["%:%F"] = "MiddleFinger",
-	["<3"] = "Heart",
+	[":<3"] = "Heart",
 	["</3"] = "BrokenHeart",
+	[":facepalm:"] = "Facepalm",
+	[":kappa:"] = "Kappa",
+	[":murloc:"] = "Murloc",
+	[":poop:"] = "Poop",
+	[":rage:"] = "Rage",
+	[":sadkitty:"] = "SadKitty",
+	[":scream:"] = "Scream",
+	[":zzz:"] = "ZZZ",
 }
 
 local function InsertEmotions( msg )
-	for k, v in pairs( smileyKeys ) do
-		msg = gsub( msg, k, '|T' .. smileyPack[v] .. ':16|t' )
+	for k,v in pairs(smileyKeys) do
+		msg = gsub(msg,k,"|T"..smileyPack[v]..":20|t");
 	end
 
-	return msg
+	return msg;
 end
 
-local function GetSmileyReplacementText( msg )
-	if( not msg ) then
-		return
-	end
+local function GetSmileyReplacementText(msg)
+	if not msg then return end
 
-	if not (C.chat.smileys or msg:find( '/run' ) or msg:find( '/dump' ) or msg:find( '/script' ) ) then
-		return msg
-	end
+	if not C.chat.smileys or msg:find('/run') or msg:find('/dump') or msg:find('/script') then return msg end
+	local outstr = "";
+	local origlen = len(msg);
+	local startpos = 1;
+	local endpos;
 
-	local outstr = ''
-	local origlen = len( msg )
-	local startpos = 1
-	local endpos
+	while(startpos <= origlen) do
+		endpos = origlen;
 
-	while( startpos <= origlen ) do
-		endpos = origlen
-
-		local pos = find( msg, '|H', startpos, true )
-		if( pos ~= nil ) then
-			endpos = pos
+		local pos = find(msg,"|H",startpos,true);
+		if(pos ~= nil) then
+			endpos = pos;
 		end
 
-		outstr = outstr .. InsertEmotions( sub( msg, startpos, endpos ) )
-		startpos = endpos + 1
+		outstr = outstr .. InsertEmotions(sub(msg,startpos,endpos)); --run replacement on this bit
+		startpos = endpos + 1;
 
 		if( pos ~= nil ) then
-			endpos = find( msg, '|h]|r', startpos, -1 ) or find( msg, '|h', startpos, -1 )
+			endpos = find(msg,"|h]|r",startpos,-1) or find(msg,"|h",startpos,-1);
 			endpos = endpos or origlen
-
-			if( startpos < endpos ) then
-				outstr = outstr .. sub( msg, startpos, endpos )
-				startpos = endpos + 1
+			if(startpos < endpos) then
+				outstr = outstr .. sub(msg,startpos,endpos); --don't run replacement on this bit
+				startpos = endpos + 1;
 			end
 		end
 	end
@@ -155,8 +145,8 @@ local function AddMessage( Frame, String, ... )
 
 	String = String:gsub( '|Hplayer:(.-)|h%[(.-)%]|h', '|Hplayer:%1|h%2|h' )
 	String = String:gsub( '|HBNplayer:(.-)|h%[(.-)%]|h', '|HBNplayer:%1|h%2|h' )
-	String = String:gsub( '^To (.-|h)', '|cffad2424@|r%1' )
-	String = String:gsub( '^(.-|h) whispers', '%1' )
+	--String = String:gsub( '^To (.-|h)', '|cffad2424@|r%1' )
+	--String = String:gsub( '^(.-|h) whispers', '%1' )
 	String = String:gsub( '^(.-|h) says', '%1' )
 	String = String:gsub( '^(.-|h) yells', '%1' )
 	String = String:gsub( '<' .. AFK .. '>', "AFK" )
@@ -195,11 +185,14 @@ _G.CHAT_FLAG_GM = "|cff4154F5"..L_CHAT_GM.."|r "
 _G.ERR_FRIEND_ONLINE_SS = "|Hplayer:%s|h[%s]|h "..L_CHAT_COME_ONLINE
 _G.ERR_FRIEND_OFFLINE_S = "[%s] "..L_CHAT_GONE_OFFLINE
 
--- Hide friends micro button
-FriendsMicroButton:Kill()
 
 -- Hide chat bubble menu button
 ChatFrameMenuButton:Kill()
+
+-- Kill channel and voice buttons
+ChatFrameChannelButton:Kill()
+ChatFrameToggleVoiceDeafenButton:Kill()
+ChatFrameToggleVoiceMuteButton:Kill()
 
 -- Set chat style
 local function SetChatStyle(frame)
@@ -207,7 +200,7 @@ local function SetChatStyle(frame)
 	local chat = frame:GetName()
 
 	_G[chat]:SetFrameLevel(5)
-	
+
 	-- Removes crap from the bottom of the chatbox so it can go to the bottom of the screen
 	_G[chat]:SetClampedToScreen(false)
 
@@ -216,8 +209,13 @@ local function SetChatStyle(frame)
 
 	-- Move the chat edit box
 	_G[chat.."EditBox"]:ClearAllPoints()
-	_G[chat.."EditBox"]:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", -10, 23)
-	_G[chat.."EditBox"]:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 11, 23)
+	if C.panels.NoPanels then
+		_G[chat.."EditBox"]:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", -16, 50)
+		_G[chat.."EditBox"]:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 17, 50)
+	else
+		_G[chat.."EditBox"]:SetPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", -9, 32)
+		_G[chat.."EditBox"]:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 11, 32)
+	end
 
 	-- Hide textures
 	for j = 1, #CHAT_FRAME_TEXTURES do
@@ -242,11 +240,6 @@ local function SetChatStyle(frame)
 	_G[format("ChatFrame%sTabSelectedMiddle", id)]:Kill()
 	_G[format("ChatFrame%sTabSelectedRight", id)]:Kill()
 
-	-- Kills off the new method of handling the Chat Frame scroll buttons as well as the resize button
-	-- Note: This also needs to include the actual frame textures for the ButtonFrame onHover
-	_G[format("ChatFrame%sButtonFrameUpButton", id)]:Kill()
-	_G[format("ChatFrame%sButtonFrameDownButton", id)]:Kill()
-	_G[format("ChatFrame%sButtonFrameBottomButton", id)]:Kill()
 	_G[format("ChatFrame%sButtonFrameMinimizeButton", id)]:Kill()
 	_G[format("ChatFrame%sButtonFrame", id)]:Kill()
 
@@ -257,8 +250,13 @@ local function SetChatStyle(frame)
 
 	_G[format("ChatFrame%sTabGlow", id)]:Kill()
 
+	-- Kill scroll bar
+	frame.ScrollBar:Kill()
+	frame.ScrollToBottomButton:Kill()
+
 	-- Kill off editbox artwork
-	local a, b, c = select(6, _G[chat.."EditBox"]:GetRegions()) a:Kill() b:Kill() c:Kill()
+	local a, b, c = select(6, _G[chat.."EditBox"]:GetRegions())
+	a:Kill() b:Kill() c:Kill()
 
 	-- Kill bubble tex/glow
 	if _G[chat.."Tab"].conversationIcon then _G[chat.."Tab"].conversationIcon:Kill() end
@@ -271,11 +269,15 @@ local function SetChatStyle(frame)
 
 	-- Script to hide editbox instead of fading editbox to 0.35 alpha via IM Style
 	_G[chat.."EditBox"]:HookScript("OnEditFocusGained", function(self) self:Show() end)
-	_G[chat.."EditBox"]:HookScript("OnEditFocusLost", function(self) self:Hide() end)
+	_G[chat.."EditBox"]:HookScript("OnEditFocusLost", function(self) if self:GetText() == "" then self:Hide() end end)
 
 	-- Hide edit box every time we click on a tab
 	_G[chat.."Tab"]:HookScript("OnClick", function() _G[chat.."EditBox"]:Hide() end)
 
+	-- Fix a editbox texture
+	ChatEdit_ActivateChat(ChatFrame1EditBox)
+	ChatEdit_DeactivateChat(ChatFrame1EditBox)
+	
 	-- Create our own texture for edit box
 	if C.chat.background == true and C.chat.tabs_mouseover ~= true then
 		local EditBoxBackground = CreateFrame("Frame", "ChatEditBoxBackground", _G[chat.."EditBox"])
@@ -292,16 +294,19 @@ local function SetChatStyle(frame)
 
 		-- Update border color according where we talk
 		hooksecurefunc("ChatEdit_UpdateHeader", function()
-			local type = _G[chat.."EditBox"]:GetAttribute("chatType")
-			if type == "CHANNEL" then
-				local id = GetChannelName(_G[chat.."EditBox"]:GetAttribute("channelTarget"))
-				if id == 0 then
+			local chatType = _G[chat.."EditBox"]:GetAttribute("chatType")
+			if not chatType then return end
+
+			local chanTarget = _G[chat.."EditBox"]:GetAttribute("channelTarget")
+			local chanName = chanTarget and GetChannelName(chanTarget)
+			if chanName and chatType == "CHANNEL" then
+				if chanName == 0 then
 					colorize(unpack(C.media.border_color))
 				else
-					colorize(ChatTypeInfo[type..id].r, ChatTypeInfo[type..id].g, ChatTypeInfo[type..id].b)
+					colorize(ChatTypeInfo[chatType..chanName].r, ChatTypeInfo[chatType..chanName].g, ChatTypeInfo[chatType..chanName].b)
 				end
 			else
-				colorize(ChatTypeInfo[type].r, ChatTypeInfo[type].g, ChatTypeInfo[type].b)
+				colorize(ChatTypeInfo[chatType].r, ChatTypeInfo[chatType].g, ChatTypeInfo[chatType].b)
 			end
 		end)
 	end
@@ -317,8 +322,8 @@ local function SetChatStyle(frame)
 		CombatLogQuickButtonFrame_CustomAdditionalFilterButton:SetSize(12, 12)
 		CombatLogQuickButtonFrame_CustomAdditionalFilterButton:SetHitRectInsets (0, 0, 0, 0)
 		CombatLogQuickButtonFrame_CustomProgressBar:ClearAllPoints()
-		CombatLogQuickButtonFrame_CustomProgressBar:SetPoint("TOPLEFT", CombatLogQuickButtonFrame_Custom.backdrop, 2, -2)
-		CombatLogQuickButtonFrame_CustomProgressBar:SetPoint("BOTTOMRIGHT", CombatLogQuickButtonFrame_Custom.backdrop, -2, 2)
+		CombatLogQuickButtonFrame_CustomProgressBar:SetPoint("TOPLEFT", CombatLogQuickButtonFrame_Custom.backdrop, 1, -4)
+		CombatLogQuickButtonFrame_CustomProgressBar:SetPoint("BOTTOMRIGHT", CombatLogQuickButtonFrame_Custom.backdrop, -22, 0)
 		CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarTexture(C.media.texture)
 		CombatLogQuickButtonFrameButton1:SetPoint("BOTTOM", 0, 0)
 	end
@@ -327,22 +332,19 @@ local function SetChatStyle(frame)
 		origs[_G[chat]] = _G[chat].AddMessage
 		_G[chat].AddMessage = AddMessage
 		-- Custom timestamps color
-		_G.TIMESTAMP_FORMAT_HHMM = T.RGBToHex(unpack(C.chat.time_color)).."[%I:%M]|r "
-		_G.TIMESTAMP_FORMAT_HHMMSS = T.RGBToHex(unpack(C.chat.time_color)).."[%I:%M:%S]|r "
-		_G.TIMESTAMP_FORMAT_HHMMSS_24HR = T.RGBToHex(unpack(C.chat.time_color)).."[%H:%M:%S]|r "
-		_G.TIMESTAMP_FORMAT_HHMMSS_AMPM = T.RGBToHex(unpack(C.chat.time_color)).."[%I:%M:%S %p]|r "
-		_G.TIMESTAMP_FORMAT_HHMM_24HR = T.RGBToHex(unpack(C.chat.time_color)).."[%H:%M]|r "
-		_G.TIMESTAMP_FORMAT_HHMM_AMPM = T.RGBToHex(unpack(C.chat.time_color)).."[%I:%M %p]|r "
-	end
-	if id == 4 then
-		_G[chat.."TabText"]:ClearAllPoints()
-		_G[chat.."TabText"]:SetPoint("CENTER", _G[chat.."Tab"], 0, -4)
+		local color = C.chat.custom_time_color and T.RGBToHex(unpack(C.chat.time_color)) or ""
+		_G.TIMESTAMP_FORMAT_HHMM = color.."[%I:%M]|r "
+		_G.TIMESTAMP_FORMAT_HHMMSS = color.."[%I:%M:%S]|r "
+		_G.TIMESTAMP_FORMAT_HHMMSS_24HR = color.."[%H:%M:%S]|r "
+		_G.TIMESTAMP_FORMAT_HHMMSS_AMPM = color.."[%I:%M:%S %p]|r "
+		_G.TIMESTAMP_FORMAT_HHMM_24HR = color.."[%H:%M]|r "
+		_G.TIMESTAMP_FORMAT_HHMM_AMPM = color.."[%I:%M %p]|r "
 	end
 	frame.skinned = true
 end
 
 -- Setup chatframes 1 to 10 on login
-local function SetupChat(self)
+local function SetupChat()
 	for i = 1, NUM_CHAT_WINDOWS do
 		local frame = _G[format("ChatFrame%s", i)]
 		SetChatStyle(frame)
@@ -369,7 +371,7 @@ local function SetupChat(self)
 	ChatTypeInfo.CHANNEL.sticky = var
 end
 
-local function SetupChatPosAndFont(self)
+local function SetupChatPosAndFont()
 	for i = 1, NUM_CHAT_WINDOWS do
 		local chat = _G[format("ChatFrame%s", i)]
 		local id = chat:GetID()
@@ -390,31 +392,84 @@ local function SetupChatPosAndFont(self)
 		-- Force chat position
 		if i == 1 then
 			chat:ClearAllPoints()
-			chat:SetSize(C.chat.width, C.chat.height)
+			chat:SetSize(C.chat.width-20, C.chat.height)
 			if C.chat.background == true then
 				chat:SetPoint(C.position.chat[1], C.position.chat[2], C.position.chat[3], C.position.chat[4], C.position.chat[5] + 4)
 			else
 				chat:SetPoint(C.position.chat[1], C.position.chat[2], C.position.chat[3], C.position.chat[4], C.position.chat[5])
+			end
+			if C.panels.NoPanels == true then
+				chat:SetSize(C.chat.width-20, C.chat.height-8)
+				chat:SetPoint(C.position.chat[1], C.position.chat[2], C.position.chat[3], C.position.chat[4]+10, C.position.chat[5] + 4)
+			end
+			FCF_SavePositionAndDimensions(chat)
+		elseif i == 4 then
+			chat:ClearAllPoints()
+			chat:SetSize(C.chat.width-20, C.chat.height)
+			if C.panels.NoPanels == true then
+				chat:SetSize(C.chat.width-20, C.chat.height-8)
+				chat:SetPoint("BOTTOMLEFT",RChat,"BOTTOMLEFT",4,4)
+				chat:SetPoint("TOPRIGHT",RChat,"TOPRIGHT",-4,-25)
+			else
+				chat:SetWidth(RChat:GetWidth()-8)
+				chat:SetHeight(RChat:GetHeight()-8)
+				chat:SetPoint("BOTTOMLEFT",RChat,"BOTTOMLEFT",4,4)
+				chat:SetPoint("TOPRIGHT",RChat,"TOPRIGHT",-4,-2)
 			end
 			FCF_SavePositionAndDimensions(chat)
 		elseif i == 2 then
 			if C.chat.combatlog ~= true then
 				FCF_DockFrame(chat)
 				ChatFrame2Tab:EnableMouse(false)
-				ChatFrame2Tab:SetText("")
-				ChatFrame2Tab.SetText = T.dummy
+				ChatFrame2TabText:Hide()
 				ChatFrame2Tab:SetWidth(0.001)
 				ChatFrame2Tab.SetWidth = T.dummy
+				FCF_DockUpdate()
 			end
 		end
 	end
-
-	-- Reposition battle.net popup over chat #1
-	BNToastFrame:HookScript("OnShow", function(self)
-		self:ClearAllPoints()
-		self:SetPoint(unpack(C.position.bn_popup))
-	end)
 end
+
+	-- Reposition Quick Join Toast and battle.net popup
+	QuickJoinToastButton:ClearAllPoints()
+	QuickJoinToastButton:SetPoint("TOPLEFT", 0, 190)
+	QuickJoinToastButton.ClearAllPoints = T.dummy
+	QuickJoinToastButton.SetPoint = T.dummy
+
+	QuickJoinToastButton.Toast:ClearAllPoints()
+	QuickJoinToastButton.Toast:SetPoint(unpack(C.position.bn_popup))
+	QuickJoinToastButton.Toast.Background:SetTexture("")
+	QuickJoinToastButton.Toast:CreateBackdrop("Transparent")
+	QuickJoinToastButton.Toast.backdrop:SetPoint("TOPLEFT", 0, 0)
+	QuickJoinToastButton.Toast.backdrop:SetPoint("BOTTOMRIGHT", 0, 0)
+	QuickJoinToastButton.Toast.backdrop:Hide()
+	QuickJoinToastButton.Toast:SetWidth(C.chat.width + 7)
+	QuickJoinToastButton.Toast.Text:SetWidth(C.chat.width - 20)
+
+	hooksecurefunc(QuickJoinToastButton, "ShowToast", function() QuickJoinToastButton.Toast.backdrop:Show() end)
+	hooksecurefunc(QuickJoinToastButton, "HideToast", function() QuickJoinToastButton.Toast.backdrop:Hide() end)
+
+	-- /run BNToastFrame:AddToast(BN_TOAST_TYPE_ONLINE, 1)
+	hooksecurefunc(BNToastFrame, "ShowToast", function(self)
+		if not self.IsSkinned then
+			T.SkinCloseButton(self.CloseButton, nil, "x")
+			self.CloseButton:SetSize(16, 16)
+			self.IsSkinned = true
+		end
+	end)
+
+function AddToast()
+	BNToastFrame:ClearAllPoints()
+	BNToastFrame:SetPoint(unpack(C.position.bn_popup))
+end
+hooksecurefunc(BNToastFrame, "AddToast", AddToast)
+	
+GeneralDockManagerOverflowButton:SetPoint("BOTTOMRIGHT", ChatFrame1, "TOPRIGHT", 0, 5)
+hooksecurefunc(GeneralDockManagerScrollFrame, "SetPoint", function(self, point, anchor, attachTo, x, y)
+	if anchor == GeneralDockManagerOverflowButton and x == 0 and y == 0 then
+		self:SetPoint(point, anchor, attachTo, 0, -4)
+	end
+end)
 
 local UIChat = CreateFrame("Frame")
 UIChat:RegisterEvent("ADDON_LOADED")
@@ -427,7 +482,9 @@ UIChat:SetScript("OnEvent", function(self, event, addon)
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		SetupChatPosAndFont(self)
+		if C.chat.reset_pos == false then
+			SetupChatPosAndFont(self)
+		end
 	end
 end)
 
@@ -446,18 +503,19 @@ function FCFManager_GetNumDedicatedFrames(...)
 end
 
 -- Remove player's realm name
-local function RemoveRealmName(self, event, msg, author, ...)
+local function RemoveRealmName(_, _, msg, author, ...)
 	local realm = string.gsub(T.realm, " ", "")
 	if msg:find("-" .. realm) then
 		return false, gsub(msg, "%-"..realm, ""), author, ...
 	end
 end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", RemoveRealmName)
+
 ----------------------------------------------------------------------------------------
 --	Save slash command typo
 ----------------------------------------------------------------------------------------
 local function TypoHistory_Posthook_AddMessage(chat, text)
-	if strfind(text, HELP_TEXT_SIMPLE) then
+	if text and strfind(text, HELP_TEXT_SIMPLE) then
 		ChatEdit_AddHistory(chat.editBox)
 	end
 end
@@ -467,3 +525,50 @@ for i = 1, NUM_CHAT_WINDOWS do
 		hooksecurefunc(_G["ChatFrame"..i], "AddMessage", TypoHistory_Posthook_AddMessage)
 	end
 end
+
+----------------------------------------------------------------------------------------
+--	Loot icons
+----------------------------------------------------------------------------------------
+if C.chat.loot_icons == true then
+	local function AddLootIcons(_, _, message, ...)
+		local function Icon(link)
+			local texture = GetItemIcon(link)
+			return "\124T"..texture..":12:12:0:0:64:64:5:59:5:59\124t"..link
+		end
+		message = message:gsub("(\124c%x+\124Hitem:.-\124h\124r)", Icon)
+		return false, message, ...
+	end
+
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", AddLootIcons)
+end
+
+----------------------------------------------------------------------------------------
+--	Swith channels by Tab
+----------------------------------------------------------------------------------------
+local cycles = {
+	{chatType = "SAY", use = function() return 1 end},
+	{chatType = "PARTY", use = function() return not IsInRaid() and IsInGroup(LE_PARTY_CATEGORY_HOME) end},
+	{chatType = "RAID", use = function() return IsInRaid(LE_PARTY_CATEGORY_HOME) end},
+	{chatType = "INSTANCE_CHAT", use = function() return IsPartyLFG() end},
+	{chatType = "GUILD", use = function() return IsInGuild() end},
+	{chatType = "SAY", use = function() return 1 end},
+}
+
+local function UpdateTabChannelSwitch(self)
+	if strsub(tostring(self:GetText()), 1, 1) == "/" then return end
+	local currChatType = self:GetAttribute("chatType")
+	for i, curr in ipairs(cycles) do
+		if curr.chatType == currChatType then
+			local h, r, step = i + 1, #cycles, 1
+			if IsShiftKeyDown() then h, r, step = i - 1, 1, -1 end
+			for j = h, r, step do
+				if cycles[j]:use(self, currChatType) then
+					self:SetAttribute("chatType", cycles[j].chatType)
+					ChatEdit_UpdateHeader(self)
+					return
+				end
+			end
+		end
+	end
+end
+hooksecurefunc("ChatEdit_CustomTabPressed", UpdateTabChannelSwitch)

@@ -5,8 +5,8 @@ if C.skins.dominos ~= true then return end
 --	Dominos skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-frame:SetScript("OnEvent", function(self, event, addon)
+frame:RegisterEvent("PLAYER_LOGIN")
+frame:SetScript("OnEvent", function()
 	if not IsAddOnLoaded("Dominos") then return end
 
 	local function StyleNormalButton(self)
@@ -75,6 +75,12 @@ frame:SetScript("OnEvent", function(self, event, addon)
 		button:StyleButton()
 		button:SetNormalTexture("")
 
+		hooksecurefunc(button, "SetNormalTexture", function(self, texture)
+			if texture and texture ~= "" then
+				self:SetNormalTexture("")
+			end
+		end)
+
 		if flash then
 			flash:SetColorTexture(0.8, 0.8, 0.8, 0.5)
 			flash:SetPoint("TOPLEFT", button, 2, -2)
@@ -117,7 +123,10 @@ frame:SetScript("OnEvent", function(self, event, addon)
 
 	do
 		for i = 1, 60 do
-			_G["DominosActionButton"..i]:StyleButton()
+			if _G["DominosActionButton"..i] then
+				_G["DominosActionButton"..i]:StyleButton()
+				StyleNormalButton(_G["DominosActionButton"..i])
+			end
 		end
 
 		for i = 1, 12 do
@@ -126,10 +135,15 @@ frame:SetScript("OnEvent", function(self, event, addon)
 			_G["MultiBarBottomRightButton"..i]:StyleButton()
 			_G["MultiBarLeftButton"..i]:StyleButton()
 			_G["MultiBarRightButton"..i]:StyleButton()
+			StyleNormalButton(_G["ActionButton"..i])
+			StyleNormalButton(_G["MultiBarBottomLeftButton"..i])
+			StyleNormalButton(_G["MultiBarBottomRightButton"..i])
+			StyleNormalButton(_G["MultiBarLeftButton"..i])
+			StyleNormalButton(_G["MultiBarRightButton"..i])
 		end
 
 		for i = 1, NUM_STANCE_SLOTS do
-			local name = "DominosClassButton"..i
+			local name = "StanceButton"..i
 			local button = _G[name]
 			local icon = _G[name.."Icon"]
 			local hotkey = _G[name.."HotKey"]
@@ -144,6 +158,4 @@ frame:SetScript("OnEvent", function(self, event, addon)
 			StyleSmallButton(button, icon, name, hotkey, true)
 		end
 	end
-
-	hooksecurefunc("ActionButton_Update", StyleNormalButton)
 end)

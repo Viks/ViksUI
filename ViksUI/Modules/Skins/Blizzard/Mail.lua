@@ -33,6 +33,8 @@ local function LoadSkin()
 		t:ClearAllPoints()
 		t:SetPoint("TOPLEFT", 2, -2)
 		t:SetPoint("BOTTOMRIGHT", -2, 2)
+
+		_G["MailItem"..i.."ButtonIconBorder"]:SetAlpha(0)
 	end
 
 	T.SkinCloseButton(MailFrameCloseButton, MailFrame.backdrop)
@@ -52,6 +54,9 @@ local function LoadSkin()
 
 	T.SkinScrollBar(SendMailScrollFrameScrollBar)
 
+	select(3, SendMailNameEditBox:GetRegions()):SetDrawLayer("OVERLAY")
+	select(3, SendMailSubjectEditBox:GetRegions()):SetDrawLayer("OVERLAY")
+
 	T.SkinEditBox(SendMailNameEditBox)
 	T.SkinEditBox(SendMailSubjectEditBox)
 	T.SkinEditBox(SendMailMoneyGold)
@@ -63,6 +68,10 @@ local function LoadSkin()
 	SendMailSubjectEditBox.backdrop:SetPoint("TOPLEFT", -3, 0)
 	SendMailSubjectEditBox.backdrop:SetPoint("BOTTOMRIGHT", -4, 0)
 
+	SendMailNameEditBox:ClearAllPoints()
+	SendMailNameEditBox:SetPoint('TOPLEFT', SendMailFrame, 'TOPLEFT', 90, -30)
+	SendMailNameEditBox.SetPoint = T.dummy
+
 	local function MailFrameSkin()
 		for i = 1, ATTACHMENTS_MAX_SEND do
 			local b = _G["SendMailAttachment"..i]
@@ -71,6 +80,7 @@ local function LoadSkin()
 				b:StripTextures()
 				b:SetTemplate("Default")
 				b:StyleButton()
+				b.IconBorder:SetAlpha(0)
 				b.skinned = true
 			end
 
@@ -88,6 +98,11 @@ local function LoadSkin()
 
 	SendMailMailButton:SkinButton()
 	SendMailCancelButton:SkinButton()
+
+	SendMailSendMoneyButton:SetSize(18, 18)
+	SendMailCODButton:SetSize(18, 18)
+	T.SkinCheckBox(SendMailSendMoneyButton)
+	T.SkinCheckBox(SendMailCODButton)
 
 	-- Open mail (cod)
 	OpenMailFrame:StripTextures(true)
@@ -137,6 +152,7 @@ local function LoadSkin()
 		b:StripTextures()
 		b:SetTemplate("Default")
 		b:StyleButton()
+		b.IconBorder:SetAlpha(0)
 
 		if t then
 			t:SetTexCoord(0.1, 0.9, 0.1, 0.9)

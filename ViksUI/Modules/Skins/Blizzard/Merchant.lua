@@ -27,6 +27,7 @@ local function LoadSkin()
 		local b = _G["MerchantItem"..i.."ItemButton"]
 		local t = _G["MerchantItem"..i.."ItemButtonIconTexture"]
 		local item_bar = _G["MerchantItem"..i]
+		local c = _G["MerchantItem"..i.."AltCurrencyFrameItem1"]
 
 		item_bar:StripTextures(true)
 		item_bar:CreateBackdrop("Overlay")
@@ -36,10 +37,29 @@ local function LoadSkin()
 		b:SetTemplate("Default")
 		b:SetPoint("TOPLEFT", item_bar, "TOPLEFT", 4, -4)
 
+		b.IconBorder:SetAlpha(0)
+
 		t:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		t:ClearAllPoints()
 		t:SetPoint("TOPLEFT", 2, -2)
 		t:SetPoint("BOTTOMRIGHT", -2, 2)
+
+		hooksecurefunc(_G["MerchantItem"..i.."AltCurrencyFrame"], "SetPoint", function(self, _, _, _, x)
+			if x == -14 then
+				c:SetPoint("LEFT", self, "LEFT", 15, 0)
+			elseif x == 0 then
+				c:SetPoint("LEFT", self, "LEFT", 14, 5)
+			end
+		end)
+
+		for j = 1, 3 do
+			local c = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j]
+			local ct = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
+			c:CreateBackdrop("Default")
+			c.backdrop:SetPoint("TOPLEFT", ct, "TOPLEFT", -2, 2)
+			c.backdrop:SetPoint("BOTTOMRIGHT", ct, "BOTTOMRIGHT", 2, -2)
+			ct:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		end
 
 		_G["MerchantItem"..i.."MoneyFrame"]:ClearAllPoints()
 		_G["MerchantItem"..i.."MoneyFrame"]:SetPoint("BOTTOMLEFT", b, "BOTTOMRIGHT", 3, 0)
@@ -59,6 +79,7 @@ local function LoadSkin()
 	MerchantBuyBackItemItemButtonIconTexture:ClearAllPoints()
 	MerchantBuyBackItemItemButtonIconTexture:SetPoint("TOPLEFT", 2, -2)
 	MerchantBuyBackItemItemButtonIconTexture:SetPoint("BOTTOMRIGHT", -2, 2)
+	MerchantBuyBackItemItemButton.IconBorder:SetAlpha(0)
 
 	MerchantRepairItemButton:StyleButton()
 	MerchantRepairItemButton:SetTemplate("Default")
@@ -99,7 +120,7 @@ local function LoadSkin()
 
 			if b and not b.reskinned then
 				t:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-				t:SetPoint("LEFT", c, "RIGHT", 2, 0)
+				c:SetPoint("RIGHT", t, "LEFT", -3, 0)
 
 				b:CreateBackdrop("Default")
 				b.backdrop:SetPoint("TOPLEFT", t, "TOPLEFT", -2, 2)

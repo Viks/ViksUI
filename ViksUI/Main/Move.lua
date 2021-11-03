@@ -2,11 +2,11 @@ local T, C, L, _ = unpack(select(2, ...))
 local t_unlock = false
 
 AnchorFrames = {}
-SavedPositions = {}
+ViksUIPositions = {}
 
 local SetPosition = function(anch)
 	local ap, _, rp, x, y = anch:GetPoint()
-	SavedPositions[anch:GetName()] = {ap, "UIParent", rp, x, y}
+	ViksUIPositions[anch:GetName()] = {ap, "UIParent", rp, x, y}
 end
 
 local OnDragStart = function(self)
@@ -58,7 +58,7 @@ function CreateAnchor(f, text, width, height)
 	h:SetAllPoints(f)
 	f.dragtexture = h
 	
-	local v = CreateFrame("Frame", nil, h)
+	local v = CreateFrame("Frame", nil, h, "BackdropTemplate")
 	v:SetPoint("TOPLEFT",0,0)
 	v:SetPoint("BOTTOMRIGHT",0,0)
 	framemove(v)
@@ -104,11 +104,11 @@ function AnchorsLock()
 end
 
 function AnchorsReset()
-	if(SavedPositions) then SavedPositions = nil end
+	if(ViksUIPositions) then ViksUIPositions = nil end
 	ReloadUI()
 end
 local grid
-local boxSize = 64
+local boxSize = 128
 
 function Grid_Show()
 	if not grid then
@@ -127,52 +127,30 @@ function Grid_Hide()
 	end
 end
 function Grid_Create() 
-	grid = CreateFrame('Frame', nil, UIParent) 
-	grid.boxSize = boxSize 
-	grid:SetAllPoints(UIParent) 
-
-	local size = 2 
-	local width = GetScreenWidth()
-	local ratio = width / GetScreenHeight()
-	local height = GetScreenHeight() * ratio
-
-	local wStep = width / boxSize
-	local hStep = height / boxSize
-
-	for i = 0, boxSize do 
-		local tx = grid:CreateTexture(nil, 'BACKGROUND') 
-		if i == boxSize / 2 then 
-			tx:SetColorTexture(1, 0, 0, 0.5) 
-		else 
-			tx:SetColorTexture(0, 0, 0, 0.5) 
-		end 
-		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", i*wStep - (size/2), 0) 
-		tx:SetPoint('BOTTOMRIGHT', grid, 'BOTTOMLEFT', i*wStep + (size/2), 0) 
-	end 
-	height = GetScreenHeight()
-	
-	do
-		local tx = grid:CreateTexture(nil, 'BACKGROUND') 
-		tx:SetColorTexture(1, 0, 0, 0.5)
-		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2) + (size/2))
-		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2 + size/2))
+	grid = CreateFrame("Frame", nil, UIParent)
+	grid:SetAllPoints(UIParent)
+	local width = GetScreenWidth() / 128
+	local height = GetScreenHeight() / 72
+	for i = 0, 128 do
+		local texture = grid:CreateTexture(nil, "BACKGROUND")
+		if i == 64 then
+			texture:SetColorTexture(1, 0, 0, 0.8)
+		else
+			texture:SetColorTexture(0, 0, 0, 0.8)
+		end
+		texture:SetPoint("TOPLEFT", grid, "TOPLEFT", i * width - 1, 0)
+		texture:SetPoint("BOTTOMRIGHT", grid, "BOTTOMLEFT", i * width, 0)
 	end
-	
-	for i = 1, math.floor((height/2)/hStep) do
-		local tx = grid:CreateTexture(nil, 'BACKGROUND') 
-		tx:SetColorTexture(0, 0, 0, 0.5)
-		
-		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2+i*hStep) + (size/2))
-		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2+i*hStep + size/2))
-		
-		tx = grid:CreateTexture(nil, 'BACKGROUND') 
-		tx:SetColorTexture(0, 0, 0, 0.5)
-		
-		tx:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -(height/2-i*hStep) + (size/2))
-		tx:SetPoint('BOTTOMRIGHT', grid, 'TOPRIGHT', 0, -(height/2-i*hStep + size/2))
-		
+	for i = 0, 72 do
+		local texture = grid:CreateTexture(nil, "BACKGROUND")
+		if i == 36 then
+			texture:SetColorTexture(1, 0, 0, 0.8)
+		else
+			texture:SetColorTexture(0, 0, 0, 0.8)
+		end
+		texture:SetPoint("TOPLEFT", grid, "TOPLEFT", 0, -i * height)
+		texture:SetPoint("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -i * height - 1)
 	end
-	
 end
 local function SlashCmd(cmd)
 	if InCombatLockdown() then print(ERR_NOT_IN_COMBAT) return end
@@ -208,7 +186,7 @@ local RestoreUI = function(self)
 		end)
 		return
 	end
-	for frame_name, SetPoint in pairs(SavedPositions) do
+	for frame_name, SetPoint in pairs(ViksUIPositions) do
 		if _G[frame_name] then
 			_G[frame_name]:ClearAllPoints()
 			_G[frame_name]:SetPoint(unpack(SetPoint))
@@ -224,26 +202,22 @@ frame:SetScript("OnEvent", function(self, event)
 	
 end)
 
-SlashCmdList["ui"] = SlashCmd;
-SLASH_ui1 = "/ui";
+SlashCmdList["uiold"] = SlashCmd;
+SLASH_uiold1 = "/uiold";
 
 AnchorBuff = CreateFrame("Frame","Move_Buff",UIParent)
-AnchorBuff:SetPoint("TOPRIGHT", UIParent, -(C.minimapp.size+7), -(C.panels.yoffset+C.panels.CPbarsheight+2))
-CreateAnchor(AnchorBuff, "Move Buff", 300, 70)
-
 AnchorDeBuff = CreateFrame("Frame","Move_DeBuff",UIParent)
-AnchorDeBuff:SetPoint("TOPRIGHT", UIParent, -(C.minimapp.size+7), -(C.panels.yoffset+C.panels.CPbarsheight+C.minimapp.size))
+
+
+if C.panels.NoPanels == true then
+AnchorBuff:SetPoint("TOPRIGHT", UIParent, -(C.minimap.size+18), -(C.panels.yoffset+C.panels.CPbarsheight+2))
+AnchorDeBuff:SetPoint("TOPRIGHT", UIParent, -(C.minimap.size+18), -(C.panels.yoffset+C.panels.CPbarsheight+C.minimap.size-(C.aura.player_buff_size*1.5)))
+else
+AnchorBuff:SetPoint("TOPRIGHT", UIParent, -(C.minimap.size+7), -(C.panels.yoffset+C.panels.CPbarsheight+2))
+AnchorDeBuff:SetPoint("TOPRIGHT", UIParent, -(C.minimap.size+7), -(C.panels.yoffset+C.panels.CPbarsheight+C.minimap.size-(C.aura.player_buff_size*1.5)))
+end
+CreateAnchor(AnchorBuff, "Move Buff", 300, 70)
 CreateAnchor(AnchorDeBuff, "Move DeBuff", 300, 70)
-
-AnchorTRBottom = CreateFrame("Frame","Move_Minimap",UIParent)
-AnchorTRBottom:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, -(C.panels.yoffset+C.panels.CPbarsheight+2))
-CreateAnchor(AnchorTRBottom, "Move Right Text Fields", C.minimapp.size, C.minimapp.size)
-
-AnchorMinimap = CreateFrame("Frame","Move_Minimap",UIParent)
-AnchorMinimap:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, -(C.panels.yoffset+C.panels.CPbarsheight+2))
-CreateAnchor(AnchorMinimap, "Move Minimap", C.minimapp.size, C.minimapp.size)
-
-
 
 if C.unitframe.HealFrames then
 ---Frames
@@ -257,7 +231,7 @@ Anchorvikstarget:SetPoint("TOPLEFT", UIParent, "BOTTOM", 270, 305)
 CreateAnchor(Anchorvikstarget, "Move target", 200, 25)
 
 Anchorviksraid = CreateFrame("Frame","Move_raid",UIParent)
-Anchorviksraid:SetPoint("BOTTOM", UIParent, "BOTTOM", -2, 180)
+Anchorviksraid:SetPoint("BOTTOM", UIParent, "BOTTOM", -2, 190)
 CreateAnchor(Anchorviksraid, "Move raid", 530, 20)
 
 Anchorvikstot = CreateFrame("Frame","Move_tot",UIParent)
@@ -285,7 +259,7 @@ Anchorviksfocuscastbar:SetPoint("TOPLEFT", UIParent, "BOTTOM", 579, 450)
 CreateAnchor(Anchorviksfocuscastbar, "Move focuscastbar", 158, 13)
 
 Anchorvikstank = CreateFrame("Frame","Move_tank",UIParent)
-Anchorvikstank:SetPoint("BOTTOM", UIParent, "BOTTOM", -80, 324)
+Anchorvikstank:SetPoint("BOTTOM", UIParent, "BOTTOM", -80, 330)
 CreateAnchor(Anchorvikstank, "Move tank", 80, 18)
 
 Anchorviksboss = CreateFrame("Frame","Move_boss",UIParent)
@@ -307,11 +281,11 @@ AnchorvikstargetDps:SetPoint("TOPLEFT", UIParent, "BOTTOM", 158, 320)
 CreateAnchor(AnchorvikstargetDps, "Move target_Dps", 245, 60)
 
 Anchorviksraid = CreateFrame("Frame","Move_raid",UIParent)
-Anchorviksraid:SetPoint("BOTTOM", UIParent, "BOTTOM", -2, 180)
+Anchorviksraid:SetPoint("BOTTOM", UIParent, "BOTTOM", -2, 190)
 CreateAnchor(Anchorviksraid, "Move raid", 530, 20)
 
 Anchorviksraid40dps = CreateFrame("Frame","Move_raid40dps",UIParent)
-Anchorviksraid40dps:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -2, 180)
+Anchorviksraid40dps:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -2, 190)
 CreateAnchor(Anchorviksraid40dps, "Move raid40dps", 530, 20)
 
 AnchorvikstotDps = CreateFrame("Frame","Move_tot_Dps",UIParent)
@@ -339,7 +313,7 @@ AnchorviksfocuscastbarDps:SetPoint("TOPLEFT", UIParent, "BOTTOM", 449, 344)
 CreateAnchor(AnchorviksfocuscastbarDps, "Move focuscastbar_Dps", 158, 13)
 
 AnchorvikstankDps = CreateFrame("Frame","Move_tank_Dps",UIParent)
-AnchorvikstankDps:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 200, 303)
+AnchorvikstankDps:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 200, 320)
 CreateAnchor(AnchorvikstankDps, "Move tankDps", 80, 18)
 
 AnchorviksbossDps = CreateFrame("Frame","Move_boss_Dps",UIParent)

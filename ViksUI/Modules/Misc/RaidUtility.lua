@@ -9,14 +9,11 @@ AnchorRaidUtilityPanel:SetPoint("TOPRIGHT", CPCool, "TOPLEFT", -8, 0)
 CreateAnchor(AnchorRaidUtilityPanel, "Move Raid Utility Panel", 125, 20)
 
 -- Create main frame
-local RaidUtilityPanel = CreateFrame("Frame", "RaidUtilityPanel", oUF_PetBattleFrameHider)
-RaidUtilityPanel:CreatePanel("Transparent", 140, 146, "BOTTOM", AnchorRaidUtilityPanel,0,22)
-RaidUtilityPanel:SetFrameLevel(0)
-RaidUtilityPanel:SetFrameStrata("HIGH")
-
---if GetCVarBool("watchFrameWidth") then
-	--RaidUtilityPanel:SetPoint(C.position.raid_utility[1], C.position.raid_utility[2], C.position.raid_utility[3], C.position.raid_utility[4] + 100, C.position.raid_utility[5])
---end
+local RaidUtilityPanel = CreateFrame("Frame", "RaidUtilityPanel", T_PetBattleFrameHider)
+RaidUtilityPanel:CreatePanel("Transparent", 170, 145, unpack(C.position.raid_utility))
+if GetCVarBool("watchFrameWidth") then
+	RaidUtilityPanel:SetPoint(C.position.raid_utility[1], C.position.raid_utility[2], C.position.raid_utility[3], C.position.raid_utility[4] + 100, C.position.raid_utility[5])
+end
 RaidUtilityPanel.toggled = false
 
 -- Check if We are Raid Leader or Raid Officer
@@ -38,19 +35,20 @@ local function CreateButton(name, parent, template, width, height, point, relati
 	b:EnableMouse(true)
 	if text then
 		b.t = b:CreateFontString(nil, "OVERLAY")
-		b.t:SetFont(C.media.pixel_font, 8, C.media.pixel_font_style)
+		b.t:SetFont(C.media.pixel_font, C.media.pixel_font_size, C.media.pixel_font_style)
 		b.t:SetPoint("CENTER")
 		b.t:SetJustifyH("CENTER")
 		b.t:SetText(text)
+		b.t:SetWidth(width - 2)
+		b.t:SetHeight(C.media.pixel_font_size)
 	end
 end
 
 -- Show button
---CreateButton("RaidUtilityCloseButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureHandlerClickTemplate", RaidUtilityPanel:GetWidth() / 1.5, 18, "TOP", RaidUtilityPanel, "BOTTOM", 0, -1, CLOSE)
-CreateButton("RaidUtilityShowButton", oUF_PetBattleFrameHider, "UIPanelButtonTemplate, SecureHandlerClickTemplate", RaidUtilityPanel:GetWidth() / 1.5, 18, "TOPRIGHT", RaidUtilityPanel, "BOTTOMRIGHT", -4, -2, RAID_CONTROL)
+CreateButton("RaidUtilityShowButton", T_PetBattleFrameHider, "UIPanelButtonTemplate, SecureHandlerClickTemplate", RaidUtilityPanel:GetWidth() / 1.5, 18, "TOP", RaidUtilityPanel, "TOP", 0, 0, RAID_CONTROL)
 RaidUtilityShowButton:SetFrameRef("RaidUtilityPanel", RaidUtilityPanel)
 RaidUtilityShowButton:SetAttribute("_onclick", [=[self:Hide(); self:GetFrameRef("RaidUtilityPanel"):Show();]=])
-RaidUtilityShowButton:SetScript("OnMouseUp", function(self, button)
+RaidUtilityShowButton:SetScript("OnMouseUp", function(_, button)
 	if button == "RightButton" then
 		if CheckRaidStatus() then
 			DoReadyCheck()
@@ -68,27 +66,27 @@ end)
 CreateButton("RaidUtilityCloseButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureHandlerClickTemplate", RaidUtilityPanel:GetWidth() / 1.5, 18, "TOP", RaidUtilityPanel, "BOTTOM", 0, -1, CLOSE)
 RaidUtilityCloseButton:SetFrameRef("RaidUtilityShowButton", RaidUtilityShowButton)
 RaidUtilityCloseButton:SetAttribute("_onclick", [=[self:GetParent():Hide(); self:GetFrameRef("RaidUtilityShowButton"):Show();]=])
-RaidUtilityCloseButton:SetScript("OnMouseUp", function(self) RaidUtilityPanel.toggled = false end)
+RaidUtilityCloseButton:SetScript("OnMouseUp", function() RaidUtilityPanel.toggled = false end)
 
 -- Disband Group button
 CreateButton("RaidUtilityDisbandButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOP", RaidUtilityPanel, "TOP", 0, -5, L_RAID_UTIL_DISBAND)
-RaidUtilityDisbandButton:SetScript("OnMouseUp", function(self) StaticPopup_Show("DISBAND_RAID") end)
+RaidUtilityDisbandButton:SetScript("OnMouseUp", function() StaticPopup_Show("DISBAND_RAID") end)
 
 -- Convert Group button
 CreateButton("RaidUtilityConvertButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOP", RaidUtilityDisbandButton, "BOTTOM", 0, -5, UnitInRaid("player") and CONVERT_TO_PARTY or CONVERT_TO_RAID)
-RaidUtilityConvertButton:SetScript("OnMouseUp", function(self)
+RaidUtilityConvertButton:SetScript("OnMouseUp", function()
 	if UnitInRaid("player") then
-		ConvertToParty()
+		C_PartyInfo.ConvertToParty()
 		RaidUtilityConvertButton.t:SetText(CONVERT_TO_RAID)
 	elseif UnitInParty("player") then
-		ConvertToRaid()
+		C_PartyInfo.ConvertToRaid()
 		RaidUtilityConvertButton.t:SetText(CONVERT_TO_PARTY)
 	end
 end)
 
 -- Role Check button
 CreateButton("RaidUtilityRoleButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOP", RaidUtilityConvertButton, "BOTTOM", 0, -5, ROLE_POLL)
-RaidUtilityRoleButton:SetScript("OnMouseUp", function(self) InitiateRolePoll() end)
+RaidUtilityRoleButton:SetScript("OnMouseUp", function() InitiateRolePoll() end)
 
 -- MainTank button
 CreateButton("RaidUtilityMainTankButton", RaidUtilityPanel, "UIPanelButtonTemplate, SecureActionButtonTemplate", (RaidUtilityDisbandButton:GetWidth() / 2) - 2, 18, "TOPLEFT", RaidUtilityRoleButton, "BOTTOMLEFT", 0, -5, TANK)
@@ -104,7 +102,7 @@ RaidUtilityMainAssistButton:SetAttribute("action", "toggle")
 
 -- Ready Check button
 CreateButton("RaidUtilityReadyCheckButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityRoleButton:GetWidth() * 0.75, 18, "TOPLEFT", RaidUtilityMainTankButton, "BOTTOMLEFT", 0, -5, READY_CHECK)
-RaidUtilityReadyCheckButton:SetScript("OnMouseUp", function(self) DoReadyCheck() end)
+RaidUtilityReadyCheckButton:SetScript("OnMouseUp", function() DoReadyCheck() end)
 
 -- World Marker button
 CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:ClearAllPoints()
@@ -120,7 +118,7 @@ MarkTexture:SetPoint("CENTER", 0, -1)
 
 -- Raid Control Panel
 CreateButton("RaidUtilityRaidControlButton", RaidUtilityPanel, "UIPanelButtonTemplate", RaidUtilityRoleButton:GetWidth(), 18, "TOPLEFT", RaidUtilityReadyCheckButton, "BOTTOMLEFT", 0, -5, RAID_CONTROL)
-RaidUtilityRaidControlButton:SetScript("OnMouseUp", function(self)
+RaidUtilityRaidControlButton:SetScript("OnMouseUp", function()
 	ToggleFriendsFrame(4)
 end)
 
@@ -162,5 +160,4 @@ if IsAddOnLoaded("Aurora") then
 	RaidUtilityPanelInnerBorder:SetBackdropBorderColor(0, 0, 0, 0)
 	RaidUtilityPanelOuterBorder:SetBackdropBorderColor(0, 0, 0, 0)
 	F.CreateBD(RaidUtilityPanel)
-	F.CreateSD(RaidUtilityPanel)
 end

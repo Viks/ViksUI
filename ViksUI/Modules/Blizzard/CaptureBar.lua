@@ -17,14 +17,14 @@ local function CaptureUpdate()
 				bar:SetPoint("TOPLEFT", _G["WorldStateCaptureBar"..i-1], "BOTTOMLEFT", 0, -7)
 			end
 			if not bar.skinned then
-				local left = _G[barname.."LeftBar"]
-				local right = _G[barname.."RightBar"]
-				local middle = _G[barname.."MiddleBar"]
+				local left = bar.LeftBar
+				local right = bar.RightBar
+				local middle = bar.MiddleBar
 				select(4, bar:GetRegions()):Hide()
-				_G[barname.."LeftLine"]:SetAlpha(0)
-				_G[barname.."RightLine"]:SetAlpha(0)
-				_G[barname.."LeftIconHighlight"]:SetAlpha(0)
-				_G[barname.."RightIconHighlight"]:SetAlpha(0)
+				bar.LeftLine:SetAlpha(0)
+				bar.RightLine:SetAlpha(0)
+				bar.LeftIconHighlight:SetAlpha(0)
+				bar.RightIconHighlight:SetAlpha(0)
 
 				left:SetTexture(C.media.texture)
 				right:SetTexture(C.media.texture)
@@ -44,24 +44,3 @@ local function CaptureUpdate()
 	end
 end
 hooksecurefunc("UIParent_ManageFramePositions", CaptureUpdate)
-
-----------------------------------------------------------------------------------------
---	Battlefield score frame
-----------------------------------------------------------------------------------------
-local function StateUpdate()
-	if not NUM_ALWAYS_UP_UI_FRAMES then return end
-	for i = 1, NUM_ALWAYS_UP_UI_FRAMES do
-		local f = _G["AlwaysUpFrame"..i]
-
-		if f then
-			f:ClearAllPoints()
-			f:SetFrameStrata("BACKGROUND")
-			if i == 1 then
-				f:SetPoint(unpack(C.position.attempt))
-			else
-				f:SetPoint("TOPLEFT", _G["AlwaysUpFrame"..i-1], "BOTTOMLEFT", 0, 0)
-			end
-		end
-	end
-end
-hooksecurefunc("WorldStateAlwaysUpFrame_Update", StateUpdate)

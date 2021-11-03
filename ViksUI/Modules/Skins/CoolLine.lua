@@ -5,8 +5,8 @@ if C.skins.cool_line ~= true then return end
 --	CoolLine skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-frame:SetScript("OnEvent", function(self, event, addon)
+frame:RegisterEvent("PLAYER_LOGIN")
+frame:SetScript("OnEvent", function()
 	if not IsAddOnLoaded("CoolLine") then return end
 
 	CoolLineDB.border = "None"
@@ -15,8 +15,8 @@ frame:SetScript("OnEvent", function(self, event, addon)
 	CoolLineDB.activealpha = 1
 	CoolLineDB.font = "Hooge"
 	CoolLineDB.fontsize = C.font.stylization_font_size
-	CoolLineDB.w = (C.actionbar.buttonsize * 12) + (C.actionbar.buttonspacing * 11) - 4
-	CoolLineDB.h = C.actionbar.buttonsize - 4
+	CoolLineDB.w = (C.actionbar.button_size * 12) + (C.actionbar.button_space * 11) - 4
+	CoolLineDB.h = C.actionbar.button_size - 4
 
 	local CoolLineBar = CreateFrame("Frame", "CoolLineBar", CoolLine)
 	CoolLineBar:SetPoint("TOPLEFT", CoolLine, "TOPLEFT", -2, 2)

@@ -8,93 +8,120 @@ local function LoadSkin()
 	OrderHallCommandBar:StripTextures()
 	OrderHallCommandBar:SetTemplate("Transparent")
 	OrderHallCommandBar:ClearAllPoints()
-	OrderHallCommandBar:SetPoint("TOP", UIParent, 0, 0)
-	OrderHallCommandBar:SetWidth(480)
+	OrderHallCommandBar:SetPoint("TOP", UIParent, 0, -1)
 	OrderHallCommandBar.ClassIcon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
 	OrderHallCommandBar.ClassIcon:SetSize(46, 20)
 	OrderHallCommandBar.CurrencyIcon:SetAtlas("legionmission-icon-currency", false)
 	OrderHallCommandBar.AreaName:ClearAllPoints()
-	OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 10, 0)
-	OrderHallCommandBar.WorldMapButton:ClearAllPoints()
-	OrderHallCommandBar.WorldMapButton:SetPoint("RIGHT", OrderHallCommandBar, -5, -2)
+	OrderHallCommandBar.AreaName:SetPoint("LEFT", OrderHallCommandBar.CurrencyIcon, "RIGHT", 25, 0)
+	OrderHallCommandBar.AreaName:SetVertexColor(T.color.r, T.color.g, T.color.b)
+	OrderHallCommandBar.WorldMapButton:Kill()
 
-	OrderHallMissionFrame:StripTextures()
-	OrderHallMissionFrame:CreateBackdrop("Transparent")
-	T.SkinCloseButton(OrderHallMissionFrame.CloseButton)
-
-	for i = 1, 3 do
-		T.SkinTab(_G["OrderHallMissionFrameTab" .. i])
-	end
-
-	OrderHallMissionFrame.GarrCorners:StripTextures()
-	OrderHallMissionFrameMissions:StripTextures()
-	OrderHallMissionFrameMissionsListScrollFrame:StripTextures()
-	T.SkinScrollBar(OrderHallMissionFrameMissionsListScrollFrameScrollBar)
-	OrderHallMissionFrameMissions.CombatAllyUI:StripTextures()
-	OrderHallMissionFrameMissions.CombatAllyUI.InProgress.Unassign:SkinButton()
-	OrderHallMissionFrameMissions.MaterialFrame:StripTextures()
-	OrderHallMissionFrame.MissionTab:StripTextures()
-	OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage:StripTextures()
-	T.SkinCloseButton(OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage.CloseButton)
-	OrderHallMissionFrame.MissionTab.ZoneSupportMissionPage.StartMissionButton:SkinButton()
-
-	for i = 1, 2 do
-		_G["OrderHallMissionFrameMissionsTab" .. i]:StripTextures()
-		_G["OrderHallMissionFrameMissionsTab" .. i]:SkinButton()
-		_G["OrderHallMissionFrameMissionsTab" .. i]:SetHeight(_G["GarrisonMissionFrameMissionsTab" .. i]:GetHeight() - 10)
-	end
-
-	for i, v in ipairs(OrderHallMissionFrame.MissionTab.MissionList.listScroll.buttons) do
-		local Button = _G["OrderHallMissionFrameMissionsListScrollFrameButton" .. i]
-		if Button and not Button.skinned then
-			Button:StripTextures()
-			Button:SetTemplate()
-			Button:SkinButton()
-			Button:SetBackdropBorderColor(0, 0, 0, 0)
-			Button.LocBG:Hide()
-			for i = 1, #Button.Rewards do
-				local Texture = Button.Rewards[i].Icon:GetTexture()
-
-				Button.Rewards[i]:StripTextures()
-				Button.Rewards[i]:StyleButton()
-				Button.Rewards[i]:CreateBackdrop()
-				Button.Rewards[i].Icon:SetTexture(Texture)
-				Button.Rewards[i].backdrop:ClearAllPoints()
-				Button.Rewards[i].Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	hooksecurefunc(OrderHallCommandBar, "RefreshCategories", function(self)
+		local index = 0
+		C_Timer.After(0.5, function()
+			for _, child in ipairs({self:GetChildren()}) do
+				if child.Icon and child.Count and child.TroopPortraitCover then
+					index = index + 1
+					child.TroopPortraitCover:Hide()
+					child.Icon:SetSize(38, 21)
+				end
 			end
-			Button.isSkinned = true
+			self:SetWidth(270 + index * 112)
+		end)
+	end)
+
+	-- TalentFrame skin from ElvUI
+	local function colorBorder(child, backdrop, atlas)
+		if child.AlphaIconOverlay:IsShown() then -- isBeingResearched or (talentAvailability and not selected)
+			local alpha = child.AlphaIconOverlay:GetAlpha()
+			if alpha <= 0.5 then -- talentAvailability
+				backdrop:SetBackdropBorderColor(0.5, 0.5, 0.5) -- [border = grey, shadow x2]
+				child.darkOverlay:SetColorTexture(0, 0, 0, 0.50)
+				child.darkOverlay:Show()
+			elseif alpha <= 0.7 then -- isBeingResearched
+				backdrop:SetBackdropBorderColor(0, 1, 1) -- [border = teal, shadow x1]
+				child.darkOverlay:SetColorTexture(0, 0, 0, 0.25)
+				child.darkOverlay:Show()
+			end
+		elseif atlas:find("green") then
+			backdrop:SetBackdropBorderColor(0, 1, 0) -- [border = green, no shadow]
+			child.darkOverlay:Hide()
+		elseif atlas:find("yellow") then
+			backdrop:SetBackdropBorderColor(unpack(C.media.border_color)) -- [border = yellow, no shadow]
+			child.darkOverlay:Hide()
+		else
+			backdrop:SetBackdropBorderColor(0.2, 0.2, 0.2) -- [border = dark grey, shadow x3]
+			child.darkOverlay:SetColorTexture(0, 0, 0, 0.75)
+			child.darkOverlay:Show()
 		end
 	end
 
-	local Follower = OrderHallMissionFrameFollowers
-	Follower:StripTextures()
-	T.SkinEditBox(Follower.SearchBox)
-	Follower.MaterialFrame:StripTextures()
-	T.SkinScrollBar(OrderHallMissionFrameFollowersListScrollFrameScrollBar)
-	OrderHallMissionFrame.MissionTab.MissionPage:StripTextures()
-	T.SkinCloseButton(OrderHallMissionFrame.MissionTab.MissionPage.CloseButton)
-	OrderHallMissionFrame.MissionTab.MissionPage.StartMissionButton:SkinButton()
-
-	local FollowerList = OrderHallMissionFrame.FollowerTab
-	FollowerList:StripTextures()
-	FollowerList.ModelCluster:StripTextures()
-	FollowerList.Class:SetSize(50, 43)
-	FollowerList.XPBar:StripTextures()
-	FollowerList.XPBar:SetStatusBarTexture(C["media"].texture)
-	FollowerList.XPBar:CreateBackdrop()
-
-	local Mission = OrderHallMissionFrameMissions
-	Mission.CompleteDialog:StripTextures()
-	Mission.CompleteDialog:SetTemplate("Transparent")
-	Mission.CompleteDialog.BorderFrame.ViewButton:SkinButton()
-	OrderHallMissionFrame.MissionComplete.NextMissionButton:SkinButton()
-
 	OrderHallTalentFrame:StripTextures()
 	OrderHallTalentFrame:SetTemplate("Transparent")
+	OrderHallTalentFrame.NineSlice:Hide()
+	OrderHallTalentFrame.OverlayElements:Hide()
 	T.SkinCloseButton(OrderHallTalentFrameCloseButton)
-	ClassHallTalentInset:StripTextures()
-	OrderHallTalentFrame.Currency:SetFont(C["media"].normal_font, 16)
-	OrderHallTalentFrame.CurrencyIcon:SetAtlas("legionmission-icon-currency", false)
+
+	hooksecurefunc(OrderHallTalentFrame, "SetUseThemedTextures", function(self)
+		self.Background:ClearAllPoints()
+		self.Background:SetPoint("TOPLEFT")
+		self.Background:SetPoint("BOTTOMRIGHT")
+		self.Background:SetDrawLayer("BACKGROUND", 2)
+	end)
+
+	OrderHallTalentFrame:HookScript("OnShow", function(self)
+		if self.CloseButton.Border then
+			self.CloseButton.Border:SetAlpha(0)
+		end
+		if self.portrait then
+			self.portrait:SetAlpha(0)
+		end
+		if self.skinned then return end
+		self.Currency.Icon:SkinIcon()
+		self.BackButton:SkinButton()
+
+		for i = 1, self:GetNumChildren() do
+			local child = select(i, self:GetChildren())
+			if child and child.Icon and child.DoneGlow and not child.backdrop then
+				child:StyleButton()
+				child:CreateBackdrop()
+				child.Border:SetAlpha(0)
+				child.Highlight:SetAlpha(0)
+				child.AlphaIconOverlay:SetTexture(nil)
+				child.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				child.Icon:SetInside(child.backdrop)
+				child.hover:SetInside(child.backdrop)
+				child.pushed:SetInside(child.backdrop)
+				child.backdrop:SetFrameLevel(child.backdrop:GetFrameLevel() + 1)
+
+				child.darkOverlay = child:CreateTexture()
+				child.darkOverlay:SetAllPoints(child.Icon)
+				child.darkOverlay:SetDrawLayer('OVERLAY')
+				child.darkOverlay:Hide()
+
+				colorBorder(child, child.backdrop, child.Border:GetAtlas())
+
+				child.TalentDoneAnim:HookScript("OnFinished", function()
+					child.Border:SetAlpha(0) -- clear the yellow glow border again, after it finishes the animation
+				end)
+			end
+		end
+
+		self.choiceTexturePool:ReleaseAll()
+		hooksecurefunc(self, "RefreshAllData", function(frame)
+			frame.choiceTexturePool:ReleaseAll()
+
+			for i = 1, frame:GetNumChildren() do
+				local child = select(i, frame:GetChildren())
+				if child and child.Icon and child.Border and child.backdrop then
+					colorBorder(child, child.backdrop, child.Border:GetAtlas())
+				end
+			end
+		end)
+
+		self.skinned = true
+	end)
 end
 
 T.SkinFuncs["Blizzard_OrderHallUI"] = LoadSkin

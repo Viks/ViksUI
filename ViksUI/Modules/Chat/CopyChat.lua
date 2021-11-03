@@ -4,9 +4,9 @@ if C.chat.enable ~= true then return end
 ----------------------------------------------------------------------------------------
 --	Copy Chat
 ----------------------------------------------------------------------------------------
-local lines = {}
 local frame = nil
 local editBox = nil
+local font = nil
 local isf = nil
 local sizes = {
 	":14:14",
@@ -25,22 +25,16 @@ local function CreatCopyFrame()
 	frame:SetFrameStrata("DIALOG")
 	tinsert(UISpecialFrames, "CopyFrame")
 	frame:Hide()
-
-	local scrollArea = CreateFrame("ScrollFrame", "CopyScroll", frame, "UIPanelScrollFrameTemplate")
-	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -30)
-	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
+	frame:EnableMouse(true)
 
 	editBox = CreateFrame("EditBox", "CopyBox", frame)
 	editBox:SetMultiLine(true)
 	editBox:SetMaxLetters(99999)
-	editBox:EnableMouse(true)
 	editBox:SetAutoFocus(false)
 	editBox:SetFontObject(ChatFontNormal)
 	editBox:SetWidth(500)
 	editBox:SetHeight(300)
 	editBox:SetScript("OnEscapePressed", function() frame:Hide() end)
-
-	scrollArea:SetScrollChild(editBox)
 
 	editBox:SetScript("OnTextSet", function(self)
 		local text = self:GetText()
@@ -52,38 +46,54 @@ local function CreatCopyFrame()
 		end
 	end)
 
+	local scrollArea = CreateFrame("ScrollFrame", "CopyScroll", frame, "UIPanelScrollFrameTemplate")
+	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -30)
+	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -27, 8)
+	scrollArea:SetScrollChild(editBox)
+	T.SkinScrollBar(CopyScrollScrollBar)
+
 	local close = CreateFrame("Button", "CopyCloseButton", frame, "UIPanelCloseButton")
 	T.SkinCloseButton(close)
-	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -27, 8)
-	T.SkinScrollBar(CopyScrollScrollBar)
+
+	font = frame:CreateFontString(nil, nil, "GameFontNormal")
+	font:Hide()
 
 	isf = true
 end
 
-local scrollDown = function()
-	CopyScroll:SetVerticalScroll((CopyScroll:GetVerticalScrollRange()) or 0)
+local canChangeMessage = function(arg1, id)
+	if id and arg1 == "" then return id end
+end
+
+local function MessageIsProtected(message)
+	return message and (message ~= gsub(message, "(:?|?)|K(.-)|k", canChangeMessage))
 end
 
 local function Copy(cf)
-	local id = cf:GetID()
-	local _, size = FCF_GetChatWindowInfo(id)
-	FCF_SetChatWindowFontSize(cf, cf, 0.01)
+	if not isf then CreatCopyFrame() end
 	local text = ""
 	for i = 1, cf:GetNumMessages() do
-		text = text..cf:GetMessageInfo(i).."\n"
+		local line = cf:GetMessageInfo(i)
+		if line and not MessageIsProtected(line) then
+			font:SetFormattedText("%s \n", line)
+			local cleanLine = font:GetText() or ""
+			text = text..cleanLine
+		end
 	end
-	text = text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}")
-	text = text:gsub("|[Tt][^|]+|[Tt]", "")
-	if size < 11 then
-		FCF_SetChatWindowFontSize(cf, cf, 11)
-	else
-		FCF_SetChatWindowFontSize(cf, cf, size)
-	end
-	if not isf then CreatCopyFrame() end
+	text = text:gsub("|T[^\\]+\\[^\\]+\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}")
+	text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}")
+	text = text:gsub("|T[^|]+|t", "")
 	if frame:IsShown() then frame:Hide() return end
 	frame:Show()
 	editBox:SetText(text)
-	C_Timer.After(0.25, scrollDown)
+
+	editBox:SetScript("OnTextChanged", function(_, userInput)
+		if userInput then return end
+		local _, max = CopyScrollScrollBar:GetMinMaxValues()
+		for _ = 1, max do
+			ScrollFrameTemplate_OnMouseWheel(CopyScroll, -1)
+		end
+	end)
 end
 
 for i = 1, NUM_CHAT_WINDOWS do
@@ -95,12 +105,12 @@ for i = 1, NUM_CHAT_WINDOWS do
 	button:SetTemplate("Transparent")
 	button:SetBackdropBorderColor(T.color.r, T.color.g, T.color.b)
 
-	local buttontexture = button:CreateTexture(nil, "BORDER")
-	buttontexture:SetPoint("CENTER")
-	buttontexture:SetTexture("Interface\\BUTTONS\\UI-GuildButton-PublicNote-Up")
-	buttontexture:SetSize(16, 16)
+	local icon = button:CreateTexture(nil, "BORDER")
+	icon:SetPoint("CENTER")
+	icon:SetTexture("Interface\\BUTTONS\\UI-GuildButton-PublicNote-Up")
+	icon:SetSize(16, 16)
 
-	button:SetScript("OnMouseUp", function(self, btn)
+	button:SetScript("OnMouseUp", function(_, btn)
 		if btn == "RightButton" then
 			ToggleFrame(ChatMenu)
 		elseif btn == "MiddleButton" then
@@ -111,7 +121,8 @@ for i = 1, NUM_CHAT_WINDOWS do
 	end)
 	button:SetScript("OnEnter", function() button:FadeIn() end)
 	button:SetScript("OnLeave", function() button:FadeOut() end)
-	SlashCmdList.COPY_CHAT = function()
-		Copy(_G["ChatFrame1"])
-	end
+end
+
+SlashCmdList.COPY_CHAT = function()
+	Copy(_G["ChatFrame1"])
 end

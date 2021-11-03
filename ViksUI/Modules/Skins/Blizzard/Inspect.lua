@@ -10,6 +10,7 @@ local function LoadSkin()
 	InspectFrame:CreateBackdrop("Transparent")
 	InspectFrame.backdrop:SetAllPoints()
 	T.SkinCloseButton(InspectFrameCloseButton)
+	InspectPaperDollFrame.ViewButton:SkinButton()
 
 	for i = 1, 4 do
 		T.SkinTab(_G["InspectFrameTab"..i])
@@ -19,6 +20,13 @@ local function LoadSkin()
 	InspectModelFrame:CreateBackdrop("Default")
 	InspectModelFrame.backdrop:SetPoint("TOPLEFT", -3, 4)
 	InspectModelFrame.backdrop:SetPoint("BOTTOMRIGHT", 4, 0)
+	InspectModelFrame.BackgroundOverlay:SetColorTexture(0, 0, 0)
+
+	-- Unit Background Texture
+	InspectModelFrameBackgroundTopLeft:SetPoint("TOPLEFT", InspectModelFrame.backdrop, "TOPLEFT", 2, -2)
+	InspectModelFrameBackgroundTopRight:SetPoint("TOPRIGHT", InspectModelFrame.backdrop, "TOPRIGHT", -2, -2)
+	InspectModelFrameBackgroundBotLeft:SetPoint("BOTTOMLEFT", InspectModelFrame.backdrop, "BOTTOMLEFT", 2, -50)
+	InspectModelFrameBackgroundBotRight:SetPoint("BOTTOMRIGHT", InspectModelFrame.backdrop, "BOTTOMRIGHT", -2, -50)
 
 	local slots = {
 		"HeadSlot",
@@ -56,10 +64,44 @@ local function LoadSkin()
 		slot:SetFrameLevel(slot:GetFrameLevel() + 2)
 		slot:CreateBackdrop("Default")
 		slot.backdrop:SetAllPoints()
+		slot.backdrop:SetFrameLevel(slot:GetFrameLevel())
+
+		hooksecurefunc(slot.IconBorder, "SetVertexColor", function(self)
+			self:SetTexture("")
+		end)
 	end
 
-	InspectGuildFrameBG:Kill()
+	-- Presige texture
+	local portrait = InspectPVPFrame:CreateTexture(nil, "OVERLAY")
+	portrait:SetSize(55, 55)
+	portrait:SetPoint("CENTER", InspectPVPFrame.PortraitBackground, "CENTER", 0, 0)
+	InspectPVPFrame.PortraitBackground:Kill()
+	InspectPVPFrame.PortraitBackground:ClearAllPoints()
+	InspectPVPFrame.PortraitBackground:SetPoint("TOPLEFT", 10, -5)
+	InspectPVPFrame.SmallWreath:ClearAllPoints()
+	InspectPVPFrame.SmallWreath:SetPoint("TOPLEFT", 3, -25)
 
+	local function SkinPvpTalents(slot)
+		local icon = slot.Texture
+		slot:StripTextures()
+		slot:CreateBackdrop("Default")
+		slot.backdrop:SetPoint("TOPLEFT", icon, -2, 2)
+		slot.backdrop:SetPoint("BOTTOMRIGHT", icon, 2, -2)
+
+		slot.Border:Hide()
+
+		icon:SetTexCoord(.15, .85, .15, .85)
+	end
+
+	for i = 1, 3 do
+		SkinPvpTalents(InspectPVPFrame["TalentSlot"..i])
+	end
+
+	InspectPVPFrame.BG:Kill()
+
+	SpecializationRing:Hide()
+	SpecializationSpecIcon:SkinIcon()
+	SpecializationSpecIcon:SetTexCoord(.15, .85, .15, .85)
 	SpecializationSpecName:SetFont(C.media.normal_font, 20)
 	InspectTalentFrame:DisableDrawLayer("BACKGROUND")
 	InspectTalentFrame:DisableDrawLayer("BORDER")
@@ -78,13 +120,7 @@ local function LoadSkin()
 		end
 	end
 
-	InspectPaperDollFrame.ViewButton:SkinButton()
-
-	-- Unit Background Texture
-	InspectModelFrameBackgroundTopLeft:SetPoint("TOPLEFT", InspectModelFrame.backdrop, "TOPLEFT", 2, -2)
-	InspectModelFrameBackgroundTopRight:SetPoint("TOPRIGHT", InspectModelFrame.backdrop, "TOPRIGHT", -2, -2)
-	InspectModelFrameBackgroundBotLeft:SetPoint("BOTTOMLEFT", InspectModelFrame.backdrop, "BOTTOMLEFT", 2, -50)
-	InspectModelFrameBackgroundBotRight:SetPoint("BOTTOMRIGHT", InspectModelFrame.backdrop, "BOTTOMRIGHT", -2, -50)
+	InspectGuildFrameBG:Kill()
 end
 
 T.SkinFuncs["Blizzard_InspectUI"] = LoadSkin

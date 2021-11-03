@@ -1,5 +1,5 @@
 local T, C, L, _ = unpack(select(2, ...))
-if C.minimapp.enable ~= true or C.skins.minimap_buttons ~= true then return end
+if C.minimap.enable ~= true or C.skins.minimap_buttons ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Collect minimap buttons in one line
@@ -14,36 +14,75 @@ local BlackList = {
 
 local buttons = {}
 local button = CreateFrame("Frame", "ButtonCollectFrame", UIParent)
-local line = math.ceil(C.minimapp.size / 20)
+local line = math.ceil(C.minimap.size / 16)
+
+local function SkinButton(f)
+	f:SetPushedTexture(nil)
+	f:SetHighlightTexture(nil)
+	f:SetDisabledTexture(nil)
+	f:SetSize(20, 20)
+
+	for i = 1, f:GetNumRegions() do
+		local region = select(i, f:GetRegions())
+		if region:IsVisible() and region:GetObjectType() == "Texture" then
+			local tex = tostring(region:GetTexture())
+
+			if tex and (tex:find("Border") or tex:find("Background") or tex:find("AlphaMask")) then
+				region:SetTexture(nil)
+			else
+				region:ClearAllPoints()
+				region:SetPoint("TOPLEFT", f, "TOPLEFT", 2, -2)
+				region:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -2, 2)
+				region:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				region:SetDrawLayer("ARTWORK")
+				if f:GetName() == "PS_MinimapButton" then
+					region.SetPoint = T.dummy
+				end
+			end
+		end
+	end
+
+	f:SetTemplate("ClassColor")
+end
 
 local function PositionAndStyle()
-	button:SetSize(20, 20)
+	button:SetSize(16, 16)
 	button:SetPoint(unpack(C.position.minimap_buttons))
 	for i = 1, #buttons do
 		buttons[i]:ClearAllPoints()
 		if i == 1 then
-			buttons[i]:SetPoint("TOP", button, "TOP", 0, 0)
+			if C.panels.NoPanels == true then 
+				buttons[i]:SetPoint("TOP", button, "TOP", 0, 0)
+			else
+				buttons[i]:SetPoint("TOP", button, "TOP", 0, -18)
+			end
 		elseif i == line then
-			buttons[i]:SetPoint("TOPRIGHT", buttons[1], "TOPLEFT", -1, 0)
+			if C.panels.NoPanels == true then 
+				buttons[i]:SetPoint("TOP", buttons[1], "BOTTOM", 0, -15)
+			else
+				buttons[i]:SetPoint("TOP", buttons[1], "BOTTOM", 0, -1)
+			end
 		else
-			buttons[i]:SetPoint("TOP", buttons[i-1], "BOTTOM", 0, -1)
+			buttons[i]:SetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", 1, 0)
 		end
 		buttons[i].ClearAllPoints = T.dummy
 		buttons[i].SetPoint = T.dummy
-		buttons[i]:SetAlpha(0)
-		buttons[i]:HookScript("OnEnter", function()
-			buttons[i]:FadeIn()
+		if C.skins.minimap_buttons_mouseover then
+			buttons[i]:SetAlpha(0)
+			buttons[i]:HookScript("OnEnter", function()
+				buttons[i]:FadeIn()
 		end)
 		buttons[i]:HookScript("OnLeave", function()
 			buttons[i]:FadeOut()
 		end)
+		end
 	end
 end
 
 local collect = CreateFrame("Frame")
 collect:RegisterEvent("PLAYER_ENTERING_WORLD")
-collect:SetScript("OnEvent", function(self)
-	for i, child in ipairs({Minimap:GetChildren()}) do
+collect:SetScript("OnEvent", function()
+	for _, child in ipairs({Minimap:GetChildren()}) do
 		if not BlackList[child:GetName()] then
 			if child:GetObjectType() == "Button" and child:GetNumRegions() >= 3 and child:IsShown() then
 				child:SetParent(button)
@@ -55,4 +94,10 @@ collect:SetScript("OnEvent", function(self)
 		button:Hide()
 	end
 	PositionAndStyle()
+
+	if WIM3MinimapButton and WIM3MinimapButton:GetParent() == UIParent then
+		SkinButton(WIM3MinimapButton)
+		WIM3MinimapButton.backGround:Hide()
+	end
+	collect:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)

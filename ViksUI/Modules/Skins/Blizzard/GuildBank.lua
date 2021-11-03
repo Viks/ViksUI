@@ -26,6 +26,7 @@ local function LoadSkin()
 
 	GuildBankInfoScrollFrame:StripTextures()
 	GuildBankTransactionsScrollFrame:StripTextures()
+	T.SkinScrollBar(GuildBankPopupScrollFrameScrollBar)
 	T.SkinScrollBar(GuildBankInfoScrollFrameScrollBar)
 	T.SkinScrollBar(GuildBankTransactionsScrollFrameScrollBar)
 	GuildBankInfoScrollFrame:SetHeight(GuildBankInfoScrollFrame:GetHeight() - 5)
@@ -38,8 +39,8 @@ local function LoadSkin()
 
 	GuildItemSearchBox:StripTextures(true)
 	GuildItemSearchBox:CreateBackdrop("Overlay")
-	GuildItemSearchBox.backdrop:SetPoint("TOPLEFT", 13, -2)
-	GuildItemSearchBox.backdrop:SetPoint("BOTTOMRIGHT", -5, 2)
+	GuildItemSearchBox.backdrop:SetPoint("TOPLEFT", 13, 0)
+	GuildItemSearchBox.backdrop:SetPoint("BOTTOMRIGHT", -5, 0)
 
 	for i = 1, NUM_GUILDBANK_COLUMNS do
 		_G["GuildBankColumn"..i]:StripTextures()
@@ -49,7 +50,8 @@ local function LoadSkin()
 			local icon = _G["GuildBankColumn"..i.."Button"..j.."IconTexture"]
 			local border = _G["GuildBankColumn"..i.."Button"..j].IconBorder
 
-			border:Kill()			button:SetNormalTexture(nil)
+			border:Kill()
+			button:SetNormalTexture(nil)
 			button:StyleButton()
 			button:SetTemplate("Default")
 
@@ -93,31 +95,7 @@ local function LoadSkin()
 	GuildBankFrameTab1:SetPoint("TOPLEFT", GuildBankFrame, "BOTTOMLEFT", 0, 2)
 
 	-- Popup
-	GuildBankPopupFrame:CreateBackdrop("Transparent")
-	GuildBankPopupFrame.backdrop:SetPoint("TOPLEFT", 5, 0)
-	GuildBankPopupFrame.backdrop:SetPoint("BOTTOMRIGHT", -25, 23)
-	GuildBankPopupFrame:StripTextures()
-	GuildBankPopupFrame:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", -4, 0)
-
-	GuildBankPopupCancelButton:SkinButton(true)
-	GuildBankPopupOkayButton:SkinButton(true)
-	GuildBankPopupScrollFrame:StripTextures()
-	GuildBankPopupEditBox:StripTextures(true)
-	T.SkinEditBox(GuildBankPopupEditBox, nil, GuildBankPopupEditBox:GetHeight() - 5)
-
-	for i = 1, 16 do
-		local button = _G["GuildBankPopupButton"..i]
-		local texture = _G["GuildBankPopupButton"..i.."Icon"]
-
-		button:StripTextures()
-		button:StyleButton()
-		button:SetTemplate("Default")
-
-		texture:ClearAllPoints()
-		texture:SetPoint("TOPLEFT", 2, -2)
-		texture:SetPoint("BOTTOMRIGHT", -2, 2)
-		texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	end
+	T.SkinIconSelectionFrame(GuildBankPopupFrame, NUM_GUILDBANK_ICONS_SHOWN, nil, "GuildBankPopup")
 end
 
 T.SkinFuncs["Blizzard_GuildBankUI"] = LoadSkin

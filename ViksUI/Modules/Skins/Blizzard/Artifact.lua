@@ -6,10 +6,7 @@ if C.skins.blizzard_frames ~= true then return end
 ----------------------------------------------------------------------------------------
 local function LoadSkin()
 	ArtifactFrame:StripTextures()
-	ArtifactFrame:SetTemplate("Transparent")
-	ArtifactFrame:CreateBackdrop()
-	T.SkinCloseButton(ArtifactFrame.CloseButton)
-
+	ArtifactFrame:CreateBackdrop("Transparent")
 	ArtifactFrame.BorderFrame:StripTextures()
 
 	for i = 1, 2 do
@@ -17,6 +14,12 @@ local function LoadSkin()
 	end
 	ArtifactFrameTab1:ClearAllPoints()
 	ArtifactFrameTab1:SetPoint("TOPLEFT", ArtifactFrame, "BOTTOMLEFT", 0, -2)
+
+	ArtifactFrame.ForgeBadgeFrame.ItemIcon:Hide()
+	ArtifactFrame.ForgeBadgeFrame.ForgeLevelBackground:ClearAllPoints()
+	ArtifactFrame.ForgeBadgeFrame.ForgeLevelBackground:SetPoint("TOPLEFT", ArtifactFrame)
+
+	T.SkinCloseButton(ArtifactFrame.CloseButton)
 end
 
 T.SkinFuncs["Blizzard_ArtifactUI"] = LoadSkin

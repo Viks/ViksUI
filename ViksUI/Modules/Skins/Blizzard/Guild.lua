@@ -22,16 +22,7 @@ local function LoadSkin()
 		"GuildLogFrame",
 		"GuildRewardsFrame",
 		"GuildMemberOfficerNoteBackground",
-		"GuildTextEditContainer",
 		"GuildTextEditFrame",
-		"GuildRecruitmentRolesFrame",
-		"GuildRecruitmentAvailabilityFrame",
-		"GuildRecruitmentInterestFrame",
-		"GuildRecruitmentLevelFrame",
-		"GuildRecruitmentCommentFrame",
-		"GuildRecruitmentCommentInputFrame",
-		"GuildInfoFrameApplicantsContainer",
-		"GuildInfoFrameApplicants",
 		"GuildNewsBossModel",
 		"GuildNewsBossModelTextFrame"
 	}
@@ -54,11 +45,7 @@ local function LoadSkin()
 		"GuildAddMemberButton",
 		"GuildViewLogButton",
 		"GuildControlButton",
-		"GuildRecruitmentListGuildButton",
 		"GuildTextEditFrameAcceptButton",
-		"GuildRecruitmentInviteButton",
-		"GuildRecruitmentMessageButton",
-		"GuildRecruitmentDeclineButton"
 	}
 
 	for i, button in pairs(buttons) do
@@ -70,26 +57,6 @@ local function LoadSkin()
 		end
 	end
 
-	local checkbuttons = {
-		"Quest",
-		"Dungeon",
-		"Raid",
-		"PvP",
-		"RP",
-		"Weekdays",
-		"Weekends",
-		"LevelAny",
-		"LevelMax"
-	}
-
-	for _, frame in pairs(checkbuttons) do
-		T.SkinCheckBox(_G["GuildRecruitment"..frame.."Button"])
-	end
-
-	T.SkinCheckBox(GuildRecruitmentTankButton:GetChildren())
-	T.SkinCheckBox(GuildRecruitmentHealerButton:GetChildren())
-	T.SkinCheckBox(GuildRecruitmentDamagerButton:GetChildren())
-
 	for i = 1, 5 do
 		T.SkinTab(_G["GuildFrameTab"..i])
 	end
@@ -100,7 +67,7 @@ local function LoadSkin()
 	GuildFactionBar.progress:SetTexture(C.media.texture)
 	GuildFactionBar:CreateBackdrop("Overlay")
 	GuildFactionBar.backdrop:SetPoint("TOPLEFT", GuildFactionBar.progress, "TOPLEFT", -2, 2)
-	GuildFactionBar.backdrop:SetPoint("BOTTOMRIGHT", GuildFactionBar, "BOTTOMRIGHT", 0, 0)
+	GuildFactionBar.backdrop:SetPoint("BOTTOMRIGHT", GuildFactionBar, "BOTTOMRIGHT", 2, 0)
 
 	-- Guild Perk buttons list
 	for i = 1, 8 do
@@ -130,7 +97,12 @@ local function LoadSkin()
 	T.SkinDropDownBox(GuildRosterViewDropdown, 200)
 
 	for i = 1, 14 do
-		_G["GuildRosterContainerButton"..i.."HeaderButton"]:SkinButton(true)
+		--_G["GuildRosterContainerButton"..i.."HeaderButton"]:SkinButton(true)
+		local button = _G['GuildRosterContainerButton'..i]
+		local header = button and button.header
+		if header then
+			header:SkinButton(true)
+		end
 	end
 
 	-- Detail Frame
@@ -148,15 +120,19 @@ local function LoadSkin()
 	-- News
 	GuildNewsFrame:StripTextures()
 	for i = 1, 17 do
-		_G["GuildNewsContainerButton"..i].header:Kill()
+		local button = _G['GuildNewsContainerButton'..i]
+		if button and button.header then
+			button.header:Kill()
+		end
 	end
 
 	GuildNewsFiltersFrame:StripTextures()
 	GuildNewsFiltersFrame:SetTemplate("Transparent")
 	T.SkinCloseButton(GuildNewsFiltersFrameCloseButton)
 
-	for i = 1, 6 do
-		T.SkinCheckBox(_G["GuildNewsFilterButton"..i])
+	for i = 1, #GuildNewsFiltersFrame.GuildNewsFilterButtons do
+		local checkbox = GuildNewsFiltersFrame.GuildNewsFilterButtons[i]
+		T.SkinCheckBox(checkbox)
 	end
 
 	GuildNewsFiltersFrame:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 3, 0)
@@ -164,7 +140,7 @@ local function LoadSkin()
 
 	-- Info Frame
 	T.SkinScrollBar(GuildInfoDetailsFrameScrollBar)
-	T.SkinScrollBar(GuildInfoFrameApplicantsContainerScrollBar)
+	T.SkinScrollBar(_G.GuildInfoFrameInfoMOTDScrollFrameScrollBar)
 
 	for i = 1, 3 do
 		T.SkinTab(_G["GuildInfoFrameTab"..i], true)
@@ -188,16 +164,12 @@ local function LoadSkin()
 	backdrop3:SetPoint("TOPLEFT", GuildInfoFrameInfo, "TOPLEFT", 2, -233)
 	backdrop3:SetPoint("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 3)
 
-	GuildRecruitmentCommentInputFrame:SetTemplate("Overlay")
-
-	for _, button in next, GuildInfoFrameApplicantsContainer.buttons do
-		button:SetBackdrop(nil)
-	end
 
 	-- Text Edit Frame
 	GuildTextEditFrame:SetTemplate("Transparent")
+	_G.GuildLogContainer.NineSlice:SetTemplate('Transparent')
+	_G.GuildTextEditContainer.NineSlice:SetTemplate('Transparent')
 	T.SkinScrollBar(GuildTextEditScrollFrameScrollBar)
-	GuildTextEditContainer:SetTemplate("Transparent")
 	T.SkinCloseButton(GuildTextEditFrameCloseButton, GuildTextEditFrame)
 	for i = 1, GuildTextEditFrame:GetNumChildren() do
 		local child = select(i, GuildTextEditFrame:GetChildren())

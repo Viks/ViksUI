@@ -3,7 +3,7 @@ if C.unitframe.enable ~= true or C.unitframe.castbar_ticks ~= true then return e
 
 ----------------------------------------------------------------------------------------
 --	The best way to add or delete spell is to go at www.wowhead.com, search for a spell.
---	Example: Drain Life -> http://www.wowhead.com/spell=689
+--	Example: Tranquility -> http://www.wowhead.com/spell=740
 --	Take the number ID at the end of the URL, and add it to the list
 ----------------------------------------------------------------------------------------
 local function SpellName(id)
@@ -11,7 +11,7 @@ local function SpellName(id)
 	if name then
 		return name
 	else
-		print("|cffff0000WARNING: spell ID ["..tostring(id).."] no longer exists(ChannelingTicks)! Report this to Viks.|r")
+		print("|cffff0000WARNING: spell ID ["..tostring(id).."] no longer exists! Report this to Viks.|r")
 		return "Empty"
 	end
 end
@@ -19,26 +19,37 @@ end
 T.CastBarTicks = {
 	-- Druid
 	[SpellName(740)] = 4,		-- Tranquility
-	--BETA [SpellName(16914)] = 10,	-- Hurricane
-	--BETA [SpellName(106996)] = 10,	-- Astral Storm
 	-- Mage
 	[SpellName(5143)] = 5,		-- Arcane Missiles
-	--BETA [SpellName(10)] = 8,		-- Blizzard
-	[SpellName(12051)] = 4,		-- Evocation
+	[SpellName(12051)] = 6,		-- Evocation
+	[SpellName(205021)] = 5,	-- Ray of Frost
 	-- Monk
-	[SpellName(115175)] = 9,	-- Soothing Mist
-	[SpellName(117952)] = 6,	-- Crackling Jade Lightning
-	[SpellName(113656)] = 4,	-- Fists of Fury
+	[SpellName(115175)] = 8,	-- Soothing Mist
+	[SpellName(117952)] = 4,	-- Crackling Jade Lightning
 	-- Priest
-	[SpellName(15407)] = 3,		-- Mind Flay
-	[SpellName(48045)] = 5,		-- Mind Sear
-	[SpellName(47540)] = 2,		-- Penance
+	[SpellName(15407)] = 6,		-- Mind Flay
+	[SpellName(48045)] = 6,		-- Mind Sear
+	[SpellName(47540)] = 3,		-- Penance
 	[SpellName(64843)] = 4,		-- Divine Hymn
-	--BETA [SpellName(129197)] = 3,	-- Insanity
+	[SpellName(64902)] = 5,		-- Symbol of Hope (Mana Hymn)
 	-- Warlock
-	[SpellName(689)] = 6,		-- Drain Life
-	--BETA [SpellName(103103)] = 3,	-- Drain Soul
-	[SpellName(755)] = 6,		-- Health Funnel
-	--BETA [SpellName(1949)] = 15,		-- Hellfire
-	[SpellName(8690)] = 4,		-- Rain of Fire
+	[SpellName(755)] = 5,		-- Health Funnel
+	[SpellName(198590)] = 5,	-- Drain Soul
+	[SpellName(234153)] = 5,	-- Drain Life
+	-- Racials
+	[SpellName(291944)] = 6,	-- Regeneratin (Zandalari)
 }
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:RegisterEvent("PLAYER_TALENT_UPDATE")
+f:SetScript("OnEvent", function()
+	if T.class ~= "PRIEST" then
+		f:UnregisterAllEvents()
+		return
+	end
+
+	-- Penance
+	local penanceTicks = IsPlayerSpell(193134) and 4 or 3
+	T.CastBarTicks[SpellName(47540)] = penanceTicks
+end)

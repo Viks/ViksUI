@@ -5,8 +5,8 @@ if C.skins.mage_nuggets ~= true then return end
 --	MageNuggets skin /run ShowConfigFrames()
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-frame:SetScript("OnEvent", function(self, event)
+frame:RegisterEvent("PLAYER_LOGIN")
+frame:SetScript("OnEvent", function()
 	if not IsAddOnLoaded("MageNuggets") then return end
 
 	MageNuggets.cooldownSize = 3
@@ -528,6 +528,7 @@ frame:SetScript("OnEvent", function(self, event)
 	-- MageNugLB_Frame
 	MageNugLB_Frame:SetTemplate("Default")
 	MageNugLB_Frame:SetSize(21, 21)
+
 	MageNugLB_FrameTexture:SetTexture()
 	MageNugLB_FrameTextureBorder:SetTexture()
 	MageNugLB_FrameTextureTitle:SetTexture()

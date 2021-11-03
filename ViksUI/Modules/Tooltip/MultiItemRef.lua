@@ -6,10 +6,11 @@ if C.tooltip.enable ~= true then return end
 ----------------------------------------------------------------------------------------
 local tips = {[1] = _G["ItemRefTooltip"]}
 local types = {item = true, enchant = true, spell = true, quest = true, unit = true, talent = true, achievement = true, glyph = true, instancelock = true, currency = true}
+local shown
 
 local CreateTip = function(link)
-	for k, v in ipairs(tips) do
-		for i, tip in ipairs(tips) do
+	for _, v in ipairs(tips) do
+		for _, tip in ipairs(tips) do
 			if tip:IsShown() and tip.link == link then
 				tip.link = nil
 				HideUIPanel(tip)
@@ -24,8 +25,11 @@ local CreateTip = function(link)
 
 	local num = #tips + 1
 	local tip = CreateFrame("GameTooltip", "ItemRefTooltip"..num, UIParent, "GameTooltipTemplate")
-	tip:SetTemplate("Transparent")
-	tip:SetPoint("BOTTOM", 0, 80)
+	if num == 2 then
+		tip:SetPoint("LEFT", ItemRefTooltip, "RIGHT", 3, 0)
+	else
+		tip:SetPoint("LEFT", "ItemRefTooltip"..num - 1, "RIGHT", 3, 0)
+	end
 	tip:SetSize(128, 64)
 	tip:EnableMouse(true)
 	tip:SetMovable(true)
@@ -33,13 +37,24 @@ local CreateTip = function(link)
 	tip:RegisterForDrag("LeftButton")
 	tip:SetScript("OnDragStart", function(self) self:StartMoving() end)
 	tip:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
-	tip:HookScript("OnShow", function(self)
-		self:SetBackdropColor(unpack(C.media.overlay_color))
-		self:SetBackdropBorderColor(unpack(C.media.border_color))
-	end)
+
+	if T.newPatch then -- TODO: delete in new patch
+		tip.NineSlice:SetAlpha(0)
+	else
+		tip:SetBackdrop(nil)
+		tip.SetBackdrop = T.dummy
+		if tip.BackdropFrame then
+			tip.BackdropFrame:SetBackdrop(nil)
+		end
+	end
+	local bg = CreateFrame("Frame", nil, tip)
+	bg:SetPoint("TOPLEFT")
+	bg:SetPoint("BOTTOMRIGHT")
+	bg:SetFrameLevel(tip:GetFrameLevel() - 1)
+	bg:SetTemplate("Transparent")
 
 	local close = CreateFrame("Button", "ItemRefTooltip"..num.."CloseButton", tip)
-	close:SetScript("OnClick", function(self) HideUIPanel(tip) end)
+	close:SetScript("OnClick", function() HideUIPanel(tip) end)
 	T.SkinCloseButton(close)
 
 	table.insert(UISpecialFrames, tip:GetName())
@@ -55,19 +70,21 @@ local ShowTip = function(tip, link)
 	if not tip:IsShown() then
 		tip:SetOwner(UIParent, "ANCHOR_PRESERVE")
 	end
+	shown = true
 	tip:SetHyperlink(link)
+	shown = nil
 end
 
-local _SetItemRef = SetItemRef
-function SetItemRef(...)
-	local link, text, button = ...
+local SetHyperlink = _G.ItemRefTooltip.SetHyperlink
+function _G.ItemRefTooltip:SetHyperlink(link, ...)
 	local handled = strsplit(":", link)
-	if not IsModifiedClick() and handled and types[handled] then
+	if not InCombatLockdown() and not IsModifiedClick() and handled and types[handled] and not shown then
 		local tip = CreateTip(link)
 		if tip then
 			ShowTip(tip, link)
 		end
-	else
-		return _SetItemRef(...)
+		return
 	end
+
+	SetHyperlink(self, link, ...)
 end

@@ -4,7 +4,7 @@ local T, C, L, _ = unpack(select(2, ...))
 --	Pet Battles UI
 ----------------------------------------------------------------------------------------
 local bar = CreateFrame("Frame", "PetBattleBarHolder", UIParent, "SecureHandlerStateTemplate")
-bar:SetSize(((C.actionbar.buttonsize * 1.5) * 6) + (C.actionbar.buttonspacing * 5), C.actionbar.buttonsize * 1.5)
+bar:SetSize(((C.actionbar.button_size * 1.5) * 6) + (C.actionbar.button_space * 5), C.actionbar.button_size * 1.5)
 bar:EnableMouse(true)
 bar:SetFrameStrata("LOW")
 bar:SetPoint(unpack(C.position.bottom_bars))
@@ -20,6 +20,12 @@ local units = {
 -- General
 f:StripTextures()
 
+f.TopArtLeft:ClearAllPoints()
+f.TopArtLeft:SetPoint("TOPRIGHT", f, "TOP", 0, -40)
+f.TopArtRight:ClearAllPoints()
+f.TopArtRight:SetPoint("TOPLEFT", f, "TOP", 0, -40)
+f.TopVersusText:ClearAllPoints()
+f.TopVersusText:SetPoint("TOP", f, "TOP", 0, -46)
 -- Pets unitframes
 for i, unit in pairs(units) do
 	unit.Border:SetAlpha(0)
@@ -63,11 +69,13 @@ for i, unit in pairs(units) do
 		unit.ActualHealthBar:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMRIGHT", 10, 0)
 		unit.Name:SetPoint("BOTTOMLEFT", unit.ActualHealthBar, "TOPLEFT", 0, 10)
 
-		unit.PetTypeFrame:SetPoint("BOTTOMRIGHT", unit.HealthBarBackdrop, "TOPRIGHT", 4, 4)
+		unit.PetTypeFrame:SetPoint("BOTTOMRIGHT", unit.HealthBarBackdrop, "TOPRIGHT", 0, 7)
+
 		unit.FirstAttack:SetPoint("LEFT", unit.HealthBarBackdrop, "RIGHT", 5, 0)
 		unit.FirstAttack:SetTexCoord(unit.SpeedIcon:GetTexCoord())
 		unit.FirstAttack:SetVertexColor(0.1, 0.1, 0.1, 1)
-		unit.Level:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMLEFT", 2, 2)
+
+		unit.Level:SetPoint("BOTTOMLEFT", unit.Icon, "BOTTOMLEFT", 2, 0)
 	else
 		unit.HealthBarBackdrop:SetPoint("TOPRIGHT", unit.ActualHealthBar, "TOPRIGHT", 2, 2)
 		unit.HealthBarBackdrop:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, "BOTTOMRIGHT", 2, -2)
@@ -77,12 +85,13 @@ for i, unit in pairs(units) do
 		unit.ActualHealthBar:SetPoint("BOTTOMRIGHT", unit.Icon, "BOTTOMLEFT", -10, 0)
 		unit.Name:SetPoint("BOTTOMRIGHT", unit.ActualHealthBar, "TOPRIGHT", 0, 10)
 
-		unit.PetTypeFrame:SetPoint("BOTTOMLEFT", unit.HealthBarBackdrop, "TOPLEFT", -2, 4)
+		unit.PetTypeFrame:SetPoint("BOTTOMLEFT", unit.HealthBarBackdrop, "TOPLEFT", 0, 7)
 
 		unit.FirstAttack:SetPoint("RIGHT", unit.HealthBarBackdrop, "LEFT", -5, 0)
 		unit.FirstAttack:SetTexCoord(0.5, 0, 0.5, 1)
 		unit.FirstAttack:SetVertexColor(0.1, 0.1, 0.1, 1)
-		unit.Level:SetPoint("BOTTOMRIGHT", unit.Icon, "BOTTOMRIGHT", -2, 2)
+
+		unit.Level:SetPoint("BOTTOMRIGHT", unit.Icon, "BOTTOMRIGHT", -2, 0)
 	end
 
 	unit.PetType:ClearAllPoints()
@@ -94,21 +103,22 @@ for i, unit in pairs(units) do
 	unit.HealthText:SetPoint("CENTER", unit.HealthBarBackdrop, "CENTER")
 
 	unit.LevelUnderlay:SetAlpha(0)
-	unit.Level:SetFontObject(NumberFont_Outline_Large)
+	unit.Level:SetFont(C.font.cooldown_timers_font, C.font.cooldown_timers_font_size, C.font.cooldown_timers_font_style)
+	unit.Level:SetShadowOffset(C.font.cooldown_timers_font_shadow and 1 or 0, C.font.cooldown_timers_font_shadow and -1 or 0)
 	unit.Level:SetTextColor(1, 1, 1)
 
 	unit.BorderFlash:Kill()
 end
 
 -- Pets speed indicator update
-hooksecurefunc("PetBattleFrame_UpdateSpeedIndicators", function(self)
+hooksecurefunc("PetBattleFrame_UpdateSpeedIndicators", function()
 	if not f.ActiveAlly.SpeedIcon:IsShown() and not f.ActiveEnemy.SpeedIcon:IsShown() then
 		f.ActiveAlly.FirstAttack:Hide()
 		f.ActiveEnemy.FirstAttack:Hide()
 		return
 	end
 
-	for i, unit in pairs(units) do
+	for _, unit in pairs(units) do
 		unit.FirstAttack:Show()
 		if unit.SpeedIcon:IsShown() then
 			unit.FirstAttack:SetVertexColor(0, 1, 0, 1)
@@ -153,7 +163,8 @@ hooksecurefunc("PetBattleAuraHolder_Update", function(self)
 				frame.Duration:SetText(turnsRemaining)
 			end
 
-			frame.Duration:SetFontObject(NumberFont_Outline_Med)
+			frame.Duration:SetFont(C.font.cooldown_timers_font, C.font.cooldown_timers_font_size, C.font.cooldown_timers_font_style)
+			frame.Duration:SetShadowOffset(C.font.cooldown_timers_font_shadow and 1 or 0, C.font.cooldown_timers_font_shadow and -1 or 0)
 			frame.Duration:ClearAllPoints()
 			frame.Duration:SetPoint("CENTER", frame.Icon, "CENTER", 1, -2)
 
@@ -164,7 +175,7 @@ end)
 
 -- Reposition "vs" text
 f.TopVersusText:ClearAllPoints()
-f.TopVersusText:SetPoint("TOP", f, "TOP", 0, -76)
+f.TopVersusText:SetPoint("TOP", f, "TOP", 0, -46)
 
 -- Pets #2 and #3
 local extraUnits = {
@@ -174,7 +185,7 @@ local extraUnits = {
 	f.Enemy3
 }
 
-for i, unit in pairs(extraUnits) do
+for _, unit in pairs(extraUnits) do
 	unit.BorderAlive:SetAlpha(0)
 	unit.HealthBarBG:SetAlpha(0)
 	unit.HealthDivider:SetAlpha(0)
@@ -210,6 +221,13 @@ hooksecurefunc("PetBattleWeatherFrame_Update", function(self)
 		self.Duration:SetPoint("CENTER", self, 0, 8)
 		self:ClearAllPoints()
 		self:SetPoint("TOP", UIParent, 0, -15)
+		self:SetFrameStrata("MEDIUM")
+		if not self.ChildFrame then
+			self.ChildFrame = CreateFrame("Frame", nil, self)
+			self.ChildFrame:SetAllPoints(self)
+			self.ChildFrame:SetFrameStrata("LOW")
+		end
+		self.BackgroundArt:SetParent(self.ChildFrame)
 	end
 end)
 
@@ -226,10 +244,11 @@ bf.TurnTimer.SkipButton.SetPoint = T.dummy
 
 bf.xpBar:SetParent(bar)
 bf.xpBar:SetWidth(bar:GetWidth() - 4)
+bf.xpBar:StripTextures()
 bf.xpBar:CreateBackdrop("Overlay")
+bf.xpBar:SetStatusBarTexture(C.media.texture)
 bf.xpBar:ClearAllPoints()
 bf.xpBar:SetPoint("BOTTOM", bf.TurnTimer.SkipButton, "TOP", 0, 5)
-bf.xpBar:SetScript("OnShow", function(self) self:StripTextures() self:SetStatusBarTexture(C.media.texture) end)
 
 bf.TurnTimer:SetParent(bar)
 bf.TurnTimer:SetSize(bf.TurnTimer.SkipButton:GetWidth(), bf.TurnTimer.SkipButton:GetHeight())
@@ -281,7 +300,7 @@ local function SkinPetButton(self)
 
 	self.checked = true
 	self:StyleButton()
-	self.SelectedHighlight:SetAlpha(0)
+	self.SelectedHighlight:SetTexture("")
 
 	self.CooldownShadow:SetAllPoints()
 	self.CooldownFlash:SetAllPoints()
@@ -290,47 +309,47 @@ local function SkinPetButton(self)
 		self.HotKey:SetPoint("TOPRIGHT", 0, 0)
 		self.HotKey:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
 		self.HotKey:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
-		self.HotKey:SetWidth((C.actionbar.buttonsize * 1.5) - 1)
+		self.HotKey:SetWidth((C.actionbar.button_size * 1.5) - 1)
 	else
 		self.HotKey:Kill()
 	end
 end
 
 -- Setup pet action bar
-hooksecurefunc("PetBattleFrame_UpdateActionBarLayout", function(self)
+hooksecurefunc("PetBattleFrame_UpdateActionBarLayout", function()
 	for i = 1, NUM_BATTLE_PET_ABILITIES do
 		local b = bf.abilityButtons[i]
 
 		SkinPetButton(b)
 		b:SetParent(bar)
-		b:SetSize(C.actionbar.buttonsize * 1.5, C.actionbar.buttonsize * 1.5)
+		b:SetSize(C.actionbar.button_size * 1.5, C.actionbar.button_size * 1.5)
 		b:ClearAllPoints()
 		if i == 1 then
 			b:SetPoint("BOTTOMLEFT", 0, 0)
 		else
 			local previous = bf.abilityButtons[i-1]
-			b:SetPoint("LEFT", previous, "RIGHT", C.actionbar.buttonspacing, 0)
+			b:SetPoint("LEFT", previous, "RIGHT", C.actionbar.petbuttonspacing, 0)
 		end
 	end
 
 	bf.SwitchPetButton:SetParent(bar)
-	bf.SwitchPetButton:SetSize(C.actionbar.buttonsize * 1.5, C.actionbar.buttonsize * 1.5)
+	bf.SwitchPetButton:SetSize(C.actionbar.button_size * 1.5, C.actionbar.button_size * 1.5)
 	bf.SwitchPetButton:ClearAllPoints()
-	bf.SwitchPetButton:SetPoint("LEFT", bf.abilityButtons[3], "RIGHT", C.actionbar.buttonspacing, 0)
+	bf.SwitchPetButton:SetPoint("LEFT", bf.abilityButtons[3], "RIGHT", C.actionbar.petbuttonspacing, 0)
 
-	bf.SwitchPetButton:SetScript("OnClick", function(self)
+	bf.SwitchPetButton:SetScript("OnClick", function()
 		PetBattlePetSelectionFrame_Show(bf.PetSelectionFrame)
 	end)
 
 	bf.CatchButton:SetParent(bar)
-	bf.CatchButton:SetSize(C.actionbar.buttonsize * 1.5, C.actionbar.buttonsize * 1.5)
+	bf.CatchButton:SetSize(C.actionbar.button_size * 1.5, C.actionbar.button_size * 1.5)
 	bf.CatchButton:ClearAllPoints()
-	bf.CatchButton:SetPoint("LEFT", bf.SwitchPetButton, "RIGHT", C.actionbar.buttonspacing, 0)
+	bf.CatchButton:SetPoint("LEFT", bf.SwitchPetButton, "RIGHT", C.actionbar.petbuttonspacing, 0)
 
 	bf.ForfeitButton:SetParent(bar)
 	bf.ForfeitButton:ClearAllPoints()
-	bf.ForfeitButton:SetSize(C.actionbar.buttonsize * 1.5, C.actionbar.buttonsize * 1.5)
-	bf.ForfeitButton:SetPoint("LEFT", bf.CatchButton, "RIGHT", C.actionbar.buttonspacing, 0)
+	bf.ForfeitButton:SetSize(C.actionbar.button_size * 1.5, C.actionbar.button_size * 1.5)
+	bf.ForfeitButton:SetPoint("LEFT", bf.CatchButton, "RIGHT", C.actionbar.petbuttonspacing, 0)
 
 	SkinPetButton(bf.SwitchPetButton)
 	SkinPetButton(bf.CatchButton)
@@ -340,19 +359,22 @@ end)
 -- Tooltips skinning
 local tooltips = {BattlePetTooltip, PetBattlePrimaryAbilityTooltip, PetBattlePrimaryUnitTooltip, FloatingPetBattleAbilityTooltip, FloatingBattlePetTooltip}
 
-for i, tt in pairs(tooltips) do
+for _, tt in pairs(tooltips) do
 	tt:SetTemplate("Transparent")
 
-	tt.Background:SetTexture(nil)
-
-	tt.BorderLeft:SetTexture(nil)
-	tt.BorderRight:SetTexture(nil)
-	tt.BorderTop:SetTexture(nil)
-	tt.BorderTopLeft:SetTexture(nil)
-	tt.BorderTopRight:SetTexture(nil)
-	tt.BorderBottom:SetTexture(nil)
-	tt.BorderBottomLeft:SetTexture(nil)
-	tt.BorderBottomRight:SetTexture(nil)
+	if T.newPatch then -- TODO: detete in new patch
+		tt.NineSlice:SetAlpha(0)
+	else
+		tt.Background:SetTexture(nil)
+		tt.BorderLeft:SetTexture(nil)
+		tt.BorderRight:SetTexture(nil)
+		tt.BorderTop:SetTexture(nil)
+		tt.BorderTopLeft:SetTexture(nil)
+		tt.BorderTopRight:SetTexture(nil)
+		tt.BorderBottom:SetTexture(nil)
+		tt.BorderBottomLeft:SetTexture(nil)
+		tt.BorderBottomRight:SetTexture(nil)
+	end
 
 	if tt.CloseButton then
 		T.SkinCloseButton(tt.CloseButton)
@@ -383,17 +405,9 @@ hooksecurefunc("PetBattleUnitFrame_UpdateDisplay", function(self)
 	-- There must be a petOwner and a petIndex
 	if not self.petOwner or not self.petIndex then return end
 
-	-- Is this Enemy or Player? (This Value will be Added to the Glow Index)
-	local nEnemy = 0
-	if self.petOwner == LE_BATTLE_PET_ENEMY then nEnemy = 3 end
-
 	-- Check if this is the Tooltip
 	local isTooltip = false
 	if self:GetName() == "PetBattlePrimaryUnitTooltip" then isTooltip = true end
-
-	-- Set which Glow frame this will use (Enemy Frames are +3 / Tooltip is 7)
-	local sGlow = "Glow7"
-	if not isTooltip then sGlow = "Glow"..tostring(self.petIndex + nEnemy) end
 
 	-- Set the color for the Glow
 	local nQuality = C_PetBattles.GetBreedQuality(self.petOwner, self.petIndex) - 1

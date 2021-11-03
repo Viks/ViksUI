@@ -41,7 +41,7 @@ local function MasterLoot_GiveLoot(frame)
 end
 
 local function init()
-	local candidate, lclass, className, cand
+	local candidate, lclass, className
 	local slot = LootFrame.selectedSlot or 0
 	local info = UIDropDownMenu_CreateInfo()
 
@@ -92,7 +92,7 @@ local function init()
 			end
 		end
 
-		for i, class in ipairs(CLASS_SORT_ORDER) do
+		for _, class in ipairs(CLASS_SORT_ORDER) do
 			local cname = classesInRaid[class]
 			if cname then
 				info.isTitle = nil

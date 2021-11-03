@@ -68,7 +68,14 @@ local applystyle = function(bar)
 	bar:SetHeight(15)
 	bar:SetScale(1)
 	bar.OldSetScale = bar.SetScale
-	bar.SetScale = T.dummy
+
+	-- Set currect scale if bars attached to nameplates
+	if not bar.hook then
+		hooksecurefunc(bar, "SetParent", function()
+			bar:SetScale(T.noscalemult)
+		end)
+		bar.hook = true
+	end
 
 	-- Create or reparent and use bar background
 	local bg = nil
@@ -107,7 +114,8 @@ local applystyle = function(bar)
 	bar.candyBarLabel:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
 	bar.candyBarLabel:SetJustifyH("LEFT")
 	bar.candyBarLabel:ClearAllPoints()
-	bar.candyBarLabel:SetPoint("LEFT", bar, "LEFT", 2, 0)
+	bar.candyBarLabel:SetPoint("TOPLEFT", bar, "TOPLEFT", 2, 0)
+	bar.candyBarLabel:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", -14, 0)
 
 	bar.candyBarDuration:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
 	bar.candyBarDuration:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
@@ -121,7 +129,7 @@ local applystyle = function(bar)
 	bar.candyBarBar.OldSetPoint = bar.candyBarBar.SetPoint
 	bar.candyBarBar.SetPoint = T.dummy
 	bar.candyBarBar:SetStatusBarTexture(C.media.texture)
-	if not bar.data["bigwigs:emphasized"] == true then
+	if not bar:Get("bigwigs:emphasized") then
 		bar.candyBarBar:SetStatusBarColor(T.color.r, T.color.g, T.color.b, 1)
 	end
 	bar.candyBarBackground:SetTexture(C.media.texture)
@@ -135,94 +143,114 @@ local applystyle = function(bar)
 	bar.candyBarIconFrame:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 end
 
-local function registerStyle()
+local function registerStyle(myProfile)
 	if not BigWigs then return end
-	local bars = BigWigs:GetPlugin("Bars", true)
-	local prox = BigWigs:GetPlugin("Proximity", true)
-	if bars then
-		bars:RegisterBarStyle("ViksUI", {
-			apiVersion = 1,
-			version = 1,
-			GetSpacing = function(bar) return T.Scale(13) end,
-			ApplyStyle = applystyle,
-			BarStopped = freestyle,
-			GetStyleName = function() return "ViksUI" end,
-		})
-	end
-	bars.defaultDB.barStyle = "ViksUI"
-	if BigWigsLoader and bars.defaultDB.barStyle == "ViksUI" then
+	BigWigsAPI:RegisterBarStyle("ViksUI", {
+		apiVersion = 1,
+		version = 1,
+		GetSpacing = function() return T.Scale(13) end,
+		ApplyStyle = applystyle,
+		BarStopped = freestyle,
+		GetStyleName = function() return "ViksUI" end,
+	})
+
+	if BigWigsLoader and myProfile and myProfile.barStyle == "ViksUI" then
 		BigWigsLoader.RegisterMessage("BigWigs_Plugins", "BigWigs_FrameCreated", function()
 			BigWigsProximityAnchor:SetTemplate("Transparent")
+			BigWigsInfoBox:SetTemplate("Transparent")
+		end)
+
+		BigWigsLoader.RegisterMessage("BigWigs_Plugins", "BigWigs_BarEmphasized", function(_, _, bar)
+			local module = bar:Get("bigwigs:module")
+			local key = bar:Get("bigwigs:option")
+			local colors = BigWigs:GetPlugin("Colors")
+			bar.candyBarBar:SetStatusBarColor(colors:GetColor("barEmphasized", module, key))
 		end)
 	end
 end
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
-f:SetScript("OnEvent", function(self, event, addon)
+f:SetScript("OnEvent", function(_, event, addon)
 	if event == "ADDON_LOADED" then
 		if addon == "BigWigs_Plugins" then
-			if not BigWigs3DB.namespaces.BigWigs_Plugins_Bars or BigWigs3DB.namespaces.BigWigs_Plugins_Bars.profiles.Default.InstalledBars ~= C.actionbar.bottombars then
-				StaticPopup_Show("BW_TEST")
+			local myProfile
+			if BigWigs3DB then
+				if BigWigs3DB.profileKeys and BigWigs3DB.namespaces and BigWigs3DB.namespaces.BigWigs_Plugins_Bars and BigWigs3DB.namespaces.BigWigs_Plugins_Bars.profiles then
+					myProfile = BigWigs3DB.namespaces.BigWigs_Plugins_Bars.profiles[BigWigs3DB.profileKeys[UnitName("player").." - "..GetRealmName()]]
+				end
+				if not myProfile or myProfile.InstalledBars ~= C.actionbar.bottombars then
+					StaticPopup_Show("SETTINGS_BIGWIGS")
+				end
 			end
-			registerStyle()
+
+			registerStyle(myProfile)
 			f:UnregisterEvent("ADDON_LOADED")
+		elseif addon == "ViksUI" then
+			if BigWigsLoader then
+				BigWigsLoader.RegisterMessage(addon, "BigWigs_FrameCreated", function(_, frame, name)
+					if name == "AltPower" then
+						frame:SetTemplate("Transparent")
+					end
+					if name == "QueueTimer" and C.skins.blizzard_frames then
+						frame:SetSize(240, 15)
+						frame:StripTextures()
+						frame:SetStatusBarTexture(C.media.texture)
+						frame:CreateBackdrop("Overlay")
+					end
+				end)
+			end
 		end
 	end
 end)
 
+function T.UploadBW()
+	if not BigWigs then return end
+	local bars = BigWigs:GetPlugin("Bars", true)
+	if bars then
+		bars.db.profile.barStyle = "ViksUI"
+		bars.db.profile.fontName = C.font.stylization_font
+		bars.db.profile.BigWigsAnchor_width = 184.9999694824219
+		bars.db.profile.BigWigsAnchor_x = 1171
+		bars.db.profile.BigWigsEmphasizeAnchor_width = 262.0124206542969
+		bars.db.profile.BigWigsEmphasizeAnchor_x = 599.2888764651907
+		bars.db.profile.emphasizeGrowup = true
+		bars.db.profile.InstalledBars = 2
+		bars.db.profile.BigWigsAnchor_y = 155
+		bars.db.profile.BigWigsEmphasizeAnchor_y = 248.6890313920976
+	end
+	local mess = BigWigs:GetPlugin("Messages")
+	if mess then
+		mess.db.profile.fontName = C.font.stylization_font
+		mess.db.profile.fontSize = 20
+		mess.db.profile.BWMessageAnchor_x = 619
+		mess.db.profile.BWMessageAnchor_y = 702
+		mess.db.profile.BWEmphasizeMessageAnchor_x = 621
+		mess.db.profile.BWEmphasizeMessageAnchor_y = 745
+		mess.db.profile.BWEmphasizeCountdownMessageAnchor_x = 673
+		mess.db.profile.BWEmphasizeCountdownMessageAnchor_y = 642
+	end
+	local prox = BigWigs:GetPlugin("Proximity")
+	if prox then
+		prox.db.profile.fontName = C.font.stylization_font
+		prox.db.profile.objects.ability = false
+	end
+	BigWigsIconDB.hide = true
+	BigWigs:GetPlugin("Super Emphasize").db.profile.fontName = C.font.stylization_font
+	BigWigs:GetPlugin("Alt Power").db.profile.fontName = C.font.stylization_font
+	if InCombatLockdown() then
+		print("|cffffff00"..ERR_NOT_IN_COMBAT.."|r")
+		print("|cffffff00Reload your UI to apply skin.|r")
+	else
+		ReloadUI()
+	end
+end
 
-StaticPopupDialogs.BW_TEST = {
+StaticPopupDialogs.SETTINGS_BIGWIGS = {
 	text = L_POPUP_SETTINGS_BW,
 	button1 = ACCEPT,
 	button2 = CANCEL,
-	OnAccept = function()
-		local bars = BigWigs and BigWigs:GetPlugin("Bars")
-		if bars then
-			bars.db.profile.barStyle = "ViksUI"
-			bars.db.profile.font = C.font.stylization_font
-			bars.db.profile.BigWigsAnchor_width = 185
-			bars.db.profile.BigWigsAnchor_x = 49
-			bars.db.profile.BigWigsEmphasizeAnchor_width = 185
-			bars.db.profile.BigWigsEmphasizeAnchor_x = 541
-			bars.db.profile.BigWigsEmphasizeAnchor_y = 493
-			bars.db.profile.emphasizeGrowup = true
-			bars.db.profile.InstalledBars = C.actionbar.bottombars
-			if C.actionbar.bottombars == 1 then
-				bars.db.profile.BigWigsAnchor_y = 150
-			elseif C.actionbar.bottombars == 2 then
-				bars.db.profile.BigWigsAnchor_y = 177
-			elseif C.actionbar.bottombars == 3 then
-				bars.db.profile.BigWigsAnchor_y = 203
-			end
-		end
-
-		local mess = BigWigs and BigWigs:GetPlugin("Messages")
-		if mess then
-			mess.db.profile.font = C.media.normal_font
-			mess.db.profile.outline = "OUTLINE"
-			mess.db.profile.fontSize = 30
-			mess.db.profile.BWMessageAnchor_y = 320
-			mess.db.profile.BWEmphasizeMessageAnchor_x = 415
-			mess.db.profile.BWEmphasizeMessageAnchor_y = 335
-			mess.db.profile.BWEmphasizeCountdownMessageAnchor_x = 465
-			mess.db.profile.BWEmphasizeCountdownMessageAnchor_y = 370
-		end
-		local prox = BigWigs and BigWigs:GetPlugin("Proximity")
-		if prox then
-			prox.db.profile.font = C.media.normal_font
-			prox.db.profile.objects.ability = false
-		end
-		BigWigs3IconDB.hide = true
-		BigWigs:GetPlugin("Super Emphasize").db.profile.font = "Calibri"
-		BigWigs:GetPlugin("Alt Power").db.profile.font = "Calibri"
-		if InCombatLockdown() then
-			print("|cffffff00"..ERR_NOT_IN_COMBAT.."|r")
-			print("|cffffff00Reload your UI to apply skin.|r")
-		else
-			ReloadUI()
-		end
-	end,
+	OnAccept = function() T.UploadBW() end,
 	timeout = 0,
 	whileDead = 1,
 	hideOnEscape = true,
@@ -233,7 +261,7 @@ SlashCmdList.BWTEST = function(msg)
 	if msg == "apply" then
 		SlashCmdList["BigWigs"]()
 		HideUIPanel(InterfaceOptionsFrame)
-		StaticPopup_Show("BW_TEST")
+		StaticPopup_Show("SETTINGS_BIGWIGS")
 	elseif msg == "test" then
 		SlashCmdList["BigWigs"]()
 		BigWigs:GetPlugin("Proximity").Test(BigWigs:GetPlugin("Proximity"))
@@ -249,4 +277,4 @@ SlashCmdList.BWTEST = function(msg)
 	end
 end
 SLASH_BWTEST1 = "/bwtest"
-SLASH_BWTEST2 = "/??????"
+SLASH_BWTEST2 = "/ицеуые"

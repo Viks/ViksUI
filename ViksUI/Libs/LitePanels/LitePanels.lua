@@ -39,7 +39,7 @@ local IsAddOnLoaded = IsAddOnLoaded
 local hooksecurefunc = hooksecurefunc
 
 local r, is = function(n, dec) return floor(n * (10 ^ (dec or 0)) + 0.5) end, function(v, t) return type(v) == t end
-local dummy, d = function() end, lpanels.defaults
+local d = lpanels.defaults
 
 local class = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[strupper(lpanels.cinfo.c)]
 local function setcolor(color)
@@ -212,7 +212,7 @@ function lpanels:MakePanel(f)
 			if is(t.string, "function") and t.update ~= 0 then
 				text.elapsed = 0
 				local update, string = t.update or 1, t.string
-				local function OnUpdate(self, u)
+				local function OnUpdate(_, u)
 					text.elapsed = text.elapsed + u
 					if text.elapsed > update then text:SetText(string(text)) text.elapsed = 0 end
 				end
@@ -267,16 +267,16 @@ function lpanels:Init()
 	end f.name = f.name and "LP_"..f.name or "LP_"..i end
 
 	-- Begin to cycle through user profile and create panels
-	for i, f in ipairs(self.profile) do self:MakePanel(f) end
+	for _, f in ipairs(self.profile) do self:MakePanel(f) end
 end
 
 function lpanels:Exit()
-	r, is, class, setcolor, dummy = nil
+	r, is, class, setcolor = nil
 	for k in pairs(self) do self[k] = nil end
 	self.reset = 1 self.reset = nil
 end
 
-function lpanels.OnEvent(self, event)
+function lpanels.OnEvent(_, event)
 	if event == "PLAYER_LOGIN" then
 		lpanels:Init()
 		lpanels = lpanels:Exit()

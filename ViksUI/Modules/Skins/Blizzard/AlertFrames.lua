@@ -5,671 +5,915 @@ if C.skins.blizzard_frames ~= true then return end
 --	AlertFrames skin
 ----------------------------------------------------------------------------------------
 local function LoadSkin()
-	local function FixBg(f)
-		if f:GetObjectType() == "AnimationGroup" then
-			f = f:GetParent()
-		end
-		f.backdrop:SetBackdropColor(unpack(C.media.overlay_color))
-	end
-
-	local function SkinAchievePopUp()
-		for i = 1, MAX_ACHIEVEMENT_ALERTS do
-			local frame = _G["AchievementAlertFrame"..i]
-
-			if frame then
-				frame:SetAlpha(1)
-				frame.SetAlpha = T.dummy
-
-				if not frame.backdrop then
-					frame:CreateBackdrop("Transparent")
-					frame:SetFrameLevel(3)
-					frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -2, -6)
-					frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)
-
-					frame:HookScript("OnEnter", FixBg)
-					frame:HookScript("OnShow", FixBg)
-					frame.animIn:HookScript("OnFinished", FixBg)
-				end
-
-				-- Background
-				_G["AchievementAlertFrame"..i.."Background"]:SetTexture(nil)
-				_G["AchievementAlertFrame"..i.."Glow"]:Kill()
-				_G["AchievementAlertFrame"..i.."Shine"]:Kill()
-				_G["AchievementAlertFrame"..i.."OldAchievement"]:Kill()
-				_G["AchievementAlertFrame"..i.."GuildBanner"]:Kill()
-				_G["AchievementAlertFrame"..i.."GuildBorder"]:Kill()
-
-				-- Text
-				_G["AchievementAlertFrame"..i.."Name"]:SetTextColor(1, 0.8, 0)
-				_G["AchievementAlertFrame"..i.."Name"]:SetFont(C.media.normal_font, 11)
-				_G["AchievementAlertFrame"..i.."Unlocked"]:SetTextColor(1, 1, 1)
-				_G["AchievementAlertFrame"..i.."Unlocked"]:SetFont(C.media.normal_font, 11)
-
-				-- Icon
-				_G["AchievementAlertFrame"..i.."IconTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-				_G["AchievementAlertFrame"..i.."IconOverlay"]:Kill()
-				_G["AchievementAlertFrame"..i.."IconTexture"]:ClearAllPoints()
-				_G["AchievementAlertFrame"..i.."IconTexture"]:SetPoint("LEFT", frame, 7, 0)
-
-				-- Icon border
-				if not _G["AchievementAlertFrame"..i.."IconTexture"].b then
-					_G["AchievementAlertFrame"..i.."IconTexture"].b = CreateFrame("Frame", nil, frame)
-					_G["AchievementAlertFrame"..i.."IconTexture"].b:SetFrameLevel(2)
-					_G["AchievementAlertFrame"..i.."IconTexture"].b:SetTemplate("Default")
-					_G["AchievementAlertFrame"..i.."IconTexture"].b:SetPoint("TOPLEFT", _G["AchievementAlertFrame"..i.."IconTexture"], "TOPLEFT", -2, 2)
-					_G["AchievementAlertFrame"..i.."IconTexture"].b:SetPoint("BOTTOMRIGHT", _G["AchievementAlertFrame"..i.."IconTexture"], "BOTTOMRIGHT", 2, -2)
-				end
-			end
+	local function forceAlpha(self, alpha, isForced)
+		if alpha ~= 1 and isForced ~= true then
+			self:SetAlpha(1, true)
 		end
 	end
-	--hooksecurefunc("AlertFrame_SetAchievementAnchors", SkinAchievePopUp)
 
-	local function SkinDungeonPopUp()
-		for i = 1, DUNGEON_COMPLETION_MAX_REWARDS do
-			local frame = _G["DungeonCompletionAlertFrame"..i]
+	local function SkinAchievementAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
 
-			if frame then
-				frame:SetAlpha(1)
-				frame.SetAlpha = T.dummy
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -1, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)
+		end
 
-				if not frame.backdrop then
-					frame:CreateBackdrop("Transparent")
-					frame:SetFrameLevel(3)
-					frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 31, -6)
-					frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -35, 6)
+		-- Background
+		frame.Background:SetTexture(nil)
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame.GuildBanner:Kill()
+		frame.GuildBorder:Kill()
 
-					frame:HookScript("OnEnter", FixBg)
-					frame:HookScript("OnShow", FixBg)
-					frame.animIn:HookScript("OnFinished", FixBg)
-				end
+		-- Text
+		frame.Unlocked:SetTextColor(1, 1, 1)
+		frame.Name:SetTextColor(1, 0.8, 0)
 
-				-- Background
-				for i = 1, frame:GetNumRegions() do
-					local region = select(i, frame:GetRegions())
-					if region:GetObjectType() == "Texture" then
-						if region:GetTexture() == "Interface\\LFGFrame\\UI-LFG-DUNGEONTOAST" or region:GetTexture() == "Interface\\LFGFrame\\LFR-Texture" then
-							region:Kill()
-						end
-					end
-				end
+		-- Icon
+		frame.Icon.Texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon.Overlay:Kill()
+		frame.Icon.Texture:ClearAllPoints()
+		frame.Icon.Texture:SetPoint("LEFT", frame, 8, 0)
 
-				_G["DungeonCompletionAlertFrame"..i.."Shine"]:Kill()
-				_G["DungeonCompletionAlertFrame"..i.."GlowFrame"]:Kill()
-				_G["DungeonCompletionAlertFrame"..i.."GlowFrame"].glow:Kill()
-				_G["DungeonCompletionAlertFrame"..i].raidArt:Kill()
-
-				-- Icon
-				_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-				_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"]:ClearAllPoints()
-				_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"]:SetPoint("LEFT", frame.backdrop, 9, 0)
-
-				-- Icon border
-				if not _G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b then
-					_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b = CreateFrame("Frame", nil, frame)
-					_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b:SetFrameLevel(2)
-					_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b:SetTemplate("Default")
-					_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b:SetPoint("TOPLEFT", _G["DungeonCompletionAlertFrame"..i.."DungeonTexture"], "TOPLEFT", -2, 2)
-					_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b:SetPoint("BOTTOMRIGHT", _G["DungeonCompletionAlertFrame"..i.."DungeonTexture"], "BOTTOMRIGHT", 2, -2)
-				end
-			end
+		-- Icon border
+		if not frame.Icon.Texture.b then
+			frame.Icon.Texture.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.Texture.b:SetTemplate("Default")
+			frame.Icon.Texture.b:SetPoint("TOPLEFT", frame.Icon.Texture, "TOPLEFT", -2, 2)
+			frame.Icon.Texture.b:SetPoint("BOTTOMRIGHT", frame.Icon.Texture, "BOTTOMRIGHT", 2, -2)
+			frame.Icon.Texture:SetParent(frame.Icon.Texture.b)
 		end
 	end
-	--hooksecurefunc("AlertFrame_SetDungeonCompletionAnchors", SkinDungeonPopUp)
---[[
-	hooksecurefunc("DungeonCompletionAlertFrame_ShowAlert", function()
-		local frame = DungeonCompletionAlertFrame1Reward1
-		local index = 1
+	hooksecurefunc(AchievementAlertSystem, "setUpFunction", SkinAchievementAlert)
 
-		while frame do
-			if not frame.styled then
-				_G["DungeonCompletionAlertFrame1Reward"..index.."Border"]:Hide()
-
-				frame.texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-				frame.texture:SetSize(22, 22)
-				if not frame.texture.b then
-					frame.texture.b = CreateFrame("Frame", nil, frame)
-					frame.texture.b:SetFrameLevel(4)
-					frame.texture.b:SetTemplate("Default")
-					frame.texture.b:SetPoint("TOPLEFT", frame.texture, "TOPLEFT", -2, 2)
-					frame.texture.b:SetPoint("BOTTOMRIGHT", frame.texture, "BOTTOMRIGHT", 2, -2)
-				end
-
-				frame.styled = true
-			end
-			frame.texture.b:SetShown(frame.texture:IsShown() and frame.texture:GetTexture() ~= nil)
-
-			index = index + 1
-			frame = _G["DungeonCompletionAlertFrame1Reward"..index]
+	local function SkinCriteriaAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
 		end
-	end)
---]]
-	local function SkinGuildChallengePopUp()
-		local frame = _G["GuildChallengeAlertFrame"]
 
-		if frame then
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -9, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 5, 6)
+		end
+
+		frame.Unlocked:SetTextColor(1, 1, 1)
+		frame.Name:SetTextColor(1, 0.8, 0)
+		frame.Background:Kill()
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame.Icon.Bling:Kill()
+		frame.Icon.Overlay:Kill()
+
+		-- Icon
+		frame.Icon.Texture:SetSize(27, 27)
+		frame.Icon.Texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon.Texture:ClearAllPoints()
+		frame.Icon.Texture:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.Icon.Texture.b then
+			frame.Icon.Texture.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.Texture.b:SetTemplate("Default")
+			frame.Icon.Texture.b:SetPoint("TOPLEFT", frame.Icon.Texture, "TOPLEFT", -2, 2)
+			frame.Icon.Texture.b:SetPoint("BOTTOMRIGHT", frame.Icon.Texture, "BOTTOMRIGHT", 2, -2)
+			frame.Icon.Texture:SetParent(frame.Icon.Texture.b)
+		end
+	end
+	hooksecurefunc(CriteriaAlertSystem, "setUpFunction", SkinCriteriaAlert)
+
+	local function SkinDungeonCompletionAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 31, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -35, 6)
+		end
+
+		if frame.glowFrame then
+			frame.glowFrame:Kill()
+
+			if frame.glowFrame.glow then
+				frame.glowFrame.glow:Kill()
+			end
+		end
+
+		if frame.shine then frame.shine:Kill() end
+		if frame.raidArt then frame.raidArt:Kill() end
+		if frame.heroicIcon then frame.heroicIcon:Kill() end
+		if frame.dungeonArt then frame.dungeonArt:Kill() end
+		if frame.dungeonArt1 then frame.dungeonArt1:Kill() end
+		if frame.dungeonArt2 then frame.dungeonArt2:Kill() end
+		if frame.dungeonArt3 then frame.dungeonArt3:Kill() end
+		if frame.dungeonArt4 then frame.dungeonArt4:Kill() end
+
+		-- Icon
+		frame.dungeonTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.dungeonTexture:SetDrawLayer("OVERLAY")
+		frame.dungeonTexture:ClearAllPoints()
+		frame.dungeonTexture:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.dungeonTexture.b then
+			frame.dungeonTexture.b = CreateFrame("Frame", nil, frame)
+			frame.dungeonTexture.b:SetTemplate("Default")
+			frame.dungeonTexture.b:SetPoint("TOPLEFT", frame.dungeonTexture, "TOPLEFT", -2, 2)
+			frame.dungeonTexture.b:SetPoint("BOTTOMRIGHT", frame.dungeonTexture, "BOTTOMRIGHT", 2, -2)
+			frame.dungeonTexture:SetParent(frame.dungeonTexture.b)
+		end
+	end
+	hooksecurefunc(DungeonCompletionAlertSystem, "setUpFunction", SkinDungeonCompletionAlert)
+
+	local function SkinGuildChallengeAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -2, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)
+		end
+
+		-- Background
+		local region = select(2, frame:GetRegions())
+		if region:GetObjectType() == "Texture" then
+			if region:GetTexture() == "Interface\\GuildFrame\\GuildChallenges" then
+				region:Kill()
+			end
+		end
+
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame.EmblemBorder:Kill()
+
+		-- Icon border
+		frame.EmblemBackground:SetPoint("LEFT", frame.backdrop, 9, 0)
+		frame.EmblemIcon:SetPoint("CENTER", frame.EmblemBackground, 0, 0)
+		frame.EmblemBackground:SetDrawLayer("ARTWORK", 1)
+		frame.EmblemIcon:SetDrawLayer("ARTWORK", 2)
+
+		-- Icon border
+		if not frame.EmblemBackground.b then
+			frame.EmblemBackground.b = CreateFrame("Frame", nil, frame)
+			frame.EmblemBackground.b:SetTemplate("Default")
+			frame.EmblemBackground.b:SetPoint("TOPLEFT", frame.EmblemBackground, "TOPLEFT", -2, 2)
+			frame.EmblemBackground.b:SetPoint("BOTTOMRIGHT", frame.EmblemBackground, "BOTTOMRIGHT", 2, -2)
+			frame.EmblemBackground:SetParent(frame.EmblemBackground.b)
+			frame.EmblemIcon:SetParent(frame.EmblemBackground.b)
+		end
+	end
+	hooksecurefunc(GuildChallengeAlertSystem, "setUpFunction", SkinGuildChallengeAlert)
+
+	local function SkinInvasionAlert(frame)
+		if not frame.isSkinned then
 			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
 
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -2, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -7, 6)
 
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			local region = select(2, frame:GetRegions())
-			if region:GetObjectType() == "Texture" then
-				if region:GetTexture() == "Interface\\GuildFrame\\GuildChallenges" then
+			local region, icon = frame:GetRegions()
+			if region and region:GetObjectType() == "Texture" then
+				if region:GetAtlas() == "legioninvasion-Toast-Frame" then
 					region:Kill()
 				end
 			end
-
-			_G["GuildChallengeAlertFrameGlow"]:Kill()
-			_G["GuildChallengeAlertFrameShine"]:Kill()
-			_G["GuildChallengeAlertFrameEmblemBorder"]:Kill()
-
 			-- Icon border
-			if not _G["GuildChallengeAlertFrameEmblemIcon"].b then
-				_G["GuildChallengeAlertFrameEmblemIcon"].b = CreateFrame("Frame", nil, frame)
-				_G["GuildChallengeAlertFrameEmblemIcon"].b:SetFrameLevel(2)
-				_G["GuildChallengeAlertFrameEmblemIcon"].b:SetTemplate("Default")
-				_G["GuildChallengeAlertFrameEmblemIcon"].b:SetPoint("TOPLEFT", _G["GuildChallengeAlertFrameEmblemIcon"], "TOPLEFT", -3, 3)
-				_G["GuildChallengeAlertFrameEmblemIcon"].b:SetPoint("BOTTOMRIGHT", _G["GuildChallengeAlertFrameEmblemIcon"], "BOTTOMRIGHT", 3, -2)
-			end
-		end
-	end
-	--hooksecurefunc("AlertFrame_SetGuildChallengeAnchors", SkinGuildChallengePopUp)
-
-	local function SkinChallengePopUp()
-		local frame = _G["ChallengeModeAlertFrame1"]
-
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
-
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -7, 6)
-
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			frame:GetRegions():Hide()
-
-			_G["ChallengeModeAlertFrame1Shine"]:Kill()
-			_G["ChallengeModeAlertFrame1GlowFrame"]:Kill()
-			_G["ChallengeModeAlertFrame1GlowFrame"].glow:Kill()
-			_G["ChallengeModeAlertFrame1Border"]:Kill()
-
-			-- Icon
-			_G["ChallengeModeAlertFrame1DungeonTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-			_G["ChallengeModeAlertFrame1DungeonTexture"]:ClearAllPoints()
-			_G["ChallengeModeAlertFrame1DungeonTexture"]:SetPoint("LEFT", frame.backdrop, 9, 0)
-
-			-- Icon border
-			if not _G["ChallengeModeAlertFrame1DungeonTexture"].b then
-				_G["ChallengeModeAlertFrame1DungeonTexture"].b = CreateFrame("Frame", nil, frame)
-				_G["ChallengeModeAlertFrame1DungeonTexture"].b:SetFrameLevel(2)
-				_G["ChallengeModeAlertFrame1DungeonTexture"].b:SetTemplate("Default")
-				_G["ChallengeModeAlertFrame1DungeonTexture"].b:SetPoint("TOPLEFT", _G["ChallengeModeAlertFrame1DungeonTexture"], "TOPLEFT", -2, 2)
-				_G["ChallengeModeAlertFrame1DungeonTexture"].b:SetPoint("BOTTOMRIGHT", _G["ChallengeModeAlertFrame1DungeonTexture"], "BOTTOMRIGHT", 2, -2)
-			end
-		end
-	end
-	--hooksecurefunc("AlertFrame_SetChallengeModeAnchors", SkinChallengePopUp)
-
-	local function SkinScenarioPopUp()
-		local frame = _G["ScenarioAlertFrame1"]
-
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
-
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -7, 6)
-
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			frame:GetRegions():Hide()
-			select(3, frame:GetRegions()):Hide()
-
-			_G["ScenarioAlertFrame1Shine"]:Kill()
-			_G["ScenarioAlertFrame1GlowFrame"]:Kill()
-			_G["ScenarioAlertFrame1GlowFrame"].glow:Kill()
-
-			-- Icon
-			_G["ScenarioAlertFrame1DungeonTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-			_G["ScenarioAlertFrame1DungeonTexture"]:ClearAllPoints()
-			_G["ScenarioAlertFrame1DungeonTexture"]:SetPoint("LEFT", frame.backdrop, 9, 0)
-
-			-- Icon border
-			if not _G["ScenarioAlertFrame1DungeonTexture"].b then
-				_G["ScenarioAlertFrame1DungeonTexture"].b = CreateFrame("Frame", nil, frame)
-				_G["ScenarioAlertFrame1DungeonTexture"].b:SetFrameLevel(2)
-				_G["ScenarioAlertFrame1DungeonTexture"].b:SetTemplate("Default")
-				_G["ScenarioAlertFrame1DungeonTexture"].b:SetPoint("TOPLEFT", _G["ScenarioAlertFrame1DungeonTexture"], "TOPLEFT", -2, 2)
-				_G["ScenarioAlertFrame1DungeonTexture"].b:SetPoint("BOTTOMRIGHT", _G["ScenarioAlertFrame1DungeonTexture"], "BOTTOMRIGHT", 2, -2)
-			end
-		end
-	end
-	--hooksecurefunc("AlertFrame_SetScenarioAnchors", SkinScenarioPopUp)
-
-	local function SkinCriteriaPopUp()
-		for i = 1, MAX_ACHIEVEMENT_ALERTS do
-			local frame = _G["CriteriaAlertFrame"..i]
-
-			if frame then
-				frame:SetAlpha(1)
-				frame.SetAlpha = T.dummy
-
-				if not frame.backdrop then
-					frame:CreateBackdrop("Transparent")
-					frame:SetFrameLevel(3)
-					frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -9, -6)
-					frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 5, 6)
-
-					frame:HookScript("OnEnter", FixBg)
-					frame:HookScript("OnShow", FixBg)
-					frame.animIn:HookScript("OnFinished", FixBg)
+			if icon and icon:GetObjectType() == "Texture" then
+				if icon:GetTexture() == "Interface\\Icons\\Ability_Warlock_DemonicPower" then
+					icon.b = CreateFrame("Frame", nil, frame)
+					icon.b:SetTemplate("Default")
+					icon.b:SetPoint("TOPLEFT", icon, "TOPLEFT", -2, 2)
+					icon.b:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
+					icon:SetParent(icon.b)
+					icon:SetDrawLayer("OVERLAY")
+					icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					icon:ClearAllPoints()
+					icon:SetPoint("LEFT", frame.backdrop, 9, 0)
 				end
+			end
 
-				-- Background
-				_G["CriteriaAlertFrame"..i.."Background"]:Kill()
-				_G["CriteriaAlertFrame"..i.."Glow"]:Kill()
-				_G["CriteriaAlertFrame"..i.."Shine"]:Kill()
-				_G["CriteriaAlertFrame"..i.."IconBling"]:Kill()
-				_G["CriteriaAlertFrame"..i.."IconOverlay"]:Kill()
+			frame.isSkinned = true
+		end
+	end
+	hooksecurefunc(InvasionAlertSystem, "setUpFunction", SkinInvasionAlert)
 
-				-- Text
-				_G["CriteriaAlertFrame"..i.."Unlocked"]:SetTextColor(1, 1, 1)
-				_G["CriteriaAlertFrame"..i.."Name"]:SetTextColor(1, 1, 0)
+	local function SkinScenarioAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
 
-				-- Icon
-				_G["CriteriaAlertFrame"..i.."IconTexture"]:SetSize(28, 28)
-				_G["CriteriaAlertFrame"..i.."IconTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-				_G["CriteriaAlertFrame"..i.."IconTexture"]:ClearAllPoints()
-				_G["CriteriaAlertFrame"..i.."IconTexture"]:SetPoint("LEFT", frame.backdrop, 9, 0)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -7, 6)
+		end
 
-				-- Icon border
-				if not _G["CriteriaAlertFrame"..i.."IconTexture"].b then
-					_G["CriteriaAlertFrame"..i.."IconTexture"].b = CreateFrame("Frame", nil, frame)
-					_G["CriteriaAlertFrame"..i.."IconTexture"].b:SetFrameLevel(2)
-					_G["CriteriaAlertFrame"..i.."IconTexture"].b:SetTemplate("Default")
-					_G["CriteriaAlertFrame"..i.."IconTexture"].b:SetPoint("TOPLEFT", _G["CriteriaAlertFrame"..i.."IconTexture"], "TOPLEFT", -2, 2)
-					_G["CriteriaAlertFrame"..i.."IconTexture"].b:SetPoint("BOTTOMRIGHT", _G["CriteriaAlertFrame"..i.."IconTexture"], "BOTTOMRIGHT", 2, -2)
-					_G["CriteriaAlertFrame"..i.."IconTexture"]:SetParent(_G["CriteriaAlertFrame"..i.."IconTexture"].b)
+		-- Background
+		for i = 1, frame:GetNumRegions() do
+			local region = select(i, frame:GetRegions())
+			if region:GetObjectType() == "Texture" then
+				if region:GetAtlas() == "Toast-IconBG" or region:GetAtlas() == "Toast-Frame" then
+					region:Kill()
 				end
 			end
 		end
-	end
-	--hooksecurefunc("AlertFrame_SetCriteriaAnchors", SkinCriteriaPopUp)
 
-	local function SkinLootWonPopUp()
-		for i = 1, #LOOT_WON_ALERT_FRAMES do
-			local frame = LOOT_WON_ALERT_FRAMES[i]
-			if frame then
-				frame:SetAlpha(1)
-				frame.SetAlpha = T.dummy
+		frame.shine:Kill()
+		frame.glowFrame:Kill()
+		frame.glowFrame.glow:Kill()
 
-				if not frame.backdrop then
-					frame:CreateBackdrop("Transparent")
-					frame:SetFrameLevel(3)
-					frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -6)
-					frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 6)
+		-- Icon
+		frame.dungeonTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.dungeonTexture:ClearAllPoints()
+		frame.dungeonTexture:SetPoint("LEFT", frame.backdrop, 9, 0)
+		frame.dungeonTexture:SetDrawLayer("OVERLAY")
 
-					frame:HookScript("OnEnter", FixBg)
-					frame:HookScript("OnShow", FixBg)
-					frame.animIn:HookScript("OnFinished", FixBg)
-				end
-
-				-- Background
-				frame.Background:Kill()
-				frame.BGAtlas:Kill()
-				frame.PvPBackground:Kill()
-				frame.IconBorder:Kill()
-				frame.glow:Kill()
-				frame.shine:Kill()
-				frame.SpecRing:SetTexture("")
-				frame.SpecIcon:SetPoint("TOPLEFT", 10, -12)
-				frame.SpecIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-
-				-- Icon
-				frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-				frame.Icon:ClearAllPoints()
-				frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
-				frame.Icon:SetDrawLayer("BACKGROUND", -1)
-
-				-- Icon border
-				if not frame.Icon.b then
-					frame.Icon.b = CreateFrame("Frame", nil, frame)
-					frame.Icon.b:SetFrameLevel(2)
-					frame.Icon.b:SetTemplate("Default")
-					frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
-					frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
-				end
-
-				if not frame.SpecIcon.b then
-					frame.SpecIcon.b = CreateFrame("Frame", nil, frame)
-					frame.SpecIcon.b:SetFrameLevel(3)
-					frame.SpecIcon.b:SetTemplate("Default")
-					frame.SpecIcon.b:SetPoint("TOPLEFT", frame.SpecIcon, "TOPLEFT", -2, 2)
-					frame.SpecIcon.b:SetPoint("BOTTOMRIGHT", frame.SpecIcon, "BOTTOMRIGHT", 2, -2)
-				end
-				frame.SpecIcon.b:SetShown(frame.SpecIcon:IsShown() and frame.SpecIcon:GetTexture() ~= nil)
-			end
+		-- Icon border
+		if not frame.dungeonTexture.b then
+			frame.dungeonTexture.b = CreateFrame("Frame", nil, frame)
+			frame.dungeonTexture.b:SetTemplate("Default")
+			frame.dungeonTexture.b:SetPoint("TOPLEFT", frame.dungeonTexture, "TOPLEFT", -2, 2)
+			frame.dungeonTexture.b:SetPoint("BOTTOMRIGHT", frame.dungeonTexture, "BOTTOMRIGHT", 2, -2)
+			frame.dungeonTexture:SetParent(frame.dungeonTexture.b)
 		end
 	end
-	--hooksecurefunc("AlertFrame_SetLootWonAnchors", SkinLootWonPopUp)
+	hooksecurefunc(ScenarioAlertSystem, "setUpFunction", SkinScenarioAlert)
 
-	local function SkinMoneyWonPopUp()
-		for i = 1, #MONEY_WON_ALERT_FRAMES do
-			local frame = MONEY_WON_ALERT_FRAMES[i]
-			if frame then
-				frame:SetAlpha(1)
-				frame.SetAlpha = T.dummy
+	local function SkinWorldQuestCompleteAlert(frame)
+		frame:SetAlpha(1)
+		hooksecurefunc(frame, "SetAlpha", forceAlpha)
 
-				if not frame.backdrop then
-					frame:CreateBackdrop("Transparent")
-					frame:SetFrameLevel(3)
-					frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -12, -6)
-					frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 9, 6)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -22, 6)
+		end
 
-					frame:HookScript("OnEnter", FixBg)
-					frame:HookScript("OnShow", FixBg)
-					frame.animIn:HookScript("OnFinished", FixBg)
-				end
+		-- Background
+		frame.ToastBackground:Kill()
+		frame.shine:Kill()
 
-				-- Background
-				frame.Background:Kill()
-				frame.IconBorder:Kill()
+		-- Icon
+		frame.QuestTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.QuestTexture:SetDrawLayer("ARTWORK")
+		frame.QuestTexture:SetPoint("LEFT", frame.backdrop, 8, 0)
 
-				-- Icon
-				frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		-- Icon border
+		if not frame.QuestTexture.b then
+			frame.QuestTexture.b = CreateFrame("Frame", nil, frame)
+			frame.QuestTexture.b:SetTemplate("Default")
+			frame.QuestTexture.b:SetPoint("TOPLEFT", frame.QuestTexture, "TOPLEFT", -2, 2)
+			frame.QuestTexture.b:SetPoint("BOTTOMRIGHT", frame.QuestTexture, "BOTTOMRIGHT", 2, -2)
+			frame.QuestTexture:SetParent(frame.QuestTexture.b)
+		end
+	end
+	hooksecurefunc(WorldQuestCompleteAlertSystem, "setUpFunction", SkinWorldQuestCompleteAlert)
 
-				-- Icon border
-				if not frame.Icon.b then
-					frame.Icon.b = CreateFrame("Frame", nil, frame)
-					frame.Icon.b:SetFrameLevel(2)
-					frame.Icon.b:SetTemplate("Default")
-					frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
-					frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+	local function SkinGarrisonFollowerAlert(frame, _, _, _, quality)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+		end
+
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame.FollowerBG:SetAlpha(0)
+		frame.DieIcon:SetAlpha(0)
+		frame.PortraitFrame:ClearAllPoints()
+		frame.PortraitFrame:SetPoint("LEFT", 12, -4)
+
+		frame.PortraitFrame.PortraitRing:Hide()
+		frame.PortraitFrame.PortraitRingQuality:SetTexture()
+		frame.PortraitFrame.LevelBorder:SetAlpha(0)
+		frame.PortraitFrame.Portrait:SetTexCoord(0.2, 0.85, 0.2, 0.85)
+
+		local level = frame.PortraitFrame.Level
+		level:ClearAllPoints()
+		level:SetPoint("BOTTOM", frame.PortraitFrame, 0, 11)
+		level:SetFontObject("SystemFont_Outline_Small")
+		level:SetShadowOffset(0, 0)
+
+		if not frame.squareBG then
+			frame.squareBG = CreateFrame("Frame", nil, frame.PortraitFrame)
+			frame.squareBG:SetFrameLevel(frame.PortraitFrame:GetFrameLevel()-1)
+			frame.squareBG:SetPoint("TOPLEFT", 2, -2)
+			frame.squareBG:SetPoint("BOTTOMRIGHT", -2, 10)
+			frame.squareBG:SetTemplate("Default")
+		end
+
+		local cover = frame.PortraitFrame.PortraitRingCover
+		if cover then
+			cover:SetColorTexture(0, 0, 0)
+			cover:SetAllPoints(frame.squareBG)
+		end
+
+		local color = ITEM_QUALITY_COLORS[quality]
+		if color and quality > 1 then
+			frame.Name:SetTextColor(color.r, color.g, color.b)
+		end
+
+		-- Background
+		for i = 1, frame:GetNumRegions() do
+			local region = select(i, frame:GetRegions())
+			if region:GetObjectType() == "Texture" then
+				if region:GetAtlas() == "Garr_MissionToast" then
+					region:Kill()
 				end
 			end
 		end
 	end
-	--hooksecurefunc("AlertFrame_SetMoneyWonAnchors", SkinMoneyWonPopUp)
+	hooksecurefunc(GarrisonFollowerAlertSystem, "setUpFunction", SkinGarrisonFollowerAlert)
 
-	local function DigsiteCompleteToastPopUp()
-		local frame = _G["DigsiteCompleteToastFrame"]
+	local function SkinGarrisonShipFollowerAlert(frame)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+		end
 
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame.FollowerBG:SetAlpha(0)
+		frame.DieIcon:SetAlpha(0)
+		frame.Background:Kill()
+	end
+	hooksecurefunc(GarrisonShipFollowerAlertSystem, "setUpFunction", SkinGarrisonShipFollowerAlert)
 
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -16, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 13, 6)
+	local function SkinGarrisonTalentAlert(frame)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 21, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -25, 6)
+		end
 
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
+		frame:GetRegions():Hide()
+		frame.glow:Kill()
+		frame.shine:Kill()
 
-			-- Background
-			frame:GetRegions():Hide()
+		-- Icon
+		frame.Icon:SetSize(50, 50)
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetDrawLayer("ARTWORK")
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
 
-			_G["DigsiteCompleteToastFrameGlow"]:Kill()
-			_G["DigsiteCompleteToastFrameShine"]:Kill()
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
 		end
 	end
-	--hooksecurefunc("AlertFrame_SetDigsiteCompleteToastFrameAnchors", DigsiteCompleteToastPopUp)
+	hooksecurefunc(GarrisonTalentAlertSystem, "setUpFunction", SkinGarrisonTalentAlert)
 
-	local function SkinStorePurchasePopUp()
-		local frame = _G["StorePurchaseAlertFrame"]
+	local function SkinGarrisonBuildingAlert(frame)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+		end
 
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame:GetRegions():Hide()
 
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -5, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 1, 6)
+		-- Icon
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetDrawLayer("ARTWORK")
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
 
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			frame.Background:Kill()
-			frame.glow:Kill()
-			frame.shine:Kill()
-
-			-- Icon
-			frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-
-			-- Icon border
-			if not frame.Icon.b then
-				frame.Icon.b = CreateFrame("Frame", nil, frame)
-				frame.Icon.b:SetFrameLevel(2)
-				frame.Icon.b:SetTemplate("Default")
-				frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
-				frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
-			end
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
 		end
 	end
-	--hooksecurefunc("AlertFrame_SetStorePurchaseAnchors", SkinStorePurchasePopUp)
+	hooksecurefunc(GarrisonBuildingAlertSystem, "setUpFunction", SkinGarrisonBuildingAlert)
 
-	local function SkinLootUpgradePopUp()
-		for i = 1, #LOOT_UPGRADE_ALERT_FRAMES do
-			local frame = LOOT_UPGRADE_ALERT_FRAMES[i]
-			if frame then
-				frame:SetAlpha(1)
-				frame.SetAlpha = T.dummy
+	local function SkinGarrisonMissionAlert(frame)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+		end
 
-				if not frame.backdrop then
-					frame:CreateBackdrop("Transparent")
-					frame:SetFrameLevel(3)
-					frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -6)
-					frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 6)
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame.IconBG:Hide()
+		frame.Background:Kill()
 
-					frame:HookScript("OnEnter", FixBg)
-					frame:HookScript("OnShow", FixBg)
-					frame.animIn:HookScript("OnFinished", FixBg)
+		-- Icon
+		frame.MissionType:SetSize(45, 45)
+		frame.MissionType:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.MissionType:SetDrawLayer("ARTWORK")
+		frame.MissionType:ClearAllPoints()
+		frame.MissionType:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.MissionType.b then
+			frame.MissionType.b = CreateFrame("Frame", nil, frame)
+			frame.MissionType.b:SetTemplate("Default")
+			frame.MissionType.b:SetPoint("TOPLEFT", frame.MissionType, "TOPLEFT", -2, 2)
+			frame.MissionType.b:SetPoint("BOTTOMRIGHT", frame.MissionType, "BOTTOMRIGHT", 2, -2)
+			frame.MissionType:SetParent(frame.MissionType.b)
+		end
+
+		frame.EncounterIcon:SetSize(45, 45)
+		frame.EncounterIcon:SetOutside(frame.MissionType.b)
+		frame.EncounterIcon.CircleMask:Hide()
+		frame.EncounterIcon.PortraitBorder:Hide()
+		frame.EncounterIcon.RareOverlay:Hide()
+		frame.EncounterIcon.EliteOverlay:Hide()
+		frame.EncounterIcon.Portrait:SetTexCoord(0.2, 0.85, 0.2, 0.85)
+	end
+	hooksecurefunc(GarrisonMissionAlertSystem, "setUpFunction", SkinGarrisonMissionAlert)
+
+	local function SkinGarrisonShipMissionAlert(frame)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+		end
+
+		frame.Background:Kill()
+		frame.glow:Kill()
+		frame.shine:Kill()
+
+		-- Icon
+		frame.MissionType:SetSize(45, 45)
+		frame.MissionType:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.MissionType:SetDrawLayer("ARTWORK")
+		frame.MissionType:ClearAllPoints()
+		frame.MissionType:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.MissionType.b then
+			frame.MissionType.b = CreateFrame("Frame", nil, frame)
+			frame.MissionType.b:SetTemplate("Default")
+			frame.MissionType.b:SetPoint("TOPLEFT", frame.MissionType, "TOPLEFT", -2, 2)
+			frame.MissionType.b:SetPoint("BOTTOMRIGHT", frame.MissionType, "BOTTOMRIGHT", 2, -2)
+			frame.MissionType:SetParent(frame.MissionType.b)
+		end
+	end
+	hooksecurefunc(GarrisonShipMissionAlertSystem, "setUpFunction", SkinGarrisonShipMissionAlert)
+
+	local function SkinGarrisonRandomMissionAlert(frame)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+		end
+
+		frame.Background:Kill()
+		frame.Blank:Kill()
+		frame.IconBG:Kill()
+		frame.glow:Kill()
+		frame.shine:Kill()
+
+		-- Icon
+		frame.MissionType:SetSize(45, 45)
+		frame.MissionType:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.MissionType:SetDrawLayer("ARTWORK")
+		frame.MissionType:ClearAllPoints()
+		frame.MissionType:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.MissionType.b then
+			frame.MissionType.b = CreateFrame("Frame", nil, frame)
+			frame.MissionType.b:SetTemplate("Default")
+			frame.MissionType.b:SetPoint("TOPLEFT", frame.MissionType, "TOPLEFT", -2, 2)
+			frame.MissionType.b:SetPoint("BOTTOMRIGHT", frame.MissionType, "BOTTOMRIGHT", 2, -2)
+			frame.MissionType:SetParent(frame.MissionType.b)
+		end
+	end
+	hooksecurefunc(GarrisonRandomMissionAlertSystem, "setUpFunction", SkinGarrisonRandomMissionAlert)
+
+	local function SkinLegendaryItemAlert(frame)
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 14, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -18, 6)
+		end
+
+		frame.Background:Kill()
+		frame.Background2:Kill()
+		frame.Background3:Kill()
+		frame.Ring1:Kill()
+		frame.Particles3:Kill()
+		frame.Particles2:Kill()
+		frame.Particles1:Kill()
+		frame.Starglow:Kill()
+		frame.glow:Kill()
+		frame.shine:Kill()
+
+		-- Icon
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetDrawLayer("ARTWORK")
+		frame.Icon:ClearAllPoints()
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
+		end
+	end
+	hooksecurefunc(LegendaryItemAlertSystem, "setUpFunction", SkinLegendaryItemAlert)
+
+	local function SkinLootWonAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 6)
+		end
+
+		frame.Background:Kill()
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame.BGAtlas:Kill()
+		frame.PvPBackground:Kill()
+		frame.RatedPvPBackground:Kill()
+
+		local lootItem = frame.lootItem
+		lootItem.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		lootItem.Icon:SetDrawLayer("BORDER")
+		lootItem.Icon:ClearAllPoints()
+		lootItem.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+		lootItem.IconBorder:Kill()
+		lootItem.SpecRing:SetTexture("")
+
+		-- Icon border
+		if not lootItem.Icon.b then
+			lootItem.Icon.b = CreateFrame("Frame", nil, frame)
+			lootItem.Icon.b:SetTemplate("Default")
+			lootItem.Icon.b:SetPoint("TOPLEFT", lootItem.Icon, "TOPLEFT", -2, 2)
+			lootItem.Icon.b:SetPoint("BOTTOMRIGHT", lootItem.Icon, "BOTTOMRIGHT", 2, -2)
+			lootItem.Icon:SetParent(lootItem.Icon.b)
+		end
+	end
+	hooksecurefunc(LootAlertSystem, "setUpFunction", SkinLootWonAlert)
+
+	local function SkinLootUpgradeAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 6)
+		end
+
+		frame.Background:Kill()
+		frame.BaseQualityBorder:Kill()
+		frame.UpgradeQualityBorder:Kill()
+		frame.BorderGlow:Kill()
+		frame.Sheen:Kill()
+
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetDrawLayer("BORDER", 5)
+		frame.Icon:ClearAllPoints()
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetFrameLevel(1)
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
+		end
+	end
+	hooksecurefunc(LootUpgradeAlertSystem, "setUpFunction", SkinLootUpgradeAlert)
+
+	local function SkinMoneyWonAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -13, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 9, 6)
+		end
+
+		frame.Background:Kill()
+		frame.IconBorder:Kill()
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		frame.Label:ClearAllPoints()
+		frame.Label:SetPoint("CENTER", frame.backdrop, 0, 10)
+
+		frame.Amount:ClearAllPoints()
+		frame.Amount:SetPoint("CENTER", frame.backdrop, 0, -10)
+
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
+		end
+	end
+	hooksecurefunc(MoneyWonAlertSystem, "setUpFunction", SkinMoneyWonAlert)
+
+	local function SkinHonorAwardedAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -12, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 9, 6)
+		end
+
+		frame.Background:Kill()
+		frame.IconBorder:Kill()
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		frame.Label:ClearAllPoints()
+		frame.Label:SetPoint("CENTER", frame.backdrop, 0, 10)
+
+		frame.Amount:ClearAllPoints()
+		frame.Amount:SetPoint("CENTER", frame.backdrop, 0, -10)
+
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
+		end
+	end
+	hooksecurefunc(HonorAwardedAlertSystem, "setUpFunction", SkinHonorAwardedAlert)
+
+	local function SkinEntitlementDeliveredAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -14, 6)
+		end
+
+		-- Background
+		frame.Background:Kill()
+		frame.glow:Kill()
+		frame.shine:Kill()
+
+		-- Icon
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:ClearAllPoints()
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
+		end
+	end
+	hooksecurefunc(EntitlementDeliveredAlertSystem, "setUpFunction", SkinEntitlementDeliveredAlert)
+
+	local function SkinRafRewardDeliveredAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -14, 6)
+		end
+
+		-- Background
+		frame.StandardBackground:Kill()
+		frame.glow:Kill()
+		frame.shine:Kill()
+
+		-- Icon
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:ClearAllPoints()
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
+		end
+	end
+
+	hooksecurefunc(RafRewardDeliveredAlertSystem, "setUpFunction", SkinRafRewardDeliveredAlert)
+
+	local function SkinDigsiteCompleteAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -17, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 13, 6)
+		end
+
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame:GetRegions():Hide()
+		frame.DigsiteTypeTexture:SetPoint("LEFT", -10, -14)
+	end
+
+	hooksecurefunc(DigsiteCompleteAlertSystem, "setUpFunction", SkinDigsiteCompleteAlert)
+
+	local function SkinNewRecipeLearnedAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 19, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -23, 6)
+		end
+
+		frame.glow:Kill()
+		frame.shine:Kill()
+		frame:GetRegions():Hide()
+
+		frame.Icon:SetMask("")
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetDrawLayer("BORDER", 5)
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+		frame.Icon:SetSize(50, 50)
+
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
+		end
+	end
+	hooksecurefunc(NewRecipeLearnedAlertSystem, "setUpFunction", SkinNewRecipeLearnedAlert)
+
+	local function SkinNewPetMountAlert(frame)
+		frame:SetAlpha(1)
+		if not frame.hooked then
+			hooksecurefunc(frame, "SetAlpha", forceAlpha)
+			frame.hooked = true
+		end
+
+		if not frame.backdrop then
+			frame:CreateBackdrop("Transparent")
+			frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -6)
+			frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 6)
+		end
+
+		frame.Background:Kill()
+		frame.IconBorder:Kill()
+		frame.glow:Kill()
+		frame.shine:Kill()
+
+		frame.Icon:SetMask("")
+		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetDrawLayer("BORDER", 5)
+		frame.Icon:SetPoint("LEFT", frame.backdrop, 9, 0)
+
+		-- Icon border
+		if not frame.Icon.b then
+			frame.Icon.b = CreateFrame("Frame", nil, frame)
+			frame.Icon.b:SetTemplate("Default")
+			frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+			frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+			frame.Icon:SetParent(frame.Icon.b)
+		end
+	end
+	hooksecurefunc(NewPetAlertSystem, "setUpFunction", SkinNewPetMountAlert)
+	hooksecurefunc(NewMountAlertSystem, "setUpFunction", SkinNewPetMountAlert)
+	hooksecurefunc(NewToyAlertSystem, "setUpFunction", SkinNewPetMountAlert)
+	hooksecurefunc(NewRuneforgePowerAlertSystem, "setUpFunction", SkinNewPetMountAlert)
+
+	hooksecurefunc("StandardRewardAlertFrame_AdjustRewardAnchors", function(frame)
+		if frame.RewardFrames then
+			for _, button in next, frame.RewardFrames do
+				if not button.isSkinned then
+					local icon, ring = button:GetRegions()
+					icon:SetSize(18, 18)
+					icon:SkinIcon(true)
+					ring:Hide()
+					button.isSkinned = true
 				end
-
-				-- Background
-				frame.Background:Kill()
-				frame.BaseQualityBorder:Kill()
-				frame.UpgradeQualityBorder:Kill()
-				frame.BorderGlow:Kill()
-				frame.Sheen:Kill()
-				for i = 1, frame.numArrows do
-					frame["Arrow"..i]:Kill()
-				end
-
-				-- Icon
-				frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-
-				-- Icon border
-				if not frame.Icon.b then
-					frame.Icon.b = CreateFrame("Frame", nil, frame)
-					frame.Icon.b:SetFrameLevel(2)
-					frame.Icon.b:SetTemplate("Default")
-					frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
-					frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
-				end
 			end
 		end
-	end
-	--hooksecurefunc("AlertFrame_SetLootUpgradeFrameAnchors", SkinLootUpgradePopUp)
+	end)
 
-	local function SkinGarrisonBuildingPopUp()
-		local frame = _G["GarrisonBuildingAlertFrame"]
+	-- Bonus Roll Money
+	local frame = BonusRollMoneyWonFrame
+	frame:SetAlpha(1)
+	hooksecurefunc(frame, "SetAlpha", forceAlpha)
+	frame.Background:Kill()
+	frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	frame.IconBorder:Kill()
+	-- Icon border
+	frame.Icon.b = CreateFrame("Frame", nil, frame)
+	frame.Icon.b:SetTemplate("Default")
+	frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
+	frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
+	frame.Icon:SetParent(frame.Icon.b)
+	-- Create Backdrop
+	frame:CreateBackdrop("Transparent")
+	frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -9, 6)
+	frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 5, -6)
 
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
+	-- Bonus Roll Loot
+	frame = BonusRollLootWonFrame
+	frame:SetAlpha(1)
+	hooksecurefunc(frame, "SetAlpha", forceAlpha)
+	frame.Background:Kill()
+	frame.glow:Kill()
+	frame.shine:Kill()
 
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			frame:GetRegions():Hide()
-			frame.glow:Kill()
-			frame.shine:Kill()
-
-			-- Icon
-			frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-			frame.Icon:SetPoint("LEFT", 20, 0)
-
-			-- Icon border
-			if not frame.Icon.b then
-				frame.Icon.b = CreateFrame("Frame", nil, frame)
-				frame.Icon.b:SetFrameLevel(2)
-				frame.Icon.b:SetTemplate("Default")
-				frame.Icon.b:SetPoint("TOPLEFT", frame.Icon, "TOPLEFT", -2, 2)
-				frame.Icon.b:SetPoint("BOTTOMRIGHT", frame.Icon, "BOTTOMRIGHT", 2, -2)
-			end
-		end
-	end
-	--hooksecurefunc("AlertFrame_SetGarrisonBuildingAlertFrameAnchors", SkinGarrisonBuildingPopUp)
-
-	local function SkinGarrisonMissionPopUp()
-		local frame = _G["GarrisonMissionAlertFrame"]
-
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
-
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			frame.glow:Kill()
-			frame.shine:Kill()
-			frame.IconBG:Hide()
-			frame.Background:Kill()
-		end
-	end
-	--hooksecurefunc("AlertFrame_SetGarrisonMissionAlertFrameAnchors", SkinGarrisonMissionPopUp)
-
-	local function SkinGarrisonShipMissionPopUp()
-		local frame = _G["GarrisonShipMissionAlertFrame"]
-
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
-
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			frame.glow:Kill()
-			frame.shine:Kill()
-			frame.Background:Kill()
-		end
-	end
-	--hooksecurefunc("AlertFrame_SetGarrisonShipMissionAlertFrameAnchors", SkinGarrisonShipMissionPopUp)
-
-	local function SkinGarrisonFollowerPopUp()
-		local frame = _G["GarrisonFollowerAlertFrame"]
-
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
-
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			frame:StripTextures()
-			frame.FollowerBG:SetAlpha(0)
-			frame.glow:Kill()
-			frame.shine:Kill()
-			frame.PortraitFrame:SetPoint("LEFT", 23, 0)
-		end
-	end
-	--hooksecurefunc("AlertFrame_SetGarrisonFollowerAlertFrameAnchors", SkinGarrisonFollowerPopUp)
-
-	local function SkinGarrisonShipFollowerPopUp()
-		local frame = _G["GarrisonShipFollowerAlertFrame"]
-
-		if frame then
-			frame:SetAlpha(1)
-			frame.SetAlpha = T.dummy
-
-			if not frame.backdrop then
-				frame:CreateBackdrop("Transparent")
-				frame:SetFrameLevel(3)
-				frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", 7, -6)
-				frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-
-				frame:HookScript("OnEnter", FixBg)
-				frame:HookScript("OnShow", FixBg)
-				frame.animIn:HookScript("OnFinished", FixBg)
-			end
-
-			-- Background
-			frame.glow:Kill()
-			frame.shine:Kill()
-			frame.Background:Kill()
-		end
-	end
-	--hooksecurefunc("AlertFrame_SetGarrisonShipFollowerAlertFrameAnchors", SkinGarrisonShipFollowerPopUp)
+	local lootItem = frame.lootItem
+	lootItem.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	lootItem.IconBorder:SetAlpha(0)
+	-- Icon border
+	lootItem.Icon.b = CreateFrame("Frame", nil, frame)
+	lootItem.Icon.b:SetTemplate("Default")
+	lootItem.Icon.b:SetFrameLevel(1)
+	lootItem.Icon.b:SetPoint("TOPLEFT", lootItem.Icon, "TOPLEFT", -2, 2)
+	lootItem.Icon.b:SetPoint("BOTTOMRIGHT", lootItem.Icon, "BOTTOMRIGHT", 2, -2)
+	lootItem.Icon:SetParent(lootItem.Icon.b)
+	-- Create Backdrop
+	frame:CreateBackdrop("Transparent")
+	frame.backdrop:SetPoint("TOPLEFT", frame, "TOPLEFT", -9, 6)
+	frame.backdrop:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 5, -6)
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

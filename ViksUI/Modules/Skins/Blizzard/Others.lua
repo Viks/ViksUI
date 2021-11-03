@@ -5,7 +5,7 @@ local T, C, L, _ = unpack(select(2, ...))
 ----------------------------------------------------------------------------------------
 local SkinBlizzUI = CreateFrame("Frame")
 SkinBlizzUI:RegisterEvent("ADDON_LOADED")
-SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
+SkinBlizzUI:SetScript("OnEvent", function(_, _, addon)
 	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") then return end
 
 	-- Stuff not in Blizzard load-on-demand
@@ -31,12 +31,9 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			"ColorPickerFrame",
 			"LFDRoleCheckPopup",
 			"LFDReadyCheckPopup",
-			"ChannelPulloutBackground",
-			"ChannelPulloutTab",
 			"GuildInviteFrame",
 			"RolePollPopup",
 			"BaudErrorFrame",
-			"StackSplitFrame",
 			"OpacityFrame",
 			"GeneralDockManagerOverflowButtonList",
 			"QueueStatusFrame",
@@ -44,6 +41,11 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		}
 
 		QueueStatusFrame:StripTextures()
+		GameMenuFrame:StripTextures()
+		LFDRoleCheckPopup:StripTextures()
+		RolePollPopup:StripTextures()
+		OpacityFrame:StripTextures()
+		ColorPickerFrame.Border:Hide()
 
 		for i = 1, getn(bgskins) do
 			local frame = _G[bgskins[i]]
@@ -66,10 +68,11 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 
 		-- Reskin popups
 		for i = 1, 4 do
-			for j = 1, 3 do
+			for j = 1, 4 do
 				_G["StaticPopup"..i.."Button"..j]:SkinButton()
 			end
 			_G["StaticPopup"..i]:StripTextures()
+			_G["StaticPopup"..i].Border:StripTextures()
 			_G["StaticPopup"..i]:CreateBackdrop("Transparent")
 			_G["StaticPopup"..i].backdrop:SetPoint("TOPLEFT", 2, -2)
 			_G["StaticPopup"..i].backdrop:SetPoint("BOTTOMRIGHT", -2, 2)
@@ -86,6 +89,7 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			_G["StaticPopup"..i.."ItemFrame"]:GetNormalTexture():Kill()
 			_G["StaticPopup"..i.."ItemFrame"]:SetTemplate("Default")
 			_G["StaticPopup"..i.."ItemFrame"]:StyleButton()
+			_G["StaticPopup"..i.."ItemFrame"].IconBorder:SetAlpha(0)
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:ClearAllPoints()
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetPoint("TOPLEFT", 2, -2)
@@ -96,16 +100,21 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			_G["StaticPopup"..i.."CloseButton"].SetPushedTexture = T.dummy
 			T.SkinCloseButton(_G["StaticPopup"..i.."CloseButton"])
 		end
+		_G["StaticPopup1ExtraButton"]:SkinButton()
+
+		T.SkinCloseButton(_G["RolePollPopupCloseButton"])
 
 		-- Cinematic popup
 		_G["CinematicFrameCloseDialog"]:SetScale(C.general.uiscale)
+		_G["CinematicFrameCloseDialog"]:StripTextures()
 		_G["CinematicFrameCloseDialog"]:SetTemplate("Transparent")
 		_G["CinematicFrameCloseDialogConfirmButton"]:SkinButton()
 		_G["CinematicFrameCloseDialogResumeButton"]:SkinButton()
 		_G["CinematicFrameCloseDialogResumeButton"]:SetPoint("LEFT", _G["CinematicFrameCloseDialogConfirmButton"], "RIGHT", 15, 0)
 
-		-- Movie popup
+		-- Movie popup /run MovieFrame_PlayMovie(MovieFrame, 18)
 		MovieFrame.CloseDialog:SetScale(C.general.uiscale)
+		MovieFrame.CloseDialog:StripTextures()
 		MovieFrame.CloseDialog:SetTemplate("Transparent")
 		MovieFrame.CloseDialog.ConfirmButton:SkinButton()
 		MovieFrame.CloseDialog.ResumeButton:SkinButton()
@@ -116,20 +125,21 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		_G["PetBattleQueueReadyFrame"].AcceptButton:SkinButton()
 		_G["PetBattleQueueReadyFrame"].DeclineButton:SkinButton()
 
-		-- Wardrobe Outfit
-		WardrobeOutfitEditFrame:SetTemplate("Transparent")
-		WardrobeOutfitEditFrame.AcceptButton:SkinButton()
-		WardrobeOutfitEditFrame.CancelButton:SkinButton()
-		WardrobeOutfitEditFrame.DeleteButton:SkinButton()
-		T.SkinEditBox(WardrobeOutfitEditFrame.EditBox, 250, 25)
-
 		-- Reskin Dropdown menu
-		hooksecurefunc("UIDropDownMenu_InitializeHelper", function(frame)
+		hooksecurefunc("UIDropDownMenu_InitializeHelper", function()
 			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
+				if T.newPatch then
+					_G["DropDownList"..i.."MenuBackdrop"].NineSlice:SetAlpha(0)
+				end
+				_G["DropDownList"..i]["Border"]:StripTextures()
 				_G["DropDownList"..i.."Backdrop"]:SetTemplate("Transparent")
 				_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Transparent")
 			end
 		end)
+
+		if RaiderIO_CustomDropDownListMenuBackdrop then
+			RaiderIO_CustomDropDownListMenuBackdrop:StripTextures()
+		end
 
 		-- Reskin menu
 		local ChatMenus = {
@@ -155,16 +165,16 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 
 		-- Hide header textures and move text/buttons
 		local BlizzardHeader = {
-			"GameMenuFrame",
-			"ColorPickerFrame"
+			GameMenuFrame,
+			ColorPickerFrame
 		}
 
-		for i = 1, getn(BlizzardHeader) do
-			local title = _G[BlizzardHeader[i].."Header"]
+		for _, frame in pairs(BlizzardHeader) do
+			local title = frame.Header
 			if title then
-				title:SetTexture(nil)
+				title:StripTextures()
 				title:ClearAllPoints()
-				title:SetPoint("TOP", BlizzardHeader[i], 0, 7)
+				title:SetPoint("TOP", frame, 0, 7)
 			end
 		end
 
@@ -198,8 +208,6 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			"LFDRoleCheckPopupDeclineButton",
 			"LFDRoleCheckPopupAcceptButton",
 			"LFDReadyCheckPopupAcceptButton",
-			"StackSplitOkayButton",
-			"StackSplitCancelButton",
 			"RaidUtilityConvertButton",
 			"RaidUtilityMainTankButton",
 			"RaidUtilityMainAssistButton",
@@ -252,11 +260,6 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		_G["ReadyCheckFrameText"]:SetParent(_G["ReadyCheckFrame"])
 		_G["ReadyCheckFrameText"]:ClearAllPoints()
 		_G["ReadyCheckFrameText"]:SetPoint("TOP", 0, -12)
-		_G["ChannelPulloutTabText"]:ClearAllPoints()
-		_G["ChannelPulloutTabText"]:SetPoint("TOP", _G["ChannelPulloutTab"], "TOP", 0, -6)
-		_G["ChannelPulloutTab"]:SetHeight(20)
-		_G["ChannelPullout"]:ClearAllPoints()
-		_G["ChannelPullout"]:SetPoint("TOP", _G["ChannelPulloutTab"], "BOTTOM", 0, -3)
 
 		-- Others
 		for i = 1, 10 do
@@ -265,19 +268,16 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 		_G["GeneralDockManagerOverflowButtonList"]:SetFrameStrata("HIGH")
 		_G["ReadyCheckListenerFrame"]:SetAlpha(0)
 		_G["ReadyCheckFrame"]:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end)
-		_G["StackSplitFrame"]:GetRegions():Hide()
-		_G["StackSplitFrame"]:SetFrameStrata("TOOLTIP")
-		_G["ChannelPulloutTabLeft"]:SetTexture(nil)
-		_G["ChannelPulloutTabMiddle"]:SetTexture(nil)
-		_G["ChannelPulloutTabRight"]:SetTexture(nil)
-		_G["StaticPopup1CloseButton"]:HookScript("OnShow", function(self)
-			self:StripTextures(true)
-			T.SkinCloseButton(self, nil, "-")
-		end)
-		T.SkinCloseButton(_G["ChannelPulloutCloseButton"])
-		T.SkinCloseButton(_G["RolePollPopupCloseButton"])
-		T.SkinCloseButton(_G["ItemRefCloseButton"])
-		T.SkinCloseButton(_G["BNToastFrameCloseButton"])
+
+		-- StackSplit
+		StackSplitFrame:SetFrameStrata("TOOLTIP")
+		StackSplitFrame:StripTextures()
+		StackSplitFrame:CreateBackdrop("Transparent")
+		StackSplitFrame.backdrop:SetPoint("TOPLEFT", 5, -5)
+		StackSplitFrame.backdrop:SetPoint("BOTTOMRIGHT", -5, 10)
+		StackSplitFrame.OkayButton:SkinButton()
+		StackSplitFrame.CancelButton:SkinButton()
+
 		if C.skins.blizzard_frames == true then
 			-- Social Browser frame
 			SocialBrowserFrame:StripTextures()
@@ -290,8 +290,9 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			SplashFrame.BottomCloseButton:SkinButton()
 			T.SkinCloseButton(SplashFrame.TopCloseButton)
 
-			-- NavBar Buttons (Used in WorldMapFrame, EncounterJournal and HelpFrame)
+			-- NavBar Buttons (Used in EncounterJournal and HelpFrame)
 			local function SkinNavBarButtons(self)
+				if self:GetParent():GetName() == "WorldMapFrame" then return end
 				local navButton = self.navList[#self.navList]
 				if navButton and not navButton.isSkinned then
 					navButton:SkinButton(true)
@@ -307,6 +308,7 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 			hooksecurefunc("NavBar_AddButton", SkinNavBarButtons)
 
 			local function SetHomeButtonOffsetX(self)
+				if self:GetParent():GetName() == "WorldMapFrame" then return end
 				if self.homeButton then
 					self.homeButton.xoffset = 1
 				end
@@ -335,6 +337,32 @@ SkinBlizzUI:SetScript("OnEvent", function(self, event, addon)
 				CliqueSpellTab.backdrop:SetAllPoints()
 				CliqueSpellTab:StyleButton()
 			end
+
+			local function SkinIconArray(baseName, numIcons)
+				for i = 1, numIcons do
+					local button = _G[baseName..i]
+					local texture = _G[baseName..i.."Icon"]
+
+					button:StripTextures()
+					button:StyleButton(true)
+					button:SetTemplate("Default")
+
+					texture:ClearAllPoints()
+					texture:SetPoint("TOPLEFT", 2, -2)
+					texture:SetPoint("BOTTOMRIGHT", -2, 2)
+					texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				end
+			end
+
+			-- This is used to create icons for the GuildBankPopupFrame, MacroPopupFrame, and GearManagerDialogPopup
+			hooksecurefunc("BuildIconArray", function(_, baseName, _, rowSize, numRows)
+				local numIcons = rowSize * numRows
+				SkinIconArray(baseName, numIcons)
+			end)
+
+			hooksecurefunc(HelpTipTemplateMixin, "ApplyText", function(self)
+				T.SkinHelpBox(self)
+			end)
 		end
 	end
 

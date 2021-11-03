@@ -1,145 +1,281 @@
 ﻿local T, C, L, _ = unpack(select(2, ...))
 if C.misc.item_level ~= true then return end
-local LibItemUpgrade = LibStub('LibItemUpgradeInfo-1.0')
-local time = 3
-local iEqAvg, iAvg
+
 ----------------------------------------------------------------------------------------
---	Item level on slot buttons in Character/InspectFrame(by Tukz)
+--	Item level on slot buttons in Character/InspectFrame(iLevel by Sanex)
 ----------------------------------------------------------------------------------------
-local slots = {
-	"HeadSlot", "NeckSlot", "ShoulderSlot", "BackSlot", "ChestSlot", "ShirtSlot", "TabardSlot",
-	"WristSlot", "MainHandSlot", "SecondaryHandSlot", "HandsSlot", "WaistSlot",
-	"LegsSlot", "FeetSlot", "Finger0Slot", "Finger1Slot", "Trinket0Slot", "Trinket1Slot"
-}
+local _G = getfenv(0)
+local equiped = {} -- Table to store equiped items
 
-local upgrades = {
-	["1"] = 8, ["373"] = 4, ["374"] = 8, ["375"] = 4, ["376"] = 4, ["377"] = 4,
-	["379"] = 4, ["380"] = 4, ["446"] = 4, ["447"] = 8, ["452"] = 8, ["454"] = 4,
-	["455"] = 8, ["457"] = 8, ["459"] = 4, ["460"] = 8, ["461"] = 12, ["462"] = 16,
-	["466"] = 4, ["467"] = 8, ["469"] = 4, ["470"] = 8, ["471"] = 12, ["472"] = 16,
-	["477"] = 4, ["478"] = 8, ["480"] = 8, ["492"] = 4, ["493"] = 8, ["495"] = 4,
-	["496"] = 8, ["497"] = 12, ["498"] = 16, ["504"] = 12, ["505"] = 16, ["506"] = 20,
-	["507"] = 24, ["530"] = 5, ["531"] = 10
-}
+local f = CreateFrame("Frame", nil, _G.PaperDollFrame) -- iLvel number frame
+local g -- iLvel number for Inspect frame
+f:RegisterEvent("ADDON_LOADED")
+f:RegisterEvent("PLAYER_LOGIN")
 
-local function CreateButtonsText(frame)
-	for _, slot in pairs(slots) do
-		local button = _G[frame..slot]
-		button.t = button:CreateFontString(nil, "OVERLAY", "SystemFont_Outline_Small")
-		if slot == "HeadSlot" or slot == "NeckSlot" or slot == "ShoulderSlot" or slot == "BackSlot" or slot == "ChestSlot" or slot == "WristSlot" or slot == "ShirtSlot" or slot == "TabardSlot" then
-			button.t:SetPoint("CENTER", button, "CENTER", 42, 0)
-		elseif slot == "HandsSlot" or slot == "WaistSlot" or slot == "LegsSlot" or slot == "FeetSlot" or slot == "Finger0Slot" or slot == "Finger1Slot" or slot == "Trinket0Slot" or slot == "Trinket1Slot" then
-			button.t:SetPoint("CENTER", button, "CENTER", -42, 0)
-		elseif slot == "MainHandSlot" or slot == "SecondaryHandSlot" or slot == "RangedSlot" then
-			button.t:SetPoint("CENTER", button, "CENTER", 0, 42)
-		end
-		button.t:SetText("")
-	end
-end
+local fontObject = CreateFont("iLvLFont")
+fontObject:SetFontObject("SystemFont_Outline_Small")
 
-local function UpdateButtonsText(frame)
-	if frame == "Inspect" and not InspectFrame:IsShown() then return end
+-- Tooltip and scanning by Phanx @ http://www.wowinterface.com/forums/showthread.php?p=271406
+local S_ITEM_LEVEL = "^" .. gsub(ITEM_LEVEL, "%%d", "(%%d+)")
 
-	for _, slot in pairs(slots) do
-		local id = GetInventorySlotInfo(slot)
-		local text = _G[frame..slot].t
-		local item
+local scanner = CreateFrame("GameTooltip", "SlotScanningTooltip", nil, "GameTooltipTemplate")
+scanner:SetOwner(UIParent, "ANCHOR_NONE")
 
-		if frame == "Inspect" then
-			item = GetInventoryItemLink("target", id)
-		else
-			item = GetInventoryItemLink("player", id)
-		end
+local scannerName = scanner:GetName()
 
-		if slot == "ShirtSlot" or slot == "TabardSlot" then
-			text:SetText("")
-		elseif item then
-			local itemDurability, itemMaxDurability = GetInventoryItemDurability(id)
-			local oldilevel = text:GetText()
-			local ilevel = select(4, GetItemInfo(item))
-			local heirloom = select(3, GetItemInfo(item))
-			local upgrade = item:match(":(%d+)\124h%[")
-			local itemlevel = LibItemUpgrade:GetUpgradedItemLevel(item) or nil or 0
+local function _getRealItemLevel(slotId, unit)
+	local hasItem = scanner:SetInventoryItem(unit, slotId)
+	if not hasItem then return nil end -- With this we don't get ilvl for offhand if we equip 2h weapon
+	local realItemLevel
 
-			if ilevel then
-				if ilevel ~= oldilevel then
-					if heirloom == 7 then
-						text:SetText("")
-					else
-						if frame ~= "Inspect" then
-							local itemDurability, itemMaxDurability = GetInventoryItemDurability(id)
-							local ilevelcolor, duracolor
-							iEqAvg, iAvg = GetAverageItemLevel()
-							if ilevel <= (floor(iEqAvg) - 10) then 
-								ilevelcolor = "|cFFFF0000"
-							elseif ilevel >= (floor(iEqAvg) + 10) then
-								ilevelcolor = "|cFF00FF00"
-							else
-								ilevelcolor = "|cFFFFFFFF"
-							end
-							if itemDurability then
-								local itemDurabilityPercentage = (itemDurability / itemMaxDurability) * 100
-								if itemDurabilityPercentage > 25 then
-									duracolor = "|cFF00FF00"
-								elseif itemDurabilityPercentage > 0 and itemDurabilityPercentage <= 25 then
-									duracolor = "|cFFFFFF00"
-								elseif itemDurabilityPercentage == 0 then
-									duracolor = "|cFFFF0000"
-								end
-								text:SetText(ilevelcolor..itemlevel.."\n"..duracolor..T.Round(itemDurabilityPercentage).."%|r")
-							else
-								text:SetText(ilevelcolor..itemlevel)
-							end
-						else
-							text:SetText(itemlevel)
-						end
-					end
-				end
-			else
-				text:SetText("")
+	local line = _G[scannerName.."TextLeft2"]
+	if line then
+		local msg = line:GetText()
+		if msg and string.find(msg, S_ITEM_LEVEL) then
+			local itemLevel = string.match(msg, S_ITEM_LEVEL)
+			if itemLevel and (tonumber(itemLevel) > 0) then
+				realItemLevel = itemLevel
 			end
 		else
-			text:SetText("")
+			-- Check line 3, some artifacts have the ilevel there
+			line = _G[scannerName.."TextLeft3"]
+			if line then
+				local msg = line:GetText()
+				if msg and string.find(msg, S_ITEM_LEVEL) then
+					local itemLevel = string.match(msg, S_ITEM_LEVEL)
+					if itemLevel and (tonumber(itemLevel) > 0) then
+						realItemLevel = itemLevel
+					end
+				end
+			end
+		end
+	end
+
+	return realItemLevel
+end
+
+local function _updateItems(unit, frame)
+	for i = 1, 17 do -- Only check changed player items or items without ilvl text, skip the shirt (4) and always update Inspects
+		local itemLink = GetInventoryItemLink(unit, i)
+		if i ~= 4 and ((frame == f and (equiped[i] ~= itemLink or frame[i]:GetText() == nil or itemLink == nil and frame[i]:GetText() ~= "")) or frame == g) then
+			if frame == f then
+				equiped[i] = itemLink
+			end
+
+			local realItemLevel = _getRealItemLevel(i, unit)
+			realItemLevel = realItemLevel or ""
+			if realItemLevel and tonumber(realItemLevel) == 1 then
+				realItemLevel = ""
+			end
+
+			local color = "|cffFFFF00"
+			if itemLink and (i == 15 or i == 5 or i == 16 or i == 11 or i == 12) and (realItemLevel ~= "" and tonumber(realItemLevel) > 184) then
+				local _, _, enchant = strsplit(":", itemLink)
+				if enchant and enchant == "" then
+					color = "|cffFF0000"
+				end
+			end
+
+			frame[i]:SetText(color..realItemLevel)
 		end
 	end
 end
 
-local OnEvent = CreateFrame("Frame")
-OnEvent:RegisterEvent("PLAYER_LOGIN")
-OnEvent:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-OnEvent:SetScript("OnEvent", function(self, event)
-	if event == "PLAYER_LOGIN"  then
-		CreateButtonsText("Character")
-		UpdateButtonsText("Character")
-		self:UnregisterEvent("PLAYER_LOGIN")
-	elseif event == "PLAYER_TARGET_CHANGED" or event == "INSPECT_READY"  then
-		UpdateButtonsText("Inspect")
-	else
-		UpdateButtonsText("Character")
-	end
-end)
+local function _createStrings()
+	local function _stringFactory(parent)
+		local s = f:CreateFontString(nil, "OVERLAY", "iLvLFont")
+		s:SetPoint("TOP", parent, "TOP", 0, -2)
 
-OnEvent:SetScript("OnUpdate", function(self, elapsed)
-	time = time + elapsed
-	if time >= 3 then
-		if InspectFrame and InspectFrame:IsShown() then
-			UpdateButtonsText("Inspect")
-		else
-			UpdateButtonsText("Character")
+		return s
+	end
+
+	f:SetFrameLevel(_G.CharacterHeadSlot:GetFrameLevel())
+
+	f[1] = _stringFactory(_G.CharacterHeadSlot)
+	f[2] = _stringFactory(_G.CharacterNeckSlot)
+	f[3] = _stringFactory(_G.CharacterShoulderSlot)
+	f[15] = _stringFactory(_G.CharacterBackSlot)
+	f[5] = _stringFactory(_G.CharacterChestSlot)
+	f[9] = _stringFactory(_G.CharacterWristSlot)
+
+	f[10] = _stringFactory(_G.CharacterHandsSlot)
+	f[6] = _stringFactory(_G.CharacterWaistSlot)
+	f[7] = _stringFactory(_G.CharacterLegsSlot)
+	f[8] = _stringFactory(_G.CharacterFeetSlot)
+	f[11] = _stringFactory(_G.CharacterFinger0Slot)
+	f[12] = _stringFactory(_G.CharacterFinger1Slot)
+	f[13] = _stringFactory(_G.CharacterTrinket0Slot)
+	f[14] = _stringFactory(_G.CharacterTrinket1Slot)
+
+	f[16] = _stringFactory(_G.CharacterMainHandSlot)
+	f[17] = _stringFactory(_G.CharacterSecondaryHandSlot)
+
+	f:Hide()
+end
+
+local function _createGStrings()
+	local function _stringFactory(parent)
+		local s = g:CreateFontString(nil, "OVERLAY", "iLvLFont")
+		s:SetPoint("TOP", parent, "TOP", 0, -2)
+
+		return s
+	end
+
+	g:SetFrameLevel(_G.InspectHeadSlot:GetFrameLevel())
+
+	g[1] = _stringFactory(_G.InspectHeadSlot)
+	g[2] = _stringFactory(_G.InspectNeckSlot)
+	g[3] = _stringFactory(_G.InspectShoulderSlot)
+	g[15] = _stringFactory(_G.InspectBackSlot)
+	g[5] = _stringFactory(_G.InspectChestSlot)
+	g[9] = _stringFactory(_G.InspectWristSlot)
+
+	g[10] = _stringFactory(_G.InspectHandsSlot)
+	g[6] = _stringFactory(_G.InspectWaistSlot)
+	g[7] = _stringFactory(_G.InspectLegsSlot)
+	g[8] = _stringFactory(_G.InspectFeetSlot)
+	g[11] = _stringFactory(_G.InspectFinger0Slot)
+	g[12] = _stringFactory(_G.InspectFinger1Slot)
+	g[13] = _stringFactory(_G.InspectTrinket0Slot)
+	g[14] = _stringFactory(_G.InspectTrinket1Slot)
+
+	g[16] = _stringFactory(_G.InspectMainHandSlot)
+	g[17] = _stringFactory(_G.InspectSecondaryHandSlot)
+
+	g:Hide()
+end
+
+local function OnEvent(self, event, ...)
+	if event == "ADDON_LOADED" and (...) == "Blizzard_InspectUI" then
+		self:UnregisterEvent(event)
+
+		if not InspectFrameiLvL and not C.tooltip.average_lvl then
+			local text = InspectModelFrame:CreateFontString("InspectFrameiLvL", "OVERLAY", "SystemFont_Outline_Small")
+			text:SetPoint("BOTTOM", 5, 20)
+			text:Hide()
+			InspectPaperDollFrame:HookScript("OnShow", function()
+				local avgilvl = C_PaperDollInfo.GetInspectItemLevel("target")
+				if avgilvl and tonumber(avgilvl) > 0 then
+					text:SetText("|cFFFFFF00"..avgilvl)
+					text:Show()
+				end
+			end)
+			InspectPaperDollFrame:HookScript("OnHide", function()
+				text:Hide()
+			end)
 		end
-	end
-end)
 
-local OnLoad = CreateFrame("Frame")
-OnLoad:RegisterEvent("ADDON_LOADED")
-OnLoad:SetScript("OnEvent", function(self, event, addon)
-	if addon == "Blizzard_InspectUI" then
-		CreateButtonsText("Inspect")
-		InspectFrame:HookScript("OnShow", function(self)
-			UpdateButtonsText("Inspect")
+		g = CreateFrame("Frame", nil, _G.InspectPaperDollFrame) -- iLevel number frame for Inspect
+		_createGStrings()
+		_createGStrings = nil
+
+		_G.InspectPaperDollFrame:HookScript("OnShow", function()
+			g:SetFrameLevel(_G.InspectHeadSlot:GetFrameLevel())
+			f:RegisterEvent("INSPECT_READY")
+			f:RegisterEvent("UNIT_INVENTORY_CHANGED")
+			_updateItems("target", g)
+			g:Show()
 		end)
-		OnEvent:RegisterEvent("PLAYER_TARGET_CHANGED")
-		OnEvent:RegisterEvent("INSPECT_READY")
-		self:UnregisterEvent("ADDON_LOADED")
+
+		_G.InspectPaperDollFrame:HookScript("OnHide", function()
+			f:UnregisterEvent("INSPECT_READY")
+			f:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+			g:Hide()
+		end)
+	elseif event == "PLAYER_LOGIN" then
+		self:UnregisterEvent(event)
+
+		_createStrings()
+		_createStrings = nil
+
+		_G.PaperDollFrame:HookScript("OnShow", function()
+			f:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+			if not T.newPatch then
+				f:RegisterEvent("ITEM_UPGRADE_MASTER_UPDATE")
+			end
+			f:RegisterEvent("ARTIFACT_UPDATE")
+			f:RegisterEvent("SOCKET_INFO_UPDATE")
+			f:RegisterEvent("COMBAT_RATING_UPDATE")
+			_updateItems("player", f)
+			f:Show()
+		end)
+
+		_G.PaperDollFrame:HookScript("OnHide", function()
+			f:UnregisterEvent("PLAYER_EQUIPMENT_CHANGED")
+			if not T.newPatch then
+				f:UnregisterEvent("ITEM_UPGRADE_MASTER_UPDATE")
+			end
+			f:UnregisterEvent("ARTIFACT_UPDATE")
+			f:UnregisterEvent("SOCKET_INFO_UPDATE")
+			f:UnregisterEvent("COMBAT_RATING_UPDATE")
+			f:Hide()
+		end)
+	elseif event == "PLAYER_EQUIPMENT_CHANGED" or event == "ITEM_UPGRADE_MASTER_UPDATE"
+	or event == "ARTIFACT_UPDATE" or event == "SOCKET_INFO_UPDATE" or event == "COMBAT_RATING_UPDATE" then
+		if (...) == 16 then
+			equiped[16] = nil
+			equiped[17] = nil
+		end
+		_updateItems("player", f)
+	elseif event == "INSPECT_READY" or event == "UNIT_INVENTORY_CHANGED" then
+		_updateItems("target", g)
+	end
+end
+f:SetScript("OnEvent", OnEvent)
+
+----------------------------------------------------------------------------------------
+--	Item level on flyout buttons (by Merathilis)
+----------------------------------------------------------------------------------------
+local ItemDB = {}
+
+local function _getRealItemLevel(link, bag, slot)
+	if ItemDB[link] then return ItemDB[link] end
+
+	local realItemLevel
+	if bag and type(bag) == "string" then
+		realItemLevel = C_Item.GetCurrentItemLevel(ItemLocation:CreateFromEquipmentSlot(slot))
+	else
+		realItemLevel = C_Item.GetCurrentItemLevel(ItemLocation:CreateFromBagAndSlot(bag, slot))
+	end
+
+	ItemDB[link] = tonumber(realItemLevel)
+	return realItemLevel
+end
+
+local function SetupFlyoutLevel(button, bag, slot)
+	if not button.iLvl then
+		button.iLvl = button:CreateFontString(nil, "OVERLAY", "iLvLFont")
+		button.iLvl:SetPoint("TOP", 0, -2)
+	end
+
+	local link, level
+	if bag then
+		link = GetContainerItemLink(bag, slot)
+		level = _getRealItemLevel(link, bag, slot)
+	else
+		link = GetInventoryItemLink("player", slot)
+		level = _getRealItemLevel(link, "player", slot)
+	end
+
+	if level then
+		button.iLvl:SetText("|cFFFFFF00"..level)
+	end
+end
+
+hooksecurefunc("EquipmentFlyout_DisplayButton", function(button)
+	local location = button.location
+
+	if not location or location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION then
+		if button.iLvl then button.iLvl:SetText("") end
+		return
+	end
+
+	local _, _, bags, voidStorage, slot, bag = EquipmentManager_UnpackLocation(location)
+	if voidStorage then return end
+
+	if bags then
+		SetupFlyoutLevel(button, bag, slot)
+	else
+		SetupFlyoutLevel(button, nil, slot)
 	end
 end)

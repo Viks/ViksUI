@@ -1,10 +1,10 @@
 ﻿local T, C, L, _ = unpack(select(2, ...))
-if C.skins.minimap_buttons ~= true or C.minimapp.enable ~= true then return end
+if C.skins.minimap_buttons ~= true or C.minimap.enable ~= true then return end
 
 ----------------------------------------------------------------------------------------
 --	Skin addons icons on minimap
 ----------------------------------------------------------------------------------------
-local buttons = {
+local blackList = {
 	"QueueStatusMinimapButton",
 	"MiniMapTrackingButton",
 	"MiniMapMailFrame",
@@ -14,9 +14,7 @@ local buttons = {
 }
 
 local function SkinButton(f)
-	if not f or f:GetObjectType() ~= "Button" then return end
-
-	for i, buttons in pairs(buttons) do
+	for _, buttons in pairs(blackList) do
 		if f:GetName() ~= nil then
 			if f:GetName():match(buttons) then return end
 		end
@@ -25,12 +23,12 @@ local function SkinButton(f)
 	f:SetPushedTexture(nil)
 	f:SetHighlightTexture(nil)
 	f:SetDisabledTexture(nil)
-	f:SetSize(20, 20)
+	f:SetSize(16, 16)
 
 	for i = 1, f:GetNumRegions() do
 		local region = select(i, f:GetRegions())
-		if region:GetObjectType() == "Texture" then
-			local tex = region:GetTexture()
+		if region:IsVisible() and region:GetObjectType() == "Texture" then
+			local tex = tostring(region:GetTexture())
 
 			if tex and (tex:find("Border") or tex:find("Background") or tex:find("AlphaMask")) then
 				region:SetTexture(nil)
@@ -47,16 +45,18 @@ local function SkinButton(f)
 		end
 	end
 
-	f:SetTemplate("ClassColor")
+	f:SetTemplate("Transparent")
 end
 
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+frame:RegisterEvent("PLAYER_LOGIN")
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-frame:SetScript("OnEvent", function(self, event)
-	if event == "PLAYER_ENTERING_WORLD" then
-		for i = 1, Minimap:GetNumChildren() do
-			SkinButton(select(i, Minimap:GetChildren()))
+frame:SetScript("OnEvent", function(_, event)
+	if event == "PLAYER_LOGIN" then
+		for _, child in ipairs({Minimap:GetChildren()}) do
+			if child:GetObjectType() == "Button" and child:GetNumRegions() >= 3 and child:IsShown() then
+				SkinButton(child)
+			end
 		end
 	end
 
@@ -64,5 +64,4 @@ frame:SetScript("OnEvent", function(self, event)
 		SkinButton(WIM3MinimapButton)
 		SkinButton(WIM3MinimapButton)
 	end
-	self = nil
 end)

@@ -5,33 +5,84 @@ if C.skins.blizzard_frames ~= true then return end
 --	DressUp skin
 ----------------------------------------------------------------------------------------
 local function LoadSkin()
-	DressUpFrame:StripTextures(true)
-	DressUpFrame:CreateBackdrop("Transparent")
-	DressUpFrame.backdrop:SetPoint("TOPLEFT", 16, -12)
-	DressUpFrame.backdrop:SetPoint("BOTTOMRIGHT", -30, 76)
+	DressUpFrame:StripTextures()
+	DressUpFrame:SetTemplate("Transparent")
+	DressUpFramePortrait:Hide()
+	DressUpFrameInset:Hide()
 
-	DressUpFrameResetButton:SkinButton()
+	DressUpFrame.ModelScene:CreateBackdrop("Default")
+	DressUpFrame.ModelScene.backdrop:SetPoint("TOPLEFT", -3, 4)
+	DressUpFrame.ModelScene.backdrop:SetPoint("BOTTOMRIGHT", 2, 1)
+	DressUpFrame.ModelBackground:SetDrawLayer("BACKGROUND", 3)
+
+	T.SkinMaxMinFrame(DressUpFrame.MaximizeMinimizeFrame, DressUpFrameCloseButton)
+
 	DressUpFrameCancelButton:SkinButton()
-	DressUpFrameUndressButton:SkinButton()
-	DressUpFrameOutfitDropDown.SaveButton:SkinButton()
-	T.SkinCloseButton(DressUpFrameCloseButton, DressUpFrame.backdrop)
-	DressUpFrameCancelButton:SetPoint("BOTTOMRIGHT", DressUpFrame.backdrop, "BOTTOMRIGHT", -4, 4)
+	DressUpFrameResetButton:SkinButton()
 	DressUpFrameResetButton:SetPoint("RIGHT", DressUpFrameCancelButton, "LEFT", -2, 0)
+	DressUpFrameUndressButton:SkinButton()
+
+	if T.newPatch then
+		local button = DressUpFrame.ToggleOutfitDetailsButton
+		button:SetNormalTexture(134331)
+		button:SetPushedTexture(134331)
+		button:StyleButton(true)
+		button:SetTemplate("Default")
+		button:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		button:GetNormalTexture():SetInside()
+		button:GetPushedTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		button:GetPushedTexture():SetInside()
+
+		DressUpFrame.OutfitDetailsPanel:StripTextures()
+		DressUpFrame.OutfitDetailsPanel:CreateBackdrop("Transparent")
+		DressUpFrame.OutfitDetailsPanel.backdrop:SetPoint("TOPLEFT", 11, 0)
+		DressUpFrame.OutfitDetailsPanel.backdrop:SetPoint("BOTTOMRIGHT", 0, 0)
+
+		hooksecurefunc(DressUpFrame.OutfitDetailsPanel, "Refresh", function(self)
+			if self.slotPool then
+				for slot in self.slotPool:EnumerateActive() do
+					if not slot.skinned then
+						if slot.Icon:GetHeight() > 19 then
+							slot.Icon:SetSize(19, 19)
+						end
+						slot.Icon:SkinIcon()
+						slot.IconBorder:SetAlpha(0)
+						slot.skinned = true
+					end
+				end
+			end
+		end)
+
+		DressUpFrame.LinkButton:SkinButton()
+	end
+
 	T.SkinDropDownBox(DressUpFrameOutfitDropDown)
 	DressUpFrameOutfitDropDown:SetSize(195, 34)
-
+	DressUpFrameOutfitDropDown.SaveButton:SkinButton()
 	DressUpFrameOutfitDropDown.SaveButton:ClearAllPoints()
 	DressUpFrameOutfitDropDown.SaveButton:SetPoint("RIGHT", DressUpFrameOutfitDropDown, 86, 4)
 
-	WardrobeOutfitFrame:StripTextures()
-	WardrobeOutfitFrame:CreateBackdrop("Transparent")
-	WardrobeOutfitFrame.backdrop:SetPoint("TOPLEFT", 2, -2)
-	WardrobeOutfitFrame.backdrop:SetPoint("BOTTOMRIGHT", -2, 2)
+	T.SkinCloseButton(DressUpFrameCloseButton, DressUpFrame.backdrop)
 
-	SideDressUpFrame:StripTextures(true)
+	SideDressUpFrame:StripTextures()
 	SideDressUpFrame:SetTemplate("Transparent")
-	SideDressUpModelResetButton:SkinButton()
-	T.SkinCloseButton(SideDressUpModelCloseButton, SideDressUpFrame)
+	SideDressUpFrame.ResetButton:SkinButton()
+	SideDressUpFrame.BGTopLeft:SetPoint("TOPLEFT", 2, -2)
+	SideDressUpFrame.BGTopLeft:SetSize(183, 292)
+	SideDressUpFrame.BGBottomLeft:SetSize(183, 93)
+	T.SkinCloseButton(SideDressUpFrameCloseButton, SideDressUpFrame)
+
+	WardrobeOutfitFrame:StripTextures(true)
+	WardrobeOutfitFrame:CreateBackdrop("Transparent")
+	WardrobeOutfitFrame.backdrop:SetPoint("TOPLEFT", WardrobeOutfitFrame, "TOPLEFT", 6, -6)
+	WardrobeOutfitFrame.backdrop:SetPoint("BOTTOMRIGHT", WardrobeOutfitFrame, "BOTTOMRIGHT", -6, 6)
+
+	WardrobeOutfitEditFrame:StripTextures(true)
+	WardrobeOutfitEditFrame:SetTemplate("Transparent")
+	WardrobeOutfitEditFrame.AcceptButton:SkinButton()
+	WardrobeOutfitEditFrame.CancelButton:SkinButton()
+	WardrobeOutfitEditFrame.DeleteButton:SkinButton()
+	T.SkinEditBox(WardrobeOutfitEditFrame.EditBox, 250, 25)
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

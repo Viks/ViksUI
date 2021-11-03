@@ -5,7 +5,6 @@
 ----------------------------------------------------------------------------------------
 local GUILD_INDEX_MAX = 12
 local SMOOTH = {1, 0, 0, 1, 1, 0, 0, 1, 0}
-local myName = UnitName("player")
 local BC = {}
 for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 	BC[v] = k
@@ -99,40 +98,54 @@ if CUSTOM_CLASS_COLORS then
 end
 
 -- WhoList
-hooksecurefunc("WhoList_Update", function()
-	local whoOffset = FauxScrollFrame_GetOffset(WhoListScrollFrame)
+local function whoFrame()
+	local scrollFrame = WhoListScrollFrame
+	local offset = HybridScrollFrame_GetOffset(scrollFrame)
+	local buttons = scrollFrame.buttons
+	local numWhos = C_FriendList.GetNumWhoResults()
 
 	local playerZone = GetRealZoneText()
 	local playerGuild = GetGuildInfo("player")
 	local playerRace = UnitRace("player")
 
-	for i = 1, WHOS_TO_DISPLAY, 1 do
-		local index = whoOffset + i
-		local nameText = _G["WhoFrameButton"..i.."Name"]
-		local levelText = _G["WhoFrameButton"..i.."Level"]
-		local classText = _G["WhoFrameButton"..i.."Class"]
-		local variableText = _G["WhoFrameButton"..i.."Variable"]
+	for i = 1, #buttons do
+		local button = buttons[i]
+		local index = offset + i
+		if index <= numWhos then
+			local nameText = button.Name
+			local levelText = button.Level
+			local variableText = button.Variable
 
-		local name, guild, level, race, class, zone, classFileName = GetWhoInfo(index)
-		if name then
-			if zone == playerZone then
-				zone = "|cff00ff00"..zone
-			end
-			if guild == playerGuild then
-				guild = "|cff00ff00"..guild
-			end
-			if race == playerRace then
-				race = "|cff00ff00"..race
-			end
-			local columnTable = {zone, guild, race}
+			local info = C_FriendList.GetWhoInfo(index)
+			if info then
+				local guild = info.fullGuildName
+				local level = info.level
+				local race = info.raceStr
+				local zone = info.area
+				local classFileName = info.filename
 
-			local c = classColorRaw[classFileName]
-			nameText:SetTextColor(C.r, C.g, C.b)
-			levelText:SetText(diffColor[level]..level)
-			variableText:SetText(columnTable[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)])
+				if zone == playerZone then
+					zone = "|cff00ff00"..zone
+				end
+				if guild == playerGuild then
+					guild = "|cff00ff00"..guild
+				end
+				if race == playerRace then
+					race = "|cff00ff00"..race
+				end
+				local columnTable = {zone, guild, race}
+
+				local c = classColorRaw[classFileName]
+				nameText:SetTextColor(c.r, c.g, c.b)
+				levelText:SetText(diffColor[level]..level)
+				variableText:SetText(columnTable[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)])
+			end
 		end
 	end
-end)
+end
+
+hooksecurefunc("WhoList_Update", whoFrame)
+hooksecurefunc(WhoListScrollFrame, "update", whoFrame)
 
 -- LFRBrowseList
 hooksecurefunc("LFRBrowseFrameListButton_SetData", function(button, index)
@@ -146,45 +159,40 @@ hooksecurefunc("LFRBrowseFrameListButton_SetData", function(button, index)
 	end
 end)
 
--- WorldStateScoreList
-hooksecurefunc("WorldStateScoreFrame_Update", function()
-	local inArena = IsActiveBattlefieldArena()
-	local offset = FauxScrollFrame_GetOffset(WorldStateScoreScrollFrame)
+-- PVPMatchResults
+hooksecurefunc(PVPCellNameMixin, "Populate", function(self, rowData)
+	local name = rowData.name
+	local className = rowData.className or ""
+	local n, r = strsplit("-", name, 2)
+	n = classColor[className]..n.."|r"
 
-	for i = 1, MAX_WORLDSTATE_SCORE_BUTTONS do
-		local index = offset + i
-		local name, _, _, _, _, faction, _, _, class = GetBattlefieldScore(index)
-		if name then
-			local n, r = strsplit("-", name, 2)
-			n = classColor[class]..n.."|r"
-
-			if name == myName then
-				n = ">>> "..n.." <<<"
-			end
-
-			if r then
-				local color
-				if inArena then
-					if faction == 1 then
-						color = "|cffffd100"
-					else
-						color = "|cff19ff19"
-					end
-				else
-					if faction == 1 then
-						color = "|cff00adf0"
-					else
-						color = "|cffff1919"
-					end
-				end
-				r = color..r.."|r"
-				n = n.."|cffffffff - |r"..r
-			end
-
-			local button = _G["WorldStateScoreButton"..i]
-			button.name.text:SetText(n)
-		end
+	if name == UnitName("player") then
+		n = ">>> "..n.." <<<"
 	end
+
+	if r then
+		local color
+		local faction = rowData.faction
+		local inArena = IsActiveBattlefieldArena()
+		if inArena then
+			if faction == 1 then
+				color = "|cffffd100"
+			else
+				color = "|cff19ff19"
+			end
+		else
+			if faction == 1 then
+				color = "|cff00adf0"
+			else
+				color = "|cffff1919"
+			end
+		end
+		r = color..r.."|r"
+		n = n.."|cffffffff - |r"..r
+	end
+
+	local text = self.text
+	text:SetText(n)
 end)
 
 local _VIEW
@@ -199,7 +207,7 @@ local function update()
 	local playerArea = GetRealZoneText()
 	local buttons = GuildRosterContainer.buttons
 
-	for i, button in ipairs(buttons) do
+	for _, button in ipairs(buttons) do
 		if button:IsShown() and button.online and button.guildIndex then
 			if _VIEW == "tradeskill" then
 				local _, _, _, headerName, _, _, _, playerName, _, _, _, zone, _, classFileName, isMobile = GetGuildTradeSkillInfo(button.guildIndex)
@@ -272,38 +280,79 @@ hooksecurefunc("GuildFrame_LoadUI", function()
 	end
 end)
 
+-- CommunitiesFrame
+local function RefreshList(self)
+	local playerArea = GetRealZoneText()
+	local scrollFrame = self.ListScrollFrame
+	local offset = HybridScrollFrame_GetOffset(scrollFrame)
+	local buttons = scrollFrame.buttons
+
+	local displayingProfessions = self:IsDisplayingProfessions()
+	local memberList = displayingProfessions and (self.sortedProfessionList) or (self.sortedMemberList or {})
+	for i = 1, #buttons do
+		local displayIndex = i + offset
+		local button = buttons[i]
+		if displayIndex <= #memberList then
+			local memberInfo = memberList[displayIndex]
+			if memberInfo.presence == Enum.ClubMemberPresence.Offline then return end
+
+			if memberInfo.zone and memberInfo.zone == playerArea then
+				button.Zone:SetText("|cff4cff4c"..memberInfo.zone)
+			end
+
+			if memberInfo.level then
+				button.Level:SetText(diffColor[memberInfo.level]..memberInfo.level)
+			end
+
+			if memberInfo.guildRankOrder and memberInfo.guildRank then
+				button.Rank:SetText(guildRankColor[memberInfo.guildRankOrder]..memberInfo.guildRank)
+			end
+		end
+	end
+end
+
+local loaded = false
+hooksecurefunc("Communities_LoadUI", function()
+	if loaded then
+		return
+	else
+		loaded = true
+		hooksecurefunc(CommunitiesFrame.MemberList, "RefreshListDisplay", RefreshList)
+	end
+end)
+
 -- FriendsList
-local WHITE = {r = 1, g = 1, b = 1}
 local FRIENDS_LEVEL_TEMPLATE = FRIENDS_LEVEL_TEMPLATE:gsub("%%d", "%%s")
 FRIENDS_LEVEL_TEMPLATE = FRIENDS_LEVEL_TEMPLATE:gsub("%$d", "%$s")
 local function friendsFrame()
-	local scrollFrame = FriendsFrameFriendsScrollFrame
-	local offset = HybridScrollFrame_GetOffset(scrollFrame)
+	local scrollFrame = FriendsListFrameScrollFrame
 	local buttons = scrollFrame.buttons
 
 	local playerArea = GetRealZoneText()
 
 	for i = 1, #buttons do
 		local nameText, infoText
-		button = buttons[i]
-		index = offset + i
+		local button = buttons[i]
 		if button:IsShown() then
 			if button.buttonType == FRIENDS_BUTTON_TYPE_WOW then
-				local name, level, class, area, connected = GetFriendInfo(button.id)
-				if connected then
-					nameText = classColor[class]..name.."|r, "..format(FRIENDS_LEVEL_TEMPLATE, diffColor[level]..level.."|r", class)
-					if area == playerArea then
-						infoText = format("|cff00ff00%s|r", area)
+				local info = C_FriendList.GetFriendInfoByIndex(button.id)
+				if info.connected then
+					nameText = classColor[info.className]..info.name.."|r, "..format(FRIENDS_LEVEL_TEMPLATE, diffColor[info.level]..info.level.."|r", info.className)
+					if info.area == playerArea then
+						infoText = format("|cff00ff00%s|r", info.area)
 					end
 				end
 			elseif button.buttonType == FRIENDS_BUTTON_TYPE_BNET then
-				local _, presenceName, _, _, toonName, toonID, client, isOnline = BNGetFriendInfo(button.id)
-				if isOnline and client == BNET_CLIENT_WOW then
-					local _, toonName, client, _, _, _, _, class, _, zoneName, level = BNGetGameAccountInfo(toonID)
-					if presenceName and toonName and class then
-						nameText = format(BATTLENET_NAME_FORMAT, presenceName, "").." "..FRIENDS_WOW_NAME_COLOR_CODE.."("..classColor[class]..classColor[class]..toonName..FRIENDS_WOW_NAME_COLOR_CODE..")"
-						if zoneName == playerArea then
-							infoText = format("|cff00ff00%s|r", zoneName)
+				local accountInfo = C_BattleNet.GetFriendAccountInfo(button.id)
+				if accountInfo.gameAccountInfo.isOnline and accountInfo.gameAccountInfo.clientProgram == BNET_CLIENT_WOW then
+					local accountName = accountInfo.accountName
+					local characterName = accountInfo.gameAccountInfo.characterName
+					local class = accountInfo.gameAccountInfo.className
+					local areaName = accountInfo.gameAccountInfo.areaName
+					if accountName and characterName and class then
+						nameText = format(BATTLENET_NAME_FORMAT, accountName, "").." "..FRIENDS_WOW_NAME_COLOR_CODE.."("..classColor[class]..classColor[class]..characterName..FRIENDS_WOW_NAME_COLOR_CODE..")"
+						if areaName == playerArea then
+							infoText = format("|cff00ff00%s|r", areaName)
 						end
 					end
 				end
@@ -318,5 +367,5 @@ local function friendsFrame()
 		end
 	end
 end
-hooksecurefunc(FriendsFrameFriendsScrollFrame, "update", friendsFrame)
+hooksecurefunc(FriendsListFrameScrollFrame, "update", friendsFrame)
 hooksecurefunc("FriendsFrame_UpdateFriends", friendsFrame)

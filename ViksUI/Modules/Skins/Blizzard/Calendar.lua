@@ -6,30 +6,30 @@ if C.skins.blizzard_frames ~= true then return end
 ----------------------------------------------------------------------------------------
 local function LoadSkin()
 	local frames = {
-		"CalendarFrame",
-		"CalendarCreateEventFrame",
-		"CalendarCreateEventTitleFrame",
-		"CalendarCreateEventInviteList",
-		"CalendarCreateEventDescriptionContainer",
-		"CalendarCreateEventInviteListSection",
-		"CalendarTexturePickerFrame",
-		"CalendarTexturePickerTitleFrame",
-		"CalendarMassInviteFrame",
-		"CalendarMassInviteTitleFrame",
-		"CalendarViewRaidFrame",
-		"CalendarViewRaidTitleFrame",
-		"CalendarViewHolidayTitleFrame",
-		"CalendarViewEventFrame",
-		"CalendarViewEventTitleFrame",
-		"CalendarViewEventDescriptionContainer",
-		"CalendarViewEventInviteList",
-		"CalendarViewEventInviteListSection",
-		"CalendarEventPickerFrame",
-		"CalendarEventPickerTitleFrame"
+		CalendarFrame,
+		CalendarCreateEventFrame,
+		CalendarCreateEventFrame.Header,
+		CalendarCreateEventInviteList,
+		CalendarCreateEventDescriptionContainer,
+		CalendarCreateEventInviteListSection,
+		CalendarTexturePickerFrame,
+		CalendarTexturePickerFrame.Header,
+		CalendarMassInviteFrame,
+		CalendarMassInviteFrame.Header,
+		CalendarViewRaidFrame,
+		CalendarViewRaidFrame.Header,
+		CalendarViewHolidayFrame.Header,
+		CalendarViewEventFrame,
+		CalendarViewEventFrame.Header,
+		CalendarViewEventDescriptionContainer,
+		CalendarViewEventInviteList,
+		CalendarViewEventInviteListSection,
+		CalendarEventPickerFrame,
+		CalendarEventPickerFrame.Header
 	}
 
 	for _, frame in pairs(frames) do
-		_G[frame]:StripTextures()
+		frame:StripTextures()
 	end
 
 	CalendarFrame:CreateBackdrop("Transparent")
@@ -69,10 +69,8 @@ local function LoadSkin()
 	bg:SetPoint("TOPLEFT", 10, -72)
 	bg:SetPoint("BOTTOMRIGHT", -8, 3)
 
-	CalendarContextMenu:SetTemplate("Transparent")
-	CalendarContextMenu.SetBackdropColor = T.dummy
-	CalendarContextMenu.SetBackdropBorderColor = T.dummy
-	CalendarInviteStatusContextMenu:SetTemplate("Transparent")
+	_G.CalendarContextMenu.NineSlice:SetTemplate('Transparent')
+	_G.CalendarInviteStatusContextMenu.NineSlice:SetTemplate('Transparent')
 
 	-- Boost frame levels
 	for i = 1, 42 do
@@ -133,19 +131,19 @@ local function LoadSkin()
 
 	T.SkinScrollBar(CalendarTexturePickerScrollBar)
 	T.SkinScrollBar(CalendarViewEventInviteListScrollFrameScrollBar)
+	T.SkinScrollBar(CalendarCreateEventDescriptionScrollFrameScrollBar)
 	CalendarTexturePickerAcceptButton:SkinButton(true)
 	CalendarTexturePickerCancelButton:SkinButton(true)
 	CalendarCreateEventRaidInviteButton:SkinButton(true)
 
 	-- Mass Invite Frame
-	CalendarMassInviteFrame:SetTemplate("Overlay")
-
+	CalendarMassInviteFrame:CreateBackdrop("Overlay")
+	T.SkinDropDownBox(CalendarMassInviteCommunityDropDown, 190)
+	T.SkinDropDownBox(CalendarMassInviteRankMenu)
+	T.SkinEditBox(CalendarMassInviteMinLevelEdit)
+	T.SkinEditBox(CalendarMassInviteMaxLevelEdit)
+	CalendarMassInviteAcceptButton:SkinButton()
 	T.SkinCloseButton(CalendarMassInviteCloseButton)
-	CalendarMassInviteGuildAcceptButton:SkinButton()
-	T.SkinDropDownBox(CalendarMassInviteGuildRankMenu, 130)
-
-	T.SkinEditBox(CalendarMassInviteGuildMinLevelEdit)
-	T.SkinEditBox(CalendarMassInviteGuildMaxLevelEdit)
 
 	-- Raid View
 	CalendarViewRaidFrame:SetTemplate("Transparent")

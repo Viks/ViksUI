@@ -6,7 +6,7 @@ if C.skins.ovale ~= true then return end
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", function(self, event, addon)
+frame:SetScript("OnEvent", function()
 	if not IsAddOnLoaded("Ovale") then return end
 
 	if not OvaleDB then OvaleDB = {} end
@@ -24,7 +24,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 			local button = _G["Icon"..i.."n"..j]
 
 			if button and not button.isSkinned then
-				button.cd.noOCC = true
+				button.cd.noCooldownCount = true
 				button:StyleButton()
 				button:SetNormalTexture("")
 				button:CreateBackdrop("Transparent")

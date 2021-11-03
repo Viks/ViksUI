@@ -27,7 +27,6 @@ local function LoadSkin()
 	select(2, VoidStorageFrame:GetRegions()):Kill()
 
 	VoidStoragePurchaseButton:SkinButton()
-	VoidStorageHelpBoxButton:SkinButton()
 	VoidStorageTransferButton:SkinButton()
 
 	T.SkinCloseButton(VoidStorageBorderFrame.CloseButton)

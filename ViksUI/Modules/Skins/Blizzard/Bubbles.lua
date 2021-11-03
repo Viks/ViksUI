@@ -2,52 +2,44 @@ local T, C, L, _ = unpack(select(2, ...))
 if C.chat.bubbles ~= true then return end
 
 ----------------------------------------------------------------------------------------
---	ChatBubbles skin(by Haleth)
+--	ChatBubbles skin
 ----------------------------------------------------------------------------------------
-local f = CreateFrame("Frame", nil, UIParent)
-local noscalemult = T.mult * C.general.uiscale
-local total = 0
-local numKids = 0
+local function styleBubble(bubble)
+	if bubble:IsForbidden() then return end
 
-backdropr, backdropg, backdropb, backdropa = unpack(C.media.overlay_color)
-if C.chat.transp_bubbles == true then
-backdropa = C.chat.transp_bubbles_a
-else
+	local frame = bubble:GetChildren(1)
+	frame:DisableDrawLayer("BORDER")
+	frame.Tail:Hide()
+
+	frame:CreateBackdrop("Transparent")
+	frame.backdrop:SetPoint("TOPLEFT", 2, -2)
+	frame.backdrop:SetPoint("BOTTOMRIGHT", -2, 2)
+	frame.backdrop:SetScale(UIParent:GetScale())
+
+	bubble:SetClampedToScreen(false)
+	bubble:SetFrameStrata("BACKGROUND")
+	bubble.styled = true
 end
 
-local function styleBubble(frame)
-	for i = 1, frame:GetNumRegions() do
-		local region = select(i, frame:GetRegions())
-		if region:GetObjectType() == "Texture" then
-			region:SetTexture(nil)
+local function onUpdate(self, elapsed)
+	self.elapsed = (self.elapsed or 0) + elapsed
+	if self.elapsed < 0.1 then return end
+	self.elapsed = 0
+
+	for _, bubble in pairs(C_ChatBubbles.GetAllChatBubbles()) do
+		if not bubble.styled then
+			styleBubble(bubble)
 		end
 	end
-
-	frame:SetBackdrop({
-		bgFile = C.media.blank_border, edgeFile = C.media.blank_border, edgeSize = noscalemult,
-		insets = {left = -noscalemult, right = -noscalemult, top = -noscalemult, bottom = -noscalemult}
-	})
-	frame:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
-	frame:SetBackdropBorderColor(unpack(C.media.border_color))
-	frame:SetClampedToScreen(false)
-	frame:SetFrameStrata("BACKGROUND")
 end
 
-
-f:SetScript("OnUpdate", function(self, elapsed)
-	total = total + elapsed
-	if total > 0.1 then
-		total = 0
-		local newNumKids = WorldFrame:GetNumChildren()
-		if newNumKids ~= numKids then
-			for i = numKids + 1, newNumKids do
-				local frame = select(i, WorldFrame:GetChildren())
-				local b = frame:GetBackdrop()
-				if b and b.bgFile == [[Interface\Tooltips\ChatBubble-Background]] then
-					styleBubble(frame)
-				end
-			end
-			numKids = newNumKids
-		end
+local f = CreateFrame("Frame")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:SetScript("OnEvent", function()
+	local _, instanceType = IsInInstance()
+	if instanceType == "party" or instanceType == "raid" then
+		f:SetScript("OnUpdate", nil)
+	else
+		f:SetScript("OnUpdate", onUpdate)
 	end
 end)

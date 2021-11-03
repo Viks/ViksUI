@@ -8,9 +8,9 @@ local function LoadSkin()
 	InterfaceOptionsFrame:StripTextures()
 	InterfaceOptionsFrame:SetTemplate("Transparent")
 
-	InterfaceOptionsFrameHeader:SetTexture(nil)
-	InterfaceOptionsFrameHeader:ClearAllPoints()
-	InterfaceOptionsFrameHeader:SetPoint("TOP", InterfaceOptionsFrame, 0, 0)
+	InterfaceOptionsFrame.Header:StripTextures()
+	InterfaceOptionsFrame.Header:ClearAllPoints()
+	InterfaceOptionsFrame.Header:SetPoint("TOP", InterfaceOptionsFrame, 0, 0)
 
 	InterfaceOptionsFrameTab1:StripTextures()
 	InterfaceOptionsFrameTab2:StripTextures()
@@ -18,9 +18,7 @@ local function LoadSkin()
 	local frames = {
 		"InterfaceOptionsFramePanelContainer",
 		"InterfaceOptionsFrameAddOns",
-		"InterfaceOptionsFrameCategories",
-		"InterfaceOptionsFrameTab1",
-		"InterfaceOptionsFrameTab2"
+		"InterfaceOptionsFrameCategories"
 	}
 
 	for i = 1, getn(frames) do
@@ -38,7 +36,9 @@ local function LoadSkin()
 		"InterfaceOptionsFrameTab2",
 		"InterfaceOptionsSocialPanelTwitterLoginButton",
 		"InterfaceOptionsDisplayPanelResetTutorials",
-		"InterfaceOptionsSocialPanelRedockChat"
+		"InterfaceOptionsSocialPanelRedockChat",
+		"InterfaceOptionsAccessibilityPanelConfigureTextToSpeech",
+		"InterfaceOptionsAccessibilityPanelRemoteTextToSpeechVoicePlaySample"
 	}
 
 	for i = 1, getn(buttons) do
@@ -65,6 +65,7 @@ local function LoadSkin()
 		-- Display
 		"DisplayPanelRotateMinimap",
 		"DisplayPanelAJAlerts",
+		"DisplayPanelShowInGameNavigation",
 		"DisplayPanelShowTutorials",
 		-- Social
 		"SocialPanelProfanityFilter",
@@ -77,6 +78,7 @@ local function LoadSkin()
 		"SocialPanelOnlineFriends",
 		"SocialPanelOfflineFriends",
 		"SocialPanelBroadcasts",
+		"SocialPanelAutoAcceptQuickJoinRequests",
 		"SocialPanelFriendRequests",
 		"SocialPanelShowToastWindow",
 		"SocialPanelEnableTwitter",
@@ -86,15 +88,18 @@ local function LoadSkin()
 		"ActionBarsPanelRight",
 		"ActionBarsPanelRightTwo",
 		"ActionBarsPanelAlwaysShowActionBars",
+		"ActionBarsPanelStackRightBars",
 		"ActionBarsPanelLockActionBars",
 		"ActionBarsPanelCountdownCooldowns",
 		-- Names
 		"NamesPanelMyName",
 		"NamesPanelFriendlyPlayerNames",
 		"NamesPanelNonCombatCreature",
-		"NamesPanelFriendlyMinions",
 		"NamesPanelEnemyPlayerNames",
+		"NamesPanelUnitNameplatesEnemies",
 		"NamesPanelEnemyMinions",
+		"NamesPanelUnitNameplatesFriends",
+		"NamesPanelFriendlyMinions",
 		"NamesPanelUnitNameplatesPersonalResource",
 		"NamesPanelUnitNameplatesPersonalResourceOnEnemy",
 		"NamesPanelUnitNameplatesFriendlyMinions",
@@ -109,10 +114,16 @@ local function LoadSkin()
 		"MousePanelInvertMouse",
 		"MousePanelClickToMove",
 		"MousePanelEnableMouseSpeed",
+		"MousePanelLockCursorToScreen",
 		-- Assessability
 		"AccessibilityPanelMovePad",
 		"AccessibilityPanelCinematicSubtitles",
-		"AccessibilityPanelColorblindMode"
+		"AccessibilityPanelColorblindMode",
+		"AccessibilityPanelOverrideFadeOut",
+		"AccessibilityPanelQuestTextContrast",
+		"AccessibilityPanelSpeechToText",
+		"AccessibilityPanelTextToSpeech",
+		"AccessibilityPanelRemoteTextToSpeech"
 	}
 
 	for i = 1, getn(checkboxes) do
@@ -132,6 +143,8 @@ local function LoadSkin()
 		"AutoActivate40Players",
 		"AutoActivateSpec1",
 		"AutoActivateSpec2",
+		"AutoActivateSpec3",
+		"AutoActivateSpec4",
 		"AutoActivatePvE",
 		"AutoActivatePvP",
 		"KeepGroupsTogether",
@@ -157,22 +170,25 @@ local function LoadSkin()
 	T.SkinCheckBox(CompactUnitFrameProfilesRaidStylePartyFrames)
 
 	local dropdown = {
-		"ControlsPanelAutoLootKeyDropDown",
+		"AccessibilityPanelColorFilterDropDown",
+		"AccessibilityPanelMotionSicknessDropdown",
+		"AccessibilityPanelRemoteTextToSpeechVoiceDropdown",
+		"AccessibilityPanelShakeIntensityDropdown",
+		"ActionBarsPanelPickupActionKeyDropDown",
+		"CameraPanelStyleDropDown",
 		"CombatPanelFocusCastKeyDropDown",
 		"CombatPanelSelfCastKeyDropDown",
-		"SocialPanelWhisperMode",
-		"SocialPanelTimestamps",
-		"SocialPanelChatStyle",
-		"ActionBarsPanelPickupActionKeyDropDown",
-		"NamesPanelNPCNamesDropDown",
-		"NamesPanelUnitNameplatesMotionDropDown",
-		"CameraPanelStyleDropDown",
-		"MousePanelClickMoveStyleDropDown",
-		"AccessibilityPanelColorFilterDropDown",
+		"ControlsPanelAutoLootKeyDropDown",
+		"DisplayPanelChatBubblesDropDown",
+		"DisplayPanelDisplayDropDown",
 		"DisplayPanelOutlineDropDown",
 		"DisplayPanelSelfHighlightDropDown",
-		"DisplayPanelDisplayDropDown",
-		"DisplayPanelChatBubblesDropDown"
+		"MousePanelClickMoveStyleDropDown",
+		"NamesPanelNPCNamesDropDown",
+		"NamesPanelUnitNameplatesMotionDropDown",
+		"SocialPanelChatStyle",
+		"SocialPanelTimestamps",
+		"SocialPanelWhisperMode"
 	}
 
 	for i = 1, getn(dropdown) do
@@ -185,6 +201,10 @@ local function LoadSkin()
 	T.SkinDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameHealthTextDropdown)
 	T.SkinDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown)
 	T.SkinDropDownBox(CompactUnitFrameProfilesProfileSelector)
+
+	if T.newPatch then
+		T.SkinDropDownBox(InterfaceOptionsAccessibilityPanelCursorSizeDropdown)
+	end
 
 	local buttons = {
 		"CompactUnitFrameProfilesGeneralOptionsFrameResetPositionButton",
@@ -201,10 +221,8 @@ local function LoadSkin()
 
 	local sliders = {
 		"InterfaceOptionsCombatPanelSpellAlertOpacitySlider",
-		"InterfaceOptionsCombatPanelMaxSpellStartRecoveryOffset",
 		"CompactUnitFrameProfilesGeneralOptionsFrameHeightSlider",
 		"CompactUnitFrameProfilesGeneralOptionsFrameWidthSlider",
-		"InterfaceOptionsBattlenetPanelToastDurationSlider",
 		"InterfaceOptionsCameraPanelMaxDistanceSlider",
 		"InterfaceOptionsCameraPanelFollowSpeedSlider",
 		"InterfaceOptionsMousePanelMouseSensitivitySlider",
@@ -213,7 +231,7 @@ local function LoadSkin()
 		"OpacityFrameSlider"
 	}
 
-	for i = 1, getn(sliders) do
+	for i = 1, #sliders do
 		local slider = _G[sliders[i]]
 		if slider then
 			T.SkinSlider(slider)
@@ -236,9 +254,6 @@ local function LoadSkin()
 	_G["InterfaceOptionsFrameTab2"]:SetPoint("TOPLEFT", _G["InterfaceOptionsFrameTab1"], "TOPRIGHT", 3, 0)
 	_G["InterfaceOptionsFrameTab2"]:SetWidth(112)
 	_G["InterfaceOptionsFrameTab2"].SetWidth = T.dummy
-	_G["InterfaceOptionsFrameTab1TabSpacer"]:Kill()
-	_G["InterfaceOptionsFrameTab2TabSpacer1"]:Kill()
-	_G["InterfaceOptionsFrameTab2TabSpacer2"]:Kill()
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

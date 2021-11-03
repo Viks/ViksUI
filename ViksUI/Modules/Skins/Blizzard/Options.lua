@@ -8,25 +8,21 @@ local function LoadSkin()
 	VideoOptionsFrame:StripTextures()
 	VideoOptionsFrame:SetTemplate("Transparent")
 
-	VideoOptionsFrameHeader:SetTexture(nil)
-	VideoOptionsFrameHeader:ClearAllPoints()
-	VideoOptionsFrameHeader:SetPoint("TOP", VideoOptionsFrame, 0, 0)
+	VideoOptionsFrame.Header:StripTextures()
+	VideoOptionsFrame.Header:ClearAllPoints()
+	VideoOptionsFrame.Header:SetPoint("TOP", VideoOptionsFrame, 0, 0)
 
 	local frames = {
 		"VideoOptionsFrameCategoryFrame",
 		"VideoOptionsFramePanelContainer",
+		"AudioOptionsSoundPanel",
+		"AudioOptionsSoundPanelPlayback",
+		"AudioOptionsSoundPanelHardware",
+		"AudioOptionsSoundPanelVolume",
+		"AudioOptionsVoicePanel",
 		"Display_",
 		"Graphics_",
-		"RaidGraphics_",
-		"InterfaceOptionsFrameCategories",
-		"InterfaceOptionsFramePanelContainer",
-		"InterfaceOptionsFrameAddOns",
-		"AudioOptionsSoundPanelPlayback",
-		"AudioOptionsSoundPanelVolume",
-		"AudioOptionsSoundPanelHardware",
-		"AudioOptionsVoicePanelTalking",
-		"AudioOptionsVoicePanelBinding",
-		"AudioOptionsVoicePanelListening",
+		"RaidGraphics_"
 	}
 
 	for i = 1, getn(frames) do
@@ -62,8 +58,7 @@ local function LoadSkin()
 		"VideoOptionsFrameDefaults",
 		"VideoOptionsFrameApply",
 		"RecordLoopbackSoundButton",
-		"PlayLoopbackSoundButton",
-		"AudioOptionsVoicePanelChatMode1KeyBindingButton"
+		"PlayLoopbackSoundButton"
 	}
 
 	for i = 1, getn(buttons) do
@@ -76,7 +71,7 @@ local function LoadSkin()
 	local checkboxes = {
 		"Advanced_MaxFPSCheckBox",
 		"Advanced_MaxFPSBKCheckBox",
-		"Advanced_DesktopGamma",
+		"Advanced_TargetFPSCheckBox",
 		"AudioOptionsSoundPanelEnableSound",
 		"AudioOptionsSoundPanelSoundEffects",
 		"AudioOptionsSoundPanelErrorSpeech",
@@ -88,16 +83,11 @@ local function LoadSkin()
 		"AudioOptionsSoundPanelSoundInBG",
 		"AudioOptionsSoundPanelReverb",
 		"AudioOptionsSoundPanelHRTF",
-		"AudioOptionsSoundPanelEnableDSPs",
 		"AudioOptionsSoundPanelPetBattleMusic",
-		"AudioOptionsVoicePanelEnableVoice",
-		"AudioOptionsVoicePanelEnableMicrophone",
-		"AudioOptionsVoicePanelPushToTalkSound",
 		"AudioOptionsSoundPanelDialogSounds",
 		"NetworkOptionsPanelOptimizeSpeed",
 		"NetworkOptionsPanelUseIPv6",
 		"NetworkOptionsPanelAdvancedCombatLogging",
-		"Advanced_ShowHDModels",
 		"Display_RaidSettingsEnabledCheckBox"
 	}
 
@@ -111,50 +101,46 @@ local function LoadSkin()
 	local dropdown = {
 		"Display_DisplayModeDropDown",
 		"Display_ResolutionDropDown",
-		"Display_RefreshDropDown",
 		"Display_PrimaryMonitorDropDown",
 		"Display_AntiAliasingDropDown",
 		"Display_VerticalSyncDropDown",
+		"Graphics_SpellDensityDropDown",
 		"Graphics_TextureResolutionDropDown",
-		"Graphics_FilteringDropDown",
 		"Graphics_ProjectedTexturesDropDown",
 		"Graphics_ShadowsDropDown",
 		"Graphics_LiquidDetailDropDown",
-		"Graphics_SunshaftsDropDown",
 		"Graphics_ParticleDensityDropDown",
-		"Graphics_SSAODropDown",
 		"Graphics_DepthEffectsDropDown",
-		"Graphics_LightingQualityDropDown",
+		"Graphics_ComputeEffectsDropDown",
 		"Graphics_OutlineModeDropDown",
 		"Advanced_BufferingDropDown",
-		"Advanced_LagDropDown",
-		"Advanced_HardwareCursorDropDown",
+		"Advanced_FilteringDropDown",
+		"Advanced_SSAOTypeDropDown",
+		"Advanced_RTShadowQualityDropDown",
 		"Advanced_GraphicsAPIDropDown",
+		"Advanced_PhysicsInteractionDropDown",
 		"Advanced_MultisampleAntiAliasingDropDown",
 		"Advanced_MultisampleAlphaTest",
 		"Advanced_PostProcessAntiAliasingDropDown",
 		"Advanced_ResampleQualityDropDown",
-		"Advanced_PhysicsInteractionDropDown",
+		"Advanced_AdapterDropDown",
 		"AudioOptionsSoundPanelHardwareDropDown",
 		"AudioOptionsSoundPanelSoundChannelsDropDown",
 		"AudioOptionsSoundPanelSoundCacheSizeDropDown",
-		"AudioOptionsVoicePanelInputDeviceDropDown",
-		"AudioOptionsVoicePanelChatModeDropDown",
-		"AudioOptionsVoicePanelOutputDeviceDropDown",
+		"AudioOptionsVoicePanelMicDeviceDropdown",
+		"AudioOptionsVoicePanelOutputDeviceDropdown",
+		"Graphics_SSAODropDown",
 		"RaidGraphics_TextureResolutionDropDown",
-		"RaidGraphics_FilteringDropDown",
+		"RaidGraphics_SpellDensityDropDown",
 		"RaidGraphics_ProjectedTexturesDropDown",
 		"RaidGraphics_ShadowsDropDown",
 		"RaidGraphics_LiquidDetailDropDown",
-		"RaidGraphics_SunshaftsDropDown",
 		"RaidGraphics_ParticleDensityDropDown",
-		"RaidGraphics_RefractionDropDown",
 		"RaidGraphics_SSAODropDown",
 		"RaidGraphics_DepthEffectsDropDown",
-		"RaidGraphics_LightingQualityDropDown",
-		"RaidGraphics_OutlineModeDropDown"
+		"RaidGraphics_OutlineModeDropDown",
+		"RaidGraphics_ComputeEffectsDropDown"
 	}
-
 
 	for i = 1, getn(dropdown) do
 		local frame = _G[dropdown[i]]
@@ -170,17 +156,24 @@ local function LoadSkin()
 		"Graphics_GroundClutterSlider",
 		"Advanced_MaxFPSSlider",
 		"Advanced_MaxFPSBKSlider",
+		"Advanced_TargetFPSSlider",
 		"Advanced_GammaSlider",
-		"Advanced_RenderScaleSlider",
+		"Advanced_ContrastSlider",
+		"Advanced_BrightnessSlider",
 		"AudioOptionsSoundPanelMasterVolume",
 		"AudioOptionsSoundPanelSoundVolume",
 		"AudioOptionsSoundPanelMusicVolume",
 		"AudioOptionsSoundPanelAmbienceVolume",
-		"AudioOptionsVoicePanelMicrophoneVolume",
-		"AudioOptionsVoicePanelSpeakerVolume",
-		"AudioOptionsVoicePanelSoundFade",
-		"AudioOptionsVoicePanelMusicFade",
-		"AudioOptionsVoicePanelAmbienceFade",
+		"AudioOptionsSoundPanelDialogVolume",
+		"AudioOptionsVoicePanelVoiceChatMicVolume",
+		"AudioOptionsVoicePanelVoiceChatMicSensitivity",
+		"AudioOptionsVoicePanelVoiceChatVolume",
+		"AudioOptionsVoicePanelVoiceChatDucking",
+		"RaidGraphics_Quality",
+		"RaidGraphics_ViewDistanceSlider",
+		"RaidGraphics_EnvironmentalDetailSlider",
+		"RaidGraphics_GroundClutterSlider",
+		"Display_RenderScaleSlider"
 	}
 
 	for i = 1, getn(sliders) do
@@ -191,15 +184,20 @@ local function LoadSkin()
 		end
 	end
 
-	--_G["Graphics_Quality"].SetBackdrop = T.dummy
-	--_G["RaidGraphics_Quality"].SetBackdrop = T.dummy
-	--_G["Graphics_RightQuality"]:StripTextures()
-	--_G["RaidGraphics_RightQuality"]:StripTextures()
+	if T.newPatch then
+		T.SkinSlider(Advanced_ResampleSharpnessSlider)
+	end
 
-	LoopbackVUMeter:CreateBackdrop("Overlay")
-	LoopbackVUMeter:SetFrameLevel(LoopbackVUMeter:GetFrameLevel() + 1)
-	LoopbackVUMeter.backdrop:SetPoint("TOPLEFT", -4, 4)
-	LoopbackVUMeter.backdrop:SetPoint("BOTTOMRIGHT", 4, -4)
+	_G["Graphics_Quality"].SetBackdrop = T.dummy
+	_G["RaidGraphics_Quality"].SetBackdrop = T.dummy
+
+	local VUMeter = AudioOptionsVoicePanelTestInputDevice.VUMeter
+	if T.newPatch then -- TODO: delete in new patch
+		VUMeter.NineSlice:SetAlpha(0)
+	else
+		VUMeter:SetBackdrop(nil)
+	end
+	VUMeter.Status:CreateBackdrop("Overlay")
 
 	_G["VideoOptionsFrameDefaults"]:ClearAllPoints()
 	_G["VideoOptionsFrameDefaults"]:SetPoint("TOPLEFT", _G["VideoOptionsFrameCategoryFrame"], "BOTTOMLEFT", 0, -14)
@@ -209,17 +207,21 @@ local function LoadSkin()
 	_G["VideoOptionsFrameOkay"]:SetPoint("RIGHT", _G["VideoOptionsFrameCancel"], "LEFT", -4, 0)
 	_G["VideoOptionsFrameApply"]:ClearAllPoints()
 	_G["VideoOptionsFrameApply"]:SetPoint("RIGHT", _G["VideoOptionsFrameOkay"], "LEFT", -4, 0)
-	_G["AudioOptionsVoicePanelPushToTalkSound"]:ClearAllPoints()
-	_G["AudioOptionsVoicePanelPushToTalkSound"]:SetPoint("BOTTOMLEFT", _G["AudioOptionsVoicePanelBinding"], "BOTTOMLEFT", 0, 0)
-	_G["AudioOptionsVoicePanelChatMode1KeyBindingButton"]:ClearAllPoints()
-	_G["AudioOptionsVoicePanelChatMode1KeyBindingButton"]:SetPoint("CENTER", _G["AudioOptionsVoicePanelBinding"], "CENTER", 0, -10)
 
 	GraphicsButton:SetPoint("BOTTOMLEFT", "Graphics_", "TOPLEFT", 0, 3)
 	GraphicsButton:SkinButton(true)
 	RaidButton:SkinButton(true)
 
+	AudioOptionsVoicePanelTestInputDevice.ToggleTest:SkinButton()
+
+	local function InitializeCommunicationMode(self)
+		self.PushToTalkKeybindButton:SkinButton()
+	end
+	hooksecurefunc("AudioOptionsVoicePanel_InitializeCommunicationModeUI", InitializeCommunicationMode)
+
 	T.SkinDropDownBox(InterfaceOptionsLanguagesPanelAudioLocaleDropDown, 250)
 	T.SkinDropDownBox(InterfaceOptionsLanguagesPanelLocaleDropDown, 250)
+	T.SkinDropDownBox(AudioOptionsVoicePanelChatModeDropdown, 183)
 end
 
 tinsert(T.SkinFuncs["ViksUI"], LoadSkin)

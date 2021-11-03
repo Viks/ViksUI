@@ -21,23 +21,23 @@ local function addLine(self, id, isItem)
 end
 
 GameTooltip:HookScript("OnTooltipSetSpell", function(self)
-	local id = select(3, self:GetSpell())
+	local _, id = self:GetSpell()
 	if id then addLine(self, id) end
 end)
 
 hooksecurefunc(GameTooltip, "SetUnitAura", function(self, ...)
-	local id = select(11, UnitAura(...))
+	local id = select(10, UnitAura(...))
 	if id then addLine(self, id) end
 	if debuginfo == true and id and IsModifierKeyDown() then print(UnitAura(...)..": "..id) end
 end)
 
-hooksecurefunc("SetItemRef", function(link, ...)
+hooksecurefunc("SetItemRef", function(link)
 	local id = tonumber(link:match("spell:(%d+)"))
 	if id then addLine(ItemRefTooltip, id) end
 end)
 
 local function attachItemTooltip(self)
-	local link = select(2, self:GetItem())
+	local _, link = self:GetItem()
 	if not link then return end
 	local id = link:match("item:(%d+):")
 	if id then addLine(self, id, true) end

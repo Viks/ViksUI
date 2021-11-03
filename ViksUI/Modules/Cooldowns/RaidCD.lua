@@ -42,7 +42,7 @@ local function sortByExpiration(a, b)
 	return a.endTime > b.endTime
 end
 
-local CreateFS = function(frame, fsize, fstyle)
+local CreateFS = function(frame)
 	local fstring = frame:CreateFontString(nil, "OVERLAY")
 	fstring:SetFont(C.font.raid_cooldowns_font, C.font.raid_cooldowns_font_size, C.font.raid_cooldowns_font_style)
 	fstring:SetShadowOffset(C.font.raid_cooldowns_font_shadow and 1 or 0, C.font.raid_cooldowns_font_shadow and -1 or 0)
@@ -113,7 +113,7 @@ local UpdateCharges = function(bar)
 	end
 end
 
-local BarUpdate = function(self, elapsed)
+local BarUpdate = function(self)
 	local curTime = GetTime()
 	if self.endTime < curTime then
 		if self.isResses then
@@ -136,7 +136,7 @@ local OnEnter = function(self)
 	GameTooltip:Show()
 end
 
-local OnLeave = function(self)
+local OnLeave = function()
 	GameTooltip:Hide()
 end
 
@@ -237,9 +237,9 @@ local StartTimer = function(name, spellId)
 		end
 	else
 		bar.startTime = GetTime()
-		bar.endTime = GetTime() + T.raid_spells[spellId]
+		bar.endTime = GetTime() + T.RaidSpells[spellId]
 		bar.left:SetText(format("%s - %s", name:gsub("%-[^|]+", ""), spell))
-		bar.right:SetText(FormatTime(T.raid_spells[spellId]))
+		bar.right:SetText(FormatTime(T.RaidSpells[spellId]))
 		bar.isResses = false
 		bar.name = name
 		bar.spell = spell
@@ -249,6 +249,7 @@ local StartTimer = function(name, spellId)
 			bar.icon:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		end
 		bar:Show()
+		if spellId == 264667 then color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)["HUNTER"] end -- Change color for Hunter's pet
 		if color then
 			bar:SetStatusBarColor(color.r, color.g, color.b)
 			bar.bg:SetVertexColor(color.r, color.g, color.b, 0.2)
@@ -270,7 +271,7 @@ local StartTimer = function(name, spellId)
 	UpdatePositions()
 end
 
-local OnEvent = function(self, event, ...)
+local OnEvent = function(self, event)
 	if event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED_NEW_AREA" then
 		if select(2, IsInInstance()) == "raid" and IsInGroup() then
 			self:RegisterEvent("SPELL_UPDATE_CHARGES")
@@ -298,17 +299,16 @@ local OnEvent = function(self, event, ...)
 		end
 	end
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		local _, eventType, _, _, sourceName, sourceFlags = ...
+		local _, eventType, _, _, sourceName, sourceFlags, _, _, _, _, _, spellId = CombatLogGetCurrentEventInfo()
 		if band(sourceFlags, filter) == 0 then return end
 		if eventType == "SPELL_RESURRECT" or eventType == "SPELL_CAST_SUCCESS" or eventType == "SPELL_AURA_APPLIED" then
-			local spellId = select(12, ...)
 			if sourceName then
 				sourceName = sourceName:gsub("-.+", "")
 			else
 				return
 			end
-			if T.raid_spells[spellId] and show[select(2, IsInInstance())] and IsInGroup() then
-				if (sourceName == T.name and C.raidcooldown.show_my == true) or sourceName ~= T.name then
+			if T.RaidSpells[spellId] and show[select(2, IsInInstance())] and IsInGroup() then
+				if (sourceName == T.name and C.raidcooldown.show_self == true) or sourceName ~= T.name then
 					StartTimer(sourceName, spellId)
 				end
 			end
@@ -327,10 +327,10 @@ local OnEvent = function(self, event, ...)
 	end
 end
 
-for spell in pairs(T.raid_spells) do
+for spell in pairs(T.RaidSpells) do
 	local name = GetSpellInfo(spell)
 	if not name then
-		print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists! Report this to Viks.|r")
+		print("|cffff0000WARNING: spell ID ["..tostring(spell).."] no longer exists in RaidCD! Report this to Viks.|r")
 	end
 end
 

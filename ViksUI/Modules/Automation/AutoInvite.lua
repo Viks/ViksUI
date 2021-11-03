@@ -1,37 +1,20 @@
 ﻿local T, C, L, _ = unpack(select(2, ...))
+
 ----------------------------------------------------------------------------------------
 --	Accept invites from guild members or friend list(by ALZA)
 ----------------------------------------------------------------------------------------
 if C.automation.accept_invite == true then
-	local CheckFriend = function(name)
-		for i = 1, GetNumFriends() do
-			if GetFriendInfo(i) == name then
-				return true
-			end
-		end
-		for i = 1, select(2, BNGetNumFriends()) do
-			local presenceID, _, _, _, _, _, client, isOnline = BNGetFriendInfo(i)
-			if client == "WoW" and isOnline then
-				local _, toonName, _, realmName = BNGetGameAccountInfo(presenceID)
-				if name == toonName or name == toonName.."-"..realmName then
-					return true
-				end
-			end
-		end
-		if IsInGuild() then
-			for i = 1, GetNumGuildMembers() do
-				if Ambiguate(GetGuildRosterInfo(i), "none") == name then
-					return true
-				end
-			end
+	local function CheckFriend(inviterGUID)
+		if C_BattleNet.GetAccountInfoByGUID(inviterGUID) or C_FriendList.IsFriend(inviterGUID) or IsGuildMember(inviterGUID) then
+			return true
 		end
 	end
 
 	local ai = CreateFrame("Frame")
 	ai:RegisterEvent("PARTY_INVITE_REQUEST")
-	ai:SetScript("OnEvent", function(self, event, name)
+	ai:SetScript("OnEvent", function(_, _, name, _, _, _, _, _, inviterGUID)
 		if QueueStatusMinimapButton:IsShown() or GetNumGroupMembers() > 0 then return end
-		if CheckFriend(name) then
+		if CheckFriend(inviterGUID) then
 			RaidNotice_AddMessage(RaidWarningFrame, L_INFO_INVITE..name, {r = 0.41, g = 0.8, b = 0.94}, 3)
 			print(format("|cffffff00"..L_INFO_INVITE..name..".|r"))
 			AcceptGroup()
@@ -47,38 +30,54 @@ if C.automation.accept_invite == true then
 					return
 				end
 			end
-		else
-			SendWho(name)
 		end
 	end)
-end	
+end
+
 ----------------------------------------------------------------------------------------
 --	Auto invite by whisper(by Tukz)
 ----------------------------------------------------------------------------------------
+if T.client == "ruRU" then
+	C.misc.invite_keyword = "инв inv +"
+end
+
+local list_keyword = {}
+for word in gmatch(C.misc.invite_keyword, "%S+") do
+	list_keyword[word] = true
+end
+
 local autoinvite = CreateFrame("Frame")
 autoinvite:RegisterEvent("CHAT_MSG_WHISPER")
 autoinvite:RegisterEvent("CHAT_MSG_BN_WHISPER")
-autoinvite:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
-	if ((not UnitExists("party1") or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) and arg1:lower():match(C.misc.invite_keyword)) and SavedOptionsPerChar.AutoInvite == true then
-		if event == "CHAT_MSG_WHISPER" then
-			InviteUnit(arg2)
-		elseif event == "CHAT_MSG_BN_WHISPER" then
-			local _, toonName, _, realmName = BNGetGameAccountInfo(select(11, ...))
-			InviteUnit(toonName.."-"..realmName)
+autoinvite:SetScript("OnEvent", function(_, event, arg1, arg2, ...)
+	if not C.misc.whisper_invite then return end
+	if ((not UnitExists("party1") or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player"))) and not QueueStatusMinimapButton:IsShown() then
+		for word in pairs(list_keyword) do
+			if arg1:lower():match(word) then
+				if event == "CHAT_MSG_WHISPER" then
+					C_PartyInfo.InviteUnit(arg2)
+				elseif event == "CHAT_MSG_BN_WHISPER" then
+					local bnetIDAccount = select(11, ...)
+					local accountInfo = C_BattleNet.GetAccountInfoByID(bnetIDAccount)
+					BNInviteFriend(accountInfo.gameAccountInfo.gameAccountID)
+				end
+			end
 		end
 	end
 end)
 
 SlashCmdList.AUTOINVITE = function(msg)
-	if msg == "off" then
-		SavedOptionsPerChar.AutoInvite = false
-		print("|cffffff00"..L_INVITE_DISABLE..".|r")
-	elseif msg == "" then
-		SavedOptionsPerChar.AutoInvite = true
-		print("|cffffff00"..L_INVITE_ENABLE..C.misc.invite_keyword..".|r")
-		C.misc.invite_keyword = C.misc.invite_keyword
+	if msg == "" then
+		if ViksUISettingsPerChar.AutoInvite == true then
+			ViksUISettingsPerChar.AutoInvite = false
+			print("|cffffff00"..L_INVITE_DISABLE..".|r")
+		else
+			ViksUISettingsPerChar.AutoInvite = true
+			print("|cffffff00"..L_INVITE_ENABLE..C.misc.invite_keyword..".|r")
+			C.misc.invite_keyword = C.misc.invite_keyword
+		end
 	else
-		SavedOptionsPerChar.AutoInvite = true
+		ViksUISettingsPerChar.AutoInvite = true
 		print("|cffffff00"..L_INVITE_ENABLE..msg..".|r")
 		C.misc.invite_keyword = msg
 	end

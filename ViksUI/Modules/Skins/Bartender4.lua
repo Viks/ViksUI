@@ -1,6 +1,6 @@
 local T, C, L, _ = unpack(select(2, ...))
 if C.skins.blizzard_frames ~= true or C.skins.bartender ~= true then return end
-
+--[[ --// UNDER CONSTRUCTION
 ----------------------------------------------------------------------------------------
 --	Bartender skin
 ----------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 			button:CreateBackdrop("Default")
 			button.backdrop:SetAllPoints()
 
-			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			icon:SetTexCoord(0.15, 0.85, 0.15, 0.85)
 			icon:ClearAllPoints()
 			icon:SetPoint("TOPLEFT", button, 2, -2)
 			icon:SetPoint("BOTTOMRIGHT", button, -2, 2)
@@ -129,3 +129,4 @@ frame:SetScript("OnEvent", function(self, event, addon)
 	end	
 hooksecurefunc("ActionButton_Update", StyleNormalButton)
 end)
+]]--

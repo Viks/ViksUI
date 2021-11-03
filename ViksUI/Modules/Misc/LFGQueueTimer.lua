@@ -1,5 +1,5 @@
 ﻿local T, C, L, _ = unpack(select(2, ...))
---if IsAddOnLoaded("DBM-Core") then return end
+if IsAddOnLoaded("DBM-Core") or IsAddOnLoaded("BigWigs") then return end
 
 ----------------------------------------------------------------------------------------
 --	Queue timer on LFGDungeonReadyDialog
@@ -49,10 +49,6 @@ local function UpdateBar()
 			obj.nextUpdate = 0
 		end
 	end)
-	local _, _, _, _, _, _, _, _, _, completedEncounters, _, _, _, totalEncounters = GetLFGProposal()
-	if totalEncounters and totalEncounters > 0 then
-		LFGDungeonReadyDialogInstanceInfoFrame.statusText:SetFormattedText(BOSSES_KILLED, completedEncounters, totalEncounters)
-	end
 end
 
 frame:RegisterEvent("LFG_PROPOSAL_SHOW")

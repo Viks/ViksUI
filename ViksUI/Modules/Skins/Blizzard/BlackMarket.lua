@@ -6,8 +6,11 @@ if C.skins.blizzard_frames ~= true then return end
 ----------------------------------------------------------------------------------------
 local function LoadSkin()
 	BlackMarketFrame:StripTextures()
-	BlackMarketFrame.Inset:StripTextures()
 	BlackMarketFrame:SetTemplate("Transparent")
+
+	BlackMarketFrame.Inset:CreateBackdrop("Overlay")
+	BlackMarketFrame.Inset.backdrop:SetPoint("TOPLEFT", 0, 0)
+	BlackMarketFrame.Inset.backdrop:SetPoint("BOTTOMRIGHT", 1, 4)
 
 	T.SkinScrollBar(BlackMarketScrollFrameScrollBar)
 	BlackMarketFrame.MoneyFrameBorder:StripTextures()
@@ -19,7 +22,9 @@ local function LoadSkin()
 	BlackMarketBidPrice:SetPoint("BOTTOMRIGHT", BlackMarketFrame.BidButton, "BOTTOMLEFT", 0, -2)
 
 	BlackMarketFrame.HotDeal:StripTextures()
+	BlackMarketFrame.HotDeal:CreateBackdrop("Overlay")
 	BlackMarketFrame.HotDeal.Item.IconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	BlackMarketFrame.HotDeal.Item.IconBorder:SetAlpha(0)
 	BlackMarketFrame.HotDeal.Item:CreateBackdrop("Default")
 	BlackMarketFrame.HotDeal.Item:StyleButton()
 	BlackMarketFrame.HotDeal.Item.hover:SetAllPoints()
@@ -55,6 +60,8 @@ local function LoadSkin()
 				button.Item.IconTexture:SetPoint("TOPLEFT", 2, -2)
 				button.Item.IconTexture:SetPoint("BOTTOMRIGHT", -2, 2)
 
+				button.Item.IconBorder:SetAlpha(0)
+
 				button:SetHighlightTexture(C.media.texture)
 				button:GetHighlightTexture():SetVertexColor(0.243, 0.570, 1, 0.2)
 
@@ -66,7 +73,7 @@ local function LoadSkin()
 				button.Name:SetTextColor(GetItemQualityColor(quality))
 			end
 
-			if index <= numItems then
+			if type(numItems) == "number" and index <= numItems then
 				local name, texture = C_BlackMarket.GetItemInfoByIndex(index)
 				if name then
 					button.Item.IconTexture:SetTexture(texture)

@@ -3,22 +3,26 @@
 ----------------------------------------------------------------------------------------
 --	Check outdated UI version
 ----------------------------------------------------------------------------------------
-local check = function(self, event, prefix, message, channel, sender)
+local check = function(self, event, prefix, message, _, sender)
 	if event == "CHAT_MSG_ADDON" then
 		if prefix ~= "ViksUIVersion" or sender == T.name then return end
 		if tonumber(message) ~= nil and tonumber(message) > tonumber(T.version) then
-			print("|cffff0000"..L_MISC_UI_OUTDATED.."|r")
+			if T.vik == true then
+				print("|cffff0000" .. "HEY!, Viks here, thank you for using my addon. Always nice to group with a use of my addon. It's outdated so go and grab the latest version!".."|r")
+			else
+				print("|cffff0000"..L_MISC_UI_OUTDATED.."|r")
+			end
 			self:UnregisterEvent("CHAT_MSG_ADDON")
 		end
 	else
-	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-			SendAddonMessage("ViksUIVersion", tonumber(T.version), "INSTANCE_CHAT")
+		if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+			C_ChatInfo.SendAddonMessage("ViksUIVersion", tonumber(T.version), "INSTANCE_CHAT")
 		elseif IsInRaid(LE_PARTY_CATEGORY_HOME) then
-			SendAddonMessage("ViksUIVersion", tonumber(T.version), "RAID")
+			C_ChatInfo.SendAddonMessage("ViksUIVersion", tonumber(T.version), "RAID")
 		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
-			SendAddonMessage("ViksUIVersion", tonumber(T.version), "PARTY")
+			C_ChatInfo.SendAddonMessage("ViksUIVersion", tonumber(T.version), "PARTY")
 		elseif IsInGuild() then
-			SendAddonMessage("ViksUIVersion", tonumber(T.version), "GUILD")
+			C_ChatInfo.SendAddonMessage("ViksUIVersion", tonumber(T.version), "GUILD")
 		end
 	end
 end
@@ -28,15 +32,15 @@ frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("GROUP_ROSTER_UPDATE")
 frame:RegisterEvent("CHAT_MSG_ADDON")
 frame:SetScript("OnEvent", check)
-RegisterAddonMessagePrefix("ViksUIVersion")
+C_ChatInfo.RegisterAddonMessagePrefix("ViksUIVersion")
 
 ----------------------------------------------------------------------------------------
---	Whisp UI version
+--	Whisper UI version
 ----------------------------------------------------------------------------------------
 local whisp = CreateFrame("Frame")
 whisp:RegisterEvent("CHAT_MSG_WHISPER")
 whisp:RegisterEvent("CHAT_MSG_BN_WHISPER")
-whisp:SetScript("OnEvent", function(self, event, text, name, ...)
+whisp:SetScript("OnEvent", function(_, event, text, name, ...)
 	if text:lower():match("ui_version") or text:lower():match("уи_версия") then
 		if event == "CHAT_MSG_WHISPER" then
 			SendChatMessage("ViksUI "..T.version, "WHISPER", nil, name)

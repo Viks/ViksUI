@@ -16,7 +16,7 @@ CPMABheight = C.panels.CPMABheight 			-- Hight for Main Actionbar
 CPMAByoffset = C.panels.CPMAByoffset 			-- Hight for Main Actionbar
 CPCooldheight = C.panels.CPCooldheight 		-- Hight for Cooldown Bar
 CPTop = C.panels.CPTop 						-- Width for Top Panels
-CPMinimap = C.minimapp.size 					-- Width/Hight for Minimap Panel
+CPMinimap = C.minimap.size 					-- Width/Hight for Minimap Panel
 Pscale = C.misc.Pscale						-- Can be used to resize all panels. It does not change X Y Values
 
 
@@ -32,7 +32,7 @@ qColor2 = ("|cff%.2x%.2x%.2x"):format(0 * 255, .38 * 255, .651 * 255)
 mult = T.mult
 
 
-function CreateShadow0(f)--
+function CreateShadow(f)--
 	if f.shadow then return end
 	local shadow = CreateFrame("Frame", nil, f)
 	shadow:SetFrameLevel(0)
@@ -46,10 +46,10 @@ function CreateShadow0(f)--
 	return shadow
 end
 
-buttonsize = C.actionbar.buttonsize
-buttonspacing = C.actionbar.buttonspacing
+buttonsize = C.actionbar.button_size
+buttonspacing = C.actionbar.button_space
 petbuttonsize = C.actionbar.petbuttonsize
-petbuttonspacing = C.actionbar.buttonspacing
+petbuttonspacing = C.actionbar.button_space
 
 ----------------------------------------------------------------------------------------
 -- Backdrop/Shadow/Glow/Border
@@ -94,7 +94,7 @@ function altCreatePanel(f, w, h, a1, p, a2, x, y)
 	  tile = false, tileSize = 0, edgeSize = mult, 
 	  insets = { left = -mult, right = -mult, top = -mult, bottom = -mult}
 	})
-	f:SetBackdropColor(unpack(C.media.altbackdropcolor))
+	f:SetBackdropColor(unpack(C.media.backdrop_color))
 	f:SetBackdropBorderColor(unpack(C.media.border_color))
 end
 local function SetTex(f, t, texture)
@@ -124,7 +124,7 @@ local shadows = {
 }
 function CreateShadow(f)
 	if f.shadow then return end
-	local shadow = CreateFrame("Frame", nil, f)
+	local shadow = CreateFrame("Frame", nil, f, "BackdropTemplate")
 	shadow:SetFrameLevel(1)
 	shadow:SetFrameStrata(f:GetFrameStrata())
 	shadow:SetPoint("TOPLEFT", -4, 4)
@@ -260,7 +260,6 @@ end
 function frame12(f)
     if f.frame==nil then
       local frame = CreateFrame("Frame", nil, f)
-      frame = CreateFrame("Frame", nil, f)
       frame:SetFrameLevel(12)
       frame:SetFrameStrata(f:GetFrameStrata())
       frame:SetPoint("TOPLEFT", 4, -4)
@@ -278,10 +277,9 @@ function frame12(f)
       f.frame = frame
     end
 end 
-function frame(f)
+local function frame(f)
     if f.frame==nil then
       local frame = CreateFrame("Frame", nil, f)
-      frame = CreateFrame("Frame", nil, f)
       frame:SetFrameLevel(12)
       frame:SetFrameStrata(f:GetFrameStrata())
       frame:SetPoint("TOPLEFT", 4, -4)
@@ -302,7 +300,6 @@ end
 function frame123(f)
     if f.frame==nil then
       local frame = CreateFrame("Frame", nil, f)
-      frame = CreateFrame("Frame", nil, f)
       frame:SetFrameLevel(2)
       frame:SetFrameStrata(f:GetFrameStrata())
       frame:SetPoint("TOPLEFT", 9, -9)
@@ -323,7 +320,6 @@ end
 function CreateShadow1(f)
     if f.frameBD==nil then
       local frameBD = CreateFrame("Frame", nil, f)
-      frameBD = CreateFrame("Frame", nil, f)
       frameBD:SetFrameLevel(1)
       frameBD:SetFrameStrata(f:GetFrameStrata())
       frameBD:SetPoint("TOPLEFT", 0, 0)
@@ -343,7 +339,6 @@ end
 function CreateShadow2(f)
     if f.frameBD==nil then
       local frameBD = CreateFrame("Frame", nil, f)
-      frameBD = CreateFrame("Frame", nil, f)
       frameBD:SetFrameLevel(0)
       frameBD:SetFrameStrata(f:GetFrameStrata())
       frameBD:SetPoint("TOPLEFT", 5, -5)
@@ -390,7 +385,7 @@ function CreateShadowNameplates(f)
 end
 
 if C.datatext.classcolor == true then
-	local classcolor = RAID_CLASS_COLORS[myclass]
+	local classcolor = RAID_CLASS_COLORS[T.class]
 	C.datatext.color = {classcolor.r,classcolor.g,classcolor.b,1}
 end
 local r, g, b = unpack(C.datatext.color)

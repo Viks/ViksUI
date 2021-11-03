@@ -4,8 +4,8 @@
 --	Skin some ViksUI frames if loaded Aurora
 ----------------------------------------------------------------------------------------
 local AuroraSkin = CreateFrame("Frame")
-AuroraSkin:RegisterEvent("PLAYER_ENTERING_WORLD")
-AuroraSkin:SetScript("OnEvent", function(self, event, addon)
+AuroraSkin:RegisterEvent("PLAYER_LOGIN")
+AuroraSkin:SetScript("OnEvent", function()
 	if not IsAddOnLoaded("Aurora") then return end
 	local F = unpack(Aurora)
 
@@ -55,7 +55,6 @@ AuroraSkin:SetScript("OnEvent", function(self, event, addon)
 		end
 	end
 
-	F.ReskinTab(_G["FriendsFrameTab5"])
 	if IsAddOnLoaded("!BaudErrorFrame") then
 		F.ReskinScroll(_G["BaudErrorFrameListScrollBoxScrollBarScrollBar"])
 		F.ReskinScroll(_G["BaudErrorFrameDetailScrollFrameScrollBar"])

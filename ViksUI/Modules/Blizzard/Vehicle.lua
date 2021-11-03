@@ -8,7 +8,6 @@ AnchorVehicleAnchor:SetPoint("BOTTOMRIGHT", RChatTab, "TOPRIGHT", 0, 4)
 AnchorVehicleAnchor:SetSize(VehicleSeatIndicator:GetWidth(), VehicleSeatIndicator:GetHeight())
 CreateAnchor(AnchorVehicleAnchor, "Move Vehicle Bar", VehicleSeatIndicator:GetWidth(), VehicleSeatIndicator:GetHeight())
 
---[[
 hooksecurefunc(VehicleSeatIndicator, "SetPoint", function(_, _, parent)
 	if parent == "MinimapCluster" or parent == _G["MinimapCluster"] then
 		VehicleSeatIndicator:ClearAllPoints()
@@ -16,11 +15,10 @@ hooksecurefunc(VehicleSeatIndicator, "SetPoint", function(_, _, parent)
 		VehicleSeatIndicator:SetFrameStrata("LOW")
 	end
 end)
---]]
 ----------------------------------------------------------------------------------------
 --	Vehicle indicator on mouseover
 ----------------------------------------------------------------------------------------
-if C.misc.vehicle_mouseover == true then
+if C.general.vehicle_mouseover == true then
 	local function VehicleNumSeatIndicator()
 		if VehicleSeatIndicatorButton6 then
 			T.numSeat = 6
@@ -57,8 +55,8 @@ if C.misc.vehicle_mouseover == true then
 			for i = 1, T.numSeat do
 				local pb = _G["VehicleSeatIndicatorButton"..i]
 				pb:SetAlpha(0)
-				pb:HookScript("OnEnter", function(self) VehicleSeatIndicator:SetAlpha(1) vehmousebutton(1) end)
-				pb:HookScript("OnLeave", function(self) VehicleSeatIndicator:SetAlpha(0) vehmousebutton(0) end)
+				pb:HookScript("OnEnter", function() VehicleSeatIndicator:SetAlpha(1) vehmousebutton(1) end)
+				pb:HookScript("OnLeave", function() VehicleSeatIndicator:SetAlpha(0) vehmousebutton(0) end)
 			end
 		end
 	end

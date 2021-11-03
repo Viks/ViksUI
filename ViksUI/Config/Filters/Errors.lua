@@ -1,8 +1,8 @@
 local T, C, L, _ = unpack(select(2, ...))
-if C.error.white ~= true and C.error.black ~= true then return end
+if C.general.error_filter ~= "WHITELIST" and C.general.error_filter ~= "BLACKLIST" then return end
 
 ----------------------------------------------------------------------------------------
---	All errors on www.wowwiki.com/WoW_Constants/Errors
+--	All errors on http://wowwiki.wikia.com/wiki/WoW_Constants/Errors
 ----------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------
@@ -51,6 +51,8 @@ T.black_list = {
 	[ERR_OUT_OF_CHI] = true,
 	[ERR_OUT_OF_DARK_FORCE] = true,
 	[ERR_OUT_OF_DEMONIC_FURY] = true,
+	[ERR_OUT_OF_FURY] = true,
+	[ERR_OUT_OF_PAIN] = true,
 	[ERR_OUT_OF_SOUL_SHARDS] = true,
 	[ERR_OUT_OF_LIGHT_FORCE] = true,
 	[ERR_OUT_OF_SHADOW_ORBS] = true,

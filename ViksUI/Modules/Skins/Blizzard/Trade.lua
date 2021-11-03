@@ -14,6 +14,9 @@ local function LoadSkin()
 	TradePlayerInputMoneyInset:StripTextures()
 	TradeRecipientMoneyInset:StripTextures()
 	TradeRecipientMoneyBg:StripTextures()
+	
+	TradeFrame.RecipientOverlay.portrait:SetAlpha(0)
+	TradeFrame.RecipientOverlay.portraitFrame:SetAlpha(0)
 
 	TradeFrame:CreateBackdrop("Transparent")
 	TradeFrame.backdrop:SetPoint("TOPLEFT", 0, 0)
@@ -41,6 +44,9 @@ local function LoadSkin()
 			recipient:StripTextures()
 			player_button:StripTextures()
 			recipient_button:StripTextures()
+
+			player_button.IconBorder:SetAlpha(0)
+			recipient_button.IconBorder:SetAlpha(0)
 
 			player_button_icon:ClearAllPoints()
 			player_button_icon:SetPoint("TOPLEFT", player_button, "TOPLEFT", 2, -2)

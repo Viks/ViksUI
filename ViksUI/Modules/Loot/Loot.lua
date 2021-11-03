@@ -14,10 +14,11 @@ Butsu:SetScript("OnEvent", function(self, event, ...)
 	self[event](self, event, ...)
 end)
 
-function Butsu:LOOT_OPENED(event, autoloot)
+function Butsu:LOOT_OPENED(_, ...)
 	self:Show()
 	lb:Show()
 
+	local autoLoot = ...
 	if not self:IsShown() then
 		CloseLoot(not autoLoot)
 	end
@@ -47,7 +48,12 @@ function Butsu:LOOT_OPENED(event, autoloot)
 	if items > 0 then
 		for i = 1, items do
 			local slot = _NS.slots[i] or _NS.CreateSlot(i)
-			local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(i)
+			local texture, item, quantity, currencyID, quality, _, isQuestItem, questId, isActive = GetLootSlotInfo(i)
+
+			if currencyID then
+				item, texture, quantity, quality = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, quantity, item, texture, quality)
+			end
+
 			if texture then
 				local color = ITEM_QUALITY_COLORS[quality]
 				local r, g, b = color.r, color.g, color.b
@@ -121,7 +127,7 @@ function Butsu:LOOT_OPENED(event, autoloot)
 end
 Butsu:RegisterEvent("LOOT_OPENED")
 
-function Butsu:LOOT_SLOT_CLEARED(event, slot)
+function Butsu:LOOT_SLOT_CLEARED(_, slot)
 	if not self:IsShown() then return end
 
 	_NS.slots[slot]:Hide()
@@ -160,10 +166,12 @@ do
 end
 
 Butsu:SetScript("OnMouseDown", function(self, button)
-	if IsAltKeyDown() then
+	if IsAltKeyDown() or IsShiftKeyDown() then
 		self:StartMoving()
 	elseif IsControlKeyDown() and button == "RightButton" then
+		self:ClearAllPoints()
 		self:SetPoint(unpack(C.position.loot))
+		self:SetUserPlaced(false)
 	end
 end)
 
@@ -171,7 +179,7 @@ Butsu:SetScript("OnMouseUp", function(self)
 	self:StopMovingOrSizing()
 end)
 
-Butsu:SetScript("OnHide", function(self)
+Butsu:SetScript("OnHide", function()
 	StaticPopup_Hide("CONFIRM_LOOT_DISTRIBUTION")
 	CloseLoot()
 end)
@@ -179,7 +187,6 @@ end)
 Butsu:SetMovable(true)
 Butsu:RegisterForClicks("AnyUp")
 Butsu:SetParent(UIParent)
-Butsu:SetUserPlaced(true)
 Butsu:SetPoint(unpack(C.position.loot))
 Butsu:SetTemplate("Transparent")
 Butsu:SetClampedToScreen(true)
@@ -189,8 +196,7 @@ Butsu:SetFrameLevel(10)
 
 local close = CreateFrame("Button", "LootCloseButton", Butsu, "UIPanelCloseButton")
 T.SkinCloseButton(close, nil, nil, true)
-close:SetWidth(14)
-close:SetHeight(14)
+close:SetSize(15, 15)
 close:SetScript("OnClick", function() CloseLoot() end)
 
 ----------------------------------------------------------------------------------------
@@ -260,13 +266,12 @@ local function LDD_Initialize()
 end
 
 T.SkinCloseButton(lb, LootCloseButton, "-", true)
-lb:SetWidth(14)
-lb:SetHeight(14)
+lb:SetSize(15, 15)
 lb:ClearAllPoints()
-lb:SetPoint("BOTTOMRIGHT", Butsu, "TOPRIGHT", -21, -18)
+lb:SetPoint("BOTTOMRIGHT", Butsu, "TOPRIGHT", -22, -19)
 lb:SetFrameStrata("DIALOG")
 lb:RegisterForClicks("RightButtonUp", "LeftButtonUp")
-lb:SetScript("OnClick", function(self, button)
+lb:SetScript("OnClick", function(_, button)
 	if button == "RightButton" then
 		ToggleDropDownMenu(nil, nil, LDD, lb, 0, 0)
 	else

@@ -5,14 +5,14 @@ if C.skins.dbm ~= true then return end
 --	DBM skin(by Affli)
 ----------------------------------------------------------------------------------------
 local backdrop = {
-	bgFile = C.media.blank_border,
+	bgFile = C.media.blank,
 	insets = {left = 0, right = 0, top = 0, bottom = 0},
 }
 
 local DBMSkin = CreateFrame("Frame")
-DBMSkin:RegisterEvent("PLAYER_ENTERING_WORLD")
+DBMSkin:RegisterEvent("PLAYER_LOGIN")
 DBMSkin:RegisterEvent("ADDON_LOADED")
-DBMSkin:SetScript("OnEvent", function(self, event, addon)
+DBMSkin:SetScript("OnEvent", function()
 	if IsAddOnLoaded("DBM-Core") then
 		local function SkinBars(self)
 			for bar in self:GetBarIterator() do
@@ -21,7 +21,6 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 						local frame = bar.frame
 						local tbar = _G[frame:GetName().."Bar"]
 						local spark = _G[frame:GetName().."BarSpark"]
-						local texture = _G[frame:GetName().."BarTexture"]
 						local icon1 = _G[frame:GetName().."BarIcon1"]
 						local icon2 = _G[frame:GetName().."BarIcon2"]
 						local name = _G[frame:GetName().."BarName"]
@@ -49,18 +48,24 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 							icon2.overlay:SetTemplate("Transparent")
 						end
 
+						Mixin(tbar, BackdropTemplateMixin)
 						if bar.color then
 							tbar:SetStatusBarColor(bar.color.r, bar.color.g, bar.color.b)
 							tbar:SetBackdrop(backdrop)
 							tbar:SetBackdropColor(bar.color.r, bar.color.g, bar.color.b, 0.15)
 						else
-							tbar:SetStatusBarColor(bar.owner.options.StartColorR, bar.owner.options.StartColorG, bar.owner.options.StartColorB)
+							tbar:SetStatusBarColor(DBT.Options.StartColorR, DBT.Options.StartColorG, DBT.Options.StartColorB)
 							tbar:SetBackdrop(backdrop)
-							tbar:SetBackdropColor(bar.owner.options.StartColorR, bar.owner.options.StartColorG, bar.owner.options.StartColorB, 0.15)
+							tbar:SetBackdropColor(DBT.Options.StartColorR, DBT.Options.StartColorG, DBT.Options.StartColorB, 0.15)
 						end
 
-						if bar.enlarged then frame:SetWidth(bar.owner.options.HugeWidth) else frame:SetWidth(bar.owner.options.Width) end
-						if bar.enlarged then tbar:SetWidth(bar.owner.options.HugeWidth) else tbar:SetWidth(bar.owner.options.Width) end
+						if bar.enlarged then
+							frame:SetWidth(DBT.Options.HugeWidth)
+							tbar:SetWidth(DBT.Options.HugeWidth)
+						else
+							frame:SetWidth(DBT.Options.Width)
+							tbar:SetWidth(DBT.Options.Width)
+						end
 
 						if not frame.styled then
 							frame:SetScale(1)
@@ -91,11 +96,6 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 							icon2.styled = true
 						end
 
-						if not texture.styled then
-							texture:SetTexture(C.media.texture)
-							texture.styled = true
-						end
-
 						if not tbar.styled then
 							tbar:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -2)
 							tbar:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 2)
@@ -124,123 +124,36 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 							timer.styled = true
 						end
 
-						if bar.owner.options.IconLeft then icon1:Show() icon1.overlay:Show() else icon1:Hide() icon1.overlay:Hide() end
-						if bar.owner.options.IconRight then icon2:Show() icon2.overlay:Show() else icon2:Hide() icon2.overlay:Hide() end
+						if DBT.Options.IconLeft then icon1:Show() icon1.overlay:Show() else icon1:Hide() icon1.overlay:Hide() end
+						if DBT.Options.IconRight then icon2:Show() icon2.overlay:Show() else icon2:Hide() icon2.overlay:Hide() end
 						tbar:SetAlpha(1)
 						frame:SetAlpha(1)
-						texture:SetAlpha(1)
 						frame:Show()
 						bar:Update(0)
 						bar.injected = true
 					end
 					bar:ApplyStyle()
-					bar.ApplyPosition = function()
-						if C.unitframe.enable ~= true then return end
-						self.mainAnchor:ClearAllPoints()
-						self.mainAnchor:SetPoint("BOTTOMLEFT", RChatTab, "BOTTOMLEFT", 122, 0)
-					end
-					bar:ApplyPosition()
 				end
 			end
 		end
+		if DBM then
+			hooksecurefunc(DBT, "CreateBar", SkinBars)
 
-		local SkinBossTitle = function()
-			local anchor = DBMBossHealthDropdown:GetParent()
-			if not anchor.styled then
-				local header = {anchor:GetRegions()}
-				if header[1]:IsObjectType("FontString") then
-					header[1]:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
-					header[1]:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
-					header[1]:SetTextColor(1, 1, 1, 1)
-					anchor.styled = true
+			hooksecurefunc(DBM.RangeCheck, "Show", function()
+				if DBMRangeCheck then
+					DBMRangeCheck:SetTemplate("Transparent")
 				end
-				header = nil
-			end
-			anchor = nil
+				if DBMRangeCheckRadar then
+					DBMRangeCheckRadar:SetTemplate("Transparent")
+				end
+			end)
+
+			hooksecurefunc(DBM.InfoFrame, "Show", function()
+				if DBMInfoFrame then
+					DBMInfoFrame:SetTemplate("Transparent")
+				end
+			end)
 		end
-
-		local SkinBoss = function()
-			local count = 1
-			while (_G[format("DBM_BossHealth_Bar_%d", count)]) do
-				local bar = _G[format("DBM_BossHealth_Bar_%d", count)]
-				local background = _G[bar:GetName().."BarBorder"]
-				local progress = _G[bar:GetName().."Bar"]
-				local name = _G[bar:GetName().."BarName"]
-				local timer = _G[bar:GetName().."BarTimer"]
-				local prev = _G[format("DBM_BossHealth_Bar_%d", count-1)]
-
-				if count == 1 then
-					local _, anch = bar:GetPoint()
-					bar:ClearAllPoints()
-					if DBM_AllSavedOptions["Default"].HealthFrameGrowUp then
-						bar:SetPoint("BOTTOM", anch, "TOP", 0, 3)
-					else
-						bar:SetPoint("TOP", anch, "BOTTOM", 0, -3)
-					end
-				else
-					bar:ClearAllPoints()
-					if DBM_AllSavedOptions["Default"].HealthFrameGrowUp then
-						bar:SetPoint("BOTTOMLEFT", prev, "TOPLEFT", 0, 3)
-					else
-						bar:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -3)
-					end
-				end
-
-				if not bar.styled then
-					bar:SetScale(1)
-					bar:SetHeight(19)
-					bar:SetTemplate("Default")
-					background:SetNormalTexture(nil)
-					bar.styled = true
-				end
-
-				if not progress.styled then
-					progress:SetStatusBarTexture(C.media.texture)
-					progress:SetBackdrop(backdrop)
-					progress:SetBackdropColor(T.color.r, T.color.g, T.color.b, 0.2)
-					progress.styled = true
-				end
-				progress:ClearAllPoints()
-				progress:SetPoint("TOPLEFT", bar, "TOPLEFT", 2, -2)
-				progress:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", -2, 2)
-
-				if not name.styled then
-					name:ClearAllPoints()
-					name:SetPoint("LEFT", bar, "LEFT", 4, 0)
-					name:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
-					name:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
-					name:SetJustifyH("LEFT")
-					name.styled = true
-				end
-
-				if not timer.styled then
-					timer:ClearAllPoints()
-					timer:SetPoint("RIGHT", bar, "RIGHT", -1, 0)
-					timer:SetFont(C.font.stylization_font, C.font.stylization_font_size, C.font.stylization_font_style)
-					timer:SetShadowOffset(C.font.stylization_font_shadow and 1 or 0, C.font.stylization_font_shadow and -1 or 0)
-					timer:SetJustifyH("RIGHT")
-					timer.styled = true
-				end
-				count = count + 1
-			end
-		end
-
-		hooksecurefunc(DBT, "CreateBar", SkinBars)
-		hooksecurefunc(DBM.BossHealth, "Show", SkinBossTitle)
-		hooksecurefunc(DBM.BossHealth, "AddBoss", SkinBoss)
-		hooksecurefunc(DBM.BossHealth, "UpdateSettings", SkinBoss)
-
-		hooksecurefunc(DBM.RangeCheck, "Show", function()
-			DBMRangeCheck:SetTemplate("Transparent")
-			if DBMRangeCheckRadar then
-				DBMRangeCheckRadar:SetTemplate("Transparent")
-			end
-		end)
-
-		hooksecurefunc(DBM.InfoFrame, "Show", function()
-			DBMInfoFrame:SetTemplate("Transparent")
-		end)
-
 		local replace = string.gsub
 		local old = RaidNotice_AddMessage
 		RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo)
@@ -256,11 +169,11 @@ DBMSkin:SetScript("OnEvent", function(self, event, addon)
 		_G["DBM_GUI_OptionsFramePanelContainer"]:SetTemplate("Overlay")
 
 		_G["DBM_GUI_OptionsFrameTab1"]:ClearAllPoints()
-		_G["DBM_GUI_OptionsFrameTab1"]:SetPoint("TOPLEFT", _G["DBM_GUI_OptionsFrameBossMods"], "TOPLEFT", 10, 27)
+		_G["DBM_GUI_OptionsFrameTab1"]:SetPoint("TOPLEFT", _G["DBM_GUI_OptionsFrameList"], "TOPLEFT", 10, 27)
 		_G["DBM_GUI_OptionsFrameTab2"]:ClearAllPoints()
 		_G["DBM_GUI_OptionsFrameTab2"]:SetPoint("TOPLEFT", _G["DBM_GUI_OptionsFrameTab1"], "TOPRIGHT", 6, 0)
 
-		_G["DBM_GUI_OptionsFrameBossMods"]:HookScript("OnShow", function(self) self:SetTemplate("Overlay") end)
+		_G["DBM_GUI_OptionsFrameList"]:HookScript("OnShow", function(self) self:SetTemplate("Overlay") end)
 		_G["DBM_GUI_OptionsFrameDBMOptions"]:HookScript("OnShow", function(self) self:SetTemplate("Overlay") end)
 		_G["DBM_GUI_OptionsFrameHeader"]:SetTexture("")
 		_G["DBM_GUI_OptionsFrameHeader"]:ClearAllPoints()
@@ -298,10 +211,6 @@ function T.UploadDBM()
 			{["b"] = T.color.b, ["g"] = T.color.g, ["r"] = T.color.r,},
 			{["b"] = T.color.b, ["g"] = T.color.g, ["r"] = T.color.r,},
 		}
-		DBM_AllSavedOptions["Default"].HealthFrameGrowUp = false
-		DBM_AllSavedOptions["Default"].HealthFrameWidth = 200
-		DBM_AllSavedOptions["Default"].HPFrameX = 100
-		DBM_AllSavedOptions["Default"].HPFramePoint = "RIGHT"
 		DBM_AllSavedOptions["Default"].RangeFrameX = 244
 		DBM_AllSavedOptions["Default"].RangeFramePoint = "LEFT"
 		DBM_AllSavedOptions["Default"].ShowSpecialWarnings = true
@@ -321,7 +230,6 @@ function T.UploadDBM()
 		DBM_AllSavedOptions["Default"].RangeFramePoint = "LEFT"
 		DBM_AllSavedOptions["Default"].RangeFrameRadarY = 76
 		DBM_AllSavedOptions["Default"].RangeFrameFrames = "radar"
-		DBM_AllSavedOptions["Default"].HPFrameX = -111
 		
 		DBT_AllPersistentOptions["Default"]["DBM"].StartColorR = T.color.r
 		DBT_AllPersistentOptions["Default"]["DBM"].StartColorG = T.color.g
@@ -332,14 +240,15 @@ function T.UploadDBM()
 		DBT_AllPersistentOptions["Default"]["DBM"].Scale = 1
 		DBT_AllPersistentOptions["Default"]["DBM"].HugeScale = 1
 		DBT_AllPersistentOptions["Default"]["DBM"].BarXOffset = 0
-		DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 18
+		DBT_AllPersistentOptions["Default"]["DBM"].BarYOffset = 10
 		DBT_AllPersistentOptions["Default"]["DBM"].Font = C.font.stylization_font
 		DBT_AllPersistentOptions["Default"]["DBM"].FontSize = C.font.stylization_font_size
 		DBT_AllPersistentOptions["Default"]["DBM"].Width = 189
-		DBT_AllPersistentOptions["Default"]["DBM"].TimerX = 143
-		DBT_AllPersistentOptions["Default"]["DBM"].TimerPoint = "BOTTOMLEFT"
+		DBT_AllPersistentOptions["Default"]["DBM"].TimerX = -180
+		DBT_AllPersistentOptions["Default"]["DBM"].TimerPoint = "BOTTOMRIGHT"
 		DBT_AllPersistentOptions["Default"]["DBM"].FillUpBars = true
 		DBT_AllPersistentOptions["Default"]["DBM"].IconLeft = true
+		DBT_AllPersistentOptions["Default"]["DBM"].ExpandUpwardsLarge = true
 		DBT_AllPersistentOptions["Default"]["DBM"].ExpandUpwards = true
 		DBT_AllPersistentOptions["Default"]["DBM"].Texture = C.media.texture
 		DBT_AllPersistentOptions["Default"]["DBM"].IconRight = false
@@ -348,13 +257,11 @@ function T.UploadDBM()
 		DBT_AllPersistentOptions["Default"]["DBM"].HugeWidth = 268
 		DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerX = 14
 		DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerPoint = "CENTER"
-		DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 27
-		
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeBarYOffset = 12
 
-		DBM_AllSavedOptions["Default"].HPFrameY = 209
 		DBM_AllSavedOptions["Default"].RangeFrameY = 101
-		DBT_AllPersistentOptions["Default"]["DBM"].TimerY = 139
-		DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerY = -240
+		DBT_AllPersistentOptions["Default"]["DBM"].TimerY = 190
+		DBT_AllPersistentOptions["Default"]["DBM"].HugeTimerY = -226
 	end	
 		DBM_AllSavedOptions["Default"].InstalledBars = 2
 end
@@ -376,7 +283,7 @@ StaticPopupDialogs.SETTINGS_DBM = {
 ----------------------------------------------------------------------------------------
 local OnLogon = CreateFrame("Frame")
 OnLogon:RegisterEvent("PLAYER_ENTERING_WORLD")
-OnLogon:SetScript("OnEvent", function(self, event)
+OnLogon:SetScript("OnEvent", function(self)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 
 	if IsAddOnLoaded("DBM-Core") then

@@ -5,14 +5,13 @@
 ----------------------------------------------------------------------------------------
 T.dummy = function() return end
 T.name = UnitName("player")
-_, T.class = UnitClass("player")
-_, T.race = UnitRace("player")
+T.class = select(2, UnitClass("player"))
 T.level = UnitLevel("player")
 T.client = GetLocale()
 T.realm = GetRealmName()
 T.color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[T.class]
 T.version = GetAddOnMetadata("ViksUI", "Version")
 T.resolution = ({GetScreenResolutions()})[GetCurrentResolution()] or GetCVar("gxWindowedResolution")
-T.getscreenwidth, T.getscreenheight = DecodeResolution(T.resolution)
-T.ScreenHeight = tonumber(string.match(T.resolution, "%d+x(%d+)"))
-T.ScreenWidth = tonumber(string.match(T.resolution, "(%d+)x+%d"))
+T.screenWidth, T.screenHeight = GetPhysicalScreenSize()
+T.newPatch = select(4, GetBuildInfo()) >= 90105
+T.TexCoords = {.1, .9, .1, .9}

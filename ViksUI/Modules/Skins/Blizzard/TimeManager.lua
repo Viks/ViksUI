@@ -18,6 +18,7 @@ local function LoadSkin()
 	T.SkinDropDownBox(TimeManagerAlarmAMPMDropDown, 70)
 
 	T.SkinEditBox(TimeManagerAlarmMessageEditBox, nil, TimeManagerAlarmMessageEditBox:GetHeight() - 5)
+
 	T.SkinCheckBox(TimeManagerAlarmEnabledButton)
 	T.SkinCheckBox(TimeManagerMilitaryTimeCheck)
 	T.SkinCheckBox(TimeManagerLocalTimeCheck)
@@ -39,7 +40,7 @@ local function LoadSkin()
 
 	T.SkinCloseButton(StopwatchCloseButton)
 	T.SkinNextPrevButton(StopwatchPlayPauseButton)
-	T.SkinNextPrevButton(StopwatchResetButton, true)
+	T.SkinNextPrevButton(StopwatchResetButton)
 	StopwatchPlayPauseButton:SetPoint("RIGHT", StopwatchResetButton, "LEFT", -4, 0)
 	StopwatchResetButton:SetPoint("BOTTOMRIGHT", StopwatchFrame, "BOTTOMRIGHT", -7, 7)
 	StopwatchCloseButton:ClearAllPoints()

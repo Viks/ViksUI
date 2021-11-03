@@ -4,89 +4,35 @@ if C.automation.buff_on_scroll ~= true or T.level ~= MAX_PLAYER_LEVEL then retur
 ----------------------------------------------------------------------------------------
 --	Cast buff on mouse scroll(by Gsuz)
 ----------------------------------------------------------------------------------------
-local frame = CreateFrame("Frame", "AutomatorFrame")
+local function SpellName(id)
+	local name = GetSpellInfo(id)
+	if name then
+		return name
+	else
+		print("|cffff0000WARNING: spell ID ["..tostring(id).."] no longer exists! Report this to Vik.|r")
+		return "Empty"
+	end
+end
 
-DEATHKNIGHT1 = {
-	3714,	-- Path of Frost
+local spells = {
+	MAGE = {
+		[SpellName(1459)] = true,	-- Arcane Intellect
+	},
+
+	PRIEST = {
+		[SpellName(21562)] = true,	-- Power Word: Fortitude
+	},
+
+	WARRIOR = {
+		[SpellName(6673)] = true,	-- Battle Shout
+	},
 }
 
-DEATHKNIGHT2 = {
-	3714,	-- Path of Frost
-}
-
-DEATHKNIGHT3 = {
-	3714,	-- Path of Frost
-}
-
-DRUID1 = {}
-
-DRUID2 = {}
-
-DRUID3 = {}
-
-DRUID4 = {}
-
-HUNTER1 = {}
-
-HUNTER2 = {}
-
-HUNTER3 = {}
-
-MAGE1 = {}
-
-MAGE2 = {}
-
-MAGE3 = {}
-
-MONK1 = {}
-
-MONK2 = {}
-
-MONK3 = {}
-
-PALADIN1 = {}
-
-PALADIN2 = {}
-
-PALADIN3 = {
-	203538,	-- Greater Blessing of Kings
-	203528,	-- Greater Blessing of Might
-	203539,	-- Greater Blessing of Wisdom
-}
-
-PRIEST1 = {}
-
-PRIEST2 = {}
-
-PRIEST3 = {}
-
-ROGUE1 = {}
-
-ROGUE2 = {}
-
-ROGUE3 = {}
-
-SHAMAN1 = {}
-
-SHAMAN2 = {}
-
-SHAMAN3 = {}
-
-WARLOCK1 = {}
-
-WARLOCK2 = {}
-
-WARLOCK3 = {}
-
-WARRIOR1 = {}
-
-WARRIOR2 = {}
-
-WARRIOR3 = {}
-
+local specSpells = spells[T.class]
+local frame = CreateFrame("Frame")
 -- Function for waiting through the global cooldown
-local GcTimer = 0
-local function WaitForGC(self, elapsed)
+local GcTimer, CheckBuffs = 0
+local function WaitForGC(_, elapsed)
 	GcTimer = GcTimer + elapsed
 	if GcTimer >= 1.5 then
 		CheckBuffs()
@@ -104,21 +50,21 @@ btn:SetAttribute("unit", "player")
 
 -- Main function for changing keybinding to mousewheel when a buff is needed
 function CheckBuffs()
-	local spec = GetSpecialization() or 1
 	if IsFlying() or IsMounted() or UnitIsDeadOrGhost("Player") or InCombatLockdown() then return end
 	ClearOverrideBindings(btn)
 	btn:SetAttribute("spell", nil)
-	for i, v in pairs(_G[T.class..spec]) do
-		local name = GetSpellInfo(v)
-		if name and not UnitAura("player", name) then
-			if GetSpellCooldown(name) == 0 then
-				btn:SetAttribute("spell", name)
-				SetOverrideBindingClick(btn, true, "MOUSEWHEELUP", "AutoBuffButton")
-				SetOverrideBindingClick(btn, true, "MOUSEWHEELDOWN", "AutoBuffButton")
-			else
-				local _, duration = GetSpellCooldown(name)
-				if duration == nil or duration > 1.5 then return end
-				frame:SetScript("OnUpdate", WaitForGC)
+	if specSpells then
+		for name in pairs(specSpells) do
+			if name and not T.CheckPlayerBuff(name) then
+				if GetSpellCooldown(name) == 0 then
+					btn:SetAttribute("spell", name)
+					SetOverrideBindingClick(btn, true, "MOUSEWHEELUP", "AutoBuffButton")
+					SetOverrideBindingClick(btn, true, "MOUSEWHEELDOWN", "AutoBuffButton")
+				else
+					local _, duration = GetSpellCooldown(name)
+					if duration == nil or duration > 1.5 then return end
+					frame:SetScript("OnUpdate", WaitForGC)
+				end
 			end
 		end
 	end

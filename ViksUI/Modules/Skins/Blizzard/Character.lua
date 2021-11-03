@@ -6,10 +6,31 @@ if C.skins.blizzard_frames ~= true then return end
 ----------------------------------------------------------------------------------------
 local function LoadSkin()
 	T.SkinCloseButton(CharacterFrameCloseButton)
-	T.SkinScrollBar(ReputationListScrollFrameScrollBar)
-	T.SkinScrollBar(TokenFrameContainerScrollBar)
-	T.SkinScrollBar(GearManagerDialogPopupScrollFrameScrollBar)
-	
+
+	-- Azerite Items
+	local function UpdateAzeriteItem(self)
+		if not self.styled then
+			self.AzeriteTexture:SetAlpha(0)
+			self.RankFrame.Texture:SetTexture("")
+			self.RankFrame.Label:SetFontObject("SystemFont_Outline_Small")
+			self.RankFrame.Label:SetShadowOffset(0, 0)
+			self.RankFrame.Label:SetPoint("CENTER", self.RankFrame.Texture, 0, 2)
+
+			self.styled = true
+		end
+		self:GetHighlightTexture():SetColorTexture(1, 1, 1, 0.3)
+		self:GetHighlightTexture():SetPoint("TOPLEFT", 2, -2)
+		self:GetHighlightTexture():SetPoint("BOTTOMRIGHT", -2, 2)
+	end
+
+	local function UpdateAzeriteEmpoweredItem(self)
+		self.AzeriteTexture:SetAtlas("AzeriteIconFrame")
+		self.AzeriteTexture:SetTexCoord(0.05, 0.95, 0.05, 0.95)
+		self.AzeriteTexture:SetPoint("TOPLEFT", 2, -2)
+		self.AzeriteTexture:SetPoint("BOTTOMRIGHT", -2, 2)
+		self.AzeriteTexture:SetDrawLayer("BORDER", 1)
+	end
+
 	local slots = {
 		"HeadSlot",
 		"NeckSlot",
@@ -31,23 +52,36 @@ local function LoadSkin()
 		"SecondaryHandSlot"
 	}
 
-	select(11, _G["CharacterMainHandSlot"]:GetRegions()):Hide()
-	select(11, _G["CharacterSecondaryHandSlot"]:GetRegions()):Hide()
+	select(17, _G["CharacterMainHandSlot"]:GetRegions()):Hide()
+	select(17, _G["CharacterSecondaryHandSlot"]:GetRegions()):Hide()
 
-	for _, slot in pairs(slots) do
-		local icon = _G["Character" .. slot .. "IconTexture"]
-		slot = _G["Character" .. slot]
-		slot:StripTextures()
-		slot:StyleButton(false)
-		slot.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
-		slot:SetTemplate("Default", true)
+	for _, i in pairs(slots) do
+		_G["Character"..i.."Frame"]:Hide()
+		local icon = _G["Character"..i.."IconTexture"]
+		local slot = _G["Character"..i]
+		local border = _G["Character"..i].IconBorder
+
+		border:Kill()
+		slot:StyleButton()
+		slot:SetNormalTexture("")
+		slot.SetHighlightTexture = T.dummy
+		slot:GetHighlightTexture().SetAllPoints = T.dummy
+		slot:SetFrameLevel(slot:GetFrameLevel() + 2)
+		slot:SetTemplate("Default")
+
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		icon:ClearAllPoints()
 		icon:SetPoint("TOPLEFT", 2, -2)
 		icon:SetPoint("BOTTOMRIGHT", -2, 2)
 
-		hooksecurefunc(slot.IconBorder, "SetVertexColor", function(self, r, g, b) self:GetParent():SetBackdropBorderColor(r, g, b) end)
-		hooksecurefunc(slot.IconBorder, "Hide", function(self) self:GetParent():SetBackdropBorderColor(unpack(C["media"].border_color)) end)
+		if slot.popoutButton:GetPoint() == "TOP" then
+			slot.popoutButton:SetPoint("TOP", slot, "BOTTOM", 0, 2)
+		else
+			slot.popoutButton:SetPoint("LEFT", slot, "RIGHT", -2, 0)
+		end
+
+		hooksecurefunc(slot, "DisplayAsAzeriteItem", UpdateAzeriteItem)
+		hooksecurefunc(slot, "DisplayAsAzeriteEmpoweredItem", UpdateAzeriteEmpoweredItem)
 	end
 
 	-- Strip Textures
@@ -61,11 +95,19 @@ local function LoadSkin()
 		"PaperDollEquipmentManagerPane"
 	}
 
-	--CharacterFrameExpandButton:SetSize(CharacterFrameExpandButton:GetWidth() - 7, CharacterFrameExpandButton:GetHeight() - 7)
-	--T.SkinNextPrevButton(CharacterFrameExpandButton)
-
+	for _, object in pairs(charframe) do
+		_G[object]:StripTextures()
+	end
 
 	EquipmentFlyoutFrameHighlight:Kill()
+	EquipmentFlyoutFrame.NavigationFrame:StripTextures()
+	EquipmentFlyoutFrame.NavigationFrame.BottomBackground:Hide()
+	EquipmentFlyoutFrame.NavigationFrame:SetTemplate("Transparent")
+	EquipmentFlyoutFrame.NavigationFrame:SetPoint("TOPLEFT", EquipmentFlyoutFrameButtons, "BOTTOMLEFT", 3, -1)
+	EquipmentFlyoutFrame.NavigationFrame:SetPoint("TOPRIGHT", EquipmentFlyoutFrameButtons, "BOTTOMRIGHT", 0, -1)
+	T.SkinNextPrevButton(EquipmentFlyoutFrame.NavigationFrame.PrevButton)
+	T.SkinNextPrevButton(EquipmentFlyoutFrame.NavigationFrame.NextButton)
+
 	local function SkinItemFlyouts()
 		EquipmentFlyoutFrameButtons:StripTextures()
 
@@ -97,6 +139,7 @@ local function LoadSkin()
 
 	-- Icon in upper right corner of character frame
 	CharacterFramePortrait:Kill()
+	CharacterModelFrameBackgroundOverlay:SetColorTexture(0, 0, 0)
 	CharacterModelFrame:CreateBackdrop("Default")
 	CharacterModelFrame.backdrop:SetPoint("TOPLEFT", -3, 4)
 	CharacterModelFrame.backdrop:SetPoint("BOTTOMRIGHT", 4, 0)
@@ -104,31 +147,39 @@ local function LoadSkin()
 	local scrollbars = {
 		"PaperDollTitlesPaneScrollBar",
 		"PaperDollEquipmentManagerPaneScrollBar",
+		"TokenFrameContainerScrollBar",
+		"ReputationListScrollFrameScrollBar",
+		"GearManagerDialogPopupScrollFrameScrollBar"
 	}
 
 	for _, scrollbar in pairs(scrollbars) do
 		T.SkinScrollBar(_G[scrollbar])
 	end
 
-	for _, object in pairs(charframe) do
-		_G[object]:StripTextures()
-	end
+
+	
+	CharacterStatsPane.ItemLevelCategory:StripTextures()
+	CharacterStatsPane.ItemLevelCategory:SetTemplate("Overlay")
+	CharacterStatsPane.ItemLevelCategory:SetHeight(CharacterStatsPane.ItemLevelCategory:GetHeight() - 20)
+	CharacterStatsPane.ItemLevelCategory:SetWidth(CharacterStatsPane.ItemLevelCategory:GetWidth() - 20)
 	CharacterStatsPane.AttributesCategory:StripTextures()
-	CharacterStatsPane.AttributesCategory:SetTemplate("Transparent")
+	CharacterStatsPane.AttributesCategory:SetTemplate("Overlay")
 	CharacterStatsPane.AttributesCategory:SetHeight(CharacterStatsPane.AttributesCategory:GetHeight() - 20)
+	CharacterStatsPane.AttributesCategory:SetWidth(CharacterStatsPane.AttributesCategory:GetWidth() - 20)
 	CharacterStatsPane.AttributesCategory.Title:ClearAllPoints()
 	CharacterStatsPane.AttributesCategory.Title:SetPoint("CENTER", 0, -1)
 	CharacterStatsPane.EnhancementsCategory:StripTextures()
-	CharacterStatsPane.EnhancementsCategory:SetTemplate("Transparent")
+	CharacterStatsPane.EnhancementsCategory:SetTemplate("Overlay")
 	CharacterStatsPane.EnhancementsCategory:SetHeight(CharacterStatsPane.EnhancementsCategory:GetHeight() - 20)
+	CharacterStatsPane.EnhancementsCategory:SetWidth(CharacterStatsPane.EnhancementsCategory:GetWidth() - 20)
 	CharacterStatsPane.EnhancementsCategory.Title:ClearAllPoints()
 	CharacterStatsPane.EnhancementsCategory.Title:SetPoint("CENTER", 0, -1)
 
-	CharacterFrame:SetTemplate("Transparent")
+	CharacterFrame:SetTemplate("Overlay")
 	
 	-- Titles
-	PaperDollTitlesPane:HookScript("OnShow", function(self)
-		for x, object in pairs(PaperDollTitlesPane.buttons) do
+	PaperDollTitlesPane:HookScript("OnShow", function()
+		for _, object in pairs(PaperDollTitlesPane.buttons) do
 			object.BgTop:SetTexture(nil)
 			object.BgBottom:SetTexture(nil)
 			object.BgMiddle:SetTexture(nil)
@@ -143,9 +194,8 @@ local function LoadSkin()
 	PaperDollEquipmentManagerPaneSaveSet:SetWidth(PaperDollEquipmentManagerPaneSaveSet:GetWidth() - 8)
 	PaperDollEquipmentManagerPaneEquipSet:SetPoint("TOPLEFT", PaperDollEquipmentManagerPane, "TOPLEFT", 8, 0)
 	PaperDollEquipmentManagerPaneSaveSet:SetPoint("LEFT", PaperDollEquipmentManagerPaneEquipSet, "RIGHT", 4, 0)
-	PaperDollEquipmentManagerPaneEquipSet.ButtonBackground:SetTexture(nil)
-	PaperDollEquipmentManagerPane:HookScript("OnShow", function(self)
-		for x, object in pairs(PaperDollEquipmentManagerPane.buttons) do
+	PaperDollEquipmentManagerPane:HookScript("OnShow", function()
+		for _, object in pairs(PaperDollEquipmentManagerPane.buttons) do
 			object.BgTop:SetTexture(nil)
 			object.BgBottom:SetTexture(nil)
 			object.BgMiddle:SetTexture(nil)
@@ -167,42 +217,12 @@ local function LoadSkin()
 			object.icon:SetSize(36, 36)
 			object.icon.SetSize = T.dummy
 		end
-		GearManagerDialogPopup:StripTextures()
-		GearManagerDialogPopup:SetTemplate("Transparent")
-		GearManagerDialogPopup:SetPoint("TOPLEFT", PaperDollFrame, "TOPRIGHT", 3, 0)
-		GearManagerDialogPopupScrollFrame:StripTextures()
-		GearManagerDialogPopupEditBox:StripTextures(true)
-		GearManagerDialogPopupEditBox:SetTemplate("Overlay")
-		GearManagerDialogPopupEditBox:SetTextInsets(3, 0, 0, 0)
-		GearManagerDialogPopupOkay:SkinButton()
-		GearManagerDialogPopupCancel:SkinButton()
-		GearManagerDialogPopupScrollFrame:SetPoint("TOPRIGHT", -34, -64)
-
-		for i = 1, NUM_GEARSET_ICONS_SHOWN do
-			local button = _G["GearManagerDialogPopupButton"..i]
-			local icon = button.icon
-
-			if button then
-				button:StripTextures()
-				button:StyleButton(true)
-
-				icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-				_G["GearManagerDialogPopupButton"..i.."Icon"]:SetTexture(nil)
-
-				icon:ClearAllPoints()
-				icon:SetPoint("TOPLEFT", 2, -2)
-				icon:SetPoint("BOTTOMRIGHT", -2, 2)
-				button:SetFrameLevel(button:GetFrameLevel() + 2)
-				if not button.backdrop then
-					button:CreateBackdrop("Default")
-					button.backdrop:SetAllPoints()
-				end
-			end
-		end
 	end)
 
+	T.SkinIconSelectionFrame(GearManagerDialogPopup, NUM_GEARSET_ICONS_SHOWN, "GearManagerDialogPopupButton")
+
 	-- Handle Tabs at bottom of character frame
-	for i = 1, 3 do
+	for i = 1, 4 do
 		T.SkinTab(_G["CharacterFrameTab"..i])
 	end
 
@@ -234,22 +254,16 @@ local function LoadSkin()
 	end
 	hooksecurefunc("PaperDollFrame_UpdateSidebarTabs", FixSidebarTabCoords)
 
-	--hooksecurefunc("PaperDollFrame_CollapseStatCategory", function(categoryFrame)
-		--categoryFrame.BgMinimized:Hide()
-	--end)
-
-	--hooksecurefunc("PaperDollFrame_ExpandStatCategory", function(categoryFrame)
-		--categoryFrame.BgTop:Hide()
-		--categoryFrame.BgMiddle:Hide()
-		--categoryFrame.BgBottom:Hide()
-	--end)
-
 	-- Reputation
 	local function UpdateFactionSkins()
 		ReputationListScrollFrame:StripTextures()
 		ReputationFrame:StripTextures(true)
+		local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
 		for i = 1, GetNumFactions() do
 			local statusbar = _G["ReputationBar"..i.."ReputationBar"]
+			local button = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
+			local factionIndex = factionOffset + i
+			local _, _, _, _, _, _, _, _, _, isCollapsed = GetFactionInfo(factionIndex)
 
 			if statusbar then
 				statusbar:SetStatusBarTexture(C.media.texture)
@@ -266,6 +280,18 @@ local function LoadSkin()
 				_G["ReputationBar"..i.."ReputationBarLeftTexture"]:SetTexture(nil)
 				_G["ReputationBar"..i.."ReputationBarRightTexture"]:SetTexture(nil)
 			end
+
+			if button then
+				if not button.isSkinned then
+					T.SkinExpandOrCollapse(button)
+					if isCollapsed then
+						button.bg.plus:Show()
+					else
+						button.bg.plus:Hide()
+					end
+					button.isSkinned = true
+				end
+			end
 		end
 		ReputationDetailFrame:StripTextures()
 		ReputationDetailFrame:SetTemplate("Transparent")
@@ -274,7 +300,6 @@ local function LoadSkin()
 		T.SkinCheckBox(ReputationDetailMainScreenCheckBox)
 		T.SkinCheckBox(ReputationDetailInactiveCheckBox)
 		T.SkinCheckBox(ReputationDetailAtWarCheckBox)
-		T.SkinCheckBox(ReputationDetailLFGBonusReputationCheckBox)
 	end
 	ReputationFrame:HookScript("OnShow", UpdateFactionSkins)
 	hooksecurefunc("ExpandFactionHeader", UpdateFactionSkins)
@@ -282,9 +307,11 @@ local function LoadSkin()
 
 	-- Currency
 	TokenFrame:HookScript("OnShow", function()
-		for i = 1, GetCurrencyListSize() do
-			local button = _G["TokenFrameContainerButton"..i]
+		local buttons = TokenFrameContainer.buttons
+		local numButtons = #buttons
 
+		for i = 1, numButtons do
+			local button = buttons[i]
 			if button then
 				button.highlight:Kill()
 				button.categoryMiddle:Kill()

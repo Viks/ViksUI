@@ -1,5 +1,6 @@
 local T, C, L, _ = unpack(select(2, ...))
 if C.skins.blizzard_frames ~= true then return end
+
 ----------------------------------------------------------------------------------------
 --	BindingUI skin
 ----------------------------------------------------------------------------------------
@@ -9,6 +10,7 @@ local function LoadSkin()
 		"unbindButton",
 		"okayButton",
 		"cancelButton",
+		"quickKeybindButton",
 	}
 
 	for _, v in pairs(buttons) do
@@ -18,9 +20,9 @@ local function LoadSkin()
 	KeyBindingFrame:StripTextures()
 	KeyBindingFrame:SetTemplate("Transparent")
 
-	KeyBindingFrame.header:StripTextures()
-	KeyBindingFrame.header:ClearAllPoints()
-	KeyBindingFrame.header:SetPoint("TOP", KeyBindingFrame, "TOP", 0, -4)
+	KeyBindingFrame.Header:StripTextures()
+	KeyBindingFrame.Header:ClearAllPoints()
+	KeyBindingFrame.Header:SetPoint("TOP", KeyBindingFrame, "TOP", 0, -4)
 
 	KeyBindingFrame.bindingsContainer:StripTextures()
 	KeyBindingFrame.bindingsContainer:SetTemplate("Overlay")
@@ -30,26 +32,58 @@ local function LoadSkin()
 	KeyBindingFrameCategoryList:SetTemplate("Overlay")
 
 	T.SkinCheckBox(KeyBindingFrame.characterSpecificButton)
-	KeyBindingFrame.scrollFrame.scrollBorderTop:SetTexture("")
-	KeyBindingFrame.scrollFrame.scrollBorderBottom:SetTexture("")
-	KeyBindingFrame.scrollFrame.scrollBorderMiddle:SetTexture("")
-	KeyBindingFrame.scrollFrame.scrollFrameScrollBarBackground:SetTexture("")
-	
+
+	KeyBindingFrameScrollFrame:StripTextures()
 	T.SkinScrollBar(KeyBindingFrameScrollFrameScrollBar)
+
+	KeyBindingFrame.defaultsButton:ClearAllPoints()
+	KeyBindingFrame.defaultsButton:SetPoint("TOPLEFT", KeyBindingFrameCategoryList, "BOTTOMLEFT", 0, -14)
+	KeyBindingFrame.unbindButton:ClearAllPoints()
+	KeyBindingFrame.unbindButton:SetPoint("TOPRIGHT", KeyBindingFrame.bindingsContainer, "BOTTOMRIGHT", 0, -14)
+	KeyBindingFrame.okayButton:ClearAllPoints()
+	KeyBindingFrame.okayButton:SetPoint("RIGHT", KeyBindingFrame.unbindButton, "LEFT", -4, 0)
+	KeyBindingFrame.cancelButton:ClearAllPoints()
+	KeyBindingFrame.cancelButton:SetPoint("RIGHT", KeyBindingFrame.okayButton, "LEFT", -4, 0)
 
 	for i = 1, KEY_BINDINGS_DISPLAYED do
 		local button1 = _G["KeyBindingFrameKeyBinding"..i.."Key1Button"]
 		local button2 = _G["KeyBindingFrameKeyBinding"..i.."Key2Button"]
 
-		button1:StripTextures(true)
-		button1:StyleButton()
-		button1:SetTemplate("Overlay")
-
-		button2:StripTextures(true)
-		button2:StyleButton()
-		button2:SetTemplate("Overlay")
-		button2:SetPoint("LEFT", button1, "RIGHT", 1, 0)
+		button2:SetPoint("LEFT", button1, "RIGHT", 2, 0)
 	end
+
+	hooksecurefunc("BindingButtonTemplate_SetupBindingButton", function(_, button)
+		if not button.IsSkinned then
+			button:SetHeight(button:GetHeight() - 1)
+			button:StripTextures(true)
+			button:StyleButton()
+			button:SetTemplate("Overlay")
+
+			local selected = button.selectedHighlight
+			selected:SetPoint("TOPLEFT", 2, -2)
+			selected:SetPoint("BOTTOMRIGHT", -2, 2)
+			selected:SetColorTexture(1, 0.82, 0, 0.3)
+
+			button.IsSkinned = true
+		end
+	end)
+
+	-- QuickKeybind
+	QuickKeybindFrame:StripTextures()
+	QuickKeybindFrame.Header:StripTextures()
+	QuickKeybindFrame:SetTemplate("Transparent")
+
+	local buttons = {
+		"okayButton",
+		"defaultsButton",
+		"cancelButton"
+	}
+
+	for _, v in pairs(buttons) do
+		QuickKeybindFrame[v]:SkinButton(true)
+	end
+
+	T.SkinCheckBox(QuickKeybindFrame.characterSpecificButton)
 end
 
 T.SkinFuncs["Blizzard_BindingUI"] = LoadSkin

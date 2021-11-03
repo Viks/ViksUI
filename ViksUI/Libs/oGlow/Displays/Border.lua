@@ -15,9 +15,9 @@ local createBorder = function(self, point)
 	if not bc then
 		if C.skins.blizzard_frames == true or IsAddOnLoaded("Aurora") then
 			if not self:IsObjectType("Frame") then
-				bc = CreateFrame("Frame", nil, self:GetParent())
+				bc = CreateFrame("Frame", nil, self:GetParent(), "BackdropTemplate")
 			else
-				bc = CreateFrame("Frame", nil, self)
+				bc = CreateFrame("Frame", nil, self, "BackdropTemplate")
 			end
 
 			bc:SetBackdrop({
@@ -77,7 +77,7 @@ local borderDisplay = function(frame, color)
 end
 
 function oGlow:RegisterColor(name, r, g, b)
-	if(rawget(colorTable, name)) then
+	if rawget(colorTable, name) then
 		return nil, string.format("Color [%s] is already registered.", name)
 	else
 		rawset(colorTable, name, {r, g, b})

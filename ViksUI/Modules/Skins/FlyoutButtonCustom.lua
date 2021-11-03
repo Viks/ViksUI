@@ -5,27 +5,26 @@ if C.actionbar.enable ~= true or C.skins.flyout_button ~= true then return end
 --	FlyoutButtonCustom skin
 ----------------------------------------------------------------------------------------
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-frame:SetScript("OnEvent", function(self, event, addon)
+frame:RegisterEvent("PLAYER_LOGIN")
+frame:SetScript("OnEvent", function()
 	if not IsAddOnLoaded("FlyoutButtonCustom") then return end
 
 	FlyoutButtonCustom_Settings.Highlight = false
 	FlyoutButtonCustom_Settings.ShowBorders = false
 	FlyoutButtonCustom_Settings.ButtonsScale = 1
-	FBC_BUTTON_PLACE_SIZE = C.actionbar.buttonsize
-	FBC_BUTTON_PLACE_OFFSET = C.actionbar.buttonspacing
-	FBC_FRAME_OFFSET = C.actionbar.buttonspacing - 7
+	FBC_BUTTON_PLACE_SIZE = C.actionbar.button_size
+	FBC_BUTTON_PLACE_OFFSET = C.actionbar.button_space
+	FBC_FRAME_OFFSET = C.actionbar.button_space - 7
 
 	local function CreateBorder(self)
 		local name = self:GetName()
 		local button = self
-		local icon = _G[btn:GetName().."Icon"]
-		local cooldown = _G[btn:GetName().."Cooldown"]
-		local border = _G[btn:GetName().."Border"]
-		local count = _G[btn:GetName().."Count"]
-		local btname = _G[btn:GetName().."Name"]
-		local hotkey = _G[btn:GetName().."HotKey"]
-		local normal = _G[btn:GetName().."NormalTexture"]
+		local icon = _G[name.."Icon"]
+		local border = _G[name.."Border"]
+		local count = _G[name.."Count"]
+		local btname = _G[name.."Name"]
+		local hotkey = _G[name.."HotKey"]
+		local normal = _G[name.."NormalTexture"]
 
 		button:StyleButton()
 		button:SetNormalTexture("")
@@ -46,7 +45,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 				btname:SetPoint("BOTTOM", 0, 0)
 				btname:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
 				btname:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
-				--btname:SetWidth(C.actionbar.buttonsize - 1)
+				--btname:SetWidth(C.actionbar.button_size - 1)
 			else
 				btname:Kill()
 			end
@@ -57,7 +56,7 @@ frame:SetScript("OnEvent", function(self, event, addon)
 			hotkey:SetPoint("TOPRIGHT", 0, 0)
 			hotkey:SetFont(C.font.action_bars_font, C.font.action_bars_font_size, C.font.action_bars_font_style)
 			hotkey:SetShadowOffset(C.font.action_bars_font_shadow and 1 or 0, C.font.action_bars_font_shadow and -1 or 0)
-			hotkey:SetWidth(C.actionbar.buttonsize - 1)
+			hotkey:SetWidth(C.actionbar.button_size - 1)
 			hotkey.ClearAllPoints = T.dummy
 			hotkey.SetPoint = T.dummy
 		else
@@ -65,8 +64,8 @@ frame:SetScript("OnEvent", function(self, event, addon)
 		end
 
 		if not button.isSkinned then
-			if self:GetHeight() ~= C.actionbar.buttonsize and not InCombatLockdown() then
-				self:SetSize(C.actionbar.buttonsize, C.actionbar.buttonsize)
+			if self:GetHeight() ~= C.actionbar.button_size and not InCombatLockdown() then
+				self:SetSize(C.actionbar.button_size, C.actionbar.button_size)
 			end
 
 			button:CreateBackdrop("Transparent")

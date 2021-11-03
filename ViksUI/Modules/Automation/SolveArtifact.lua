@@ -1,4 +1,4 @@
-﻿local T, C, L, _ = unpack(select(2, ...))
+local T, C, L, _ = unpack(select(2, ...))
 if C.automation.solve_artifact ~= true then return end
 
 ----------------------------------------------------------------------------------------
@@ -14,34 +14,41 @@ StaticPopupDialogs.ARCHAEOLOGY_SOLVE = {
 }
 
 local fragment = {
-	["384"] = 1,	-- Dwarf
-	["385"] = 8,	-- Troll
-	["393"] = 3,	-- Fossil
-	["394"] = 4,	-- Night Elf
-	["397"] = 6,	-- Orc
-	["398"] = 2,	-- Draenei
-	["399"] = 9,	-- Vrykul
-	["400"] = 5,	-- Nerubian
-	["401"] = 7,	-- Tol'vir
-	["676"] = 11,	-- Pandaren
-	["677"] = 12,	-- Mogu
-	["754"] = 10,	-- Mantid
+	["1535"] = 1,	-- Drust
+	["1534"] = 2,	-- Zandalari
+	["1174"] = 3,	-- Demonic
+	["1173"] = 4,	-- Highmountain
+	["1172"] = 5,	-- Highborne
+	["828"] = 6,	-- Ogre
+	["821"] = 7,	-- Draenor Clans
+	["829"] = 8,	-- Arakkoa
+	["677"] = 9,	-- Mogu
+	["676"] = 10,	-- Pandaren
+	["754"] = 11,	-- Mantid
+	["399"] = 12,	-- Vrykul
+	["385"] = 13,	-- Troll
+	["401"] = 14,	-- Tol'vir
+	["397"] = 15,	-- Orc
+	["400"] = 16,	-- Nerubian
+	["394"] = 17,	-- Night Elf
+	["393"] = 18,	-- Fossil
+	["398"] = 19,	-- Draenei
+	["384"] = 20,	-- Dwarf
 }
 
-local _CURRENCY = string.gsub(string.gsub(CURRENCY_GAINED_MULTIPLE, "%%s", "(.+)"), "%%d", "(.+)")
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("CHAT_MSG_CURRENCY")
-frame:SetScript("OnEvent", function(self, event, message)
-	local link = string.match(message, _CURRENCY)
-	if not link then return end
-	local id = string.match(link, ":(%d+)|h")
+frame:SetScript("OnEvent", function(_, _, msg)
+	local _, _, currencyID = string.find(msg, "currency:(%d+)");
+	if not currencyID then return end
 
-	local race = fragment[id]
+	local race = fragment[currencyID]
 	if race then
 		SetSelectedArtifact(race)
 
 		local race, _, stone = GetArchaeologyRaceInfo(race)
 		local artifact, _, rare, _, _, stones = GetSelectedArtifactInfo()
+		if not artifact then return end
 
 		for index = 1, math.min(stones, GetItemCount(stone)) do
 			if not ItemAddedToArtifact(index) then

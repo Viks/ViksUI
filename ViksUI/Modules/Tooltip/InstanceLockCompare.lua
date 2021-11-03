@@ -6,7 +6,7 @@ if C.tooltip.enable ~= true or C.tooltip.instance_lock ~= true then return end
 ----------------------------------------------------------------------------------------
 local myTip = CreateFrame("GameTooltip", "InstanceLockTooltip", nil, "GameTooltipTemplate")
 
-local function ILockCompare(frame, link, ...)
+local function ILockCompare(frame, link)
 	if not frame or not link then return end
 
 	local linkType = string.match(link, "(instancelock):")
@@ -71,7 +71,7 @@ local function ILockCompare(frame, link, ...)
 	end
 end
 
-ItemRefTooltip:HookScript("OnDragStop", function(self, button)
+ItemRefTooltip:HookScript("OnDragStop", function(self)
 	if myTip:IsVisible() and (myTip:GetParent():GetName() == self:GetName()) then
 		local side = "left"
 		local rightDist = 0

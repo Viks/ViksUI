@@ -12,8 +12,7 @@ EMPTY_SOCKET_BLUE = "|cff6060ff"..EMPTY_SOCKET_BLUE.."|r"
 
 if T.client ~= "ruRU" then return end
 
-LFG_TOOLTIP_ROLES = "Роли: "
-BOSSES = "Боссы: "
+GUILD_ACHIEVEMENT = "Уведомл. для гильдии"
 
 local ttext
 local replace = {
@@ -30,6 +29,7 @@ local replaceclass = {
 	["Маг"] = "|cff69CCF0Маг|r",
 	["Монах"] = "|cff00FF96Монах|r",
 	["Охотник"] = "|cffABD473Охотник|r",
+	["Охотник на демонов"] = "|cffA330C9Охотник на демонов|r",
 	["Паладин"] = "|cffF58CBAПаладин|r",
 	["Разбойник"] = "|cffFFF569Разбойник|r",
 	["Рыцарь смерти"] = "|cffC41F3BРыцарь смерти|r",
@@ -49,7 +49,9 @@ end
 local function TranslateClass(text)
 	if text then
 		for rus, replaceclass in next, replaceclass do
-			text = text:gsub(rus, replaceclass)
+			if not (rus == "Охотник" and string.find(text, "Охотник на демонов")) then
+				text = text:gsub(rus, replaceclass)
+			end
 		end
 		return text
 	end

@@ -6,6 +6,7 @@
 SlashCmdList.RELOADUI = function() ReloadUI() end
 SLASH_RELOADUI1 = "/rl"
 SLASH_RELOADUI2 = "/кд"
+SLASH_RELOADUI3 = "//"
 
 SlashCmdList.RCSLASH = function() DoReadyCheck() end
 SLASH_RCSLASH1 = "/rc"
@@ -24,25 +25,18 @@ SlashCmdList.ROLECHECK = function() InitiateRolePoll() end
 SLASH_ROLECHECK1 = "/role"
 SLASH_ROLECHECK2 = "/кщду"
 
-SlashCmdList.SHOWCLOAK = function() if ShowingCloak() then ShowCloak(false) else ShowCloak() end end
-SLASH_SHOWCLOAK1 = "/showcloak"
-SLASH_SHOWCLOAK2 = "/sc"
-SLASH_SHOWCLOAK3 = "/ыс"
-
-SlashCmdList.SHOWHELM = function() if ShowingHelm() then ShowHelm(false) else ShowHelm() end end
-SLASH_SHOWHELM1 = "/showhelm"
-SLASH_SHOWHELM2 = "/sh"
-SLASH_SHOWHELM3 = "/ыр"
-
 SlashCmdList.CLEARCOMBAT = function() CombatLogClearEntries() end
 SLASH_CLEARCOMBAT1 = "/clc"
 SLASH_CLEARCOMBAT2 = "/сдс"
+
+SlashCmdList.CHANGELOG = function() ViksUI_ToggleChangeLog() end
+SLASH_CHANGELOG1 = "/VLog"
 
 ----------------------------------------------------------------------------------------
 --	Description of the slash commands
 ----------------------------------------------------------------------------------------
 SlashCmdList.UIHELP = function()
-	for i, v in ipairs(L_SLASHCMD_HELP) do print("|cffffff00"..("%s"):format(tostring(v)).."|r") end
+	for _, v in ipairs(L_SLASHCMD_HELP) do print("|cffffff00"..("%s"):format(tostring(v)).."|r") end
 end
 SLASH_UIHELP1 = "/uihelp"
 SLASH_UIHELP2 = "/helpui"
@@ -76,10 +70,21 @@ end
 SLASH_ENABLE_ADDON1 = "/en"
 SLASH_ENABLE_ADDON2 = "/enable"
 
+SlashCmdList.ONLY_UI = function()
+	for i = 1, GetNumAddOns() do
+		local name = GetAddOnInfo(i)
+		if name ~= "ViksUI" and name ~= "ViksUI_Config" and name ~= "!BaudErrorFrame" and GetAddOnEnableState(T.name, name) == 2 then
+			DisableAddOn(name, T.name)
+		end
+	end
+	ReloadUI()
+end
+SLASH_ONLY_UI1 = "/onlyui"
+
 ----------------------------------------------------------------------------------------
 --	Disband party or raid(by Monolit)
 ----------------------------------------------------------------------------------------
-function DisbandRaidGroup()
+local function DisbandRaidGroup()
 	if InCombatLockdown() then return end
 	if UnitInRaid("player") then
 		SendChatMessage(L_INFO_DISBAND, "RAID")
@@ -97,7 +102,7 @@ function DisbandRaidGroup()
 			end
 		end
 	end
-	LeaveParty()
+	C_PartyInfo.LeaveParty()
 end
 
 StaticPopupDialogs.DISBAND_RAID = {
@@ -122,10 +127,10 @@ SLASH_GROUPDISBAND2 = "/кв"
 ----------------------------------------------------------------------------------------
 SlashCmdList.PARTYTORAID = function()
 	if GetNumGroupMembers() > 0 then
-		if UnitInRaid("player") and IsGroupLeader() then
-			ConvertToParty()
-		elseif UnitInParty("player") and IsGroupLeader() then
-			ConvertToRaid()
+		if UnitInRaid("player") and (UnitIsGroupLeader("player")) then
+			C_PartyInfo.ConvertToParty()
+		elseif UnitInParty("player") and (UnitIsGroupLeader("player")) then
+			C_PartyInfo.ConvertToRaid()
 		end
 	else
 		print("|cffffff00"..ERR_NOT_IN_GROUP.."|r")
@@ -154,17 +159,31 @@ SLASH_INSTTELEPORT2 = "/еудузщке"
 --	Spec switching(by Monolit)
 ----------------------------------------------------------------------------------------
 SlashCmdList.SPEC = function(spec)
-	if T.level >= SHOW_TALENT_LEVEL then
+	local canUse, failureReason = C_SpecializationInfo.CanPlayerUseTalentSpecUI()()
+	if canUse then
 		if GetSpecialization() ~= tonumber(spec) then
 			SetSpecialization(spec)
 		end
 	else
-		print("|cffffff00"..format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_TALENT_LEVEL).."|r")
+		print("|cffffff00"..failureReason.."|r")
 	end
 end
 SLASH_SPEC1 = "/ss"
 SLASH_SPEC2 = "/spec"
 SLASH_SPEC3 = "/ыы"
+
+----------------------------------------------------------------------------------------
+--	Get target NPC name and ID
+----------------------------------------------------------------------------------------
+SlashCmdList.NPCID = function()
+	local name = UnitName("target")
+	local unitGUID = UnitGUID("target")
+	local id = unitGUID and select(6, strsplit('-', unitGUID))
+	if id then
+		print(name..": "..id)
+	end
+end
+SLASH_NPCID1 = "/getid"
 
 ----------------------------------------------------------------------------------------
 --	Demo mode for DBM
@@ -173,16 +192,11 @@ SlashCmdList.DBMTEST = function() if IsAddOnLoaded("DBM-Core") then DBM:DemoMode
 SLASH_DBMTEST1 = "/dbmtest"
 SLASH_DBMTEST2 = "/виьеуые"
 
-
-SlashCmdList.VBT = function()
-	Bartender4.db:SetProfile("ViksUI")
-end
-SLASH_VBT1 = "/vbt"
 ----------------------------------------------------------------------------------------
 --	Switch to heal layout
 ----------------------------------------------------------------------------------------
 SlashCmdList.HEAL = function()
-	SavedOptionsPerChar.RaidLayout = "HEAL"
+	ViksUISettingsPerChar.RaidLayout = "HEAL"
 	ReloadUI()
 end
 SLASH_HEAL1 = "/heal"
@@ -192,7 +206,7 @@ SLASH_HEAL2 = "/руфд"
 --	Switch to dps layout
 ----------------------------------------------------------------------------------------
 SlashCmdList.DPS = function()
-	SavedOptionsPerChar.RaidLayout = "DPS"
+	ViksUISettingsPerChar.RaidLayout = "DPS"
 	ReloadUI()
 end
 SLASH_DPS1 = "/dps"
@@ -207,8 +221,8 @@ SlashCmdList.FRAME = function(arg)
 	else
 		arg = GetMouseFocus()
 	end
-	if arg ~= nil then FRAME = arg end
-	if arg ~= nil and arg:GetName() ~= nil then
+	if arg ~= nil then _G.FRAME = arg end
+	if arg ~= nil and not arg:IsForbidden() and arg:GetName() ~= nil then
 		local point, relativeTo, relativePoint, xOfs, yOfs = arg:GetPoint()
 		print("|cffCC0000--------------------------------------------------------------------|r")
 		print("Name: |cffFFD100"..arg:GetName().."|r")
@@ -251,9 +265,9 @@ SlashCmdList["FRAMELIST"] = function(msg)
 	local isPreviouslyShown = FrameStackTooltip:IsShown()
 	if not isPreviouslyShown then
 		if msg == tostring(true) then
-			FrameStackTooltip_Toggle(true)
+			FrameStackTooltip_Toggle(true, true, true)
 		else
-			FrameStackTooltip_Toggle()
+			FrameStackTooltip_Toggle(false, true, true)
 		end
 	end
 
@@ -261,7 +275,9 @@ SlashCmdList["FRAMELIST"] = function(msg)
 	for i = 2, FrameStackTooltip:NumLines() do
 		local text = _G["FrameStackTooltipTextLeft"..i]:GetText()
 		if text and text ~= "" then
-			print("|cffFFD100"..text)
+			local r, g, b = _G["FrameStackTooltipTextLeft"..i]:GetTextColor()
+			text = format("|cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, text)
+			print(text)
 		end
 	end
 	print("|cffCC0000--------------------------------------------------------------------|r")
@@ -278,11 +294,13 @@ SLASH_FRAMELIST4 = "/ад"
 --	Frame Stack on Cyrillic
 ----------------------------------------------------------------------------------------
 SlashCmdList.FSTACK = function()
-	SlashCmdList.FRAMESTACK(0)
+	UIParentLoadAddOn("Blizzard_DebugTools")
+	FrameStackTooltip_Toggle(false, true, true)
 end
 SLASH_FSTACK1 = "/аыефсл"
 SLASH_FSTACK2 = "/fs"
 SLASH_FSTACK3 = "/аы"
+SLASH_FRAMESTK1 = nil -- fix LFGFilter
 
 ----------------------------------------------------------------------------------------
 --	Clear chat
@@ -299,31 +317,134 @@ SLASH_CLEAR_CHAT2 = "/сдуфк"
 --	Test Blizzard Alerts
 ----------------------------------------------------------------------------------------
 SlashCmdList.TEST_ACHIEVEMENT = function()
-	PlaySound("LFG_Rewards")
+	PlaySound(SOUNDKIT.LFG_REWARDS)
 	if not AchievementFrame then
 		AchievementFrame_LoadUI()
 	end
-	AchievementAlertFrame_ShowAlert(4912)
-	AchievementAlertFrame_ShowAlert(6193)
-	GuildChallengeAlertFrame_ShowAlert(3, 2, 5)
-	CriteriaAlertFrame_ShowAlert(6301, 29918)
-	MoneyWonAlertFrame_ShowAlert(9999999)
-	LootWonAlertFrame_ShowAlert(select(2, GetItemInfo(6948)) or GetInventoryItemLink("player", 5), -1, 1, 100)
-	ChallengeModeAlertFrame_ShowAlert()
-	AlertFrame_AnimateIn(ScenarioAlertFrame1)
-	--GarrisonMissionAlertFrame_ShowAlert(missionID)
-	AlertFrame_AnimateIn(GarrisonMissionAlertFrame)
-	StorePurchaseAlertFrame_ShowAlert(select(3, GetSpellInfo(2060)), GetSpellInfo(2060), 2060)
-	LootUpgradeFrame_ShowAlert(select(2, GetItemInfo(6948)) or GetInventoryItemLink("player", 5), 1, 1, 1)
-	GarrisonBuildingAlertFrame_ShowAlert(T.name)
-	--GarrisonFollowerAlertFrame_ShowAlert(followerID, name, displayID, level, quality, isUpgraded)
-	AlertFrame_FixAnchors()
+	AchievementAlertSystem:AddAlert(112)
+	CriteriaAlertSystem:AddAlert(9023, "Doing great!")
+	GuildChallengeAlertSystem:AddAlert(3, 2, 5)
+	InvasionAlertSystem:AddAlert(678, DUNGEON_FLOOR_THENEXUS1, true, 1, 1)
+	WorldQuestCompleteAlertSystem:AddAlert(AlertFrameMixin:BuildQuestData(42114))
+	-- GarrisonFollowerAlertSystem:AddAlert(32, "Dagg", 90, 2, true, C_Garrison.GetFollowerInfo(32)) -- error when mouseover
+	-- GarrisonShipFollowerAlertSystem:AddAlert(592, "Ship", "Transport", "GarrBuilding_Barracks_1_H", 3, 2, 1) -- error when mouseover
+	GarrisonBuildingAlertSystem:AddAlert(GARRISON_CACHE)
+	GarrisonTalentAlertSystem:AddAlert(3, _G.C_Garrison.GetTalentInfo(370))
+	-- LegendaryItemAlertSystem:AddAlert("|cffa335ee|Hitem:158712::::::::60:66::16:4:6534:6513:1533:4786::::|h[Rezan's Gleaming Eye]|h|r")
+	-- LootAlertSystem:AddAlert("|cffa335ee|Hitem:158712::::::::60:66::16:4:6534:6513:1533:4786::::|h[Rezan's Gleaming Eye]|h|r", 1, 1, 100, 2, false, false, 0, false, false)
+	-- LootUpgradeAlertSystem:AddAlert("|cffa335ee|Hitem:158712::::::::60:66::16:4:6534:6513:1533:4786::::|h[Rezan's Gleaming Eye]|h|r", 1, 1, 1, nil, nil, false)
+	MoneyWonAlertSystem:AddAlert(81500)
+	EntitlementDeliveredAlertSystem:AddAlert("", "Interface\\Icons\\Ability_pvp_gladiatormedallion", TRINKET0SLOT, 214)
+	RafRewardDeliveredAlertSystem:AddAlert("", "Interface\\Icons\\Ability_pvp_gladiatormedallion", TRINKET0SLOT, 214)
+	-- DigsiteCompleteAlertSystem:AddAlert("Human")
+	NewRecipeLearnedAlertSystem:AddAlert(204)
+	NewRuneforgePowerAlertSystem:AddAlert(204)
+	-- BonusRollFrame_StartBonusRoll(242969, 'test', 20, 515, 15, 14)
 end
 SLASH_TEST_ACHIEVEMENT1 = "/tach"
 SLASH_TEST_ACHIEVEMENT2 = "/ефср"
 
+
 ----------------------------------------------------------------------------------------
---	Test and move Blizzard Extra Action Button
+--	CHAT SWITCH
+----------------------------------------------------------------------------------------
+SlashCmdList.CHAT_SWITCH = function()
+	FCF_UnDockFrame(ChatFrame4)
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "SAY")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "EMOTE")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "YELL")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "MONSTER_SAY")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "MONSTER_EMOTE")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "MONSTER_YELL")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "MONSTER_WHISPER")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "MONSTER_BOSS_EMOTE")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "MONSTER_BOSS_WHISPER")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "PARTY")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "PARTY_LEADER")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "RAID")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "RAID_LEADER")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "RAID_WARNING")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "INSTANCE_CHAT")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "INSTANCE_CHAT_LEADER")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "BATTLEGROUND")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "BATTLEGROUND_LEADER")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "BG_HORDE")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "BG_ALLIANCE")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "BG_NEUTRAL")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "SYSTEM")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "ERRORS")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "AFK")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "DND")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "IGNORED")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "ACHIEVEMENT")
+	ChatFrame_RemoveMessageGroup(ChatFrame4, "LOOT")
+	for i = 1, NUM_CHAT_WINDOWS do
+		local frame = _G[format("ChatFrame%s", i)]
+		local chatFrameId = frame:GetID()
+		local chatName = FCF_GetChatWindowInfo(chatFrameId)
+		
+		-- move general bottom left	
+		if i == 1 then
+			frame:ClearAllPoints()
+			frame:SetWidth(LChat:GetWidth())
+			frame:SetHeight(LChat:GetHeight())
+			frame:SetPoint("BOTTOMLEFT",LChat,"BOTTOMLEFT",12,6)
+			frame:SetPoint("TOPRIGHT",LChat,"TOPRIGHT",-4,-25)		
+		elseif i == 4 then
+			frame:ClearAllPoints()
+			frame:SetWidth(RChat:GetWidth())
+			frame:SetHeight(RChat:GetHeight())
+			frame:SetPoint("BOTTOMLEFT",RChat,"BOTTOMLEFT",4,4)
+			frame:SetPoint("TOPRIGHT",RChat,"TOPRIGHT",-4,-25)
+		end
+		
+		--FCF_SavePositionAndDimensions(frame)
+		FCF_StopDragging(frame)
+				
+	end
+	FCF_SelectDockFrame(ChatFrame1)
+	local visibleSkada = false
+end
+SLASH_CHAT_SWITCH1 = "/chatS"
+
+
+SlashCmdList.CHAT_USWITCH = function()
+	FCF_DockFrame(ChatFrame4)
+	ChatFrame_AddMessageGroup(ChatFrame4, "SAY")
+	ChatFrame_AddMessageGroup(ChatFrame4, "EMOTE")
+	ChatFrame_AddMessageGroup(ChatFrame4, "YELL")
+	ChatFrame_AddMessageGroup(ChatFrame4, "MONSTER_SAY")
+	ChatFrame_AddMessageGroup(ChatFrame4, "MONSTER_EMOTE")
+	ChatFrame_AddMessageGroup(ChatFrame4, "MONSTER_YELL")
+	ChatFrame_AddMessageGroup(ChatFrame4, "MONSTER_WHISPER")
+	ChatFrame_AddMessageGroup(ChatFrame4, "MONSTER_BOSS_EMOTE")
+	ChatFrame_AddMessageGroup(ChatFrame4, "MONSTER_BOSS_WHISPER")
+	ChatFrame_AddMessageGroup(ChatFrame4, "PARTY")
+	ChatFrame_AddMessageGroup(ChatFrame4, "PARTY_LEADER")
+	ChatFrame_AddMessageGroup(ChatFrame4, "RAID")
+	ChatFrame_AddMessageGroup(ChatFrame4, "RAID_LEADER")
+	ChatFrame_AddMessageGroup(ChatFrame4, "RAID_WARNING")
+	ChatFrame_AddMessageGroup(ChatFrame4, "INSTANCE_CHAT")
+	ChatFrame_AddMessageGroup(ChatFrame4, "INSTANCE_CHAT_LEADER")
+	ChatFrame_AddMessageGroup(ChatFrame4, "BATTLEGROUND")
+	ChatFrame_AddMessageGroup(ChatFrame4, "BATTLEGROUND_LEADER")
+	ChatFrame_AddMessageGroup(ChatFrame4, "BG_HORDE")
+	ChatFrame_AddMessageGroup(ChatFrame4, "BG_ALLIANCE")
+	ChatFrame_AddMessageGroup(ChatFrame4, "BG_NEUTRAL")
+	ChatFrame_AddMessageGroup(ChatFrame4, "SYSTEM")
+	ChatFrame_AddMessageGroup(ChatFrame4, "ERRORS")
+	ChatFrame_AddMessageGroup(ChatFrame4, "AFK")
+	ChatFrame_AddMessageGroup(ChatFrame4, "DND")
+	ChatFrame_AddMessageGroup(ChatFrame4, "IGNORED")
+	ChatFrame_AddMessageGroup(ChatFrame4, "ACHIEVEMENT")
+	ChatFrame_AddMessageGroup(ChatFrame4, "LOOT")
+	FCF_SelectDockFrame(ChatFrame4)
+	local visibleSkada = true
+end
+SLASH_CHAT_USWITCH1 = "/chatU"
+
+----------------------------------------------------------------------------------------
+--	Test Blizzard Extra Action Button
 ----------------------------------------------------------------------------------------
 SlashCmdList.TEST_EXTRABUTTON = function()
 	if ExtraActionBarFrame:IsShown() then
@@ -333,9 +454,10 @@ SlashCmdList.TEST_EXTRABUTTON = function()
 		ExtraActionBarFrame:SetAlpha(1)
 		ExtraActionButton1:Show()
 		ExtraActionButton1:SetAlpha(1)
-		ExtraActionButton1.icon:SetTexture("Interface\\Icons\\INV_Pet_DiseasedSquirrel")
+		ExtraActionButton1.icon:SetTexture("Interface\\Icons\\spell_deathknight_breathofsindragosa")
 		ExtraActionButton1.icon:Show()
 		ExtraActionButton1.icon:SetAlpha(1)
+		ExtraActionButton1.Count:SetText("2")
 	end
 end
 SLASH_TEST_EXTRABUTTON1 = "/teb"
@@ -345,11 +467,12 @@ SLASH_TEST_EXTRABUTTON2 = "/еуи"
 --	Grid on screen
 ----------------------------------------------------------------------------------------
 local grid
-SlashCmdList.GRIDONSCREEN = function()
+SlashCmdList.GRIDONSCREEN = function(msg)
 	if grid then
 		grid:Hide()
 		grid = nil
 	else
+		if msg and msg == "hide" then return end
 		grid = CreateFrame("Frame", nil, UIParent)
 		grid:SetAllPoints(UIParent)
 		local width = GetScreenWidth() / 128
